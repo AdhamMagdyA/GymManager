@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/screens/common/login-screen.dart';
-import 'package:gym_project/screens/member/home-screen.dart';
+import 'package:gym_project/screens/common/tabs-screen.dart';
 
 void main() {
   runApp(MyApp());

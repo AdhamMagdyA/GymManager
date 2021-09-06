@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/screens/common/login-screen.dart';
+import 'package:gym_project/widget/drawer.dart';
 import 'package:motion_tab_bar/MotionTabController.dart';
 import 'package:motion_tab_bar/motiontabbar.dart';
 
@@ -51,6 +52,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(_pages[_selectedIndex]['title']),
+      ),
+      drawer: MyDrawer(),
       body: _pages[_selectedIndex]['page'],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
