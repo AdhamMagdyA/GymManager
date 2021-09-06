@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/screens/common/login-screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -26,13 +27,13 @@ class MyApp extends StatelessWidget {
           headline6: TextStyle(color: Colors.white),
         )
       ),
-      home: MyHomePage(title: 'Home page'),
+      home: Login(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
+  MyHomePage({Key key, @required this.title}) : super(key: key);
   final String title;
 
   @override
