@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../style/styling.dart';
-import '../../style/text.dart';
-import '../../widget/bodyText.dart';
 import '../../widget/button.dart';
-import '../../widget/header.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -17,10 +14,13 @@ class _LoginState extends State<Login> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    _emailNode.addListener((){ setState((){}); });
-    _passwordNode.addListener((){ setState((){}); });
+    _emailNode.addListener(() {
+      setState(() {});
+    });
+    _passwordNode.addListener(() {
+      setState(() {});
+    });
   }
 
   @override
@@ -62,9 +62,9 @@ class _LoginState extends State<Login> {
                           SizedBox(height: 130),
                           Expanded(
                             flex: 5,
-                            child:Image(
-                              image: AssetImage('../../../assets/images/logo-no.png')
-                              ),
+                            child: Image(
+                                image: AssetImage(
+                                    '../../../assets/images/logo-no.png')),
                           ),
                           SizedBox(height: 50),
                           Expanded(
@@ -72,11 +72,18 @@ class _LoginState extends State<Login> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  _textField(labelText: lbody1, node: _emailNode),
+                                  _textField(
+                                    labelText: 'Email',
+                                    node: _emailNode,
+                                  ),
                                   SizedBox(height: 10),
-                                  _textField(labelText: lbody2, obscure: true,node: _passwordNode),
+                                  _textField(
+                                    labelText: 'Password',
+                                    obscure: true,
+                                    node: _passwordNode,
+                                  ),
                                   SizedBox(height: 30),
-                                  Text(lbody3)
+                                  Text('Forgot your password?'),
                                 ],
                               )),
                           Expanded(
@@ -92,7 +99,6 @@ class _LoginState extends State<Login> {
                                   btnTxt: 'Login',
                                   roundedBorder: true,
                                 ),
-                                
                               ],
                             ),
                           )
@@ -109,22 +115,30 @@ class _LoginState extends State<Login> {
     );
   }
 
-  TextField _textField({String labelText,final node,bool obscure = false}) {
+  TextField _textField({String labelText, final node, bool obscure = false}) {
     return TextField(
       focusNode: node,
       obscureText: obscure,
       style: TextStyle(color: Colors.white),
       decoration: InputDecoration(
-          floatingLabelBehavior: FloatingLabelBehavior.always,
-          labelText: labelText,labelStyle:TextStyle(color: node.hasFocus? Color(0xFFFFCE2B): Colors.white),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: const BorderSide(color: Color(0xFFFFCE2B), width: 2.0),
-          ),
-          enabledBorder: UnderlineInputBorder(
-            borderSide: const BorderSide(color: Colors.white, width: 2.0),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        labelText: labelText,
+        labelStyle: TextStyle(
+          color: node.hasFocus ? Color(0xFFFFCE2B) : Colors.white,
+        ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: const BorderSide(
+            color: Color(0xFFFFCE2B),
+            width: 2.0,
           ),
         ),
-
+        enabledBorder: UnderlineInputBorder(
+          borderSide: const BorderSide(
+            color: Colors.white,
+            width: 2.0,
+          ),
+        ),
+      ),
     );
   }
 }

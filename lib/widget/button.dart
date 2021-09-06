@@ -20,7 +20,7 @@ class Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: border ? Colors.transparent : AppColor.pColor,
+      color: border ? Colors.transparent : Color(0xFFFFCE2B),
       borderRadius: roundedBorder
           ? BorderRadius.circular(PadRadius.radius)
           : BorderRadius.circular(5),
@@ -29,9 +29,10 @@ class Button extends StatelessWidget {
         //  splashColor: border ? AppColor.pColor : null,
         onTap: onTap,
         customBorder: RoundedRectangleBorder(
-            borderRadius: roundedBorder
-                ? BorderRadius.circular(PadRadius.radius)
-                : BorderRadius.circular(5)),
+          borderRadius: roundedBorder
+              ? BorderRadius.circular(PadRadius.radius)
+              : BorderRadius.circular(5),
+        ),
         child: Container(
           height: 53,
           decoration: BoxDecoration(
@@ -43,7 +44,11 @@ class Button extends StatelessWidget {
           child: Center(
             child: Text(
               btnTxt,
-              style: AppTextStyle.btnText,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
             ),
           ),
         ),
