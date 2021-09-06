@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
 import 'package:gym_project/screens/common/login-screen.dart';
 import 'package:gym_project/screens/common/tabs-screen.dart';
 
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
             headline5: TextStyle(color: Colors.white),
             headline6: TextStyle(color: Colors.white),
           )),
-      home: Home(),
+      home: CoachTabsScreen(),
     );
   }
 }
