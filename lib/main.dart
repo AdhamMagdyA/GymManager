@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/screens/common/login-screen.dart';
+import 'package:gym_project/screens/member/home-screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           primaryColor: Color(0xFFFFCE2B),
           accentColor: Color(0xFFFFCE2B),
-          canvasColor: Colors.black,
+          canvasColor: Colors.white,
           fontFamily: "ProximaNova",
           textTheme: TextTheme(
             bodyText1: TextStyle(color: Colors.white),
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
             headline5: TextStyle(color: Colors.white),
             headline6: TextStyle(color: Colors.white),
           )),
-      home: Login(),
+      home: Home(),
     );
   }
 }
