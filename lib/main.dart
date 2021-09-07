@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
             headline5: TextStyle(color: Colors.white),
             headline6: TextStyle(color: Colors.white),
           )),
-      home: MemberHomeScreen(),
+      home: Home(),
     );
   }
 }

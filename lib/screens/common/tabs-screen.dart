@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/screens/common/login-screen.dart';
+import 'package:gym_project/screens/member/home-screen.dart';
 import 'package:gym_project/widget/drawer.dart';
+import 'package:gym_project/widget/member_drawer.dart';
 import 'package:motion_tab_bar/MotionTabController.dart';
 import 'package:motion_tab_bar/motiontabbar.dart';
 
 class Home extends StatefulWidget {
-  const Home({ Key key }) : super(key: key);
+  const Home({Key key}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
@@ -16,30 +18,29 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   int _selectedIndex = 0;
 
   final _pages = [
-      {
-        'page': Login(),
-        'title': 'Categories',
-      },
-      {
-        'page': Login(),
-        'title': 'Your Favorite',
-      },
-      {
-        'page': Material(),
-        'title': 'Your Favorite',
-      },
-      {
-        'page': Material(),
-        'title': 'Your Favorite',
-      },
-      {
-        'page': Material(),
-        'title': 'Your Favorite',
-      },
-    ];
+    {
+      'page': MemberHomeScreen(),
+      'title': 'Home',
+    },
+    {
+      'page': Material(),
+      'title': 'Excersices',
+    },
+    {
+      'page': Material(),
+      'title': 'Announcements',
+    },
+    {
+      'page': Material(),
+      'title': 'Supplements',
+    },
+    {
+      'page': Material(),
+      'title': 'Others',
+    },
+  ];
   @override
   void initState() {
-    
     super.initState();
   }
 
@@ -48,14 +49,14 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       _selectedIndex = index;
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(_pages[_selectedIndex]['title']),
       ),
-      drawer: MyDrawer(),
+      drawer: MemberDrawer(),
       body: _pages[_selectedIndex]['page'],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -66,46 +67,45 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Business',
+            icon: Icon(Icons.fitness_center),
+            label: 'Excersices',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
+            icon: Icon(Icons.announcement),
+            label: 'Announcements',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
+            icon: Icon(Icons.shopping_cart),
+            label: 'Supplements',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
+            icon: Icon(Icons.menu),
+            label: 'Others',
           ),
-          
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.black,
         onTap: _onItemTapped,
       ),
       ////navigation bar code begins here
-  //     bottomNavigationBar: MotionTabBar(
-  //         labels: [
-  //           "classes", "sessions","Home","member","invent"
-  //         ],
-  //         initialSelectedTab: "Home",
-  //         tabIconColor: Colors.black,
-  //         tabSelectedColor: Color(0xFFFFCE2B),
-  //         onTabItemSelected: (int value){
-  //              setState(() {
-  //                 _tabController.index = value;
-  //              });
-  //         },
-  //         icons: [
-  //           Icons.account_box,Icons.menu,Icons.home,Icons.menu,Icons.question_answer
-  //         ],
-  //         textStyle: TextStyle(color: Colors.black),
-  // ),
-  /////////////////////////////////////////////////////////
+      //     bottomNavigationBar: MotionTabBar(
+      //         labels: [
+      //           "classes", "sessions","Home","member","invent"
+      //         ],
+      //         initialSelectedTab: "Home",
+      //         tabIconColor: Colors.black,
+      //         tabSelectedColor: Color(0xFFFFCE2B),
+      //         onTabItemSelected: (int value){
+      //              setState(() {
+      //                 _tabController.index = value;
+      //              });
+      //         },
+      //         icons: [
+      //           Icons.account_box,Icons.menu,Icons.home,Icons.menu,Icons.question_answer
+      //         ],
+      //         textStyle: TextStyle(color: Colors.black),
+      // ),
+      /////////////////////////////////////////////////////////
     );
   }
 }
