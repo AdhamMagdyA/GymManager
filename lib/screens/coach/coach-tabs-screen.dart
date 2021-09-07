@@ -16,29 +16,36 @@ class CoachTabsScreen extends StatefulWidget {
 class _CoachTabsScreenState extends State<CoachTabsScreen>
     with TickerProviderStateMixin {
   int _selectedIndex = 2; // 2 => home page
+  TabController _tabController;
+  @override
+  void initState() {
+    _tabController = new TabController(length: 2, vsync: this);
+    _pages = [
+      {
+        'page': ClassesScreen(),
+        'title': 'My Classes',
+      },
+      {
+        'page': SessionsScreen(_tabController),
+        'title': 'My Sessions',
+      },
+      {
+        'page': CoachHomeScreen(),
+        'title': 'Home',
+      },
+      {
+        'page': MembersScreen(),
+        'title': 'My members',
+      },
+      {
+        'page': OthersScreen(),
+        'title': 'Others',
+      },
+    ];
+    super.initState();
+  }
 
-  final _pages = [
-    {
-      'page': ClassesScreen(),
-      'title': 'My Classes',
-    },
-    {
-      'page': SessionsScreen(),
-      'title': 'My Sessions',
-    },
-    {
-      'page': CoachHomeScreen(),
-      'title': 'Home',
-    },
-    {
-      'page': MembersScreen(),
-      'title': 'My members',
-    },
-    {
-      'page': OthersScreen(),
-      'title': 'Others',
-    },
-  ];
+  var _pages = [];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -51,6 +58,19 @@ class _CoachTabsScreenState extends State<CoachTabsScreen>
     return Scaffold(
       appBar: AppBar(
         title: Text(_pages[_selectedIndex]['title']),
+        bottom: _selectedIndex == 1
+            ? TabBar(
+                controller: _tabController,
+                tabs: [
+                  Tab(
+                    text: "Session Types",
+                  ),
+                  Tab(
+                    text: "Booked Sessions",
+                  ),
+                ],
+              )
+            : null,
       ),
       drawer: CoachDrawer(),
       body: _pages[_selectedIndex]['page'],

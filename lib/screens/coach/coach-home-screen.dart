@@ -66,13 +66,28 @@ class HomeEventsList extends StatelessWidget {
     return Column(
       children: [
         Container(
-          margin: EdgeInsets.only(left: 20),
-          child: Text(
-            'Events',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
+          margin: EdgeInsets.only(left: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Events',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Changa',
+                ),
+              ),
+              // Text(
+              //   'See More',
+              //   style: TextStyle(
+              //     fontSize: 13,
+              //     fontWeight: FontWeight.bold,
+              //     fontFamily: 'Changa',
+              //     color: Color(0xFFFFCE2B),
+              //   ),
+              // ),
+            ],
           ),
           alignment: Alignment.topLeft,
         ),
@@ -148,6 +163,7 @@ class HomeSupplementsList extends StatelessWidget {
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
+              fontFamily: 'Changa',
             ),
           ),
           alignment: Alignment.topLeft,
@@ -223,6 +239,7 @@ class HomeAnnouncementsList extends StatelessWidget {
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
+              fontFamily: 'Changa',
             ),
           ),
           alignment: Alignment.topLeft,
@@ -297,8 +314,17 @@ class CrowdMeter extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(height: 20),
-        Text('Crowd Meter'),
-        SizedBox(height: 20),
+        Text(
+          'CROWD METER',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Changa',
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
         Container(
           width: MediaQuery.of(context).size.width * 0.8,
           height: 20,
@@ -317,8 +343,16 @@ class CrowdMeter extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 20),
-        Text('Current Members: $checkedInMembers'),
+        SizedBox(
+          height: 10,
+        ),
+        Text(
+          'Current Members: $checkedInMembers',
+          style: TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ],
     );
   }
