@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/screens/admin/admin-home.dart';
-import 'package:gym_project/screens/common/login-screen.dart';
+import 'package:gym_project/screens/home_page.dart';
 import 'package:gym_project/widget/drawer.dart';
 import 'package:motion_tab_bar/MotionTabController.dart';
 
@@ -21,7 +21,7 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
       'title': 'Homepage',
     },
     {
-      'page': Material(),
+      'page': HomePage(),
       'title': 'Homepage',
     },
     {
