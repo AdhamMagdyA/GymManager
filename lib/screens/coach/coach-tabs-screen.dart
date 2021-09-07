@@ -15,7 +15,7 @@ class CoachTabsScreen extends StatefulWidget {
 
 class _CoachTabsScreenState extends State<CoachTabsScreen>
     with TickerProviderStateMixin {
-  int _selectedIndex = 0;
+  int _selectedIndex = 2; // 2 => home page
 
   final _pages = [
     {
