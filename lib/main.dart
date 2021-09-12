@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/common/list-tile.dart';
 import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
 import 'package:gym_project/screens/common/login-screen.dart';
 import 'package:gym_project/screens/common/tabs-screen.dart';
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
           canvasColor: Colors.white,
           fontFamily: "ProximaNova",
           textTheme: TextTheme(
-            // bodyText1: TextStyle(color: Colors.white),
+              // bodyText1: TextStyle(color: Colors.white),
               // bodyText2: TextStyle(color: Colors.white),
               // headline1: TextStyle(color: Colors.white),
               // headline2: TextStyle(color: Colors.white),
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
               // headline4: TextStyle(color: Colors.white),
               // headline5: TextStyle(color: Colors.white),
               // headline6: TextStyle(color: Colors.white),
-          )),
+              )),
       home: CoachTabsScreen(),
     );
   }
