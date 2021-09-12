@@ -15,61 +15,79 @@ class _CustomListTileState extends State<CustomListTile> {
   int number = 0;
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: CircleAvatar(
-        radius: 20,
-        child: FlutterLogo(),
+    return Container(
+      margin: EdgeInsetsDirectional.only(bottom: 10),
+      decoration: BoxDecoration(
+        color: Color(0xff181818),
+        borderRadius: BorderRadius.circular(16),
       ),
-      title: Text(widget.title),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            widget.subtitle1,
-            style: TextStyle(
-              color: Colors.red,
+      child: ListTile(
+        minVerticalPadding: 10,
+        leading: CircleAvatar(
+          radius: 20,
+          child: FlutterLogo(),
+        ),
+        title: Text(
+          widget.title,
+          style: TextStyle(color: Colors.white),
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              widget.subtitle1,
+              style: TextStyle(color: Colors.white),
             ),
-          ),
-          Text(widget.subtitle2),
-        ],
-      ),
-      trailing: Column(
-        children: [
-          GestureDetector(
-            child: Icon(
-              Icons.add,
-              size: 15,
+            Text(
+              widget.subtitle2,
+              style: TextStyle(color: Colors.white),
             ),
-            onTap: () {
-              setState(() {
-                number++;
-                print(number);
-              });
-            },
-          ),
-          Text(
-            "${number}",
-            style: TextStyle(fontSize: 12, color: Colors.black),
-          ),
-          GestureDetector(
-            child: Icon(
-              Icons.remove,
-              size: 15,
+            Text(
+              widget.subtitle3,
+              style: TextStyle(color: Colors.white),
             ),
-            onTap: () {
-              setState(() {
-                if (number == 0) {
-                  number = 0;
-                } else {
-                  number--;
-                }
-                print(number);
-              });
-            },
-          )
-        ],
-        mainAxisSize: MainAxisSize.min,
+          ],
+        ),
+        trailing: Column(
+          children: [
+            GestureDetector(
+              child: Icon(
+                Icons.add,
+                size: 15,
+                color: Colors.white,
+              ),
+              onTap: () {
+                setState(() {
+                  number++;
+                  print(number);
+                });
+              },
+            ),
+            Text(
+              "${number}",
+              style: TextStyle(fontSize: 12, color: Colors.white),
+            ),
+            GestureDetector(
+              child: Icon(
+                Icons.remove,
+                size: 15,
+                color: Colors.white,
+              ),
+              onTap: () {
+                setState(() {
+                  if (number == 0) {
+                    number = 0;
+                  } else {
+                    number--;
+                  }
+                  print(number);
+                });
+              },
+            )
+          ],
+          mainAxisSize: MainAxisSize.min,
+        ),
       ),
     );
   }
