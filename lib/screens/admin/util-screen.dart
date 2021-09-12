@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gym_project/screens/admin/admin-home.dart';
+import 'package:gym_project/screens/grid_view.dart';
 import 'package:gym_project/screens/home_page.dart';
 import 'package:gym_project/widget/drawer.dart';
 import 'package:motion_tab_bar/MotionTabController.dart';
@@ -17,12 +17,12 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
 
   final _pages = [
     {
-      'page': AdminHome(),
+      'page': HomePage(),
       'title': 'Homepage',
     },
     {
-      'page': HomePage(),
-      'title': 'Homepage',
+      'page': GridViewScreen(),
+      'title': 'Equipment',
     },
     {
       'page': Material(),
@@ -48,13 +48,18 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_pages[_selectedIndex]['title']),
+        title: Text(
+          _pages[_selectedIndex]['title'],
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.black,
+        iconTheme: IconThemeData(color: Color(0xFFFFCE2B)),
       ),
       drawer: MyDrawer(),
       body: _pages[_selectedIndex]['page'],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Color(0xFFFFCE2B),
+        backgroundColor: Colors.black,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -74,7 +79,8 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.black,
+        selectedItemColor: Color(0xFFFFCE2B),
+        unselectedItemColor: Color(0xFFFFCE2B).withAlpha(100),
         onTap: _onItemTapped,
       ),
       ////navigation bar code begins here
