@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/screens/common/details-screen.dart';
 import 'package:gym_project/screens/common/login-screen.dart';
 import 'package:gym_project/screens/member/home-screen.dart';
 import 'package:gym_project/widget/drawer.dart';
@@ -19,7 +20,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   final _pages = [
     {
-      'page': MemberHomeScreen(),
+      'page': DetailsScreen(),
       'title': 'Home',
     },
     {
@@ -54,13 +55,15 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_pages[_selectedIndex]['title']),
+        title: Text(_pages[_selectedIndex]['title'],style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+        backgroundColor: Colors.black,
+        iconTheme: IconThemeData(color: Colors.white),
       ),
       drawer: MemberDrawer(),
       body: _pages[_selectedIndex]['page'],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Color(0xFFFFCE2B),
+        backgroundColor: Color(0xFF040404),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -69,6 +72,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           BottomNavigationBarItem(
             icon: Icon(Icons.fitness_center),
             label: 'Excersices',
+            
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.announcement),
@@ -84,7 +88,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.black,
+        selectedItemColor: Colors.amber,
+        unselectedItemColor: Colors.white,
         onTap: _onItemTapped,
       ),
       ////navigation bar code begins here
