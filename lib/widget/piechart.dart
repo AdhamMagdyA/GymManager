@@ -21,7 +21,7 @@ class FinancesPieChart extends StatelessWidget {
           animationDuration: Duration(milliseconds: 800),
           chartLegendSpacing: 32,
           chartRadius: MediaQuery.of(context).size.width / 3.2,
-          colorList: [Colors.black, Colors.amber],
+          colorList: [Colors.white, Colors.amber],
           initialAngleInDegree: 0,
           chartType: ChartType.disc,
           ringStrokeWidth: 32,
@@ -32,7 +32,7 @@ class FinancesPieChart extends StatelessWidget {
             showLegends: true,
             //legendShape: _BoxShape.circle,
             legendTextStyle:
-                TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
           ),
           chartValuesOptions: ChartValuesOptions(
             showChartValueBackground: true,

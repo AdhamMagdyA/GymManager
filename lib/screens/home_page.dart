@@ -32,7 +32,8 @@ class HomePage extends StatelessWidget {
         children: <Widget>[
           Text(
             title,
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
           ),
           _chip("See all", primary)
         ],
@@ -49,7 +50,7 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
             _card(
-                primary: Colors.black,
+                primary: Colors.white,
                 backWidget: _decorationContainerA(Color(0xFFFFCE2B), 50, -30),
                 chipColor: Colors.black,
                 chipText1: "El Mokattam Branch",
@@ -91,7 +92,7 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
             _card(
-                primary: Colors.black,
+                primary: Colors.white,
                 backWidget: _decorationContainerA(Color(0xFFFFCE2B), 50, -30),
                 chipColor: Colors.black,
                 chipText1: "Zuumba",
@@ -133,7 +134,7 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
             _card(
-                primary: Colors.black,
+                primary: Colors.white,
                 backWidget: _decorationContainerA(Color(0xFFFFCE2B), 50, -30),
                 chipColor: Colors.black,
                 chipText1: "Meeting",
@@ -178,13 +179,14 @@ class HomePage extends StatelessWidget {
         width: isPrimaryCard ? width * .32 : width * .32,
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         decoration: BoxDecoration(
-            color: primary.withAlpha(200),
+            color: primary,
             borderRadius: BorderRadius.all(Radius.circular(20)),
             boxShadow: <BoxShadow>[
               BoxShadow(
-                  offset: Offset(0, 5),
-                  blurRadius: 10,
-                  color: Colors.purple.withAlpha(20))
+                offset: Offset(0, 5),
+                blurRadius: 10,
+                color: Colors.grey.withAlpha(120),
+              )
             ]),
         child: ClipRRect(
           borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -221,7 +223,7 @@ class HomePage extends StatelessWidget {
               style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.bold,
-                  color: isPrimaryCard ? Colors.white : textColor),
+                  color: isPrimaryCard ? Colors.black : textColor),
             ),
           ),
           SizedBox(height: 5),
@@ -262,9 +264,9 @@ class HomePage extends StatelessWidget {
         _smallContainer(primary, 20, 40),
         Positioned(
           top: 20,
-          right: -30,
+          right: -46,
           child: _circularContainer(80, Colors.transparent,
-              borderColor: Colors.white),
+              borderColor: Colors.black),
         )
       ],
     );
@@ -288,7 +290,7 @@ class HomePage extends StatelessWidget {
             child: CircleAvatar(
               radius: 40,
               backgroundColor: Colors.black,
-              child: CircleAvatar(radius: 30, backgroundColor: Colors.black),
+              child: CircleAvatar(radius: 30, backgroundColor: Colors.white),
             ))
       ],
     );
@@ -337,16 +339,16 @@ class HomePage extends StatelessWidget {
       child: Column(
         children: <Widget>[
           SizedBox(height: 20),
-          _categoryRow("Finances", Colors.black, Colors.black),
+          _categoryRow("Finances", Colors.white, Colors.white),
           FinancesPieChart(dataMap: dataMap),
-          SizedBox(height: 0),
-          _categoryRow("Branches", Colors.black, Colors.black),
+          SizedBox(height: 10),
+          _categoryRow("Branches", Colors.white, Colors.white),
           _featuredRowBranches(),
           SizedBox(height: 0),
-          _categoryRow("Classes", Colors.black, Colors.black),
+          _categoryRow("Classes", Colors.white, Colors.white),
           _featuredRowClasses(),
           SizedBox(height: 0),
-          _categoryRow("Events", Colors.black, Colors.black),
+          _categoryRow("Events", Colors.white, Colors.white),
           _featuredRowEvents(),
         ],
       ),

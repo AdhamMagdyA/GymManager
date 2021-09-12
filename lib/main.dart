@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gym_project/screens/admin/admin-home.dart';
 import 'package:gym_project/screens/admin/util-screen.dart';
-import 'package:gym_project/screens/common/login-screen.dart';
-import 'package:gym_project/screens/common/tabs-screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,6 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           primaryColor: Color(0xFFFFCE2B),
           accentColor: Color(0xFFFFCE2B),
+          scaffoldBackgroundColor: Colors.black,
           canvasColor: Colors.white,
           fontFamily: "ProximaNova",
           textTheme: TextTheme(
