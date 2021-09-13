@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/screens/admin/classes/class_details.dart';
 import 'package:gym_project/screens/common/grid_view.dart';
 import 'package:gym_project/screens/admin/admin_home_page.dart';
 import 'package:gym_project/widget/drawer.dart';
@@ -32,8 +33,8 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
       'title': 'Branches',
     },
     {
-      'page': Material(),
-      'title': 'Homepage',
+      'page': ClassDetails(),
+      'title': 'Class',
     },
     {
       'page': Material(),
@@ -81,8 +82,8 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
             label: 'Branches',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.view_list),
-            label: 'Others',
+            icon: Icon(Icons.class_),
+            label: 'Class',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.view_list),

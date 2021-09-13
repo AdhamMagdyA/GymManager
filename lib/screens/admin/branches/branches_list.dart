@@ -48,6 +48,7 @@ class _BranchesListState extends State<BranchesList> {
             SizedBox(height: 20),
             ListView.builder(
                 shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
                 itemCount: length,
                 itemBuilder: (ctx, index) {
                   return CustomListTileWithoutCounter('assets/images/branch.png',widget.title, widget.subtitle1,
