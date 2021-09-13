@@ -32,7 +32,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       'title': 'Your Favorite',
     },
     {
-      'page': CreationPopUp(),
+      'page': MyListView(),
       'title': 'Members',
     },
     {
