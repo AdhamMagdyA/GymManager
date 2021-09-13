@@ -4,6 +4,10 @@ import 'package:gym_project/screens/coach/coach-home-screen.dart';
 import 'package:gym_project/screens/coach/others-screen.dart';
 import 'package:gym_project/screens/coach/members-screen.dart';
 import 'package:gym_project/screens/coach/sessions-screen.dart';
+import 'package:gym_project/screens/coach/view-private-sessions.dart';
+import 'package:gym_project/screens/coach/view-groups.dart';
+import 'package:gym_project/screens/coach/view-sets.dart';
+import 'package:gym_project/screens/nutritionist/view-meals-screen.dart';
 import 'package:gym_project/widget/coach-drawer.dart';
 
 class CoachTabsScreen extends StatefulWidget {
@@ -34,11 +38,11 @@ class _CoachTabsScreenState extends State<CoachTabsScreen>
         'title': 'Home',
       },
       {
-        'page': MembersScreen(),
+        'page': ViewPrivateSessionsScreen(),
         'title': 'My members',
       },
       {
-        'page': OthersScreen(),
+        'page': MealsViewScreen(),
         'title': 'Others',
       },
     ];
@@ -57,7 +61,12 @@ class _CoachTabsScreenState extends State<CoachTabsScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_pages[_selectedIndex]['title']),
+        title: Text(
+          _pages[_selectedIndex]['title'],
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.black,
+        iconTheme: IconThemeData(color: Colors.white),
         bottom: _selectedIndex == 1
             ? TabBar(
                 controller: _tabController,
@@ -76,7 +85,7 @@ class _CoachTabsScreenState extends State<CoachTabsScreen>
       body: _pages[_selectedIndex]['page'],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Color(0xFFFFCE2B),
+        backgroundColor: Color(0xFF040404),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -100,7 +109,8 @@ class _CoachTabsScreenState extends State<CoachTabsScreen>
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.black,
+        selectedItemColor: Colors.amber,
+        unselectedItemColor: Colors.white,
         onTap: _onItemTapped,
       ),
       ////navigation bar code begins here

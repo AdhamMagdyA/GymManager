@@ -21,14 +21,19 @@ environment:
   sdk: ">=2.11.0 <3.0.0"
 
 dependencies:
+  timelines: ^0.1.0
   motion_tab_bar: ^0.1.5
   flutter:
     sdk: flutter
   hexcolor: ^2.0.5
+  pie_chart: ^5.0.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  intl: ^0.17.0
+  cached_network_image: ^3.1.0
+  flutter_custom_clippers: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -50,6 +55,19 @@ flutter:
     - assets/images/Rectangle.png
     - assets/images/logo.png
     - assets/images/details.png
+    - assets/images/dumbbell.png
+    - assets/images/treadmill.png
+    - assets/images/ht.png
+    - assets/images/ht1.png
+    - assets/images/ht2.png
+    - assets/images/ht3.png
+    - assets/images/circle.png
+    - assets/images/about.png
+    - assets/images/welcome.png
+    - assets/images/home.jpg
+    - assets/images/as.png
+    - assets/images/blank.png
+    - assets/images/user_icon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -1,41 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:gym_project/common/my_list_view.dart';
-import 'package:gym_project/screens/common/login-screen.dart';
-import 'package:gym_project/widget/member_drawer.dart';
+import 'package:gym_project/screens/common/grid_view.dart';
+import 'package:gym_project/screens/admin/admin_home_page.dart';
+import 'package:gym_project/widget/drawer.dart';
 import 'package:motion_tab_bar/MotionTabController.dart';
 
-
-class Home extends StatefulWidget {
-  const Home({Key key}) : super(key: key);
+class AdminUtil extends StatefulWidget {
+  const AdminUtil({Key key}) : super(key: key);
 
   @override
-  _HomeState createState() => _HomeState();
+  _AdminUtilState createState() => _AdminUtilState();
 }
 
-class _HomeState extends State<Home> with TickerProviderStateMixin {
+class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
   MotionTabController _tabController;
   int _selectedIndex = 0;
 
   final _pages = [
     {
-      'page': Login(),
-      'title': 'Categories',
+      'page': AdminHomePage(),
+      'title': 'Homepage',
     },
     {
-      'page': ListTile(),
-      'title': 'Your Favorite',
-    },
-    {
-      'page': Material(),
-      'title': 'Your Favorite',
+      'page': GridViewScreen(),
+      'title': 'Equipment',
     },
     {
       'page': Material(),
-      'title': 'Your Favorite',
+      'title': 'Homepage',
     },
     {
       'page': Material(),
-      'title': 'Your Favorite',
+      'title': 'Homepage',
     },
   ];
   @override
@@ -55,49 +50,45 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       appBar: AppBar(
         title: Text(
           _pages[_selectedIndex]['title'],
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.black,
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: IconThemeData(color: Color(0xFFFFCE2B)),
       ),
-      drawer: MemberDrawer(),
+      drawer: MyDrawer(),
       body: _pages[_selectedIndex]['page'],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Color(0xFF040404),
+        backgroundColor: Colors.black,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.fitness_center),
-            label: 'Excersices',
+            icon: Icon(Icons.school),
+            label: 'School',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.announcement),
-            label: 'Announcements',
+            icon: Icon(Icons.school),
+            label: 'School',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: 'Members',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu),
-            label: 'Others',
+            icon: Icon(Icons.school),
+            label: 'School',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber,
-        unselectedItemColor: Colors.white,
+        selectedItemColor: Color(0xFFFFCE2B),
+        unselectedItemColor: Color(0xFFFFCE2B).withAlpha(100),
         onTap: _onItemTapped,
       ),
       ////navigation bar code begins here
       //     bottomNavigationBar: MotionTabBar(
       //         labels: [
-      //           "classes", "sessions","Home","member","invent"
+      //           "classes", "sessions","AdminUtil","member","invent"
       //         ],
-      //         initialSelectedTab: "Home",
+      //         initialSelectedTab: "AdminUtil",
       //         tabIconColor: Colors.black,
       //         tabSelectedColor: Color(0xFFFFCE2B),
       //         onTabItemSelected: (int value){
