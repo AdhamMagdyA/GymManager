@@ -4,7 +4,12 @@ import 'package:flutter/services.dart';
 import 'my_list_tile.dart';
 
 class MyListView extends StatefulWidget {
-  const MyListView({Key key}) : super(key: key);
+  final String title = 'Title';
+  final String subtitle1 = 'Subtitle 1';
+  final String subtitle2 = 'Subtitle 2';
+  final String subtitle3 = 'Subtitle 3';
+
+  MyListView();
 
   @override
   _MyListViewState createState() => _MyListViewState();
@@ -56,8 +61,8 @@ class _MyListViewState extends State<MyListView> {
               shrinkWrap: true,
               itemCount: users.length,
               itemBuilder: (ctx, index) {
-                return CustomListTile(
-                    'Main Title', 'Subtitle 1', 'Subtitle 2', 'Subtitle 3');
+                return CustomListTile(widget.title, widget.subtitle1,
+                    widget.subtitle2, widget.subtitle3);
               }),
         ],
       ),
