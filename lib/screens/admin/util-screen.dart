@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/screens/admin/classes/class_details.dart';
+import 'package:gym_project/screens/common/FormTemplate.dart';
 import 'package:gym_project/screens/common/grid_view.dart';
 import 'package:gym_project/screens/admin/classes/classes_list.dart';
 import 'package:gym_project/screens/admin/admin_home_page.dart';
@@ -38,7 +39,7 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
       'title': 'Class',
     },
     {
-      'page': UsersList(),
+      'page': FormTemplate(),
       'title': 'Homepage',
     },
   ];
