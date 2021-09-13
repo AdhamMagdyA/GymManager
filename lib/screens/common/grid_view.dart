@@ -1,67 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/core/presentation/res/assets.dart';
+import 'package:gym_project/widget/grid_view_card.dart';
 
 class GridViewScreen extends StatelessWidget {
   const GridViewScreen({Key key}) : super(key: key);
   static final String path = "lib/src/pages/ecommerce/ecommerce5.dart";
-
-  Widget cards(image, title, subTitle1, subTitle2, subTitle3, subTitle4) {
-    return Container(
-      height: 200,
-      width: 200,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey,
-            blurRadius: 6.0,
-          ),
-        ],
-        color: Colors.white,
-      ),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Image(image: AssetImage(image)),
-            SizedBox(
-              height: 5,
-            ),
-            Text(title,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                  color: Colors.black,
-                )),
-            Text(subTitle1,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
-                  color: Colors.black,
-                )),
-            Text(subTitle2,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
-                  color: Colors.black,
-                )),
-            Text(subTitle3,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
-                  color: Colors.black,
-                )),
-            Text(subTitle4,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
-                  color: Colors.black,
-                )),
-          ],
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +81,7 @@ class GridViewScreen extends StatelessWidget {
                   mainAxisSpacing: 10,
                   crossAxisSpacing: 10,
                   children: <Widget>[
-                    cards(
+                    GridViewCard(
                       dumbbell,
                       'Dumbbell',
                       'Sub Title 1',
@@ -146,7 +89,7 @@ class GridViewScreen extends StatelessWidget {
                       'Sub Title 3',
                       'Sub Title 4',
                     ),
-                    cards(
+                    GridViewCard(
                       treadmill,
                       'Treadmill',
                       'Sub Title 1',
@@ -154,7 +97,7 @@ class GridViewScreen extends StatelessWidget {
                       'Sub Title 3',
                       'Sub Title 4',
                     ),
-                    cards(
+                    GridViewCard(
                       dumbbell,
                       'Dumbbell',
                       'Sub Title 1',
@@ -162,7 +105,7 @@ class GridViewScreen extends StatelessWidget {
                       'Sub Title 3',
                       'Sub Title 4',
                     ),
-                    cards(
+                    GridViewCard(
                       treadmill,
                       'Treadmill',
                       'Sub Title 1',
@@ -170,7 +113,7 @@ class GridViewScreen extends StatelessWidget {
                       'Sub Title 3',
                       'Sub Title 4',
                     ),
-                    cards(
+                    GridViewCard(
                       dumbbell,
                       'Dumbbell',
                       'Sub Title 1',
@@ -178,7 +121,7 @@ class GridViewScreen extends StatelessWidget {
                       'Sub Title 3',
                       'Sub Title 4',
                     ),
-                    cards(
+                    GridViewCard(
                       treadmill,
                       'Treadmill',
                       'Sub Title 1',

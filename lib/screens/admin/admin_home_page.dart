@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:gym_project/widget/piechart.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({Key key}) : super(key: key);
+class AdminHomePage extends StatelessWidget {
+  AdminHomePage({Key key}) : super(key: key);
 
   double width;
   Widget _circularContainer(double height, Color color,
