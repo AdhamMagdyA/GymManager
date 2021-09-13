@@ -60,7 +60,6 @@ class _CustomListTileState extends State<CustomListTile> {
               onTap: () {
                 setState(() {
                   number++;
-                  print(number);
                 });
               },
             ),
@@ -81,7 +80,6 @@ class _CustomListTileState extends State<CustomListTile> {
                   } else {
                     number--;
                   }
-                  print(number);
                 });
               },
             )

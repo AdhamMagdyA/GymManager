@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/common/my_list_view.dart';
+import 'package:gym_project/common/my_popup.dart';
 import 'package:gym_project/screens/common/login-screen.dart';
 import 'package:gym_project/screens/nutritionist/member.dart';
 import 'package:gym_project/widget/drawer.dart';
@@ -31,7 +32,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       'title': 'Your Favorite',
     },
     {
-      'page': MyListView(),
+      'page': CreationPopUp(),
       'title': 'Members',
     },
     {
