@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:gym_project/screens/common/grid_view.dart';
 import 'package:gym_project/screens/admin/admin_home_page.dart';
 import 'package:gym_project/widget/drawer.dart';
-import 'package:motion_tab_bar/MotionTabController.dart';
+//import 'package:motion_tab_bar/MotionTabController.dart';
+
+import 'branches/branches_list.dart';
+import 'equipment/equipment_list.dart';
 
 class AdminUtil extends StatefulWidget {
   const AdminUtil({Key key}) : super(key: key);
@@ -12,7 +15,7 @@ class AdminUtil extends StatefulWidget {
 }
 
 class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
-  MotionTabController _tabController;
+  //MotionTabController _tabController;
   int _selectedIndex = 0;
 
   final _pages = [
@@ -21,8 +24,12 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
       'title': 'Homepage',
     },
     {
-      'page': GridViewScreen(),
+      'page': EquipmentList(),
       'title': 'Equipment',
+    },
+    {
+      'page': BranchesList(),
+      'title': 'Branches',
     },
     {
       'page': Material(),
@@ -66,16 +73,20 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
+            icon: Icon(Icons.two_wheeler_rounded),
+            label: 'Equipment',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
+            icon: Icon(Icons.workspaces),
+            label: 'Branches',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
+            icon: Icon(Icons.view_list),
+            label: 'Others',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.view_list),
+            label: 'Others',
           ),
         ],
         currentIndex: _selectedIndex,
