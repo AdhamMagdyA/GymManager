@@ -57,6 +57,17 @@ flutter:
     - assets/images/details.png
     - assets/images/dumbbell.png
     - assets/images/treadmill.png
+    - assets/images/ht.png
+    - assets/images/ht1.png
+    - assets/images/ht2.png
+    - assets/images/ht3.png
+    - assets/images/circle.png
+    - assets/images/about.png
+    - assets/images/welcome.png
+    - assets/images/home.jpg
+    - assets/images/as.png
+    - assets/images/blank.png
+    - assets/images/user_icon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

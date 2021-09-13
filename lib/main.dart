@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/screens/admin/util-screen.dart';
 
+import 'screens/common/ProfilePage.dart';
+import 'screens/member/home-screen.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -14,6 +17,8 @@ class MyApp extends StatelessWidget {
       title: 'Gym',
       theme: ThemeData(
           primaryColor: Color(0xFFFFCE2B),
+          //primaryColor: Color(0xff0082CD),
+          //primaryColorDark: Color(0xff0082CD),
           accentColor: Color(0xFFFFCE2B),
           scaffoldBackgroundColor: Colors.black,
           canvasColor: Colors.white,

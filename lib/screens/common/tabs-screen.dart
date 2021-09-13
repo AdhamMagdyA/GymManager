@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:gym_project/common/my_list_view.dart';
 import 'package:gym_project/screens/common/login-screen.dart';
 import 'package:gym_project/screens/nutritionist/member.dart';
+import 'package:gym_project/screens/common/details-screen.dart';
+import 'package:gym_project/screens/common/login-screen.dart';
+import 'package:gym_project/screens/member/home-screen.dart';
 import 'package:gym_project/widget/drawer.dart';
+import 'package:gym_project/widget/member_drawer.dart';
 import 'package:motion_tab_bar/MotionTabController.dart';
 import 'package:motion_tab_bar/motiontabbar.dart';
+
+import 'ProfilePage.dart';
 
 class Home extends StatefulWidget {
   const Home({Key key}) : super(key: key);
@@ -54,37 +60,43 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_pages[_selectedIndex]['title']),
+        title: Text(
+          _pages[_selectedIndex]['title'],
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.black,
+        iconTheme: IconThemeData(color: Colors.white),
       ),
-      drawer: MyDrawer(),
+      drawer: MemberDrawer(),
       body: _pages[_selectedIndex]['page'],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Color(0xFFFFCE2B),
+        backgroundColor: Color(0xFF040404),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Business',
+            icon: Icon(Icons.fitness_center),
+            label: 'Excersices',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
+            icon: Icon(Icons.announcement),
+            label: 'Announcements',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
             label: 'Members',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
+            icon: Icon(Icons.menu),
+            label: 'Others',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.black,
+        selectedItemColor: Colors.amber,
+        unselectedItemColor: Colors.white,
         onTap: _onItemTapped,
       ),
       ////navigation bar code begins here
