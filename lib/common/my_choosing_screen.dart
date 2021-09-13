@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'my_list_tile.dart';
-
 class MyChoosingScreen extends StatefulWidget {
   const MyChoosingScreen({Key key}) : super(key: key);
 

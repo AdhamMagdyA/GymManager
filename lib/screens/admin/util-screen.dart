@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/screens/admin/classes/class_details.dart';
 import 'package:gym_project/screens/common/grid_view.dart';
+import 'package:gym_project/screens/admin/classes/classes_list.dart';
 import 'package:gym_project/screens/admin/admin_home_page.dart';
+import 'package:gym_project/screens/admin/nutritionist_sessions/nutritionist_sessions_list.dart';
+import 'package:gym_project/screens/admin/users/users_list.dart';
 import 'package:gym_project/widget/drawer.dart';
-//import 'package:motion_tab_bar/MotionTabController.dart';
-
 import 'branches/branches_list.dart';
 import 'equipment/equipment_list.dart';
 
@@ -37,7 +38,7 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
       'title': 'Class',
     },
     {
-      'page': Material(),
+      'page': UsersList(),
       'title': 'Homepage',
     },
   ];

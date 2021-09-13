@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/common/my_list_tile_without_counter.dart';
 
-class BranchesList extends StatefulWidget {
-  final String title = 'Elmaadi';
-  final String subtitle1 = '';
-  final String subtitle2 = '0101111002';
-  final String subtitle3 = '';
-
-  BranchesList();
-
+class ClassesList extends StatefulWidget {
+  final String title = 'Yoga';
+  final String subtitle1 = '2 Hours';
+  final String subtitle2 = '43/60 Member';
+  final String subtitle3 = '85 L.E.';
   @override
-  _BranchesListState createState() => _BranchesListState();
+  _ClassesListState createState() => _ClassesListState();
 }
 
-class _BranchesListState extends State<BranchesList> {
+class _ClassesListState extends State<ClassesList> {
   final length = 12;
 
   int number = 0;
