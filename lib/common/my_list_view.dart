@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'my_list_tile.dart';
 
@@ -30,13 +31,36 @@ class _MyListViewState extends State<MyListView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: ListView.builder(
-          shrinkWrap: true,
-          itemCount: users.length,
-          itemBuilder: (ctx, index) {
-            return CustomListTile(
-                'Main Title', 'Subtitle 1', 'Subtitle 2', 'Subtitle 3');
-          }),
+      color: Colors.black,
+      padding: EdgeInsetsDirectional.all(10),
+      child: Column(
+        children: [
+          Material(
+              elevation: 5.0,
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+              child: TextField(
+                controller: TextEditingController(text: 'Search...'),
+                cursorColor: Theme.of(context).primaryColor,
+                style: TextStyle(color: Colors.black, fontSize: 18),
+                decoration: InputDecoration(
+                    suffixIcon: Material(
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                      child: Icon(Icons.search),
+                    ),
+                    border: InputBorder.none,
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
+              )),
+          SizedBox(height: 20),
+          ListView.builder(
+              shrinkWrap: true,
+              itemCount: users.length,
+              itemBuilder: (ctx, index) {
+                return CustomListTile(
+                    'Main Title', 'Subtitle 1', 'Subtitle 2', 'Subtitle 3');
+              }),
+        ],
+      ),
     );
   }
 }
