@@ -3,7 +3,7 @@ import 'package:gym_project/core/presentation/res/assets.dart';
 import 'package:gym_project/widget/grid_view_card.dart';
 
 class EquipmentList extends StatefulWidget {
-  const EquipmentList({ Key key }) : super(key: key);
+  const EquipmentList({Key key}) : super(key: key);
 
   @override
   _EquipmentListState createState() => _EquipmentListState();
@@ -28,17 +28,20 @@ class _EquipmentListState extends State<EquipmentList> {
             width: double.infinity,
           ),
           //background design
-          Container(
-            margin: EdgeInsets.only(left: 230, bottom: 20),
-            width: 220,
-            height: 190,
-            decoration: BoxDecoration(
-                color: Color(0xFFFFCE2B),
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(190),
-                    bottomLeft: Radius.circular(290),
-                    bottomRight: Radius.circular(160),
-                    topRight: Radius.circular(0))),
+          new Align(
+            alignment: const Alignment(1.0, -1.0),
+            child: Container(
+              //  margin: EdgeInsets.only(left: 230, bottom: 20),
+              width: 170,
+              height: 190,
+              decoration: BoxDecoration(
+                  color: Color(0xFFFFCE2B),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(190),
+                      bottomLeft: Radius.circular(290),
+                      bottomRight: Radius.circular(160),
+                      topRight: Radius.circular(0))),
+            ),
           ),
           //grid
           CustomScrollView(
