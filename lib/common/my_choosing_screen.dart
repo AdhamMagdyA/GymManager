@@ -79,6 +79,7 @@ class _MyChoosingScreenState extends State<MyChoosingScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.black,
       child: Column(
         children: [
           if (_selectionMode)
@@ -90,7 +91,7 @@ class _MyChoosingScreenState extends State<MyChoosingScreen> {
                     alignment: Alignment.center,
                     child: Text(
                       'Selected ${_numberOfSelectedInstances.length} of ${users.length}',
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
@@ -101,7 +102,10 @@ class _MyChoosingScreenState extends State<MyChoosingScreen> {
                       _numberOfSelectedInstances.clear();
                     });
                   },
-                  icon: Icon(Icons.close),
+                  icon: Icon(
+                    Icons.close,
+                    color: Colors.white,
+                  ),
                 )
               ],
             ),
@@ -109,24 +113,18 @@ class _MyChoosingScreenState extends State<MyChoosingScreen> {
               shrinkWrap: true,
               itemCount: users.length,
               itemBuilder: (ctx, index) {
-                return Container(
-                  color: (_numberOfSelectedInstances
-                          .any((map) => map.containsKey(index)))
-                      ? Colors.blue.withOpacity(0.5)
-                      : Colors.transparent,
-                  child: MyChoosingListTile(
-                    'Main Title',
-                    'Subtitle 1',
-                    'Subtitle 2',
-                    'Subtitle 3',
-                    index,
-                    _selectionMode,
-                    setSelectionMode,
-                    incrementItem,
-                    decrementItem,
-                    selectedItemsNumber,
-                    isSelected,
-                  ),
+                return MyChoosingListTile(
+                  'Main Title',
+                  'Subtitle 1',
+                  'Subtitle 2',
+                  'Subtitle 3',
+                  index,
+                  _selectionMode,
+                  setSelectionMode,
+                  incrementItem,
+                  decrementItem,
+                  selectedItemsNumber,
+                  isSelected,
                 );
               }),
         ],
@@ -169,55 +167,78 @@ class _MyChoosingListTileState extends State<MyChoosingListTile> {
   int number = 0;
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      onLongPress: () {
-        widget.setSelectionMode(true);
-      },
-      leading: CircleAvatar(
-        radius: 20,
-        child: FlutterLogo(),
+    return Container(
+      margin: EdgeInsetsDirectional.only(bottom: 10),
+      decoration: BoxDecoration(
+        color: Color(0xff181818),
+        borderRadius: BorderRadius.circular(16),
       ),
-      title: Text(widget.title),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            widget.subtitle1,
-            style: TextStyle(
-              color: Colors.red,
-            ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          color: widget.isSelected(widget.index)
+              ? Colors.blue.withOpacity(0.5)
+              : Colors.transparent,
+        ),
+        child: ListTile(
+          onLongPress: () {
+            widget.setSelectionMode(true);
+          },
+          leading: CircleAvatar(
+            radius: 20,
+            child: FlutterLogo(),
           ),
-          Text(widget.subtitle2),
-        ],
+          title: Text(
+            widget.title,
+            style: TextStyle(color: Colors.white),
+          ),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                widget.subtitle1,
+                style: TextStyle(
+                  color: Colors.red,
+                ),
+              ),
+              Text(
+                widget.subtitle2,
+                style: TextStyle(color: Colors.white),
+              ),
+            ],
+          ),
+          trailing: !widget.selectionMode
+              ? null
+              : Column(
+                  children: [
+                    GestureDetector(
+                      child: Icon(
+                        Icons.add,
+                        size: 15,
+                        color: Colors.white,
+                      ),
+                      onTap: () => widget.incrementItem(widget.index),
+                    ),
+                    Text(
+                      "${widget.selectedItemsNumber(widget.index)}",
+                      style: TextStyle(fontSize: 12, color: Colors.white),
+                    ),
+                    GestureDetector(
+                      child: Icon(
+                        Icons.remove,
+                        size: 15,
+                        color: Colors.white,
+                      ),
+                      onTap: () => widget.isSelected(widget.index)
+                          ? widget.decrementItem(widget.index)
+                          : null,
+                    )
+                  ],
+                  mainAxisSize: MainAxisSize.min,
+                ),
+        ),
       ),
-      trailing: !widget.selectionMode
-          ? null
-          : Column(
-              children: [
-                GestureDetector(
-                  child: Icon(
-                    Icons.add,
-                    size: 15,
-                  ),
-                  onTap: () => widget.incrementItem(widget.index),
-                ),
-                Text(
-                  "${widget.selectedItemsNumber(widget.index)}",
-                  style: TextStyle(fontSize: 12, color: Colors.black),
-                ),
-                GestureDetector(
-                  child: Icon(
-                    Icons.remove,
-                    size: 15,
-                  ),
-                  onTap: () => widget.isSelected(widget.index)
-                      ? widget.decrementItem(widget.index)
-                      : null,
-                )
-              ],
-              mainAxisSize: MainAxisSize.min,
-            ),
     );
   }
 }
