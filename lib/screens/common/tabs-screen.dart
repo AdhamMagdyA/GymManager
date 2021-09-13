@@ -7,6 +7,8 @@ import 'package:gym_project/widget/member_drawer.dart';
 import 'package:motion_tab_bar/MotionTabController.dart';
 import 'package:motion_tab_bar/motiontabbar.dart';
 
+import 'ProfilePage.dart';
+
 class Home extends StatefulWidget {
   const Home({Key key}) : super(key: key);
 
@@ -55,7 +57,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_pages[_selectedIndex]['title'],style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+        title: Text(
+          _pages[_selectedIndex]['title'],
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
         backgroundColor: Colors.black,
         iconTheme: IconThemeData(color: Colors.white),
       ),
@@ -72,7 +77,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           BottomNavigationBarItem(
             icon: Icon(Icons.fitness_center),
             label: 'Excersices',
-            
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.announcement),

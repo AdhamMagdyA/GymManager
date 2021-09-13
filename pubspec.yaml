@@ -58,6 +58,9 @@ flutter:
     - assets/images/about.png
     - assets/images/welcome.png
     - assets/images/home.jpg
+    - assets/images/as.png
+    - assets/images/blank.png
+    - assets/images/user_icon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gym_project/screens/common/login-screen.dart';
 import 'package:gym_project/screens/common/tabs-screen.dart';
 
+import 'screens/common/ProfilePage.dart';
 import 'screens/member/home-screen.dart';
 
 void main() {
@@ -17,6 +18,8 @@ class MyApp extends StatelessWidget {
       title: 'Gym',
       theme: ThemeData(
           primaryColor: Color(0xFFFFCE2B),
+          //primaryColor: Color(0xff0082CD),
+          //primaryColorDark: Color(0xff0082CD),
           accentColor: Color(0xFFFFCE2B),
           canvasColor: Colors.white,
           fontFamily: "ProximaNova",
@@ -30,7 +33,10 @@ class MyApp extends StatelessWidget {
             headline5: TextStyle(color: Colors.white),
             headline6: TextStyle(color: Colors.white),
           )),
-      home: Home(),
+      home: ProfilePage(),
+      routes: <String, WidgetBuilder>{
+        '/ProfilePage': (BuildContext context) => new ProfilePage(),
+      },
     );
   }
 }
