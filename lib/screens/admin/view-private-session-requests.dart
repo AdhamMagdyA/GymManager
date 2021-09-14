@@ -4,6 +4,7 @@ import 'package:gym_project/common/my_choosing_screen.dart';
 import 'package:gym_project/common/my_list_tile.dart';
 
 import 'package:flutter/material.dart';
+import 'package:gym_project/screens/common/view-private-session-details.dart';
 
 class ViewPrivateSessionRequestsScreen extends StatefulWidget {
   @override
@@ -244,6 +245,12 @@ class _ViewPrivateSessionRequestsScreenState
         borderRadius: BorderRadius.circular(16),
       ),
       child: ListTile(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => PrivateSessionDetailsScreen()));
+        },
         minVerticalPadding: 10,
         leading: CircleAvatar(
           radius: 20,
@@ -266,54 +273,14 @@ class _ViewPrivateSessionRequestsScreenState
               )
           ],
         ),
-        // trailing: Column(
-        //   children: [
-        //     Icon(Icons.check, color: Colors.white),
-        //     Icon(
-        //       Icons.close,
-        //       color: Colors.white,
-        //     )
-        //   ],
-        // ),
-        // trailing: Column(
-        //   crossAxisAlignment: CrossAxisAlignment.center,
-        //   mainAxisSize: MainAxisSize.min,
-        //   children: [
-        //     Expanded(
-        //       child: ElevatedButton(
-        //           child: Text('Accept'),
-        //           style: ElevatedButton.styleFrom(
-        //               primary: Colors.green,
-        //               shape: RoundedRectangleBorder(
-        //                 borderRadius: BorderRadius.circular(16),
-        //               )),
-        //           onPressed: () {
-        //             // Navigator.pop(context, selectedPrivateSession);
-        //           }),
-        //     ),
-        //     SizedBox(height: 6),
-        //     Expanded(
-        //       child: ElevatedButton(
-        //           child: Text('Reject'),
-        //           style: ElevatedButton.styleFrom(
-        //               primary: Colors.red,
-        //               shape: RoundedRectangleBorder(
-        //                 borderRadius: BorderRadius.circular(16),
-        //               )),
-        //           onPressed: () {
-        //             // Navigator.pop(context, selectedPrivateSession);
-        //           }),
-        //     ),
-        //   ],
-        // ),
         trailing: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
             Expanded(
-              child: TextButton(
+              child: ElevatedButton(
                   child: Text('Accept'),
-                  style: TextButton.styleFrom(
+                  style: ElevatedButton.styleFrom(
                       primary: Colors.green,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
@@ -324,9 +291,9 @@ class _ViewPrivateSessionRequestsScreenState
             ),
             SizedBox(height: 6),
             Expanded(
-              child: TextButton(
+              child: ElevatedButton(
                   child: Text('Reject'),
-                  style: TextButton.styleFrom(
+                  style: ElevatedButton.styleFrom(
                       primary: Colors.red,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),

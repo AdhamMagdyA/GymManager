@@ -43,24 +43,20 @@ Widget GridViewCard(image, title, subTitle1, subTitle2, subTitle3, subTitle4) {
                 fontSize: 18,
                 color: Colors.black,
               )),
-          Text(subTitle1,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-                color: Colors.black,
-              )),
-          Text(subTitle2,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-                color: Colors.black,
-              )),
-          Text(subTitle3,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-                color: Colors.black,
-              ))
+          if (subTitle1 != '')
+            Text(subTitle1,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                  color: Colors.black,
+                )),
+          if (subTitle2 != '')
+            Text(subTitle2,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                  color: Colors.black,
+                )),
         ],
       ),
     ),

@@ -4,6 +4,7 @@ import 'package:gym_project/common/my_choosing_screen.dart';
 import 'package:gym_project/common/my_list_tile.dart';
 
 import 'package:flutter/material.dart';
+import 'package:gym_project/screens/common/view-private-session-details.dart';
 
 class ViewBookedSessionsScreen extends StatefulWidget {
   @override
@@ -12,8 +13,6 @@ class ViewBookedSessionsScreen extends StatefulWidget {
 }
 
 class _ViewBookedSessionsScreenState extends State<ViewBookedSessionsScreen> {
-  static int whoIsSelected = -1;
-
   final List<dynamic> privateSessions = [
     {
       'title': 'Private Session 1',
@@ -186,33 +185,6 @@ class _ViewBookedSessionsScreenState extends State<ViewBookedSessionsScreen> {
                       contentPadding:
                           EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
                 )),
-            if (whoIsSelected != -1)
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Deselect Items  ',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    GestureDetector(
-                      child: Icon(
-                        Icons.delete,
-                        color: Colors.white,
-                      ),
-                      onTap: () {
-                        setState(() {
-                          whoIsSelected = -1;
-                        });
-                      },
-                    )
-                  ],
-                ),
-              ),
             SizedBox(height: 20),
             ListView.builder(
                 shrinkWrap: true,
@@ -231,27 +203,6 @@ class _ViewBookedSessionsScreenState extends State<ViewBookedSessionsScreen> {
                 }),
           ],
         ),
-        if (whoIsSelected != -1)
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: ElevatedButton(
-                child: Text('Submit'),
-                style: ElevatedButton.styleFrom(
-                    primary: Colors.amber,
-                    fixedSize: Size.fromWidth(width),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    )),
-                onPressed: () {
-                  var selectedPrivateSession = privateSessions[whoIsSelected];
-
-                  selectedPrivateSession['datetime'] =
-                      formatDateTime(selectedPrivateSession['datetime']);
-                  selectedPrivateSession['duration'] =
-                      formatDuration(selectedPrivateSession['duration']);
-                  // Navigator.pop(context, selectedPrivateSession);
-                }),
-          ),
       ]),
     );
   }
@@ -261,16 +212,16 @@ class _ViewBookedSessionsScreenState extends State<ViewBookedSessionsScreen> {
     return Container(
       margin: EdgeInsetsDirectional.only(bottom: 10),
       decoration: BoxDecoration(
-        color: whoIsSelected == index ? Colors.white24 : Color(0xff181818),
+        color: Color(0xff181818),
         borderRadius: BorderRadius.circular(16),
       ),
       child: ListTile(
         onTap: () {
-          setState(() {
-            whoIsSelected = index;
-          });
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => PrivateSessionDetailsScreen()));
         },
-        selected: whoIsSelected == index,
         minVerticalPadding: 10,
         leading: CircleAvatar(
           radius: 20,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gym_project/common/my_choosing_screen.dart';
 import 'package:gym_project/common/my_list_tile.dart';
+import 'package:gym_project/screens/common/view-group-details-screen.dart';
 
 class ViewGroupsScreen extends StatefulWidget {
   @override
@@ -153,7 +154,7 @@ class _ViewGroupsScreenState extends State<ViewGroupsScreen> {
                 shrinkWrap: true,
                 itemCount: groups.length,
                 itemBuilder: (ctx, index) {
-                  return MyChoosingListTile(
+                  return GroupsListTile(
                     groups[index]['title'],
                     [groups[index]['description'], 'sub 2', 'sub 3'],
                     index,
@@ -185,6 +186,116 @@ class _ViewGroupsScreenState extends State<ViewGroupsScreen> {
                 }),
           ),
       ]),
+    );
+  }
+}
+
+class GroupsListTile extends StatefulWidget {
+  final String title;
+  final List<String> subtitles;
+  final int index;
+  final bool selectionMode;
+  final Function setSelectionMode;
+  final Function incrementItem;
+  final Function decrementItem;
+  final Function selectedItemsNumber;
+  final Function isSelected;
+  final String iconData;
+
+  GroupsListTile(
+    this.title,
+    this.subtitles,
+    this.index,
+    this.selectionMode,
+    this.setSelectionMode,
+    this.incrementItem,
+    this.decrementItem,
+    this.selectedItemsNumber,
+    this.isSelected,
+    this.iconData,
+  );
+  @override
+  _GroupsListTileState createState() => _GroupsListTileState();
+}
+
+class _GroupsListTileState extends State<GroupsListTile> {
+  int number = 0;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsetsDirectional.only(bottom: 10),
+      decoration: BoxDecoration(
+        color: Color(0xff181818),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          color: widget.isSelected(widget.index)
+              ? Colors.white24
+              : Colors.transparent,
+        ),
+        child: ListTile(
+          onLongPress: () {
+            widget.setSelectionMode(true);
+          },
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => GroupDetailsScreen()));
+          },
+          leading: CircleAvatar(
+            radius: 20,
+            // child: Image.network(widget.iconData),
+            child: FlutterLogo(),
+          ),
+          title: Text(
+            widget.title,
+            style: TextStyle(color: Colors.white),
+          ),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              for (String subtitle in widget.subtitles)
+                Text(
+                  subtitle,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                )
+            ],
+          ),
+          trailing: !widget.selectionMode
+              ? null
+              : Column(
+                  children: [
+                    GestureDetector(
+                      child: Icon(
+                        Icons.add,
+                        size: 15,
+                        color: Colors.white,
+                      ),
+                      onTap: () => widget.incrementItem(widget.index),
+                    ),
+                    Text(
+                      "${widget.selectedItemsNumber(widget.index)}",
+                      style: TextStyle(fontSize: 12, color: Colors.white),
+                    ),
+                    GestureDetector(
+                      child: Icon(
+                        Icons.remove,
+                        size: 15,
+                        color: Colors.white,
+                      ),
+                      onTap: () => widget.isSelected(widget.index)
+                          ? widget.decrementItem(widget.index)
+                          : null,
+                    )
+                  ],
+                  mainAxisSize: MainAxisSize.min,
+                ),
+        ),
+      ),
     );
   }
 }

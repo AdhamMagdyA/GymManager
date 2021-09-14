@@ -5,6 +5,8 @@ import 'package:gym_project/screens/coach/coach-home-screen.dart';
 import 'package:gym_project/screens/coach/others-screen.dart';
 import 'package:gym_project/screens/coach/members-screen.dart';
 import 'package:gym_project/screens/coach/sessions-screen.dart';
+import 'package:gym_project/screens/coach/view-booked-sessions.dart';
+import 'package:gym_project/screens/coach/view-my-private-sessions.dart';
 import 'package:gym_project/screens/common/details-screen.dart';
 import 'package:gym_project/screens/common/grid_view.dart';
 import 'package:gym_project/screens/common/view-exercises-details-screen.dart';
@@ -14,7 +16,6 @@ import 'package:gym_project/screens/common/view-set-details-screen.dart';
 import 'package:gym_project/screens/member/view-private-sessions.dart';
 import 'package:gym_project/screens/coach/view-groups.dart';
 import 'package:gym_project/screens/coach/view-sets.dart';
-import 'package:gym_project/screens/nutritionist/view-meals-screen.dart';
 import 'package:gym_project/widget/coach-drawer.dart';
 
 class CoachTabsScreen extends StatefulWidget {
@@ -45,7 +46,7 @@ class _CoachTabsScreenState extends State<CoachTabsScreen>
         'title': 'Home',
       },
       {
-        'page': PrivateSessionDetailsScreen(),
+        'page': ViewGroupsScreen(),
         'title': 'My members',
       },
       {

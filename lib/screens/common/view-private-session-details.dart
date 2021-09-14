@@ -71,12 +71,7 @@ class PrivateSessionDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var coach = _privateSession['coach'];
-    var user = ModalRoute.of(context).settings.arguments as Map;
-    var name = user['name'];
-    print(name);
-    // print(coachName['user'].runtimeType);
-    // print(coachName.arguments as Map);
+    //need to get coach name
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -165,6 +160,34 @@ class PrivateSessionDetailsScreen extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+          Padding(
+            padding: EdgeInsets.only(
+              top: 10,
+              left: 10,
+            ),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Container(
+                  height: 42,
+                  width: 42,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
         ],
       ),

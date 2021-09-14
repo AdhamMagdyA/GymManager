@@ -4,6 +4,7 @@ import 'package:gym_project/common/my_choosing_screen.dart';
 import 'package:gym_project/common/my_list_tile.dart';
 
 import 'package:flutter/material.dart';
+import 'package:gym_project/screens/common/view-private-session-details.dart';
 
 class ViewMyPrivateSessionsScreen extends StatefulWidget {
   @override
@@ -266,10 +267,16 @@ class _ViewMyPrivateSessionsScreenState
         borderRadius: BorderRadius.circular(16),
       ),
       child: ListTile(
-        onTap: () {
+        onLongPress: () {
           setState(() {
             whoIsSelected = index;
           });
+        },
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => PrivateSessionDetailsScreen()));
         },
         selected: whoIsSelected == index,
         minVerticalPadding: 10,

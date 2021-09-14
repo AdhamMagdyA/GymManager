@@ -181,6 +181,7 @@ class _MyChoosingListTileState extends State<MyChoosingListTile> {
           onLongPress: () {
             widget.setSelectionMode(true);
           },
+          onTap: () {},
           leading: CircleAvatar(
             radius: 20,
             // child: Image.network(widget.iconData),

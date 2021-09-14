@@ -56,6 +56,50 @@ class SetDetailsScreen extends StatelessWidget {
           'break_duration': "01:00",
         },
       },
+      {
+        'id': 7,
+        'description': "description",
+        'duration': "08:32",
+        'gif':
+            "http://breitenberg.net/aut-corporis-doloremque-omnis-est-ea-quidem-magni-eum",
+        'cal_burnt': 10.46,
+        'title': "Exercise 2",
+        'reps': 4,
+        'image':
+            "https://media.istockphoto.com/photos/kettlebell-and-medicine-ball-in-the-gym-equipment-for-functional-picture-id1153479113?k=20&m=1153479113&s=612x612&w=0&h=wLZnQE2GPjXJFYVpygKlNK5iyD8THMyPOGG4qFGr3xE=",
+        'coach_id': 5,
+        'created_at': "2021-09-14 08:29:12",
+        'updated_at': "2021-09-14 08:29:12",
+        'pivot': {
+          'set_id': 1,
+          'exercise_id': 7,
+          'created_at': "2021-09-14 08:29:23",
+          'updated_at': "2021-09-14 08:29:23",
+          'break_duration': "01:00",
+        },
+      },
+      {
+        'id': 7,
+        'description': "description",
+        'duration': "08:32",
+        'gif':
+            "http://breitenberg.net/aut-corporis-doloremque-omnis-est-ea-quidem-magni-eum",
+        'cal_burnt': 10.46,
+        'title': "Exercise 2",
+        'reps': 4,
+        'image':
+            "https://media.istockphoto.com/photos/kettlebell-and-medicine-ball-in-the-gym-equipment-for-functional-picture-id1153479113?k=20&m=1153479113&s=612x612&w=0&h=wLZnQE2GPjXJFYVpygKlNK5iyD8THMyPOGG4qFGr3xE=",
+        'coach_id': 5,
+        'created_at': "2021-09-14 08:29:12",
+        'updated_at': "2021-09-14 08:29:12",
+        'pivot': {
+          'set_id': 1,
+          'exercise_id': 7,
+          'created_at': "2021-09-14 08:29:23",
+          'updated_at': "2021-09-14 08:29:23",
+          'break_duration': "01:00",
+        },
+      },
     ],
   };
   String formatDuration(String duration) {
@@ -181,6 +225,34 @@ class SetDetailsScreen extends StatelessWidget {
                 ],
               ),
             ],
+          ),
+          Padding(
+            padding: EdgeInsets.only(
+              top: 10,
+              left: 10,
+            ),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Container(
+                  height: 42,
+                  width: 42,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
         ],
       ),
