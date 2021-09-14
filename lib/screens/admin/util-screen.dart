@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/screens/Events/events-list.dart';
 import 'package:gym_project/screens/Events/events-tile.dart';
+import 'package:gym_project/screens/Supplements/supplement-details.dart';
+import 'package:gym_project/screens/Supplements/supplement-grid-view.dart';
 import 'package:gym_project/screens/common/grid_view.dart';
 import 'package:gym_project/screens/admin/admin_home_page.dart';
 import 'package:gym_project/widget/drawer.dart';
@@ -38,8 +40,8 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
       'title': 'Events',
     },
     {
-      'page': Material(),
-      'title': 'Homepage',
+      'page': SupplementList(),
+      'title': 'Supplements',
     },
   ];
   @override
@@ -88,7 +90,7 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.view_list),
-            label: 'Others',
+            label: 'Supplements',
           ),
         ],
         currentIndex: _selectedIndex,

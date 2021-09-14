@@ -69,6 +69,10 @@ flutter:
     - assets/images/as.png
     - assets/images/blank.png
     - assets/images/user_icon.png
+    - assets/images/supp.jpg
+    - assets/images/dumbbell.jpg
+
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
