@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gym_project/core/presentation/res/assets.dart';
 
 class ExercisesScreen extends StatefulWidget {
   const ExercisesScreen({Key key}) : super(key: key);
@@ -12,43 +11,43 @@ class ExercisesScreen extends StatefulWidget {
 class ExercisesScreenState extends State<ExercisesScreen> {
   List<Map> _exercises = [
     {
-      'title': 'leg pushes',
+      'title': 'Leg Pushes',
       'image':
           'https://www.bodybuilding.com/images/2016/june/leg-workouts-for-men-7-best-workouts-for-quads-glutes-hams-header-v2-960x540.jpg',
       'reps': 10,
       'duration': null,
-      'coach': 'amr fatouh',
+      'coach': 'Amr Fatouh',
     },
     {
-      'title': 'dumbell curls',
+      'title': 'Dumbell Curls',
       'image': 'https://ak.picdn.net/shutterstock/videos/32071954/thumb/1.jpg',
       'reps': 15,
       'duration': null,
-      'coach': 'amr fatouh',
+      'coach': 'Amr Fatouh',
     },
     {
-      'title': 'crunches',
+      'title': 'Crunches',
       'image':
           'https://yegfitness.ca/wp-content/uploads/2021/07/How-Nutrition-Can-Improve-Your-Workout-Quality.jpg',
       'reps': 15,
       'duration': null,
-      'coach': 'amr fatouh',
+      'coach': 'Amr Fatouh',
     },
     {
-      'title': 'rope swings',
+      'title': 'Rope Swings',
       'image':
           'https://www.mensjournal.com/wp-content/uploads/2018/09/eytfhjb.jpg?w=1152&h=630&crop=1&quality=86&strip=all',
       'reps': null,
       'duration': Duration(minutes: 1, seconds: 30),
-      'coach': 'amr fatouh',
+      'coach': 'Amr Fatouh',
     },
     {
       'title': 'Spread Up',
       'image':
           'https://www.usnews.com/dims4/USNEWS/aa5868a/2147483647/crop/2118x1390%2B1%2B0/resize/640x420/quality/85/?url=http%3A%2F%2Fmedia.beam.usnews.com%2F48%2F14%2F7957075045b49d3cbc401ef61eb8%2F210824-yoga-stock.jpg',
-      'reps': Duration(minutes: 5),
-      'duration': null,
-      'coach': 'amr fatouh',
+      'reps': null,
+      'duration': Duration(minutes: 5),
+      'coach': 'Amr Fatouh',
     },
     {
       'title': 'Bar Lifting',
@@ -56,7 +55,7 @@ class ExercisesScreenState extends State<ExercisesScreen> {
           'https://www.ironmaster.com/mm5/graphics/00000001/woo/2016/07/im1500-3-e1502822806930.jpg',
       'reps': 10,
       'duration': null,
-      'coach': 'amr fatouh',
+      'coach': 'Amr Fatouh',
     },
   ];
 
@@ -190,7 +189,7 @@ class ExercisesScreenState extends State<ExercisesScreen> {
                         child: Container(
                           alignment: Alignment.center,
                           child: Text(
-                            'Selected ${_numberOfSelectedInstances.length} of ${_exercises.length}}',
+                            'Selected ${_numberOfSelectedInstances.length} of ${_exercises.length}',
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
@@ -285,6 +284,13 @@ class MyChoosingGridViewCard extends StatefulWidget {
 }
 
 class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
+  String printDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+    return "$twoDigitMinutes:$twoDigitSeconds";
+  }
+
   @override
   Widget build(BuildContext context) {
     final double imageBorderRadius = widget.selectionMode ? 0 : 30;
@@ -334,7 +340,7 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
               ),
             Container(
               width: double.infinity,
-              height: 80,
+              height: widget.selectionMode ? 80 : 115,
               padding: EdgeInsets.all(0),
               child: ClipRRect(
                 borderRadius: BorderRadius.only(
@@ -360,7 +366,7 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
             ),
             if (widget.reps != null)
               Text(
-                '${widget.reps}',
+                'Reps: ${widget.reps}',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 12,
@@ -369,14 +375,14 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
               ),
             if (widget.duration != null)
               Text(
-                '${widget.duration.toString()}',
+                'Duration: ${printDuration(widget.duration)}',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 12,
                   color: Colors.black,
                 ),
               ),
-            Text(widget.coach,
+            Text('Create by:  ${widget.coach}',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 12,
