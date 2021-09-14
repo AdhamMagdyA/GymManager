@@ -35,7 +35,7 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
     },
     {
       'page': EventListView(),
-      'title': 'Homepage',
+      'title': 'Events',
     },
     {
       'page': Material(),

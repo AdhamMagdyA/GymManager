@@ -4,10 +4,14 @@ import 'package:gym_project/screens/Events/events-tile.dart';
 
 
 class EventListView extends StatefulWidget {
-  final String title = 'Title';
-  final String subtitle1 = 'Subtitle 1';
-  final String subtitle2 = 'Subtitle 2';
-  final String subtitle3 = 'Subtitle 3';
+  final String title = 'Hicking Trip';
+  final String price = "100\$";
+  final String date = '25 Sep.';
+  final String startTime = '7:00 AM';
+  final String endTime = '10:00 AM';
+  final String icon = '';
+
+
   
 
   EventListView();
@@ -41,7 +45,7 @@ class _EventListViewState extends State<EventListView> with TickerProviderStateM
           padding: EdgeInsets.all(5),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(50),
-              border: Border.all(color: Colors.amber, width: 1),
+              // border: Border.all(color: Colors.amber, width: 1),
           ),
           child: Align(
             alignment: Alignment.center,
@@ -54,7 +58,7 @@ class _EventListViewState extends State<EventListView> with TickerProviderStateM
           padding: EdgeInsets.all(5),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(50),
-              border: Border.all(color: Colors.amber, width: 1),
+              // border: Border.all(color: Colors.amber, width: 1),
           ),
           child: Align(
             alignment: Alignment.center,
@@ -67,7 +71,7 @@ class _EventListViewState extends State<EventListView> with TickerProviderStateM
           padding: EdgeInsets.all(5),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(50),
-              border: Border.all(color: Colors.amber, width: 1),
+              // border: Border.all(color: Colors.amber, width: 1),
 
           ),
           child: Align(
@@ -77,21 +81,6 @@ class _EventListViewState extends State<EventListView> with TickerProviderStateM
         ),
       ),
     ];
-
-  List<dynamic> events = [
-    {
-      'name': 'Osama',
-      'branch': 'Branch 1',
-      "photo":
-          'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-    },
-    {
-      'name': 'Abdo',
-      'branch': 'Branch 2',
-      "photo":
-          'https://images.pexels.com/photos/1704488/pexels-photo-1704488.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-    }
-  ];
   
   @override
   
@@ -102,7 +91,7 @@ class _EventListViewState extends State<EventListView> with TickerProviderStateM
         child:Align(
           alignment: Alignment.center,
           child:Container(
-            padding: EdgeInsets.only(top: 5),
+            padding: EdgeInsets.only(top: 10),
             width: MediaQuery.of(context).size.width,
             alignment: Alignment.center,
             child: TabBar(
@@ -122,8 +111,17 @@ class _EventListViewState extends State<EventListView> with TickerProviderStateM
         body: TabBarView(
         controller: _tabController,
         children: <Widget>[
-          Center(
-            child: getAllEvents(),
+          Container(
+            color: Colors.black,
+            height: 200,
+            padding: EdgeInsetsDirectional.all(10),
+            child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: 10,
+                itemBuilder: (ctx, index) {
+                  return EventListTile(widget.title, widget.price,
+                      widget.date, widget.startTime,widget.endTime,widget.icon);
+                }),
           ),
           Center(
             child: getUpcomingEvents(),
@@ -154,7 +152,8 @@ class _EventListViewState extends State<EventListView> with TickerProviderStateM
 
   Text getAllEvents() 
   {
-    return Text("ALL");
+    return Text("All");
+  
   }
   Text getUpcomingEvents() 
   {

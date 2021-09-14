@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 
 class EventListTile extends StatefulWidget {
   final String title;
-  final String subtitle1;
-  final String subtitle2;
-  final String subtitle3;
+  final String price;
+  final String date;
+  final String startTime;
+  final String endTime;
+  final String icon;
 
-  EventListTile(this.title, this.subtitle1, this.subtitle2, this.subtitle3);
+
+  EventListTile(this.title, this.price, this.date, this.startTime,this.endTime,this.icon);
   @override
   _EventListTileState createState() => _EventListTileState();
 }
@@ -27,24 +30,32 @@ class _EventListTileState extends State<EventListTile> {
           radius: 20,
           child: FlutterLogo(),
         ),
-        title: Text(
-          widget.title,
-          style: TextStyle(color: Colors.white),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              widget.title,
+              style: TextStyle(color: Colors.amberAccent, fontFamily: 'assets/fonts/Changa-Bold.ttf' ),
+            ),
+            Text(
+              widget.price,
+              style: TextStyle(color: Colors.white70, fontFamily: 'assets/fonts/Changa-Bold.ttf' ),
+            ),
+          ],
+
         ),
+        
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
+            SizedBox(height: 10,),
             Text(
-              widget.subtitle1,
+              widget.date,
               style: TextStyle(color: Colors.white),
             ),
             Text(
-              widget.subtitle2,
-              style: TextStyle(color: Colors.white),
-            ),
-            Text(
-              widget.subtitle3,
+              widget.startTime,
               style: TextStyle(color: Colors.white),
             ),
           ],
