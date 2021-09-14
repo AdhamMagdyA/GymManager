@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/screens/admin/view-private-session-requests.dart';
 import 'package:gym_project/screens/coach/classes-screen.dart';
 import 'package:gym_project/screens/coach/coach-home-screen.dart';
 import 'package:gym_project/screens/coach/others-screen.dart';
 import 'package:gym_project/screens/coach/members-screen.dart';
 import 'package:gym_project/screens/coach/sessions-screen.dart';
-import 'package:gym_project/screens/coach/view-private-sessions.dart';
+import 'package:gym_project/screens/common/details-screen.dart';
+import 'package:gym_project/screens/common/grid_view.dart';
+import 'package:gym_project/screens/common/view-exercises-details-screen.dart';
+import 'package:gym_project/screens/common/view-group-details-screen.dart';
+import 'package:gym_project/screens/common/view-private-session-details.dart';
+import 'package:gym_project/screens/common/view-set-details-screen.dart';
+import 'package:gym_project/screens/member/view-private-sessions.dart';
 import 'package:gym_project/screens/coach/view-groups.dart';
 import 'package:gym_project/screens/coach/view-sets.dart';
 import 'package:gym_project/screens/nutritionist/view-meals-screen.dart';
@@ -38,11 +45,11 @@ class _CoachTabsScreenState extends State<CoachTabsScreen>
         'title': 'Home',
       },
       {
-        'page': ViewPrivateSessionsScreen(),
+        'page': PrivateSessionDetailsScreen(),
         'title': 'My members',
       },
       {
-        'page': MealsViewScreen(),
+        'page': GridViewScreen(),
         'title': 'Others',
       },
     ];

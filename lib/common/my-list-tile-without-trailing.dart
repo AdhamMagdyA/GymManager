@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-class CustomListTile extends StatefulWidget {
+class CustomListTileNoTrailing extends StatefulWidget {
   final String title;
   final List<String> subtitles;
-  String trailing = '';
 
-  CustomListTile(this.title, this.subtitles, {this.trailing});
+  CustomListTileNoTrailing(this.title, this.subtitles);
   @override
-  _CustomListTileState createState() => _CustomListTileState();
+  _CustomListTileNoTrailingState createState() =>
+      _CustomListTileNoTrailingState();
 }
 
-class _CustomListTileState extends State<CustomListTile> {
+class _CustomListTileNoTrailingState extends State<CustomListTileNoTrailing> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -42,7 +42,6 @@ class _CustomListTileState extends State<CustomListTile> {
               )
           ],
         ),
-        trailing: Text(widget.trailing),
       ),
     );
   }
