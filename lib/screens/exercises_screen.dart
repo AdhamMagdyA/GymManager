@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 class ExercisesScreen extends StatefulWidget {
   const ExercisesScreen({Key key}) : super(key: key);
-  static final String path = "lib/src/pages/ecommerce/ecommerce5.dart";
 
   @override
   ExercisesScreenState createState() => ExercisesScreenState();
@@ -340,7 +339,7 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
               ),
             Container(
               width: double.infinity,
-              height: widget.selectionMode ? 80 : 115,
+              height: widget.selectionMode ? 70 : 110,
               padding: EdgeInsets.all(0),
               child: ClipRRect(
                 borderRadius: BorderRadius.only(
@@ -356,38 +355,62 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
             SizedBox(
               height: 5,
             ),
-            Text(
-              widget.title,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                color: Colors.black,
+            SizedBox(
+              height: 20,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  widget.title,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: Colors.black,
+                  ),
+                ),
               ),
             ),
             if (widget.reps != null)
-              Text(
-                'Reps: ${widget.reps}',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
-                  color: Colors.black,
+              SizedBox(
+                height: 20,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    'Reps: ${widget.reps}',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                      color: Colors.black,
+                    ),
+                  ),
                 ),
               ),
             if (widget.duration != null)
-              Text(
-                'Duration: ${printDuration(widget.duration)}',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
-                  color: Colors.black,
+              SizedBox(
+                height: 20,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    'Duration: ${printDuration(widget.duration)}',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                      color: Colors.black,
+                    ),
+                  ),
                 ),
               ),
-            Text('Create by:  ${widget.coach}',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
-                  color: Colors.black,
-                )),
+            SizedBox(
+              height: 20,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text('Created by:  ${widget.coach}',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                      color: Colors.black,
+                    )),
+              ),
+            ),
           ],
         ),
       ),
