@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/screens/common/grid_view.dart';
 import 'package:gym_project/screens/admin/admin_home_page.dart';
+import 'package:gym_project/screens/nutritionist/fitness-summaries.dart';
 import 'package:gym_project/screens/nutritionist/meals-screen.dart';
 import 'package:gym_project/widget/drawer.dart';
 import 'package:motion_tab_bar/MotionTabController.dart';
@@ -26,8 +27,8 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
       'title': 'Equipment',
     },
     {
-      'page': Material(),
-      'title': 'Homepage',
+      'page': FitnessSummariesScreen(),
+      'title': 'Fitness Summaries',
     },
     {
       'page': MealsViewScreen(),
@@ -72,7 +73,7 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.school),
-            label: 'School',
+            label: 'Fitness Summaries',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.school),
