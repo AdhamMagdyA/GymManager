@@ -94,6 +94,7 @@ class MapScreenState extends State<FormTemplate>
                                       style: TextStyle(
                                         fontSize: 18.0,
                                         fontWeight: FontWeight.bold,
+                                        color: Colors.black,
                                       ),
                                     ),
                                   ],
@@ -120,6 +121,7 @@ class MapScreenState extends State<FormTemplate>
                                       style: TextStyle(
                                         fontSize: 16.0,
                                         fontWeight: FontWeight.bold,
+                                        color: Colors.black,
                                       ),
                                     ),
                                   ],
@@ -154,8 +156,10 @@ class MapScreenState extends State<FormTemplate>
                                     new Text(
                                       'Duration ',
                                       style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold),
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -188,8 +192,10 @@ class MapScreenState extends State<FormTemplate>
                                     new Text(
                                       'Title',
                                       style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold),
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -222,8 +228,10 @@ class MapScreenState extends State<FormTemplate>
                                     new Text(
                                       'Equipment',
                                       style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold),
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -256,8 +264,10 @@ class MapScreenState extends State<FormTemplate>
                                     new Text(
                                       'Gif',
                                       style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold),
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -290,8 +300,10 @@ class MapScreenState extends State<FormTemplate>
                                     new Text(
                                       'Gif',
                                       style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold),
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -324,8 +336,10 @@ class MapScreenState extends State<FormTemplate>
                                     new Text(
                                       'Gif',
                                       style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold),
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -358,8 +372,10 @@ class MapScreenState extends State<FormTemplate>
                                     new Text(
                                       'Gif',
                                       style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold),
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -398,12 +414,13 @@ class MapScreenState extends State<FormTemplate>
                                               new BorderRadius.circular(10.0),
                                         ),
                                         primary: Color(0xFFFFCE2B),
+                                        onPrimary: Colors.black,
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 10, vertical: 5),
                                         textStyle: TextStyle(
-                                            color: Colors.blue,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold)),
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                        )),
                                     onPressed: () {
                                       setState(() {
                                         _status = true;
