@@ -1,8 +1,8 @@
 import 'package:backdrop/backdrop.dart';
 import 'package:flutter/material.dart';
 
-class TrainingModeScreen extends StatelessWidget {
-  TrainingModeScreen({Key key}) : super(key: key);
+class TrainingModeOverviewScreen extends StatelessWidget {
+  TrainingModeOverviewScreen({Key key}) : super(key: key);
 
   final _group = {
     'title': 'Chest Group',
