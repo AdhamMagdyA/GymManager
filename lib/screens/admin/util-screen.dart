@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/screens/admin/branches/edit_branch.dart';
 import 'package:gym_project/screens/admin/classes/class_details.dart';
-import 'package:gym_project/screens/common/FormTemplate.dart';
-import 'package:gym_project/screens/common/grid_view.dart';
-import 'package:gym_project/screens/admin/classes/classes_list.dart';
 import 'package:gym_project/screens/admin/admin_home_page.dart';
-import 'package:gym_project/screens/admin/nutritionist_sessions/nutritionist_sessions_list.dart';
-import 'package:gym_project/screens/admin/users/users_list.dart';
+import 'package:gym_project/screens/admin/users/edit_user.dart';
 import 'package:gym_project/widget/drawer.dart';
 import 'branches/branches_list.dart';
 import 'equipment/equipment_list.dart';
@@ -39,7 +36,7 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
       'title': 'Class',
     },
     {
-      'page': FormTemplate(),
+      'page': EditUserForm(),
       'title': 'Homepage',
     },
   ];
@@ -97,25 +94,6 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
         unselectedItemColor: Color(0xFFFFCE2B).withAlpha(100),
         onTap: _onItemTapped,
       ),
-      ////navigation bar code begins here
-      //     bottomNavigationBar: MotionTabBar(
-      //         labels: [
-      //           "classes", "sessions","AdminUtil","member","invent"
-      //         ],
-      //         initialSelectedTab: "AdminUtil",
-      //         tabIconColor: Colors.black,
-      //         tabSelectedColor: Color(0xFFFFCE2B),
-      //         onTabItemSelected: (int value){
-      //              setState(() {
-      //                 _tabController.index = value;
-      //              });
-      //         },
-      //         icons: [
-      //           Icons.account_box,Icons.menu,Icons.home,Icons.menu,Icons.question_answer
-      //         ],
-      //         textStyle: TextStyle(color: Colors.black),
-      // ),
-      /////////////////////////////////////////////////////////
     );
   }
 }
