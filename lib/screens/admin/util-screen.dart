@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/screens/admin/classes/class_details.dart';
+import 'package:gym_project/screens/admin/users/user_details.dart';
 import 'package:gym_project/screens/common/FormTemplate.dart';
+import 'package:gym_project/screens/common/ProfilePage.dart';
 import 'package:gym_project/screens/common/grid_view.dart';
 import 'package:gym_project/screens/admin/classes/classes_list.dart';
 import 'package:gym_project/screens/admin/admin_home_page.dart';
 import 'package:gym_project/screens/admin/nutritionist_sessions/nutritionist_sessions_list.dart';
 import 'package:gym_project/screens/admin/users/users_list.dart';
 import 'package:gym_project/widget/drawer.dart';
+import 'branches/branch_details.dart';
 import 'branches/branches_list.dart';
+import 'equipment/equipment_details.dart';
 import 'equipment/equipment_list.dart';
 
 class AdminUtil extends StatefulWidget {
@@ -23,7 +27,7 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
 
   final _pages = [
     {
-      'page': AdminHomePage(),
+      'page': UserDetails(),
       'title': 'Homepage',
     },
     {
@@ -35,8 +39,8 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
       'title': 'Branches',
     },
     {
-      'page': ClassDetails(),
-      'title': 'Class',
+      'page': BranchDetails(),
+      'title': 'Branch',
     },
     {
       'page': FormTemplate(),
@@ -85,7 +89,7 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.class_),
-            label: 'Class',
+            label: 'Branch',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.view_list),

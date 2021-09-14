@@ -51,6 +51,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/images/OIP.jfif
+    - assets/images/branch.jfif
     - assets/images/Boxing.jfif
     - assets/images/branch.png
     - assets/images/login.png
