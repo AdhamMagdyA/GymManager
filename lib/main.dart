@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gym_project/screens/coach/coach-home-screen.dart';
 import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
 import 'package:gym_project/screens/common/grid_view.dart';
 import 'package:gym_project/screens/common/login-screen.dart';

@@ -81,109 +81,144 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
 
   void getFinalSelectedItems() {
     for (Map<int, int> selectedItem in _numberOfSelectedInstances) {
-      print(selectedItem);
+      // print(selectedItem);
       selectedItem.forEach((key, value) {
-        print(sets[key]);
+        // print(sets[key]);
         finalSelectedItems[key] = {
           ...sets[key],
           'value': value,
         };
       });
     }
-    print(finalSelectedItems);
+    // print(finalSelectedItems);
   }
 
   int number = 0;
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     return Container(
       color: Colors.black,
       padding: EdgeInsetsDirectional.all(10),
-      child: Stack(children: [
-        ListView(
-          children: [
-            Material(
-                elevation: 5.0,
-                borderRadius: BorderRadius.all(Radius.circular(30)),
-                child: TextField(
-                  controller: TextEditingController(text: 'Search...'),
-                  cursorColor: Theme.of(context).primaryColor,
-                  style: TextStyle(color: Colors.black, fontSize: 18),
-                  decoration: InputDecoration(
-                      suffixIcon: Material(
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                        child: Icon(Icons.search),
+      child: Stack(
+        children: [
+          Material(
+            color: Colors.black,
+            child: ListView(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 60),
+                  child: Material(
+                      elevation: 5.0,
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                      child: TextField(
+                        controller: TextEditingController(text: 'Search...'),
+                        cursorColor: Theme.of(context).primaryColor,
+                        style: TextStyle(color: Colors.black, fontSize: 18),
+                        decoration: InputDecoration(
+                            suffixIcon: Material(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30)),
+                              child: Icon(Icons.search),
+                            ),
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 25, vertical: 13)),
+                      )),
+                ),
+                SizedBox(height: 20),
+                if (_selectionMode)
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Selected ${_numberOfSelectedInstances.length} of ${sets.length}',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
                       ),
-                      border: InputBorder.none,
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
-                )),
-            SizedBox(height: 20),
-            if (_selectionMode)
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Expanded(
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Selected ${_numberOfSelectedInstances.length} of ${sets.length}',
-                        style: TextStyle(color: Colors.white),
-                      ),
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _selectionMode = false;
+                            _numberOfSelectedInstances.clear();
+                          });
+                        },
+                        icon: Icon(
+                          Icons.close,
+                          color: Colors.white,
+                        ),
+                      )
+                    ],
+                  ),
+                ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: sets.length,
+                    itemBuilder: (ctx, index) {
+                      return SetsListTile(
+                        sets[index]['title'],
+                        [sets[index]['description'], 'sub 2', 'sub 3'],
+                        index,
+                        _selectionMode,
+                        setSelectionMode,
+                        incrementItem,
+                        decrementItem,
+                        selectedItemsNumber,
+                        isSelected,
+                        'https://images.app.goo.gl/oSJrrxJh1LGFiope9',
+                      );
+                    }),
+              ],
+            ),
+          ),
+          if (_selectionMode)
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: ElevatedButton(
+                  child: Text('Submit'),
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.amber,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      )),
+                  onPressed: () {
+                    getFinalSelectedItems();
+                    Navigator.pop(context, finalSelectedItems);
+                  }),
+            ),
+          Padding(
+            padding: EdgeInsets.only(
+              top: 10,
+              left: 10,
+            ),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Container(
+                  height: 42,
+                  width: 42,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: Colors.black,
                     ),
                   ),
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _selectionMode = false;
-                        _numberOfSelectedInstances.clear();
-                      });
-                    },
-                    icon: Icon(
-                      Icons.close,
-                      color: Colors.white,
-                    ),
-                  )
-                ],
+                ),
               ),
-            ListView.builder(
-                shrinkWrap: true,
-                itemCount: sets.length,
-                itemBuilder: (ctx, index) {
-                  return SetsListTile(
-                    sets[index]['title'],
-                    [sets[index]['description'], 'sub 2', 'sub 3'],
-                    index,
-                    _selectionMode,
-                    setSelectionMode,
-                    incrementItem,
-                    decrementItem,
-                    selectedItemsNumber,
-                    isSelected,
-                    'https://images.app.goo.gl/oSJrrxJh1LGFiope9',
-                  );
-                }),
-          ],
-        ),
-        if (_selectionMode)
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: ElevatedButton(
-                child: Text('Submit'),
-                style: ElevatedButton.styleFrom(
-                    primary: Colors.amber,
-                    fixedSize: Size.fromWidth(width),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    )),
-                onPressed: () {
-                  getFinalSelectedItems();
-                  // Navigator.pop(context, finalSelectedItems);
-                }),
+            ),
           ),
-      ]),
+        ],
+      ),
     );
   }
 }

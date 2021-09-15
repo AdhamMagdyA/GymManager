@@ -60,6 +60,7 @@ class ExercisesScreenState extends State<ExercisesScreen> {
 
   bool _selectionMode = false;
   List<Map<int, int>> _numberOfSelectedInstances = [];
+  Map<int, Object> finalSelectedItems = {};
 
   void setSelectionMode(bool value) {
     setState(() {
@@ -107,6 +108,21 @@ class ExercisesScreenState extends State<ExercisesScreen> {
     return _numberOfSelectedInstances.any((map) => map.containsKey(index));
   }
 
+  void getFinalSelectedItems() {
+    for (Map<int, int> selectedItem in _numberOfSelectedInstances) {
+      // print(selectedItem);
+      selectedItem.forEach((key, value) {
+        // print(sets[key]);
+        finalSelectedItems[key] = {
+          ..._exercises[key],
+          'value': value,
+        };
+      });
+    }
+    print(finalSelectedItems);
+    // print(finalSelectedItems);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -144,13 +160,54 @@ class ExercisesScreenState extends State<ExercisesScreen> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(
-                        "Exercises",
-                        style: TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.w800,
-                          color: Colors.white,
-                        ),
+                      Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                              top: 10,
+                              left: 10,
+                            ),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Align(
+                                alignment: Alignment.topLeft,
+                                child: Container(
+                                  height: 42,
+                                  width: 42,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.arrow_back,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              top: 10,
+                              left: 10,
+                            ),
+                            child: Text(
+                              "Exercises",
+                              style: TextStyle(
+                                fontSize: 40,
+                                fontWeight: FontWeight.w800,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       SizedBox(height: 40),
                       Material(
@@ -241,6 +298,21 @@ class ExercisesScreenState extends State<ExercisesScreen> {
               ),
             ],
           ),
+          if (_selectionMode)
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: ElevatedButton(
+                  child: Text('Submit'),
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.amber,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      )),
+                  onPressed: () {
+                    getFinalSelectedItems();
+                    Navigator.pop(context, finalSelectedItems);
+                  }),
+            ),
         ],
       ),
     ));

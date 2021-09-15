@@ -193,8 +193,16 @@ class ExerciseDetailsScreen extends StatelessWidget {
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
                       children: <Widget>[
-                        GridViewCard(_equipment['picture'], _equipment['name'],
-                            '', '', '', '')
+                        GestureDetector(
+                          onTap: () {
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => EquipmentDetails()));
+                          },
+                          child: GridViewCard(_equipment['picture'],
+                              _equipment['name'], '', '', '', ''),
+                        )
                       ],
                     ),
                   ),
