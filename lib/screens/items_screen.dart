@@ -219,7 +219,7 @@ class ItemsScreenState extends State<ItemsScreen> {
                   crossAxisCount: 2,
                   mainAxisSpacing: 10,
                   crossAxisSpacing: 10,
-                  childAspectRatio: 0.8,
+                  childAspectRatio: 0.7,
                   children: _items
                       .asMap()
                       .entries
@@ -286,11 +286,11 @@ class MyChoosingGridViewCard extends StatefulWidget {
 class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
   Color mapLevelToColor(String level) {
     if (level == 'red') {
-      return Colors.red;
+      return Colors.red.shade800;
     } else if (level == 'yellow') {
-      return Colors.yellow;
+      return Colors.yellow.shade700;
     } else if (level == 'green') {
-      return Colors.green;
+      return Colors.green.shade800;
     }
     return Colors.transparent;
   }
@@ -361,7 +361,6 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
               child: Container(
                 padding: EdgeInsets.all(3),
                 decoration: BoxDecoration(
-                  color: mapLevelToColor(widget.level).withOpacity(0.5),
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(30),
                     bottomRight: Radius.circular(30),
@@ -398,6 +397,30 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
                             color: Colors.black,
                           ),
                         ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: RichText(
+                            softWrap: false,
+                            text: TextSpan(
+                              text: 'Level: ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
+                                color: Colors.black,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: widget.level,
+                                  style: TextStyle(
+                                    color: mapLevelToColor(widget.level),
+                                  ),
+                                )
+                              ],
+                            )),
                       ),
                     ),
                     SizedBox(
