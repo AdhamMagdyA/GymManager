@@ -13,6 +13,10 @@ import 'branches/branch_details.dart';
 import 'branches/branches_list.dart';
 import 'equipment/equipment_details.dart';
 import 'equipment/equipment_list.dart';
+import 'memberships/membership_details.dart';
+import 'memberships/memberships_list.dart';
+import 'nutritionist_sessions/nutritionist_sessions_list.dart';
+import 'others.dart';
 
 class AdminUtil extends StatefulWidget {
   const AdminUtil({Key key}) : super(key: key);
@@ -27,11 +31,11 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
 
   final _pages = [
     {
-      'page': UserDetails(),
+      'page': MembershipsList(),
       'title': 'Homepage',
     },
     {
-      'page': EquipmentList(),
+      'page': UserDetails(),
       'title': 'Equipment',
     },
     {
@@ -43,8 +47,8 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
       'title': 'Branch',
     },
     {
-      'page': EditUserForm(),
-      'title': 'Homepage',
+      'page': Others(),
+      'title': 'Ohters',
     },
   ];
   @override

@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/common/my_list_tile_without_counter.dart';
 
-class NutritionistSessionsList extends StatefulWidget {
-  final String title = 'Keto Diet Session';
-  final String subtitle1 = 'Nutritionist: mohamed';
-  final String subtitle2 = '12Dec, 2020';
-  final String subtitle3 = '60 L.E.';
+class MembershipsList extends StatefulWidget {
+  final String title = 'Gold Membership';
+  final String subtitle1 = '30 Classes';
+  final String subtitle2 = '\$50';
+  final String subtitle3 = '1 month';
+
+  MembershipsList();
 
   @override
-  _NutritionistSessionsListState createState() =>
-      _NutritionistSessionsListState();
+  _MembershipsListState createState() => _MembershipsListState();
 }
 
-class _NutritionistSessionsListState extends State<NutritionistSessionsList> {
+class _MembershipsListState extends State<MembershipsList> {
   final length = 12;
 
   int number = 0;
@@ -48,7 +49,7 @@ class _NutritionistSessionsListState extends State<NutritionistSessionsList> {
                 itemCount: length,
                 itemBuilder: (ctx, index) {
                   return CustomListTileWithoutCounter(
-                      'assets/images/branch.png',
+                      'assets/images/membership.png',
                       widget.title,
                       widget.subtitle1,
                       widget.subtitle2,
