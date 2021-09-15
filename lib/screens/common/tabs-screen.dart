@@ -4,7 +4,6 @@ import 'package:gym_project/screens/common/login-screen.dart';
 import 'package:gym_project/widget/member_drawer.dart';
 import 'package:motion_tab_bar/MotionTabController.dart';
 
-
 class Home extends StatefulWidget {
   const Home({Key key}) : super(key: key);
 
