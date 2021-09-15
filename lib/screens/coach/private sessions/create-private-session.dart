@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gym_project/screens/coach/view-sets.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class CreatePrivateSessionForm extends StatefulWidget {
   @override
@@ -16,10 +17,15 @@ class MapScreenState extends State<CreatePrivateSessionForm>
     with SingleTickerProviderStateMixin {
   bool _status = true;
   final FocusNode myFocusNode = FocusNode();
-
+  DateTime confirmedDateTime;
+  bool dateTimeStatus = false;
   @override
   void initState() {
     super.initState();
+  }
+
+  refresh() {
+    setState(() {});
   }
 
   @override
@@ -49,7 +55,7 @@ class MapScreenState extends State<CreatePrivateSessionForm>
                               Padding(
                                 padding: EdgeInsets.only(left: 25.0),
                                 //-->header
-                                child: new Text('Create Set',
+                                child: new Text('Create Private Session',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20.0,
@@ -91,7 +97,7 @@ class MapScreenState extends State<CreatePrivateSessionForm>
                                   children: <Widget>[
                                     new Text(
                                       //---> topic
-                                      'Set Information',
+                                      'Private Session Info',
                                       style: TextStyle(
                                         fontSize: 18.0,
                                         fontWeight: FontWeight.bold,
@@ -267,13 +273,50 @@ class MapScreenState extends State<CreatePrivateSessionForm>
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
-                                    new Text(
-                                      'Date & Time',
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
+                                    Row(
+                                      children: [
+                                        new Text(
+                                          'Date & Time',
+                                          style: TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        GestureDetector(
+                                          child: Icon(
+                                            Icons.calendar_today_outlined,
+                                            color: Colors.black,
+                                          ),
+                                          onTap: () {
+                                            //take to calendar
+                                            print('I was tapped!');
+                                            DatePicker.showDateTimePicker(
+                                              context,
+                                              showTitleActions: true,
+                                              minTime: DateTime(2020, 3, 5),
+                                              maxTime: DateTime(2022, 12, 30),
+                                              onChanged: (dateTime) {
+                                                print('change $dateTime');
+                                              },
+                                              onConfirm: (dateTime) {
+                                                print('confirm $dateTime');
+                                                setState(() {
+                                                  confirmedDateTime = dateTime;
+                                                  dateTimeStatus = true;
+                                                  print(dateTimeStatus);
+                                                  refresh();
+                                                });
+                                              },
+                                              currentTime: DateTime.now(),
+                                              locale: LocaleType.en,
+                                            );
+                                          },
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -285,13 +328,14 @@ class MapScreenState extends State<CreatePrivateSessionForm>
                           child: new Row(
                             mainAxisSize: MainAxisSize.max,
                             children: <Widget>[
-                              new Flexible(
-                                child: new TextField(
-                                  decoration: const InputDecoration(
-                                    hintText: "Enter Date & Time",
-                                  ),
-                                ),
-                              ),
+                              dateTimeStatus
+                                  ? new Flexible(
+                                      child: new Text(
+                                          confirmedDateTime.toString()),
+                                    )
+                                  : SizedBox(
+                                      height: 1,
+                                    ),
                             ],
                           ),
                         ),
@@ -304,23 +348,24 @@ class MapScreenState extends State<CreatePrivateSessionForm>
                             children: <Widget>[
                               Expanded(
                                 child: Padding(
-                                  padding: EdgeInsets.only(right: 20.0),
+                                  padding: EdgeInsets.only(right: 0),
                                   child: Container(
                                       child: new ElevatedButton(
                                     child: new Text("Create"),
                                     style: ElevatedButton.styleFrom(
-                                        shape: new RoundedRectangleBorder(
-                                          borderRadius:
-                                              new BorderRadius.circular(10.0),
-                                        ),
-                                        primary: Color(0xFFFFCE2B),
-                                        onPrimary: Colors.black,
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 5),
-                                        textStyle: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
-                                        )),
+                                      shape: new RoundedRectangleBorder(
+                                        borderRadius:
+                                            new BorderRadius.circular(10.0),
+                                      ),
+                                      primary: Color(0xFFFFCE2B),
+                                      onPrimary: Colors.white,
+                                      // padding: EdgeInsets.symmetric(
+                                      //     horizontal: 10, vertical: 5),
+                                      textStyle: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
                                     onPressed: () {
                                       setState(() {
                                         _status = true;

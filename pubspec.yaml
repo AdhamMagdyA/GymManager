@@ -36,6 +36,7 @@ dependencies:
   cached_network_image: ^3.1.0
   flutter_custom_clippers: ^2.0.0
   backdrop: ^0.6.2
+  flutter_datetime_picker: ^1.5.1
 
 dev_dependencies:
   flutter_test:
