@@ -7,6 +7,8 @@ import 'package:gym_project/screens/common/ProfilePage.dart';
 import 'package:gym_project/screens/common/grid_view.dart';
 import 'package:gym_project/screens/admin/classes/classes_list.dart';
 import 'package:gym_project/screens/admin/admin_home_page.dart';
+import 'package:gym_project/screens/admin/classes/create_class.dart';
+import 'package:gym_project/screens/admin/equipment/create_equipment.dart';
 import 'package:gym_project/screens/admin/users/edit_user.dart';
 import 'package:gym_project/widget/drawer.dart';
 import 'branches/branch_details.dart';

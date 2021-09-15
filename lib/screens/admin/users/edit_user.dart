@@ -511,7 +511,7 @@ class _EditUserFormState extends State<EditUserForm>
         CircleAvatar(
           radius: 80.0,
           backgroundImage: _imageFile == null
-              ? AssetImage("assets/profile.jpeg")
+              ? AssetImage("assets/user_icon.png")
               : FileImage(File(_imageFile.path)),
         ),
         Positioned(
