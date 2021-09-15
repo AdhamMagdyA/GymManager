@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/main.dart';
+import 'package:gym_project/screens/Events/event-form.dart';
 import 'package:gym_project/screens/Events/events-list.dart';
 import 'package:gym_project/screens/Events/events-tile.dart';
+import 'package:gym_project/screens/Feedbacks/feedback-form.dart';
+import 'package:gym_project/screens/Invitations/invitation-form.dart';
+import 'package:gym_project/screens/Invitations/invitation-list.dart';
 import 'package:gym_project/screens/Supplements/supplement-details.dart';
+import 'package:gym_project/screens/Supplements/supplement-form.dart';
 import 'package:gym_project/screens/Supplements/supplement-grid-view.dart';
 import 'package:gym_project/screens/common/grid_view.dart';
 import 'package:gym_project/screens/admin/admin_home_page.dart';
@@ -24,8 +30,8 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
 
   final _pages = [
     {
-      'page': AdminHomePage(),
-      'title': 'Homepage',
+      'page': InvitationList(),
+      'title': 'Invitations',
     },
     {
       'page': EquipmentList(),
@@ -36,11 +42,11 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
       'title': 'Branches',
     },
     {
-      'page': EventListView(),
+      'page': EventForm(),
       'title': 'Events',
     },
     {
-      'page': SupplementList(),
+      'page': SupplementForm(),
       'title': 'Supplements',
     },
   ];
