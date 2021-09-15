@@ -12,8 +12,17 @@ class _BranchDetailsState extends State<BranchDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Container(
+        child: FloatingActionButton.extended(
+          onPressed: () {},
+          isExtended: false,
+          label: Icon(Icons.edit),
+        ),
+        height: MediaQuery.of(context).size.height * 0.075,
+        width: MediaQuery.of(context).size.width * 0.1,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       backgroundColor: Colors.black,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[

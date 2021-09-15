@@ -21,6 +21,16 @@ class _MembershipsListState extends State<MembershipsList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Container(
+        child: FloatingActionButton.extended(
+          onPressed: () {},
+          isExtended: false,
+          label: Icon(Icons.add),
+        ),
+        height: MediaQuery.of(context).size.height * 0.075,
+        width: MediaQuery.of(context).size.width * 0.1,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       body: Container(
         color: Colors.black,
         padding: EdgeInsetsDirectional.all(10),
