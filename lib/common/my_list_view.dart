@@ -61,8 +61,8 @@ class _MyListViewState extends State<MyListView> {
               shrinkWrap: true,
               itemCount: users.length,
               itemBuilder: (ctx, index) {
-                return CustomListTile(widget.title, widget.subtitle1,
-                    widget.subtitle2, widget.subtitle3);
+                return CustomListTile(
+                    widget.title, ['sub 1', 'sub 2', 'sub 3']);
               }),
         ],
       ),

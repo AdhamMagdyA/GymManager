@@ -16,9 +16,24 @@ Widget GridViewCard(image, title, subTitle1, subTitle2, subTitle3, subTitle4) {
     ),
     child: Center(
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Image(image: AssetImage(image)),
+          Container(
+            width: double.infinity,
+            height: 80,
+            padding: EdgeInsets.all(0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(30),
+                topLeft: Radius.circular(30),
+              ),
+              child: Image.network(
+                image,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
           SizedBox(
             height: 5,
           ),
@@ -28,30 +43,20 @@ Widget GridViewCard(image, title, subTitle1, subTitle2, subTitle3, subTitle4) {
                 fontSize: 18,
                 color: Colors.black,
               )),
-          Text(subTitle1,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-                color: Colors.black,
-              )),
-          Text(subTitle2,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-                color: Colors.black,
-              )),
-          Text(subTitle3,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-                color: Colors.black,
-              )),
-          Text(subTitle4,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-                color: Colors.black,
-              )),
+          if (subTitle1 != '')
+            Text(subTitle1,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                  color: Colors.black,
+                )),
+          if (subTitle2 != '')
+            Text(subTitle2,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                  color: Colors.black,
+                )),
         ],
       ),
     ),
