@@ -21,6 +21,31 @@ class MealsViewScreen extends StatefulWidget {
       'title': 'Koshary',
       'description': 'well....an atomic bomb that tastes good',
       'calories': '1000000'
+    },
+    {
+      'title': 'Koshary',
+      'description': 'well....an atomic bomb that tastes good',
+      'calories': '1000000'
+    },
+    {
+      'title': 'Koshary',
+      'description': 'well....an atomic bomb that tastes good',
+      'calories': '1000000'
+    },
+    {
+      'title': 'Koshary',
+      'description': 'well....an atomic bomb that tastes good',
+      'calories': '1000000'
+    },
+    {
+      'title': 'Koshary',
+      'description': 'well....an atomic bomb that tastes good',
+      'calories': '1000000'
+    },
+    {
+      'title': 'Koshary',
+      'description': 'well....an atomic bomb that tastes good',
+      'calories': '1000000'
     }
   ];
 }
@@ -33,44 +58,68 @@ class _MealsViewScreenState extends State<MealsViewScreen> {
       padding: EdgeInsetsDirectional.all(10),
       child: Stack(
         children: [
-          ListView(
-            children: [
-              Material(
-                  elevation: 5.0,
-                  borderRadius: BorderRadius.all(Radius.circular(30)),
-                  child: TextField(
-                    controller: TextEditingController(text: 'Search...'),
-                    cursorColor: Theme.of(context).primaryColor,
-                    style: TextStyle(color: Colors.black, fontSize: 18),
-                    decoration: InputDecoration(
-                        suffixIcon: Material(
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                          child: Icon(Icons.search),
-                        ),
-                        border: InputBorder.none,
-                        contentPadding:
-                            EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
-                  )),
-              SizedBox(height: 20),
-              ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: widget.meals.length,
-                  itemBuilder: (ctx, index) {
-                    return myListTile(
-                        widget.meals[index]['title'],
-                        'Description: ' + widget.meals[index]['description'],
-                        'Calories: ' + widget.meals[index]['calories'],
-                        index);
-                  }),
-            ],
+          Material(
+              elevation: 5.0,
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+              child: TextField(
+                controller: TextEditingController(text: 'Search...'),
+                cursorColor: Theme.of(context).primaryColor,
+                style: TextStyle(color: Colors.black, fontSize: 18),
+                decoration: InputDecoration(
+                    suffixIcon: Material(
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                      child: Icon(Icons.search),
+                    ),
+                    border: InputBorder.none,
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
+              )),
+          Container(
+            margin: EdgeInsets.only(top: 80),
+            child: ListView(
+              children: [
+                ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: widget.meals.length,
+                    itemBuilder: (ctx, index) {
+                      return myListTile(
+                          widget.meals[index]['title'],
+                          'Description: ' + widget.meals[index]['description'],
+                          'Calories: ' + widget.meals[index]['calories'],
+                          index);
+                    }),
+              ],
+            ),
           ),
           if (MealsViewScreen.whoIsSelected != -1)
-            Align(
-              alignment: AlignmentDirectional.bottomCenter,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(primary: Color(0xFFFFCE2B)),
-                child: Text('Submit'),
-                onPressed: () {},
+            Container(
+              margin: EdgeInsets.only(bottom: 20),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Row(
+                  children: [
+                    ElevatedButton(
+                      style:
+                          ElevatedButton.styleFrom(primary: Color(0xFFFFCE2B)),
+                      child: Text('Submit'),
+                      onPressed: () {},
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    ElevatedButton(
+                      style:
+                          ElevatedButton.styleFrom(primary: Color(0xFFFFCE2B)),
+                      child: Text('Cancel'),
+                      onPressed: () {
+                        setState(() {
+                          MealsViewScreen.whoIsSelected = -1;
+                        });
+                      },
+                    ),
+                  ],
+                  mainAxisSize: MainAxisSize.min,
+                ),
               ),
             ),
         ],
