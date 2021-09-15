@@ -1,56 +1,51 @@
 import 'package:flutter/material.dart';
 
-class MealsViewScreen extends StatefulWidget {
+class PlansViewScreen extends StatefulWidget {
   @override
-  _MealsViewScreenState createState() => _MealsViewScreenState();
+  _PlansViewScreenState createState() => _PlansViewScreenState();
 
   static int whoIsSelected = -1;
 
-  final List<dynamic> meals = [
+  final List<dynamic> plans = [
     {
-      'title': 'Chicken wings',
-      'description': 'Two pieces of tasty chicken wings!',
-      'calories': '423'
+      'title': 'Five Every Five',
+      'description': 'You lose five Kgs every five weeks!',
+      'duration': '5 weeks'
     },
     {
-      'title': 'Steak',
-      'description': 'A very elegant piece of steak!',
-      'calories': '9000'
+      'title': 'Keto',
+      'description': 'Just your normal Keto diet, simple right?',
+      'duration': '6 months'
     },
     {
-      'title': 'Koshary',
-      'description': 'well....an atomic bomb that tastes good',
-      'calories': '1000000'
+      'title': 'No Carbos',
+      'description': 'Eat whatever you want, just no carbohydrates :D',
+      'duration': '1 year'
     },
     {
-      'title': 'Koshary',
-      'description': 'well....an atomic bomb that tastes good',
-      'calories': '1000000'
+      'title': 'Very Nice Diet Plan',
+      'description': 'you eat less carbos and eat more protein, simple?',
+      'duration': '2 years'
     },
     {
-      'title': 'Koshary',
-      'description': 'well....an atomic bomb that tastes good',
-      'calories': '1000000'
+      'title': 'No Carbos V2',
+      'description': 'Eat whatever you want, just no carbohydrates :D',
+      'duration': '3 months'
     },
     {
-      'title': 'Koshary',
-      'description': 'well....an atomic bomb that tastes good',
-      'calories': '1000000'
+      'title': 'Very Nice Diet Plan V2',
+      'description': 'you eat less carbos and eat more protein, simple?',
+      'duration': '5 months'
     },
     {
-      'title': 'Koshary',
-      'description': 'well....an atomic bomb that tastes good',
-      'calories': '1000000'
-    },
-    {
-      'title': 'Koshary',
-      'description': 'well....an atomic bomb that tastes good',
-      'calories': '1000000'
+      'title': 'No Carbos',
+      'description': 'Eat whatever you want, just no carbohydrates :D',
+      'duration': '8 months'
     }
   ];
 }
 
-class _MealsViewScreenState extends State<MealsViewScreen> {
+class _PlansViewScreenState extends State<PlansViewScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -80,18 +75,18 @@ class _MealsViewScreenState extends State<MealsViewScreen> {
               children: [
                 ListView.builder(
                     shrinkWrap: true,
-                    itemCount: widget.meals.length,
+                    itemCount: widget.plans.length,
                     itemBuilder: (ctx, index) {
                       return myListTile(
-                          widget.meals[index]['title'],
-                          'Description: ' + widget.meals[index]['description'],
-                          'Calories: ' + widget.meals[index]['calories'],
+                          widget.plans[index]['title'],
+                          'Description: ' + widget.plans[index]['description'],
+                          'Duration: ' + widget.plans[index]['duration'],
                           index);
                     }),
               ],
             ),
           ),
-          if (MealsViewScreen.whoIsSelected != -1)
+          if (PlansViewScreen.whoIsSelected != -1)
             Container(
               margin: EdgeInsets.only(bottom: 20),
               child: Align(
@@ -113,7 +108,7 @@ class _MealsViewScreenState extends State<MealsViewScreen> {
                       child: Text('Cancel'),
                       onPressed: () {
                         setState(() {
-                          MealsViewScreen.whoIsSelected = -1;
+                          PlansViewScreen.whoIsSelected = -1;
                         });
                       },
                     ),
@@ -128,11 +123,11 @@ class _MealsViewScreenState extends State<MealsViewScreen> {
   }
 
   Widget myListTile(
-      String title, String description, String calories, int index) {
+      String title, String description, String duration, int index) {
     return Container(
       margin: EdgeInsetsDirectional.only(bottom: 10),
       decoration: BoxDecoration(
-        color: MealsViewScreen.whoIsSelected == index
+        color: PlansViewScreen.whoIsSelected == index
             ? Colors.white24
             : Color(0xff181818),
         borderRadius: BorderRadius.circular(16),
@@ -140,14 +135,14 @@ class _MealsViewScreenState extends State<MealsViewScreen> {
       child: ListTile(
         onTap: () {
           setState(() {
-            MealsViewScreen.whoIsSelected = index;
+            PlansViewScreen.whoIsSelected = index;
           });
         },
-        selected: MealsViewScreen.whoIsSelected == index,
+        selected: PlansViewScreen.whoIsSelected == index,
         minVerticalPadding: 10,
         leading: CircleAvatar(
           radius: 20,
-          child: Icon(Icons.food_bank),
+          child: Icon(Icons.note),
         ),
         title: Text(
           title,
@@ -162,7 +157,7 @@ class _MealsViewScreenState extends State<MealsViewScreen> {
               style: TextStyle(color: Colors.white24),
             ),
             Text(
-              calories,
+              duration,
               style: TextStyle(color: Colors.white24),
             ),
           ],

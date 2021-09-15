@@ -3,6 +3,7 @@ import 'package:gym_project/screens/common/grid_view.dart';
 import 'package:gym_project/screens/admin/admin_home_page.dart';
 import 'package:gym_project/screens/nutritionist/fitness-summaries.dart';
 import 'package:gym_project/screens/nutritionist/meals-screen.dart';
+import 'package:gym_project/screens/nutritionist/plans-screen.dart';
 import 'package:gym_project/widget/drawer.dart';
 import 'package:motion_tab_bar/MotionTabController.dart';
 
@@ -23,8 +24,8 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
       'title': 'Homepage',
     },
     {
-      'page': GridViewScreen(),
-      'title': 'Equipment',
+      'page': PlansViewScreen(),
+      'title': 'Plans',
     },
     {
       'page': FitnessSummariesScreen(),
@@ -68,15 +69,15 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
+            icon: Icon(Icons.timeline),
+            label: 'Plans',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
+            icon: Icon(Icons.book),
             label: 'Fitness Summaries',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
+            icon: Icon(Icons.food_bank),
             label: 'Meals',
           ),
         ],
