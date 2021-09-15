@@ -7,6 +7,9 @@ class TrainingModeExerciseScreen extends StatefulWidget {
   final Duration duration;
   final int reps;
   final String gif;
+  final int index;
+  final int total;
+  final Function finishExercise;
 
   const TrainingModeExerciseScreen({
     Key key,
@@ -14,6 +17,9 @@ class TrainingModeExerciseScreen extends StatefulWidget {
     @required this.duration,
     @required this.reps,
     @required this.gif,
+    @required this.index,
+    @required this.total,
+    @required this.finishExercise,
   }) : super(key: key);
 
   @override
@@ -23,9 +29,10 @@ class TrainingModeExerciseScreen extends StatefulWidget {
 
 class _TrainingModeExerciseScreenState
     extends State<TrainingModeExerciseScreen> {
+  bool _counterStarted = false;
   bool _counterFinished = false;
-  bool _startCounting = false;
-  Duration duration;
+  Duration _duration;
+  Timer _timer;
 
   String printDuration(Duration duration) {
     String twoDigits(int n) => n.toString().padLeft(2, "0");
@@ -37,16 +44,13 @@ class _TrainingModeExerciseScreenState
   @override
   void initState() {
     super.initState();
-    duration = widget.duration;
-    Timer(widget.duration, () {
-      setState(() => _counterFinished = true);
-    });
+    _duration = widget.duration;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
+      appBar: AppBar(title: Text('Training Mode - Exercises')),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Stack(
@@ -74,13 +78,29 @@ class _TrainingModeExerciseScreenState
                       color: Colors.black.withOpacity(0.4),
                       borderRadius: BorderRadius.circular(100),
                     ),
-                    child: Text(
-                      'Exercise Name',
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    child: Row(
+                      children: [
+                        Text(
+                          widget.title,
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(width: 20),
+                        Chip(
+                          label: Text(
+                            '${widget.index + 1} / ${widget.total}',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          backgroundColor: Theme.of(context).primaryColor,
+                          visualDensity: VisualDensity(
+                            horizontal: -4,
+                            vertical: -4,
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 ),
@@ -95,24 +115,48 @@ class _TrainingModeExerciseScreenState
                   color: Colors.black.withOpacity(0.4),
                   borderRadius: BorderRadius.circular(100),
                 ),
-                child: TextButton(
-                  onPressed: () {
-                    setState(() => _startCounting = true);
+                child: widget.reps != null || _counterFinished
+                    ? TextButton(
+                        onPressed: () {
+                          widget.finishExercise();
+                        },
+                        child: Text(
+                          'Finish',
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 22,
+                          ),
+                        ))
+                    : !_counterStarted
+                        ? TextButton(
+                            onPressed: () {
+                          setState(() => _counterStarted = true);
+                              _timer =
+                                  Timer.periodic(Duration(seconds: 1), (timer) {
+                                if (!_counterFinished) {
+                                  setState(() {
+                                    _duration = Duration(
+                                        seconds: _duration.inSeconds - 1);
+                                  });
+                                }
+                                if (_duration.inSeconds == 0) {
+                                  setState(() => _counterFinished = true);
+                                  timer.cancel();
+                                }
+                              });
                   },
-                  child: Text('Start'),
-                ),
+                  child: Text(
+                              'Start',
+                              style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                                fontSize: 22,
+                              ),
+                        ),
+                          )
+                        : null,
               ),
             ),
-            StatefulBuilder(
-              builder: (context, setTextState) {
-                if (_startCounting && duration.inSeconds != 0) {
-                  Timer(Duration(seconds: 1), () {
-                    setTextState(() {
-                      duration = Duration(seconds: duration.inSeconds - 1);
-                    });
-                  });
-                }
-                return Positioned(
+            Positioned(
                   bottom: 0,
                   right: 0,
                   child: Container(
@@ -122,16 +166,16 @@ class _TrainingModeExerciseScreenState
                       borderRadius: BorderRadius.circular(100),
                     ),
                     child: Text(
-                    'Time Left: ${printDuration(duration)} / ${printDuration(widget.duration)}',
+                    widget.reps != null
+                      ? 'Reps: ${widget.reps}x'
+                      : 'Time Left: ${printDuration(_duration)} / ${printDuration(widget.duration)}',
                       style: TextStyle(
                         color: Theme.of(context).primaryColor,
                         fontSize: 18,
                       ),
                     ),
                   ),
-              );
-              },
-            )
+              )
           ],
         ),
       ),
