@@ -3,6 +3,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../exercises_screen.dart';
+
+List<Map> selectedExercises = [];
+
 class CreateSetForm extends StatefulWidget {
   @override
   MapScreenState createState() => MapScreenState();
@@ -18,6 +22,10 @@ class MapScreenState extends State<CreateSetForm>
   @override
   void initState() {
     super.initState();
+  }
+
+  refresh() {
+    setState(() {});
   }
 
   @override
@@ -200,34 +208,59 @@ class MapScreenState extends State<CreateSetForm>
                                 ),
                               ],
                             )),
+                        SizedBox(
+                          height: 10,
+                        ),
                         Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                new Flexible(
-                                  child: ElevatedButton(
-                                      child: Text('Choose Exercises'),
-                                      style: ElevatedButton.styleFrom(
-                                          primary: Colors.amber,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(16),
-                                          )),
-                                      onPressed: () async {
-                                        // var result = await Navigator.push(
-                                        //     context,
-                                        //     MaterialPageRoute(
-                                        //       builder: (context) =>
-                                        //           ViewExercisesScreen(),
-                                        //     ));
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 2.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Flexible(
+                                child: Center(
+                                    child: ElevatedButton(
+                                  child: Text('Choose Exercises'),
+                                  style: ElevatedButton.styleFrom(
+                                      primary: Colors.amber,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                      )),
+                                  onPressed: () async {
+                                    Map<int, Object> result =
+                                        await Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ExercisesScreen(),
+                                            ));
+                                    if (result != {}) {
+                                      setState(() {
+                                        // selectedSets = result;
+                                        for (var value in result.values) {
+                                          var newValue = value as Map;
+                                          selectedExercises.add(newValue);
+                                        }
 
-                                        //when we get result, display them under the button
-                                      }),
-                                ),
-                              ],
-                            )),
+                                        print('result is');
+                                        print(selectedExercises);
+                                      });
+                                    }
+                                  },
+                                )),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        if (selectedExercises != [])
+                          for (Map exercise in selectedExercises)
+                            CustomExerciseListTile(exercise, refresh),
+                        SizedBox(
+                          height: 15,
+                        ),
                         Padding(
                           padding: EdgeInsets.only(
                               left: 95.0, bottom: 0, right: 95.0, top: 50.0),
@@ -237,23 +270,24 @@ class MapScreenState extends State<CreateSetForm>
                             children: <Widget>[
                               Expanded(
                                 child: Padding(
-                                  padding: EdgeInsets.only(right: 20.0),
+                                  padding: EdgeInsets.only(right: 0),
                                   child: Container(
                                       child: new ElevatedButton(
                                     child: new Text("Create"),
                                     style: ElevatedButton.styleFrom(
-                                        shape: new RoundedRectangleBorder(
-                                          borderRadius:
-                                              new BorderRadius.circular(10.0),
-                                        ),
-                                        primary: Color(0xFFFFCE2B),
-                                        onPrimary: Colors.black,
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 5),
-                                        textStyle: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
-                                        )),
+                                      shape: new RoundedRectangleBorder(
+                                        borderRadius:
+                                            new BorderRadius.circular(10.0),
+                                      ),
+                                      primary: Color(0xFFFFCE2B),
+                                      onPrimary: Colors.white,
+                                      // padding: EdgeInsets.symmetric(
+                                      //     horizontal: 10, vertical: 5),
+                                      textStyle: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
                                     onPressed: () {
                                       setState(() {
                                         _status = true;
@@ -285,5 +319,79 @@ class MapScreenState extends State<CreateSetForm>
     // Clean up the controller when the Widget is disposed
     myFocusNode.dispose();
     super.dispose();
+  }
+}
+
+class CustomExerciseListTile extends StatefulWidget {
+  final Map exercise;
+  final Function() notifyParent;
+
+  CustomExerciseListTile(this.exercise, this.notifyParent);
+  @override
+  _CustomExerciseListTileState createState() => _CustomExerciseListTileState();
+}
+
+class _CustomExerciseListTileState extends State<CustomExerciseListTile> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsetsDirectional.only(bottom: 10),
+      decoration: BoxDecoration(
+        color: Color(0xff181818),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: ListTile(
+        minVerticalPadding: 10,
+        leading: CircleAvatar(
+          radius: 20,
+          child: FlutterLogo(),
+        ),
+        title: Text(
+          widget.exercise['title'],
+          style: TextStyle(color: Colors.white),
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Text(
+            //   widget.exercise['duration'],
+            //   style: TextStyle(
+            //     color: Colors.white,
+            //   ),
+            // ),
+            // Text(
+            //   '${widget.exercise['cal_burnt']} cal',
+            //   style: TextStyle(
+            //     color: Colors.white,
+            //   ),
+            // )
+            Text(
+              widget.exercise['coach'],
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            )
+          ],
+        ),
+        trailing: Column(
+          children: [
+            Text(widget.exercise['value'].toString()),
+            SizedBox(height: 4),
+            GestureDetector(
+              child: Icon(
+                Icons.close,
+                color: Colors.white,
+              ),
+              onTap: () {
+                selectedExercises.remove(widget.exercise);
+                print(selectedExercises);
+                widget.notifyParent();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -6,6 +6,7 @@ import 'package:gym_project/screens/coach/exercises/create-exercise.dart';
 import 'package:gym_project/screens/coach/others-screen.dart';
 import 'package:gym_project/screens/coach/members-screen.dart';
 import 'package:gym_project/screens/coach/sessions-screen.dart';
+import 'package:gym_project/screens/coach/sets/create-set.dart';
 import 'package:gym_project/screens/coach/view-booked-sessions.dart';
 import 'package:gym_project/screens/coach/view-my-private-sessions.dart';
 import 'package:gym_project/screens/common/Form-Template.dart';
@@ -31,7 +32,7 @@ class CoachTabsScreen extends StatefulWidget {
 
 class _CoachTabsScreenState extends State<CoachTabsScreen>
     with TickerProviderStateMixin {
-  int _selectedIndex = 2; // 2 => home page
+  int _selectedIndex = 3; // 2 => home page
   TabController _tabController;
   @override
   void initState() {
@@ -50,7 +51,7 @@ class _CoachTabsScreenState extends State<CoachTabsScreen>
         'title': 'Home',
       },
       {
-        'page': CreateGroupForm(),
+        'page': CreateSetForm(),
         'title': 'My members',
       },
       {
