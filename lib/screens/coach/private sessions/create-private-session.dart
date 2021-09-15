@@ -4,14 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gym_project/screens/coach/view-sets.dart';
 
-class CreateGroupForm extends StatefulWidget {
+class CreatePrivateSessionForm extends StatefulWidget {
   @override
   MapScreenState createState() => MapScreenState();
 }
 
 //you can change the form heading from line 51,93
 //you can change the form fields from lines (119 ,138 , etc ) -> each padding represent a field
-class MapScreenState extends State<CreateGroupForm>
+//
+class MapScreenState extends State<CreatePrivateSessionForm>
     with SingleTickerProviderStateMixin {
   bool _status = true;
   final FocusNode myFocusNode = FocusNode();

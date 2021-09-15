@@ -81,16 +81,16 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
 
   void getFinalSelectedItems() {
     for (Map<int, int> selectedItem in _numberOfSelectedInstances) {
-      print(selectedItem);
+      // print(selectedItem);
       selectedItem.forEach((key, value) {
-        print(sets[key]);
+        // print(sets[key]);
         finalSelectedItems[key] = {
           ...sets[key],
           'value': value,
         };
       });
     }
-    print(finalSelectedItems);
+    // print(finalSelectedItems);
   }
 
   int number = 0;
@@ -102,70 +102,73 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
       color: Colors.black,
       padding: EdgeInsetsDirectional.all(10),
       child: Stack(children: [
-        ListView(
-          children: [
-            Material(
-                elevation: 5.0,
-                borderRadius: BorderRadius.all(Radius.circular(30)),
-                child: TextField(
-                  controller: TextEditingController(text: 'Search...'),
-                  cursorColor: Theme.of(context).primaryColor,
-                  style: TextStyle(color: Colors.black, fontSize: 18),
-                  decoration: InputDecoration(
-                      suffixIcon: Material(
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                        child: Icon(Icons.search),
-                      ),
-                      border: InputBorder.none,
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
-                )),
-            SizedBox(height: 20),
-            if (_selectionMode)
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Expanded(
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Selected ${_numberOfSelectedInstances.length} of ${sets.length}',
-                        style: TextStyle(color: Colors.white),
+        Material(
+          color: Colors.black,
+          child: ListView(
+            children: [
+              Material(
+                  elevation: 5.0,
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                  child: TextField(
+                    controller: TextEditingController(text: 'Search...'),
+                    cursorColor: Theme.of(context).primaryColor,
+                    style: TextStyle(color: Colors.black, fontSize: 18),
+                    decoration: InputDecoration(
+                        suffixIcon: Material(
+                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                          child: Icon(Icons.search),
+                        ),
+                        border: InputBorder.none,
+                        contentPadding:
+                            EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
+                  )),
+              SizedBox(height: 20),
+              if (_selectionMode)
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Selected ${_numberOfSelectedInstances.length} of ${sets.length}',
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _selectionMode = false;
-                        _numberOfSelectedInstances.clear();
-                      });
-                    },
-                    icon: Icon(
-                      Icons.close,
-                      color: Colors.white,
-                    ),
-                  )
-                ],
-              ),
-            ListView.builder(
-                shrinkWrap: true,
-                itemCount: sets.length,
-                itemBuilder: (ctx, index) {
-                  return SetsListTile(
-                    sets[index]['title'],
-                    [sets[index]['description'], 'sub 2', 'sub 3'],
-                    index,
-                    _selectionMode,
-                    setSelectionMode,
-                    incrementItem,
-                    decrementItem,
-                    selectedItemsNumber,
-                    isSelected,
-                    'https://images.app.goo.gl/oSJrrxJh1LGFiope9',
-                  );
-                }),
-          ],
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _selectionMode = false;
+                          _numberOfSelectedInstances.clear();
+                        });
+                      },
+                      icon: Icon(
+                        Icons.close,
+                        color: Colors.white,
+                      ),
+                    )
+                  ],
+                ),
+              ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: sets.length,
+                  itemBuilder: (ctx, index) {
+                    return SetsListTile(
+                      sets[index]['title'],
+                      [sets[index]['description'], 'sub 2', 'sub 3'],
+                      index,
+                      _selectionMode,
+                      setSelectionMode,
+                      incrementItem,
+                      decrementItem,
+                      selectedItemsNumber,
+                      isSelected,
+                      'https://images.app.goo.gl/oSJrrxJh1LGFiope9',
+                    );
+                  }),
+            ],
+          ),
         ),
         if (_selectionMode)
           Align(
@@ -180,7 +183,7 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
                     )),
                 onPressed: () {
                   getFinalSelectedItems();
-                  // Navigator.pop(context, finalSelectedItems);
+                  Navigator.pop(context, finalSelectedItems);
                 }),
           ),
       ]),

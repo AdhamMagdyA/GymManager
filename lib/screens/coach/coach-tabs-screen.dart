@@ -20,6 +20,8 @@ import 'package:gym_project/screens/coach/view-groups.dart';
 import 'package:gym_project/screens/coach/view-sets.dart';
 import 'package:gym_project/widget/coach-drawer.dart';
 
+import 'groups/create-group.dart';
+
 class CoachTabsScreen extends StatefulWidget {
   const CoachTabsScreen({Key key}) : super(key: key);
 
@@ -48,7 +50,7 @@ class _CoachTabsScreenState extends State<CoachTabsScreen>
         'title': 'Home',
       },
       {
-        'page': CreateExerciseForm(),
+        'page': CreateGroupForm(),
         'title': 'My members',
       },
       {
