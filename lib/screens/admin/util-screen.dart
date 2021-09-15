@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/screens/admin/branches/edit_branch.dart';
 import 'package:gym_project/screens/admin/classes/class_details.dart';
+import 'package:gym_project/screens/admin/classes/edit_class.dart';
+import 'package:gym_project/screens/admin/memberships/create_membership.dart';
+import 'package:gym_project/screens/admin/memberships/edit_membership.dart';
+import 'package:gym_project/screens/admin/nutritionist_sessions/edit_nutrionist_session.dart';
 import 'package:gym_project/screens/admin/users/user_details.dart';
 import 'package:gym_project/screens/common/FormTemplate.dart';
 import 'package:gym_project/screens/common/ProfilePage.dart';
@@ -17,6 +21,7 @@ import 'equipment/equipment_details.dart';
 import 'equipment/equipment_list.dart';
 import 'memberships/membership_details.dart';
 import 'memberships/memberships_list.dart';
+import 'nutritionist_sessions/create_Nutrisionist_Session.dart';
 import 'nutritionist_sessions/nutritionist_sessions_list.dart';
 import 'others.dart';
 
@@ -33,23 +38,23 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
 
   final _pages = [
     {
-      'page': MembershipsList(),
+      'page': EditClass(),
       'title': 'Homepage',
     },
     {
-      'page': MembershipDetails(),
+      'page': CreateMembership(),
       'title': 'Equipment',
     },
     {
-      'page': BranchesList(),
+      'page': EditMembership(),
       'title': 'Branches',
     },
     {
-      'page': BranchDetails(),
+      'page': NutrisionistSessionCreate(),
       'title': 'Branch',
     },
     {
-      'page': Others(),
+      'page': EditNutrionistSession(),
       'title': 'Ohters',
     },
   ];
