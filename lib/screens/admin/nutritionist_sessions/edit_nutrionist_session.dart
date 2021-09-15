@@ -79,14 +79,14 @@ class MapScreenState extends State<EditNutrionistSession>
                 ),
                 new Container(
                   //height: 1000.0,
-                  constraints: new BoxConstraints(minHeight: 550),
+                  constraints: new BoxConstraints(minHeight: 500),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                     color: Colors.white,
                   ),
 
                   //color: Colors.white,
-                  margin: EdgeInsets.fromLTRB(20, 70, 20, 10),
+                  margin: EdgeInsets.fromLTRB(20, 0, 20, 10),
                   child: Padding(
                     //padding: EdgeInsets.only(bottom: 30.0),
                     padding: EdgeInsets.all(30),
@@ -291,7 +291,7 @@ class MapScreenState extends State<EditNutrionistSession>
                     ),
                     primary: Color(0xFFFFCE2B),
                     onPrimary: Colors.black,
-                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                     textStyle: TextStyle(
                         color: Colors.black,
                         fontSize: 14,
@@ -318,7 +318,7 @@ class MapScreenState extends State<EditNutrionistSession>
                     ),
                     primary: Color(0xFFFFCE2B),
                     onPrimary: Colors.black,
-                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                     textStyle: TextStyle(
                       color: Colors.black,
                       fontSize: 14,

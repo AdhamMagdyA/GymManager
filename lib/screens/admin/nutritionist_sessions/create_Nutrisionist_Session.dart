@@ -86,7 +86,7 @@ class MapScreenState extends State<NutrisionistSessionCreate>
                   ),
 
                   //color: Colors.white,
-                  margin: EdgeInsets.fromLTRB(20, 100, 20, 50),
+                  margin: EdgeInsets.fromLTRB(20, 10, 20, 50),
                   child: Padding(
                     //padding: EdgeInsets.only(bottom: 30.0),
                     padding: EdgeInsets.all(30),

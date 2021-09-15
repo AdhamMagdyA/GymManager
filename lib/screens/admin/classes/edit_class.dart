@@ -498,7 +498,7 @@ class MapScreenState extends State<EditClass>
                     ),
                     primary: Color(0xFFFFCE2B),
                     onPrimary: Colors.black,
-                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                     textStyle: TextStyle(
                         color: Colors.black,
                         fontSize: 14,
@@ -525,7 +525,7 @@ class MapScreenState extends State<EditClass>
                     ),
                     primary: Color(0xFFFFCE2B),
                     onPrimary: Colors.black,
-                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                     textStyle: TextStyle(
                       color: Colors.black,
                       fontSize: 14,
