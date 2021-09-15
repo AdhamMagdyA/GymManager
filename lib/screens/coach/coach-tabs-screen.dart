@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:gym_project/screens/admin/view-private-session-requests.dart';
 import 'package:gym_project/screens/coach/classes-screen.dart';
 import 'package:gym_project/screens/coach/coach-home-screen.dart';
+import 'package:gym_project/screens/coach/exercises/create-exercise.dart';
 import 'package:gym_project/screens/coach/others-screen.dart';
 import 'package:gym_project/screens/coach/members-screen.dart';
 import 'package:gym_project/screens/coach/sessions-screen.dart';
 import 'package:gym_project/screens/coach/view-booked-sessions.dart';
 import 'package:gym_project/screens/coach/view-my-private-sessions.dart';
+import 'package:gym_project/screens/common/Form-Template.dart';
 import 'package:gym_project/screens/common/details-screen.dart';
 import 'package:gym_project/screens/common/grid_view.dart';
 import 'package:gym_project/screens/common/view-exercises-details-screen.dart';
@@ -46,7 +48,7 @@ class _CoachTabsScreenState extends State<CoachTabsScreen>
         'title': 'Home',
       },
       {
-        'page': ViewGroupsScreen(),
+        'page': CreateExerciseForm(),
         'title': 'My members',
       },
       {
