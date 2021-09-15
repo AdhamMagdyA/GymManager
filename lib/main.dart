@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
 import 'package:gym_project/screens/common/login-screen.dart';
 import 'package:gym_project/screens/common/tabs-screen.dart';
-=======
->>>>>>> 714e9a93cfc3bfdb342a6854a2ad8ccbcb6d6ac2
 import 'package:gym_project/screens/admin/util-screen.dart';
 import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
 
