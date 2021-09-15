@@ -1,7 +1,9 @@
 import 'package:backdrop/backdrop.dart';
 import 'package:flutter/material.dart';
+import 'package:gym_project/screens/training_mode_exercise_screen.dart';
 
 class TrainingModeOverviewScreen extends StatelessWidget {
+
   TrainingModeOverviewScreen({Key key}) : super(key: key);
 
   final _group = {
@@ -25,7 +27,15 @@ class TrainingModeOverviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BackdropScaffold(
-      appBar: BackdropAppBar(title: Text("Training Mode")),
+      appBar: AppBar(
+        title: Text("Training Mode"),
+        actions: [
+          BackdropToggleButton(
+            icon: AnimatedIcons.list_view,
+          )
+        ],
+      ),
+      drawer: Drawer(),
       backLayer: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -90,15 +100,17 @@ class TrainingModeOverviewScreen extends StatelessWidget {
               ),
               SizedBox(height: 20),
               Expanded(
-                child: TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'View Group Details',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.all<Color>(
-                      Theme.of(context).primaryColor,
+                child: Container(
+                  child: Center(
+                    child: TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        'View Group Details',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -133,7 +145,13 @@ class InkButton extends StatelessWidget {
           child: InkWell(
             splashColor: Colors.white,
             borderRadius: BorderRadius.circular(10),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (ctx) => TrainingModeExerciseScreen(),
+                ),
+              );
+            },
             child: Container(
               width: double.infinity,
               height: double.infinity,

@@ -1,12 +1,52 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
-class TrainingModeExerciseScreen extends StatelessWidget {
-  const TrainingModeExerciseScreen({Key key}) : super(key: key);
+class TrainingModeExerciseScreen extends StatefulWidget {
+  final String title;
+  final Duration duration;
+  final int reps;
+  final String gif;
+
+  const TrainingModeExerciseScreen({
+    Key key,
+    @required this.title,
+    @required this.duration,
+    @required this.reps,
+    @required this.gif,
+  }) : super(key: key);
+
+  @override
+  _TrainingModeExerciseScreenState createState() =>
+      _TrainingModeExerciseScreenState();
+}
+
+class _TrainingModeExerciseScreenState
+    extends State<TrainingModeExerciseScreen> {
+  bool _counterFinished = false;
+  bool _startCounting = false;
+  Duration duration;
+
+  String printDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+    return "$twoDigitMinutes:$twoDigitSeconds";
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    duration = widget.duration;
+    Timer(widget.duration, () {
+      setState(() => _counterFinished = true);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Training Mode - Exercises')),
+      appBar: AppBar(title: Text(widget.title)),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Stack(
@@ -16,7 +56,7 @@ class TrainingModeExerciseScreen extends StatelessWidget {
               width: double.infinity,
               height: double.infinity,
               child: Image.network(
-                'https://thumbs.gfycat.com/ForcefulNimbleHydra-size_restricted.gif',
+                widget.gif,
               ),
             ),
             Positioned(
@@ -56,34 +96,41 @@ class TrainingModeExerciseScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(100),
                 ),
                 child: TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'Start',
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontSize: 22,
-                    ),
-                  ),
+                  onPressed: () {
+                    setState(() => _startCounting = true);
+                  },
+                  child: Text('Start'),
                 ),
               ),
             ),
-            Positioned(
-              bottom: 0,
-              right: 0,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.4),
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                child: Text(
-                  'Time Left: 00:34 / 1:00',
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontSize: 18,
+            StatefulBuilder(
+              builder: (context, setTextState) {
+                if (_startCounting && duration.inSeconds != 0) {
+                  Timer(Duration(seconds: 1), () {
+                    setTextState(() {
+                      duration = Duration(seconds: duration.inSeconds - 1);
+                    });
+                  });
+                }
+                return Positioned(
+                  bottom: 0,
+                  right: 0,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.4),
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                    child: Text(
+                    'Time Left: ${printDuration(duration)} / ${printDuration(widget.duration)}',
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontSize: 18,
+                      ),
+                    ),
                   ),
-                ),
-              ),
+              );
+              },
             )
           ],
         ),
