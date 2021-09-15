@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:gym_project/widget/button.dart';
 
-class AddQuestionScreen extends StatefulWidget {
-  const AddQuestionScreen({Key key}) : super(key: key);
+class AddAnnouncementScreen extends StatefulWidget {
+  const AddAnnouncementScreen({Key key}) : super(key: key);
 
   @override
-  _AddQuestionScreenState createState() => _AddQuestionScreenState();
+  _AddAnnouncementScreenState createState() => _AddAnnouncementScreenState();
 }
 
-class _AddQuestionScreenState extends State<AddQuestionScreen> {
+class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _bodyController = TextEditingController();
   bool btn_enabled;
@@ -29,7 +28,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Text(
-                'Add Question',
+                'Add Announcement',
                 style: TextStyle(
                   color: Colors.white,
                   fontFamily: 'assets/fonts/Changa-Bold.ttf',
@@ -63,7 +62,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                   fontWeight: FontWeight.bold,
                 ),
                 contentPadding: EdgeInsets.all(15),
-                hintText: 'Enter your question\'s title',
+                hintText: 'Enter your announcement\'s title',
                 hintStyle: TextStyle(
                   color: Colors.grey,
                   fontFamily: 'assets/fonts/Changa-Bold.ttf',
@@ -117,7 +116,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
                 contentPadding: EdgeInsets.all(15),
-                hintText: 'Enter your question...',
+                hintText: 'Enter your announcement...',
                 hintStyle: TextStyle(
                   color: Colors.grey,
                   fontFamily: 'assets/fonts/Changa-Bold.ttf',
@@ -156,7 +155,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
               disabledColor: Color(0xFF404040),
               color: btn_enabled ? Colors.amber : Color(0xFF404040),
               child: Text(
-                'Post Question',
+                'Post Announcement',
                 style: TextStyle(
                   color: btn_enabled ? Colors.black : Colors.white,
                   fontFamily: 'assets/fonts/Changa-Bold.ttf',

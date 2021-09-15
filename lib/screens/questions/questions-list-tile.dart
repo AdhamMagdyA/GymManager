@@ -5,12 +5,13 @@ class QuestionsListTile extends StatefulWidget {
   final String body;
   final String date;
   final int num_of_answers;
+  final String role;
   //final String subtitle2;
   //final String subtitle3;
   Function ontap;
 
-  QuestionsListTile(
-      this.title, this.body, this.ontap, this.num_of_answers, this.date);
+  QuestionsListTile(this.title, this.body, this.ontap, this.num_of_answers,
+      this.date, this.role);
   @override
   _QuestionsListTileState createState() => _QuestionsListTileState();
 }
@@ -80,6 +81,30 @@ class _QuestionsListTileState extends State<QuestionsListTile> {
                   fontFamily: 'assets/fonts/Changa-Bold.ttf',
                 ),
               ),*/
+              widget.role == "question_owner"
+                  ? Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.delete,
+                            color: Colors.grey,
+                            size: 20,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.edit,
+                            color: Colors.grey,
+                            size: 20,
+                          ),
+                        ),
+                      ],
+                    )
+                  : Container(),
             ],
           ),
         ),
@@ -98,13 +123,17 @@ class _QuestionsListTileState extends State<QuestionsListTile> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                TextButton(
-                  onPressed: widget.ontap,
-                  child: Text(
-                    widget.num_of_answers.toString() + " Answers",
-                    style: TextStyle(
-                      color: Colors.amber,
-                      fontFamily: 'assets/fonts/Changa-Bold.ttf',
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 4, right: 8),
+                  child: TextButton(
+                    onPressed: widget.ontap,
+                    child: Text(
+                      widget.num_of_answers.toString() + " Answers",
+                      style: TextStyle(
+                        color: Colors.amber,
+                        fontFamily: 'assets/fonts/Changa-Bold.ttf',
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 )

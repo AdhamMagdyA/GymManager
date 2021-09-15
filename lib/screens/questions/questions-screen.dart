@@ -51,7 +51,9 @@ class _QuestionsScreenState extends State<QuestionsScreen>
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(30),
           child: Container(
-            color: Color(0xFF040404),
+            padding: EdgeInsets.only(top: 10),
+            color: //Color(0xFF040404),
+                Colors.black,
             child: new SafeArea(
               child: new TabBar(
                 unselectedLabelColor: Colors.amber,

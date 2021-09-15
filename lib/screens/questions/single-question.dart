@@ -33,7 +33,8 @@ class _SingleQuestionScreenState extends State<SingleQuestionScreen> {
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse dapibus efficitur purus, sit amet vulputate leo ultricies vitae. Donec gravida ut erat nec pretium. Sed facilisis nunc et enim finibus malesuada. In ultricies rutrum lectus et fringilla. Integer sed dapibus leo, non?",
               () {},
               5,
-              "12-9-2021 at 10:00 PM"),
+              "12-9-2021 at 10:00 PM",
+              ""),
           Expanded(
             child: ListView(
               children: [
