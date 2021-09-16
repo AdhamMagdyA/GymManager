@@ -3,8 +3,11 @@ import 'package:gym_project/screens/Events/events-list.dart';
 import 'package:gym_project/screens/Events/events-tile.dart';
 import 'package:gym_project/screens/Supplements/supplement-details.dart';
 import 'package:gym_project/screens/Supplements/supplement-grid-view.dart';
+import 'package:gym_project/screens/announcements/announcements-screen.dart';
 import 'package:gym_project/screens/common/grid_view.dart';
 import 'package:gym_project/screens/admin/admin_home_page.dart';
+import 'package:gym_project/screens/questions/add-question-screen.dart';
+import 'package:gym_project/screens/questions/questions-screen.dart';
 import 'package:gym_project/widget/drawer.dart';
 //import 'package:motion_tab_bar/MotionTabController.dart';
 
@@ -36,7 +39,7 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
       'title': 'Branches',
     },
     {
-      'page': EventListView(),
+      'page': AnnouncementsScreen(),
       'title': 'Events',
     },
     {

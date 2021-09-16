@@ -1,17 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/screens/announcements/add-announcement-screen.dart';
 
 class AnnouncementsListTile extends StatefulWidget {
   final String title;
   final String body;
   final String date;
   final String role; // member or admin
+  final int id;
 
-  AnnouncementsListTile(this.title, this.body, this.date, this.role);
+  AnnouncementsListTile({this.title, this.body, this.date, this.role, this.id});
   @override
   _AnnouncementsListTileState createState() => _AnnouncementsListTileState();
 }
 
 class _AnnouncementsListTileState extends State<AnnouncementsListTile> {
+  bool is_visible;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    is_visible = true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -61,7 +72,65 @@ class _AnnouncementsListTileState extends State<AnnouncementsListTile> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                backgroundColor: Color(0xFF181818),
+                                shape: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide:
+                                      BorderSide(color: Color(0xFF181818)),
+                                ),
+                                content: Text(
+                                  "Would you like to delete this announcement ?",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'assets/fonts/Changa-Bold.ttf',
+                                    fontSize: 15,
+                                    //fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                actions: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      MaterialButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            is_visible = false;
+                                          });
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text("YES"),
+                                        color: Colors.amber,
+                                        shape: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          borderSide:
+                                              BorderSide(color: Colors.amber),
+                                        ),
+                                      ),
+                                      MaterialButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text("NO"),
+                                        color: Colors.amber,
+                                        shape: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          borderSide:
+                                              BorderSide(color: Colors.amber),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
                           icon: Icon(
                             Icons.delete,
                             color: Colors.grey,
@@ -69,7 +138,17 @@ class _AnnouncementsListTileState extends State<AnnouncementsListTile> {
                           ),
                         ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AddAnnouncementScreen(
+                                  body: "This is body",
+                                  title: "This is title",
+                                ),
+                              ),
+                            );
+                          },
                           icon: Icon(
                             Icons.edit,
                             color: Colors.grey,
