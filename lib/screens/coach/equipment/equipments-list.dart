@@ -10,90 +10,43 @@ class EquipmentsList extends StatefulWidget {
 class EquipmentsListState extends State<EquipmentsList> {
   List<Map> _equipments = [
     {
-      'name': 'Dumbbell 1',
+      'title': 'Dumbbell 1',
       'description': 'description 1',
       'picture': 'assets/images/dumbbell.png',
     },
     {
-      'name': 'Dumbbell 2',
+      'title': 'Dumbbell 2',
       'description': 'description 1',
       'picture': 'assets/images/dumbbell.png',
     },
     {
-      'name': 'Dumbbell 3',
+      'title': 'Dumbbell 3',
       'description': 'description 1',
       'picture': 'assets/images/dumbbell.png',
     },
     {
-      'name': 'Dumbbell 4',
+      'title': 'Dumbbell 4',
       'description': 'description 1',
       'picture': 'assets/images/dumbbell.png',
     },
   ];
 
   bool _selectionMode = false;
-  List<Map<int, int>> _numberOfSelectedInstances = [];
-  Map<int, Object> finalSelectedItems = {};
-
   void setSelectionMode(bool value) {
     setState(() {
       _selectionMode = value;
     });
   }
 
-  void incrementItem(int index) {
+  int _indexOfSelected;
+  void setIndexOfSelected(int index) {
     setState(() {
-      int i = _numberOfSelectedInstances
-          .indexWhere((map) => map.containsKey(index));
-      if (i != -1) {
-        _numberOfSelectedInstances[i][index] =
-            _numberOfSelectedInstances[i][index] + 1;
-      } else {
-        _numberOfSelectedInstances.add({index: 1});
-      }
+      _indexOfSelected = index;
     });
-  }
-
-  void decrementItem(int index) {
-    setState(() {
-      int i = _numberOfSelectedInstances
-          .indexWhere((map) => map.containsKey(index));
-      if (i == -1) return;
-      if (_numberOfSelectedInstances[i][index] == 1) {
-        _numberOfSelectedInstances.removeWhere((map) => map.containsKey(index));
-      } else {
-        _numberOfSelectedInstances[i][index] =
-            _numberOfSelectedInstances[i][index] - 1;
-      }
-    });
-  }
-
-  int selectedItemsNumber(index) {
-    if (!_numberOfSelectedInstances.any((map) => map.containsKey(index))) {
-      return 0;
-    } else {
-      return _numberOfSelectedInstances
-          .firstWhere((map) => map.containsKey(index))[index];
-    }
   }
 
   bool isSelected(int index) {
-    return _numberOfSelectedInstances.any((map) => map.containsKey(index));
-  }
-
-  void getFinalSelectedItems() {
-    for (Map<int, int> selectedItem in _numberOfSelectedInstances) {
-      // print(selectedItem);
-      selectedItem.forEach((key, value) {
-        // print(sets[key]);
-        finalSelectedItems[key] = {
-          ..._equipments[key],
-          'value': value,
-        };
-      });
-    }
-    print(finalSelectedItems);
-    // print(finalSelectedItems);
+    return index == _indexOfSelected;
   }
 
   @override
@@ -209,39 +162,6 @@ class EquipmentsListState extends State<EquipmentsList> {
                   ),
                 ),
               ),
-              if (_selectionMode)
-                SliverToBoxAdapter(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: Text(
-                            'Selected ${_numberOfSelectedInstances.length} of ${_equipments.length}',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _selectionMode = false;
-                            _numberOfSelectedInstances.clear();
-                          });
-                        },
-                        icon: CircleAvatar(
-                          radius: 30,
-                          backgroundColor: Colors.black.withOpacity(0.3),
-                          child: Icon(
-                            Icons.close,
-                            color: Colors.white,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
               SliverPadding(
                 padding: const EdgeInsets.all(26.0),
                 sliver: SliverGrid.count(
@@ -252,16 +172,14 @@ class EquipmentsListState extends State<EquipmentsList> {
                   children: _equipments
                       .asMap()
                       .entries
-                      .map((entry) => MyChoosingGridViewCard(
+                      .map((entry) => MySingleChoosingGridViewCard(
                             picture: entry.value['picture'],
                             title: entry.value['title'],
                             index: entry.key,
                             selectionMode: _selectionMode,
                             setSelectionMode: setSelectionMode,
-                            incrementItem: incrementItem,
-                            decrementItem: decrementItem,
-                            selectedItemsNumber: selectedItemsNumber,
                             isSelected: isSelected,
+                            setIndexOfSelected: setIndexOfSelected,
                           ))
                       .toList(),
                 ),
@@ -279,8 +197,7 @@ class EquipmentsListState extends State<EquipmentsList> {
                         borderRadius: BorderRadius.circular(16),
                       )),
                   onPressed: () {
-                    getFinalSelectedItems();
-                    Navigator.pop(context, finalSelectedItems);
+                    Navigator.pop(context, _equipments[_indexOfSelected]);
                   }),
             ),
         ],
@@ -289,18 +206,16 @@ class EquipmentsListState extends State<EquipmentsList> {
   }
 }
 
-class MyChoosingGridViewCard extends StatefulWidget {
-  MyChoosingGridViewCard({
+class MySingleChoosingGridViewCard extends StatefulWidget {
+  MySingleChoosingGridViewCard({
     Key key,
     @required this.picture,
     @required this.title,
     @required this.index,
     @required this.selectionMode,
     @required this.setSelectionMode,
-    @required this.incrementItem,
-    @required this.decrementItem,
-    @required this.selectedItemsNumber,
     @required this.isSelected,
+    @required this.setIndexOfSelected,
   }) : super(key: key);
 
   final picture;
@@ -309,16 +224,16 @@ class MyChoosingGridViewCard extends StatefulWidget {
   final int index;
   final bool selectionMode;
   final Function setSelectionMode;
-  final Function incrementItem;
-  final Function decrementItem;
-  final Function selectedItemsNumber;
   final Function isSelected;
+  final Function setIndexOfSelected;
 
   @override
-  _MyChoosingGridViewCardState createState() => _MyChoosingGridViewCardState();
+  _MySingleChoosingGridViewCardState createState() =>
+      _MySingleChoosingGridViewCardState();
 }
 
-class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
+class _MySingleChoosingGridViewCardState
+    extends State<MySingleChoosingGridViewCard> {
   String printDuration(Duration duration) {
     String twoDigits(int n) => n.toString().padLeft(2, "0");
     String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
@@ -333,9 +248,10 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
       onLongPress: () {
         if (!widget.selectionMode) {
           widget.setSelectionMode(true);
-          widget.incrementItem(widget.index);
+          widget.setIndexOfSelected(widget.index);
         }
       },
+      onTap: () => widget.setIndexOfSelected(widget.index),
       child: Container(
         height: 200,
         width: 200,
@@ -354,28 +270,9 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            if (widget.selectionMode)
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                      onPressed: () => widget.incrementItem(widget.index),
-                      icon: Icon(Icons.add)),
-                  Text(
-                    '${widget.selectedItemsNumber(widget.index)}',
-                    style: TextStyle(color: Colors.black),
-                  ),
-                  IconButton(
-                      onPressed: !widget.isSelected(widget.index)
-                          ? null
-                          : () => widget.decrementItem(widget.index),
-                      icon: Icon(Icons.remove)),
-                ],
-              ),
             Container(
               width: double.infinity,
-              height: widget.selectionMode ? 70 : 110,
+              height: 140,
               padding: EdgeInsets.all(0),
               child: ClipRRect(
                 borderRadius: BorderRadius.only(
