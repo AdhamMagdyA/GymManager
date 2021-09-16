@@ -23,6 +23,8 @@ import 'package:gym_project/screens/admin/classes/create_class.dart';
 import 'package:gym_project/screens/admin/equipment/create_equipment.dart';
 import 'package:gym_project/screens/admin/users/edit_user.dart';
 import 'package:gym_project/widget/drawer.dart';
+import 'package:gym_project/widget/providers/user.dart';
+import 'package:provider/provider.dart';
 import 'branches/branch_details.dart';
 import 'branches/branches_list.dart';
 import 'equipment/equipment_details.dart';
@@ -79,6 +81,7 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    print(Provider.of<User>(context, listen: true).role);
     return Scaffold(
       appBar: AppBar(
         title: Text(

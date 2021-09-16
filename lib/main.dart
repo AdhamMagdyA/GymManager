@@ -38,12 +38,21 @@ import 'package:gym_project/screens/my_choosing_gridview_screen.dart';
 import 'package:gym_project/screens/member/training-mode/training_mode_exercise_screen.dart';
 import 'package:gym_project/screens/member/training-mode/training_mode_overview_screen.dart';
 import 'package:gym_project/screens/nutritionist/util-screen.dart';
+import 'package:gym_project/widget/providers/user.dart';
+import 'package:provider/provider.dart';
 
 import 'screens/common/ProfilePage.dart';
 import 'screens/member/home-screen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => User()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

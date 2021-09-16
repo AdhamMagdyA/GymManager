@@ -4,6 +4,8 @@ import 'package:gym_project/screens/admin/util-screen.dart';
 import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
 import 'package:gym_project/screens/member/member-util.dart';
 import 'package:gym_project/screens/nutritionist/util-screen.dart';
+import 'package:gym_project/widget/providers/user.dart';
+import 'package:provider/provider.dart';
 import '../../style/styling.dart';
 import '../../widget/button.dart';
 
@@ -126,6 +128,9 @@ class _LoginState extends State<Login> {
                                                                         16),
                                                           )),
                                                   onPressed: () {
+                                                    Provider.of<User>(context,
+                                                            listen: false)
+                                                        .setRole('admin');
                                                     Navigator.pushReplacement(
                                                       context,
                                                       MaterialPageRoute(
@@ -153,6 +158,9 @@ class _LoginState extends State<Login> {
                                                                         16),
                                                           )),
                                                   onPressed: () {
+                                                    Provider.of<User>(context,
+                                                            listen: false)
+                                                        .setRole('coach');
                                                     Navigator.pushReplacement(
                                                       context,
                                                       MaterialPageRoute(
@@ -180,6 +188,9 @@ class _LoginState extends State<Login> {
                                                                         16),
                                                           )),
                                                   onPressed: () {
+                                                    Provider.of<User>(context,
+                                                            listen: false)
+                                                        .setRole('member');
                                                     Navigator.pushReplacement(
                                                       context,
                                                       MaterialPageRoute(
@@ -207,6 +218,10 @@ class _LoginState extends State<Login> {
                                                                         16),
                                                           )),
                                                   onPressed: () {
+                                                    Provider.of<User>(context,
+                                                            listen: false)
+                                                        .setRole(
+                                                            'nutritionist');
                                                     Navigator.pushReplacement(
                                                       context,
                                                       MaterialPageRoute(
