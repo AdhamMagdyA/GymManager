@@ -197,7 +197,7 @@ class _ViewGroupsScreenState extends State<ViewGroupsScreen> {
                       )),
                   onPressed: () {
                     getFinalSelectedItems();
-                    // Navigator.pop(context, finalSelectedItems);
+                    Navigator.pop(context, finalSelectedItems);
                   }),
             ),
           Padding(

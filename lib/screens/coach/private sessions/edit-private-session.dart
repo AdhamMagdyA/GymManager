@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class EditPrivateSessionForm extends StatefulWidget {
+  final Map privateSession;
+
+  EditPrivateSessionForm(this.privateSession);
   @override
   MapScreenState createState() => MapScreenState();
 }
@@ -13,10 +17,16 @@ class MapScreenState extends State<EditPrivateSessionForm>
     with SingleTickerProviderStateMixin {
   bool _status = true;
   final FocusNode myFocusNode = FocusNode();
+  DateTime confirmedDateTime;
+  bool dateTimeStatus = false;
 
   @override
   void initState() {
     super.initState();
+  }
+
+  refresh() {
+    setState(() {});
   }
 
   @override
@@ -38,10 +48,15 @@ class MapScreenState extends State<EditPrivateSessionForm>
                           child: new Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              new Icon(
-                                Icons.arrow_back_ios,
-                                color: Color(0xFFFFCE2B),
-                                size: 22.0,
+                              GestureDetector(
+                                child: new Icon(
+                                  Icons.arrow_back_ios,
+                                  color: Color(0xFFFFCE2B),
+                                  size: 22.0,
+                                ),
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
                               ),
                               Padding(
                                 padding: EdgeInsets.only(left: 25.0),
@@ -88,7 +103,7 @@ class MapScreenState extends State<EditPrivateSessionForm>
                                   children: <Widget>[
                                     new Text(
                                       //---> topic
-                                      'Private Session Information',
+                                      'Private Session Info',
                                       style: TextStyle(
                                         fontSize: 18.0,
                                         fontWeight: FontWeight.bold,
@@ -136,7 +151,8 @@ class MapScreenState extends State<EditPrivateSessionForm>
                                   child: new TextFormField(
                                     decoration: const InputDecoration(
                                         hintText: "Enter Your Title"),
-                                    initialValue: "dummy text",
+                                    initialValue:
+                                        widget.privateSession['title'],
                                   ),
                                 ),
                               ],
@@ -174,7 +190,8 @@ class MapScreenState extends State<EditPrivateSessionForm>
                                   decoration: const InputDecoration(
                                     hintText: "Enter Your Description",
                                   ),
-                                  initialValue: "dummy",
+                                  initialValue:
+                                      widget.privateSession['description'],
                                 ),
                               ),
                             ],
@@ -213,6 +230,8 @@ class MapScreenState extends State<EditPrivateSessionForm>
                                   decoration: const InputDecoration(
                                     hintText: "Enter Duration",
                                   ),
+                                  initialValue:
+                                      widget.privateSession['duration'],
                                 ),
                               ),
                             ],
@@ -251,46 +270,70 @@ class MapScreenState extends State<EditPrivateSessionForm>
                                   decoration: const InputDecoration(
                                     hintText: "Enter Price",
                                   ),
-                                  initialValue: "11",
+                                  initialValue: widget.privateSession['price'],
                                 ),
                               ),
                             ],
                           ),
                         ),
                         Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 25.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                new Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    new Text(
-                                      'Date & Time',
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )),
-                        Padding(
                           padding: EdgeInsets.only(
-                              left: 25.0, right: 25.0, top: 2.0),
+                              left: 25.0, right: 25.0, top: 25.0),
                           child: new Row(
                             mainAxisSize: MainAxisSize.max,
                             children: <Widget>[
-                              new Flexible(
-                                child: new TextField(
-                                  decoration: const InputDecoration(
-                                    hintText: "Enter Date & Time",
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Row(
+                                    children: [
+                                      new Text(
+                                        'Date & Time',
+                                        style: TextStyle(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      GestureDetector(
+                                        child: Icon(
+                                          Icons.calendar_today_outlined,
+                                          color: Colors.black,
+                                        ),
+                                        onTap: () {
+                                          //take to calendar
+                                          print('I was tapped!');
+                                          DatePicker.showDateTimePicker(
+                                            context,
+                                            showTitleActions: true,
+                                            minTime: DateTime(2020, 3, 5),
+                                            maxTime: DateTime(2022, 12, 30),
+                                            onChanged: (dateTime) {
+                                              print('change $dateTime');
+                                            },
+                                            onConfirm: (dateTime) {
+                                              print('confirm $dateTime');
+                                            },
+                                            currentTime: DateTime.now(),
+                                            locale: LocaleType.en,
+                                          ).then((dateTimeFinal) {
+                                            setState(() {
+                                              confirmedDateTime = dateTimeFinal;
+                                              dateTimeStatus = true;
+                                              print(confirmedDateTime);
+                                              print(dateTimeStatus);
+                                              refresh();
+                                            });
+                                          });
+                                        },
+                                      ),
+                                    ],
                                   ),
-                                ),
+                                ],
                               ),
                             ],
                           ),
