@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 
-class CustomListTile extends StatefulWidget {
-  final IconData iconData;
+class CustomListTileNoTrailing extends StatefulWidget {
   final String title;
   final List<String> subtitles;
-  String trailing = '';
 
-  CustomListTile(this.title, this.subtitles, {this.iconData, this.trailing});
+  CustomListTileNoTrailing(this.title, this.subtitles);
   @override
-  _CustomListTileState createState() => _CustomListTileState();
+  _CustomListTileNoTrailingState createState() =>
+      _CustomListTileNoTrailingState();
 }
 
-class _CustomListTileState extends State<CustomListTile> {
+class _CustomListTileNoTrailingState extends State<CustomListTileNoTrailing> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,7 +23,7 @@ class _CustomListTileState extends State<CustomListTile> {
         minVerticalPadding: 10,
         leading: CircleAvatar(
           radius: 20,
-          child: Icon(widget.iconData),
+          child: FlutterLogo(),
         ),
         title: Text(
           widget.title,
@@ -43,7 +42,6 @@ class _CustomListTileState extends State<CustomListTile> {
               )
           ],
         ),
-        trailing: Text(widget.trailing),
       ),
     );
   }

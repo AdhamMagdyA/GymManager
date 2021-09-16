@@ -8,14 +8,14 @@ import '../../style/text.dart';
 import '../../widget/homeCategory.dart';
 import '../../widget/popularCard.dart';
 
-class NutritionistHomeScreen extends StatefulWidget {
-  const NutritionistHomeScreen({Key key}) : super(key: key);
+class CoachHomeScreen extends StatefulWidget {
+  const CoachHomeScreen({Key key}) : super(key: key);
 
   @override
-  _NutritionistHomeScreenState createState() => _NutritionistHomeScreenState();
+  _CoachHomeScreenState createState() => _CoachHomeScreenState();
 }
 
-class _NutritionistHomeScreenState extends State<NutritionistHomeScreen> {
+class _CoachHomeScreenState extends State<CoachHomeScreen> {
   MotionTabController _tabController;
   int _selectedIndex = 0;
 

@@ -6,7 +6,17 @@ import 'package:gym_project/screens/Invitations/invitation-form.dart';
 import 'package:gym_project/screens/Invitations/invitation-list.dart';
 import 'package:gym_project/screens/Supplements/supplement-grid-view.dart';
 import 'package:gym_project/screens/admin/home.dart';
+import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
+import 'package:gym_project/screens/common/grid_view.dart';
+import 'package:gym_project/screens/common/login-screen.dart';
+import 'package:gym_project/screens/common/tabs-screen.dart';
 import 'package:gym_project/screens/admin/util-screen.dart';
+import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
+import 'package:gym_project/screens/items_screen.dart';
+import 'package:gym_project/screens/my_choosing_gridview_screen.dart';
+import 'package:gym_project/screens/member/training-mode/training_mode_exercise_screen.dart';
+import 'package:gym_project/screens/member/training-mode/training_mode_overview_screen.dart';
+import 'package:gym_project/screens/nutritionist/util-screen.dart';
 
 import 'screens/common/ProfilePage.dart';
 import 'screens/member/home-screen.dart';
@@ -42,7 +52,7 @@ class MyApp extends StatelessWidget {
           )),
       initialRoute: '/',
       routes: {
-        '/': (context) => AdminUtil(),
+        '/': (context) => CoachTabsScreen(),
         '/events': (context) => EventListView(),
         '/supplements': (context) => SupplementList(),
         '/invite': (context) => InvitationForm(),

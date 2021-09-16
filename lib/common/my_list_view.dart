@@ -4,12 +4,18 @@ import 'package:flutter/services.dart';
 import 'my_list_tile.dart';
 
 class MyListView extends StatefulWidget {
-  final String title = 'Title';
-  final String subtitle1 = 'Subtitle 1';
-  final String subtitle2 = 'Subtitle 2';
-  final String subtitle3 = 'Subtitle 3';
+  IconData iconData = Icons.ac_unit;
+  String title = 'Title';
+  String subtitle1 = 'Subtitle 1';
+  String subtitle2 = 'Subtitle 2';
+  String subtitle3 = 'Subtitle 3';
 
-  MyListView();
+  MyListView(
+      {this.iconData,
+      this.title,
+      this.subtitle1,
+      this.subtitle2,
+      this.subtitle3});
 
   @override
   _MyListViewState createState() => _MyListViewState();
@@ -61,8 +67,8 @@ class _MyListViewState extends State<MyListView> {
               shrinkWrap: true,
               itemCount: users.length,
               itemBuilder: (ctx, index) {
-                return CustomListTile(widget.title, widget.subtitle1,
-                    widget.subtitle2, widget.subtitle3);
+                return CustomListTile(
+                    widget.title, ['sub 1', 'sub 2', 'sub 3']);
               }),
         ],
       ),
