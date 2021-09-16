@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gym_project/screens/coach/equipment/equipments-list.dart';
 
-Map selectedEquipment;
+Map selectedEquipment = {};
 
 class CreateExerciseForm extends StatefulWidget {
   @override
@@ -23,8 +23,13 @@ class MapScreenState extends State<CreateExerciseForm>
     super.initState();
   }
 
+  refresh() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(selectedEquipment);
     return new Scaffold(
       body: new Container(
         color: Color(0xFF181818), //background color
@@ -334,61 +339,75 @@ class MapScreenState extends State<CreateExerciseForm>
                               ],
                             )),
                         Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 25.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                new Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    new Text(
-                                      'Equipment',
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 25.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text(
+                                    'Equipment',
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
                                     ),
-                                  ],
-                                ),
-                              ],
-                            )),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
                         Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
-                            child: new Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                new Flexible(
-                                  child: ElevatedButton(
-                                      child: Text(
-                                        'Choose Equipment',
-                                      ),
-                                      style: ElevatedButton.styleFrom(
-                                          textStyle: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          primary: Colors.amber,
-                                          onPrimary: Colors.black,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(16),
-                                          )),
-                                      onPressed: () async {
-                                        Map result = await Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  EquipmentsList(),
-                                            ));
-                                      }),
-                                ),
-                              ],
-                            )),
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 2.0),
+                          child: new Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Flexible(
+                                child: ElevatedButton(
+                                    child: Text(
+                                      'Choose Equipment',
+                                    ),
+                                    style: ElevatedButton.styleFrom(
+                                        textStyle: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        primary: Colors.amber,
+                                        onPrimary: Colors.black,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                        )),
+                                    onPressed: () async {
+                                      Map result = await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                EquipmentsList(),
+                                          ));
+                                      setState(() {
+                                        selectedEquipment = result;
+                                        print(selectedEquipment);
+                                      });
+                                    }),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        if (selectedEquipment.isNotEmpty)
+                          CustomEquipmentListTile(selectedEquipment, refresh),
                         Padding(
                           padding: EdgeInsets.only(
                               left: 95.0, bottom: 0, right: 95.0, top: 50.0),
@@ -447,5 +466,61 @@ class MapScreenState extends State<CreateExerciseForm>
     // Clean up the controller when the Widget is disposed
     myFocusNode.dispose();
     super.dispose();
+  }
+}
+
+class CustomEquipmentListTile extends StatefulWidget {
+  final Map equipment;
+  final Function() notifyParent;
+
+  CustomEquipmentListTile(this.equipment, this.notifyParent);
+  @override
+  _CustomEquipmentListTileState createState() =>
+      _CustomEquipmentListTileState();
+}
+
+class _CustomEquipmentListTileState extends State<CustomEquipmentListTile> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsetsDirectional.only(bottom: 10),
+      decoration: BoxDecoration(
+        color: Color(0xff181818),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: ListTile(
+        minVerticalPadding: 10,
+        leading: CircleAvatar(
+          radius: 20,
+          child: FlutterLogo(),
+        ),
+        title: Text(
+          widget.equipment['name'],
+          style: TextStyle(color: Colors.white),
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              widget.equipment['description'],
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            )
+          ],
+        ),
+        trailing: GestureDetector(
+          child: Icon(
+            Icons.close,
+            color: Colors.white,
+          ),
+          onTap: () {
+            selectedEquipment = {};
+            widget.notifyParent();
+          },
+        ),
+      ),
+    );
   }
 }

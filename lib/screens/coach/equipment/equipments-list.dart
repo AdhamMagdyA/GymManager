@@ -10,22 +10,22 @@ class EquipmentsList extends StatefulWidget {
 class EquipmentsListState extends State<EquipmentsList> {
   List<Map> _equipments = [
     {
-      'title': 'Dumbbell 1',
+      'name': 'Dumbbell 1',
       'description': 'description 1',
       'picture': 'assets/images/dumbbell.png',
     },
     {
-      'title': 'Dumbbell 2',
+      'name': 'Dumbbell 2',
       'description': 'description 1',
       'picture': 'assets/images/dumbbell.png',
     },
     {
-      'title': 'Dumbbell 3',
+      'name': 'Dumbbell 3',
       'description': 'description 1',
       'picture': 'assets/images/dumbbell.png',
     },
     {
-      'title': 'Dumbbell 4',
+      'name': 'Dumbbell 4',
       'description': 'description 1',
       'picture': 'assets/images/dumbbell.png',
     },
@@ -174,7 +174,7 @@ class EquipmentsListState extends State<EquipmentsList> {
                       .entries
                       .map((entry) => MySingleChoosingGridViewCard(
                             picture: entry.value['picture'],
-                            title: entry.value['title'],
+                            title: entry.value['name'],
                             index: entry.key,
                             selectionMode: _selectionMode,
                             setSelectionMode: setSelectionMode,
