@@ -219,7 +219,7 @@ class ItemsScreenState extends State<ItemsScreen> {
                   crossAxisCount: 2,
                   mainAxisSpacing: 10,
                   crossAxisSpacing: 10,
-                  childAspectRatio: 0.7,
+                  childAspectRatio: 0.8,
                   children: _items
                       .asMap()
                       .entries
@@ -344,7 +344,7 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
               ),
             Container(
               width: double.infinity,
-              height: widget.selectionMode ? 80 : 115,
+              height: widget.selectionMode ? 70 : 110,
               padding: EdgeInsets.all(0),
               child: ClipRRect(
                 borderRadius: BorderRadius.only(
@@ -358,88 +358,100 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
               ),
             ),
             Expanded(
-              child: Container(
-                padding: EdgeInsets.all(3),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(30),
-                    bottomRight: Radius.circular(30),
+              child: Stack(
+                children: [
+                  ClipPath(
+                    clipper: ClipPathClass(),
+                    child: Container(
+                      height: double.infinity,
+                      width: double.infinity,
+                      color: mapLevelToColor(widget.level).withOpacity(0.6),
+                    ),
                   ),
-                ),
-                width: double.infinity,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 20,
-                      child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Text(
-                          widget.title,
-                          softWrap: false,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                            color: Colors.black,
-                          ),
-                        ),
+                  Container(
+                    padding: EdgeInsets.all(3),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(30),
+                        bottomRight: Radius.circular(30),
                       ),
                     ),
-                    SizedBox(
-                      height: 20,
-                      child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Text(
-                          'Calories: ${widget.calories}',
-                          softWrap: false,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12,
-                            color: Colors.black,
+                    width: double.infinity,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 20,
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              widget.title,
+                              softWrap: false,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: Colors.black,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                      child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: RichText(
-                            softWrap: false,
-                            text: TextSpan(
-                              text: 'Level: ',
+                        SizedBox(
+                          height: 20,
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              'Calories: ${widget.calories}',
+                              softWrap: false,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 12,
                                 color: Colors.black,
                               ),
-                              children: [
-                                TextSpan(
-                                  text: widget.level,
-                                  style: TextStyle(
-                                    color: mapLevelToColor(widget.level),
-                                  ),
-                                )
-                              ],
-                            )),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                      child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Text(
-                          'Created by:  ${widget.creator}',
-                          softWrap: false,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12,
-                            color: Colors.black,
+                            ),
                           ),
                         ),
-                      ),
+                        // SizedBox(
+                        //   height: 20,
+                        //   child: FittedBox(
+                        //     fit: BoxFit.scaleDown,
+                        //     child: RichText(
+                        //         softWrap: false,
+                        //         text: TextSpan(
+                        //           text: 'Level: ',
+                        //           style: TextStyle(
+                        //             fontWeight: FontWeight.bold,
+                        //             fontSize: 12,
+                        //             color: Colors.black,
+                        //           ),
+                        //           children: [
+                        //             TextSpan(
+                        //               text: widget.level,
+                        //               style: TextStyle(
+                        //                 color: mapLevelToColor(widget.level),
+                        //               ),
+                        //             )
+                        //           ],
+                        //         )),
+                        //   ),
+                        // ),
+                        SizedBox(
+                          height: 20,
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              'Created by:  ${widget.creator}',
+                              softWrap: false,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             )
           ],
@@ -449,6 +461,32 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
   }
 }
 
+class ClipPathClass extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var path = Path();
+    path.moveTo(size.width - 50, size.height);
+    path.lineTo(size.width - 30, size.height);
+
+    var controlPoint = Offset(size.width - 1, size.height - 1);
+    var point = Offset(size.width, size.height - 30);
+    path.quadraticBezierTo(
+      controlPoint.dx,
+      controlPoint.dy,
+      point.dx,
+      point.dy,
+    );
+
+    path.lineTo(size.width, size.height - 50);
+    path.lineTo(size.width - 50, size.height);
+    // path.close();
+
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+}
 
 // Stack(
 //   clipBehavior: Clip.antiAlias,
