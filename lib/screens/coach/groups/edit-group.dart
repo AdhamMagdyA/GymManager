@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:gym_project/screens/coach/view-sets.dart';
+import 'package:gym_project/screens/coach/sets/view-sets.dart';
 
 class EditGroupForm extends StatefulWidget {
   @override

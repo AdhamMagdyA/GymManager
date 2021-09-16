@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../../exercises_screen.dart';
+import '../exercises/exercises_screen.dart';
 
 List<Map> selectedExercises = [];
 
@@ -47,10 +47,15 @@ class MapScreenState extends State<CreateSetForm>
                           child: new Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              new Icon(
-                                Icons.arrow_back_ios,
-                                color: Color(0xFFFFCE2B),
-                                size: 22.0,
+                              GestureDetector(
+                                child: new Icon(
+                                  Icons.arrow_back_ios,
+                                  color: Color(0xFFFFCE2B),
+                                  size: 22.0,
+                                ),
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
                               ),
                               Padding(
                                 padding: EdgeInsets.only(left: 25.0),

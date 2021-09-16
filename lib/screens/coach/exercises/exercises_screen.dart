@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'common/view-exercises-details-screen.dart';
+import '../../common/view-exercises-details-screen.dart';
 
 class ExercisesScreen extends StatefulWidget {
   const ExercisesScreen({Key key}) : super(key: key);

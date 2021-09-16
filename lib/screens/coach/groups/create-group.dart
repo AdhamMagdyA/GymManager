@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gym_project/common/my-list-tile-without-trailing.dart';
 import 'package:gym_project/common/my_list_tile.dart';
-import 'package:gym_project/screens/coach/view-sets.dart';
-import 'package:gym_project/screens/exercises_screen.dart';
+import 'package:gym_project/screens/coach/sets/view-sets.dart';
+import 'package:gym_project/screens/coach/exercises/exercises_screen.dart';
 
 class CreateGroupForm extends StatefulWidget {
   @override
@@ -51,10 +51,15 @@ class MapScreenState extends State<CreateGroupForm>
                           child: new Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              new Icon(
-                                Icons.arrow_back_ios,
-                                color: Color(0xFFFFCE2B),
-                                size: 22.0,
+                             GestureDetector(
+                                child: new Icon(
+                                  Icons.arrow_back_ios,
+                                  color: Color(0xFFFFCE2B),
+                                  size: 22.0,
+                                ),
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
                               ),
                               Padding(
                                 padding: EdgeInsets.only(left: 25.0),

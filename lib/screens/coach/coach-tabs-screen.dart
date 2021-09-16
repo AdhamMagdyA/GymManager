@@ -1,24 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:gym_project/screens/admin/view-private-session-requests.dart';
-import 'package:gym_project/screens/coach/classes-screen.dart';
-import 'package:gym_project/screens/coach/coach-home-screen.dart';
-import 'package:gym_project/screens/coach/exercises/create-exercise.dart';
+import 'package:gym_project/screens/coach/home-screen.dart';
 import 'package:gym_project/screens/coach/others-screen.dart';
-import 'package:gym_project/screens/coach/members-screen.dart';
+
 import 'package:gym_project/screens/coach/private%20sessions/create-private-session.dart';
+import 'package:gym_project/screens/coach/private%20sessions/sessions-screen.dart';
+import 'package:gym_project/screens/coach/private%20sessions/view-booked-sessions.dart';
 import 'package:gym_project/screens/coach/sets/create-set.dart';
-import 'package:gym_project/screens/coach/view-booked-sessions.dart';
-import 'package:gym_project/screens/coach/view-my-private-sessions.dart';
-import 'package:gym_project/screens/common/Form-Template.dart';
-import 'package:gym_project/screens/common/details-screen.dart';
-import 'package:gym_project/screens/common/grid_view.dart';
-import 'package:gym_project/screens/common/view-exercises-details-screen.dart';
-import 'package:gym_project/screens/common/view-group-details-screen.dart';
-import 'package:gym_project/screens/common/view-private-session-details.dart';
-import 'package:gym_project/screens/common/view-set-details-screen.dart';
-import 'package:gym_project/screens/member/view-private-sessions.dart';
-import 'package:gym_project/screens/coach/view-groups.dart';
-import 'package:gym_project/screens/coach/view-sets.dart';
+import 'package:gym_project/screens/coach/private%20sessions/view-my-private-sessions.dart';
+import 'package:gym_project/screens/member/training-mode/training_mode_overview_screen.dart';
 import 'package:gym_project/widget/coach-drawer.dart';
 
 import 'groups/create-group.dart';
@@ -32,22 +21,22 @@ class CoachTabsScreen extends StatefulWidget {
 
 class _CoachTabsScreenState extends State<CoachTabsScreen>
     with TickerProviderStateMixin {
-  int _selectedIndex = 3; // 2 => home page
+  int _selectedIndex = 2; // 2 => home page
   TabController _tabController;
   @override
   void initState() {
     _tabController = new TabController(length: 2, vsync: this);
     _pages = [
       {
-        'page': ViewGroupsScreen(),
+        'page': TrainingModeOverviewScreen(),
         'title': 'My Classes',
       },
       {
-        'page': CreateSetForm(),
+        'page': SessionsScreen(_tabController),
         'title': 'My Sessions',
       },
       {
-        'page': CreateGroupForm(),
+        'page': CoachHomeScreen(),
         'title': 'Home',
       },
       {
@@ -55,7 +44,7 @@ class _CoachTabsScreenState extends State<CoachTabsScreen>
         'title': 'My members',
       },
       {
-        'page': ViewMyPrivateSessionsScreen(),
+        'page': OthersScreen(),
         'title': 'Others',
       },
     ];
@@ -82,6 +71,9 @@ class _CoachTabsScreenState extends State<CoachTabsScreen>
         iconTheme: IconThemeData(color: Colors.white),
         bottom: _selectedIndex == 1
             ? TabBar(
+                labelColor: Theme.of(context).primaryColor,
+                indicatorColor: Theme.of(context).primaryColor,
+                unselectedLabelColor: Colors.white,
                 controller: _tabController,
                 tabs: [
                   Tab(

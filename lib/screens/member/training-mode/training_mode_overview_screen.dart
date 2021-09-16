@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:backdrop/backdrop.dart';
 import 'package:flutter/material.dart';
-import 'package:gym_project/screens/training_mode_exercise_screen.dart';
+import 'package:gym_project/screens/common/view-group-details-screen.dart';
+import 'package:gym_project/screens/member/training-mode/training_mode_exercise_screen.dart';
 
 class TrainingModeOverviewScreen extends StatefulWidget {
   TrainingModeOverviewScreen({Key key}) : super(key: key);
@@ -121,11 +122,17 @@ class _TrainingModeOverviewScreenState
   Widget build(BuildContext context) {
     return BackdropScaffold(
       appBar: AppBar(
-        title: Text("Training Mode"),
+        title: Text("Training Mode",
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            )),
+        backgroundColor: Colors.black,
+        iconTheme: IconThemeData(color: Colors.white),
         actions: [
           BackdropToggleButton(
             icon: AnimatedIcons.list_view,
-            color: Colors.black,
+            color: Colors.white,
           )
         ],
       ),
@@ -201,7 +208,7 @@ class _TrainingModeOverviewScreenState
               : Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                Container(
+                    Container(
                       width: double.infinity,
                       height: 50,
                       color: Colors.black,
@@ -232,12 +239,12 @@ class _TrainingModeOverviewScreenState
                         ],
                       ),
                     ),
-                Expanded(
+                    Expanded(
                       child: Container(
                         width: double.infinity,
                         color: Colors.black,
                         child: Image.network(
-                      currentExercise['gif'],
+                          currentExercise['gif'],
                           fit: BoxFit.contain,
                         ),
                       ),
@@ -247,7 +254,7 @@ class _TrainingModeOverviewScreenState
                       width: double.infinity,
                       color: Colors.black,
                       alignment: Alignment.center,
-                  child: InkButton(
+                      child: InkButton(
                         currentExercise,
                         finishExercise,
                         index: _currentExerciseIndex,
@@ -344,7 +351,13 @@ class _TrainingModeOverviewScreenState
                     Container(
                       child: Center(
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        GroupDetailsScreen()));
+                          },
                           child: Text(
                             'View Group Details',
                             style: TextStyle(
