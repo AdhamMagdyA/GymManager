@@ -160,7 +160,11 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: MaterialButton(
-                onPressed: btn_enabled ? () {} : null,
+                onPressed: btn_enabled
+                    ? () {
+                        Navigator.pop(context);
+                      }
+                    : null,
                 height: 50,
                 padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
                 disabledColor: Color(0xFF404040),
