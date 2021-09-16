@@ -43,13 +43,13 @@ class OthersScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(16),
                                 )),
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          CreateExerciseForm()));
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) =>
+                              //             CreateExerciseForm()));
                             },
-                            child: Text('Exercises'),
+                            child: Text('Items'),
                           ),
                           SizedBox(
                             height: 10,
@@ -64,31 +64,12 @@ class OthersScreen extends StatelessWidget {
                               ),
                             ),
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => CreateSetForm()));
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => CreateSetForm()));
                             },
-                            child: Text('Sets'),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                primary: Colors.amber,
-                                onPrimary: Colors.black,
-                                fixedSize: Size.fromWidth(150),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                )),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => CreateGroupForm()));
-                            },
-                            child: Text('Groups'),
+                            child: Text('Meals'),
                           ),
                           SizedBox(
                             height: 10,
@@ -105,30 +86,9 @@ class OthersScreen extends StatelessWidget {
                               // Navigator.push(
                               //     context,
                               //     MaterialPageRoute(
-                              //         builder: (context) =>
-                              //             CreateGroupForm()));
+                              //         builder: (context) => CreateGroupForm()));
                             },
-                            child: Text('Classes'),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                primary: Colors.amber,
-                                onPrimary: Colors.black,
-                                fixedSize: Size.fromWidth(150),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                )),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          CreatePrivateSessionForm()));
-                            },
-                            child: Text('Private Sessions'),
+                            child: Text('Plans'),
                           ),
                         ],
                       ),
@@ -167,12 +127,12 @@ class OthersScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(16),
                                 )),
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ExercisesScreen()));
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => ExercisesScreen()));
                             },
-                            child: Text('All Exercises'),
+                            child: Text('All Items'),
                           ),
                           SizedBox(
                             height: 10,
@@ -187,32 +147,12 @@ class OthersScreen extends StatelessWidget {
                               ),
                             ),
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ViewSetsScreen()));
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => ViewSetsScreen()));
                             },
-                            child: Text('All Sets'),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                primary: Colors.amber,
-                                onPrimary: Colors.black,
-                                fixedSize: Size.fromWidth(150),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                )),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          ViewGroupsScreen()));
-                            },
-                            child: Text('All Groups'),
+                            child: Text('All Meals'),
                           ),
                           SizedBox(
                             height: 10,

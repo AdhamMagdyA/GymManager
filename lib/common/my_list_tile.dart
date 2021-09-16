@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 class CustomListTile extends StatefulWidget {
+  final IconData iconData;
   final String title;
   final List<String> subtitles;
   String trailing = '';
 
-  CustomListTile(this.title, this.subtitles, {this.trailing});
+  CustomListTile(this.title, this.subtitles, {this.iconData, this.trailing});
   @override
   _CustomListTileState createState() => _CustomListTileState();
 }
@@ -23,7 +24,7 @@ class _CustomListTileState extends State<CustomListTile> {
         minVerticalPadding: 10,
         leading: CircleAvatar(
           radius: 20,
-          child: FlutterLogo(),
+          child: Icon(widget.iconData),
         ),
         title: Text(
           widget.title,
