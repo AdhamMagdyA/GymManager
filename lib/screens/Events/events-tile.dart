@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/screens/Events/event-details.dart';
 
 class EventListTile extends StatefulWidget {
   final String title;
@@ -60,6 +61,7 @@ class _EventListTileState extends State<EventListTile> {
             ),
           ],
         ),
+        onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => EventDetailsScreen()));},
         ),
     );
   }

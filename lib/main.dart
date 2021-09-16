@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/screens/Events/event-details.dart';
+import 'package:gym_project/screens/Events/events-list.dart';
+import 'package:gym_project/screens/Feedbacks/feedback-form.dart';
+import 'package:gym_project/screens/Invitations/invitation-form.dart';
+import 'package:gym_project/screens/Invitations/invitation-list.dart';
+import 'package:gym_project/screens/Supplements/supplement-grid-view.dart';
 import 'package:gym_project/screens/admin/home.dart';
 import 'package:gym_project/screens/admin/util-screen.dart';
 
@@ -34,7 +40,17 @@ class MyApp extends StatelessWidget {
             headline5: TextStyle(color: Colors.white),
             headline6: TextStyle(color: Colors.white),
           )),
-      home: AdminUtil(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => AdminUtil(),
+        '/events': (context) => EventListView(),
+        '/supplements': (context) => SupplementList(),
+        '/invite': (context) => InvitationForm(),
+        '/feedback': (context) => FeedbackForm(),
+        '/invitations': (context) => InvitationList(),
+        // '/event': (context) => EventDetailsScreen(),
+
+      },
     );
   }
 }

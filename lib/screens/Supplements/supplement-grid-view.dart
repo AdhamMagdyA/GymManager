@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/core/presentation/res/assets.dart';
+import 'package:gym_project/screens/Supplements/supplement-card.dart';
 import 'package:gym_project/widget/grid_view_card.dart';
 
 class SupplementList extends StatefulWidget {
@@ -58,53 +59,46 @@ class _SupplementListState extends State<SupplementList> {
                   mainAxisSpacing: 10,
                   crossAxisSpacing: 10,
                   children: <Widget>[
-                    GridViewCard(
+                    SupplementCard(
                       dumbbell,
                       'Dumbbell',
                       '1000 \$',
-                      '',
-                      '',
-                      '',
+                      context
                     ),
-                    GridViewCard(
+                    SupplementCard(
                       dumbbell,
                       'Dumbbell',
                       '1000 \$',
-                      '',
-                      '',
-                      '',
+                      context
+
                     ),
-                    GridViewCard(
+                    SupplementCard(
                       dumbbell,
                       'Dumbbell',
                       '1000 \$',
-                      '',
-                      '',
-                      '',
+                      context
+
                     ),
-                    GridViewCard(
+                    SupplementCard(
                       dumbbell,
                       'Dumbbell',
                       '1000 \$',
-                      '',
-                      '',
-                      '',
+                      context
+
                     ),
-                    GridViewCard(
+                    SupplementCard(
                       dumbbell,
                       'Dumbbell',
                       '1000 \$',
-                      '',
-                      '',
-                      '',
+                      context
+
                     ),
-                    GridViewCard(
+                    SupplementCard(
                       dumbbell,
                       'Dumbbell',
                       '1000 \$',
-                      '',
-                      '',
-                      '',
+                      context
+
                     ),
                   ],
                 ),
