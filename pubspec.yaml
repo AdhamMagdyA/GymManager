@@ -56,6 +56,14 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/login.png
+    - assets/images/others-create.png
+    - assets/images/others-crowdmeter.png
+    - assets/images/others-announcements.png
+    - assets/images/others-inventory.png
+    - assets/images/others-branches.png
+    - assets/images/others-questions.png
+    - assets/images/others-supplements.png
+    - assets/images/others-events.png
     - assets/images/Rectangle.png
     - assets/images/logo.png
     - assets/images/details.png

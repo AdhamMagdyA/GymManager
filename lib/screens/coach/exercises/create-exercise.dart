@@ -1,8 +1,9 @@
-import 'dart:math';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gym_project/screens/coach/equipment/equipments-list.dart';
+import 'package:image_picker/image_picker.dart';
 
 Map selectedEquipment = {};
 
@@ -22,6 +23,9 @@ class MapScreenState extends State<CreateExerciseForm>
   void initState() {
     super.initState();
   }
+
+  PickedFile _imageFile;
+  final ImagePicker _picker = ImagePicker();
 
   refresh() {
     setState(() {});
@@ -252,15 +256,16 @@ class MapScreenState extends State<CreateExerciseForm>
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                              left: 25.0, right: 25.0, top: 2.0),
+                              left: 25.0, right: 25.0, top: 25.0),
                           child: new Row(
                             mainAxisSize: MainAxisSize.max,
                             children: <Widget>[
-                              new Flexible(
-                                child: new TextField(
-                                  decoration: const InputDecoration(
-                                      hintText: "Enter Gif link"),
-                                ),
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  imageProfile(),
+                                ],
                               ),
                             ],
                           ),
@@ -325,19 +330,21 @@ class MapScreenState extends State<CreateExerciseForm>
                               ],
                             )),
                         Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                new Flexible(
-                                  child: new TextField(
-                                    decoration: const InputDecoration(
-                                        hintText: "Enter image link"),
-                                  ),
-                                ),
-                              ],
-                            )),
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 25.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  imageProfile(),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
                         Padding(
                           padding: EdgeInsets.only(
                               left: 25.0, right: 25.0, top: 25.0),
@@ -392,7 +399,7 @@ class MapScreenState extends State<CreateExerciseForm>
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                EquipmentsList(),
+                                                EquipmentsList(true),
                                           ));
                                       setState(() {
                                         selectedEquipment = result;
@@ -459,6 +466,85 @@ class MapScreenState extends State<CreateExerciseForm>
         ),
       ),
     );
+  }
+
+  Widget imageProfile() {
+    return Center(
+      child: Stack(children: <Widget>[
+        CircleAvatar(
+          radius: 80.0,
+          backgroundImage: _imageFile == null
+              ? AssetImage("assets/images/logo.png")
+              : FileImage(File(_imageFile.path)),
+        ),
+        Positioned(
+          bottom: 20.0,
+          right: 20.0,
+          child: InkWell(
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                builder: ((builder) => bottomSheet()),
+              );
+            },
+            child: Icon(
+              Icons.camera_alt,
+              color: Colors.teal,
+              size: 28.0,
+            ),
+          ),
+        ),
+      ]),
+    );
+  }
+
+  Widget bottomSheet() {
+    return Container(
+      height: 100.0,
+      width: MediaQuery.of(context).size.width,
+      margin: EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 20,
+      ),
+      child: Column(
+        children: <Widget>[
+          Text(
+            "Choose Profile photo",
+            style: TextStyle(
+              fontSize: 20.0,
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+            FlatButton.icon(
+              icon: Icon(Icons.camera),
+              onPressed: () {
+                takePhoto(ImageSource.camera);
+              },
+              label: Text("Camera"),
+            ),
+            FlatButton.icon(
+              icon: Icon(Icons.image),
+              onPressed: () {
+                takePhoto(ImageSource.gallery);
+              },
+              label: Text("Gallery"),
+            ),
+          ])
+        ],
+      ),
+    );
+  }
+
+  void takePhoto(ImageSource source) async {
+    final pickedFile = await _picker.getImage(
+      source: source,
+    );
+    setState(() {
+      _imageFile = pickedFile;
+    });
   }
 
   @override

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/screens/coach/exercises/edit-exercise.dart';
 
 class EquipmentsList extends StatefulWidget {
-  const EquipmentsList({Key key}) : super(key: key);
+  bool isSelectionTime = false;
+  EquipmentsList(this.isSelectionTime);
 
   @override
   EquipmentsListState createState() => EquipmentsListState();
@@ -35,6 +37,7 @@ class EquipmentsListState extends State<EquipmentsList> {
   void setSelectionMode(bool value) {
     setState(() {
       _selectionMode = value;
+      widget.isSelectionTime = value;
     });
   }
 
@@ -180,6 +183,7 @@ class EquipmentsListState extends State<EquipmentsList> {
                             setSelectionMode: setSelectionMode,
                             isSelected: isSelected,
                             setIndexOfSelected: setIndexOfSelected,
+                            selectionTime: widget.isSelectionTime,
                           ))
                       .toList(),
                 ),
@@ -216,6 +220,7 @@ class MySingleChoosingGridViewCard extends StatefulWidget {
     @required this.setSelectionMode,
     @required this.isSelected,
     @required this.setIndexOfSelected,
+    @required this.selectionTime,
   }) : super(key: key);
 
   final picture;
@@ -226,6 +231,7 @@ class MySingleChoosingGridViewCard extends StatefulWidget {
   final Function setSelectionMode;
   final Function isSelected;
   final Function setIndexOfSelected;
+  final bool selectionTime;
 
   @override
   _MySingleChoosingGridViewCardState createState() =>
@@ -302,6 +308,31 @@ class _MySingleChoosingGridViewCardState
                 ),
               ),
             ),
+            if (!widget.selectionTime && !widget.selectionMode)
+              SizedBox(
+                height: 20,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Center(
+                    child: TextButton(
+                      child: Text(
+                        'Edit',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.amber,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EditExerciseForm(),
+                            ));
+                      },
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),

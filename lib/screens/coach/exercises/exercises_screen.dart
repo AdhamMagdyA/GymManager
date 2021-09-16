@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/screens/coach/exercises/edit-exercise.dart';
 
 import '../../common/view-exercises-details-screen.dart';
 
 class ExercisesScreen extends StatefulWidget {
-  const ExercisesScreen({Key key}) : super(key: key);
+  bool isSelectionTime = false;
+  ExercisesScreen(this.isSelectionTime);
 
   @override
   ExercisesScreenState createState() => ExercisesScreenState();
@@ -67,6 +69,7 @@ class ExercisesScreenState extends State<ExercisesScreen> {
   void setSelectionMode(bool value) {
     setState(() {
       _selectionMode = value;
+      widget.isSelectionTime = value;
     });
   }
 
@@ -295,6 +298,7 @@ class ExercisesScreenState extends State<ExercisesScreen> {
                             decrementItem: decrementItem,
                             selectedItemsNumber: selectedItemsNumber,
                             isSelected: isSelected,
+                            selectionTime: widget.isSelectionTime,
                           ))
                       .toList(),
                 ),
@@ -338,6 +342,7 @@ class MyChoosingGridViewCard extends StatefulWidget {
     @required this.decrementItem,
     @required this.selectedItemsNumber,
     @required this.isSelected,
+    @required this.selectionTime,
   }) : super(key: key);
 
   final image;
@@ -353,6 +358,7 @@ class MyChoosingGridViewCard extends StatefulWidget {
   final Function decrementItem;
   final Function selectedItemsNumber;
   final Function isSelected;
+  final bool selectionTime;
 
   @override
   _MyChoosingGridViewCardState createState() => _MyChoosingGridViewCardState();
@@ -381,7 +387,7 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
             MaterialPageRoute(builder: (context) => ExerciseDetailsScreen()));
       },
       child: Container(
-        height: 200,
+        height: 500,
         width: 200,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
@@ -397,6 +403,7 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             if (widget.selectionMode)
               Row(
@@ -417,18 +424,20 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
                       icon: Icon(Icons.remove)),
                 ],
               ),
-            Container(
-              width: double.infinity,
-              height: widget.selectionMode ? 70 : 110,
-              padding: EdgeInsets.all(0),
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(imageBorderRadius),
-                  topLeft: Radius.circular(imageBorderRadius),
-                ),
-                child: Image.network(
-                  widget.image,
-                  fit: BoxFit.cover,
+            Expanded(
+              child: Container(
+                width: double.infinity,
+                height: widget.selectionMode ? 70 : 110,
+                padding: EdgeInsets.all(0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(imageBorderRadius),
+                    topLeft: Radius.circular(imageBorderRadius),
+                  ),
+                  child: Image.network(
+                    widget.image,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
@@ -491,6 +500,32 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
                     )),
               ),
             ),
+            //add condition for edit button
+            if (!widget.selectionTime && !widget.selectionMode)
+              SizedBox(
+                height: 20,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Center(
+                    child: TextButton(
+                      child: Text(
+                        'Edit',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.amber,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EditExerciseForm(),
+                            ));
+                      },
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),

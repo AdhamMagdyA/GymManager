@@ -274,7 +274,7 @@ class MapScreenState extends State<EditGroupForm>
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  ExercisesScreen(),
+                                                  ExercisesScreen(true),
                                             ));
                                     if (result != {}) {
                                       setState(() {

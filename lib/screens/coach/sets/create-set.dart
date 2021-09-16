@@ -238,7 +238,7 @@ class MapScreenState extends State<CreateSetForm>
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  ExercisesScreen(),
+                                                  ExercisesScreen(true),
                                             ));
                                     if (result.isNotEmpty) {
                                       setState(() {

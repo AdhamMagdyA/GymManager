@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gym_project/screens/common/grid_view.dart';
 import 'package:gym_project/screens/admin/admin_home_page.dart';
 import 'package:gym_project/widget/drawer.dart';
-import 'package:motion_tab_bar/MotionTabController.dart';
 
 class AdminUtil extends StatefulWidget {
   const AdminUtil({Key key}) : super(key: key);
@@ -12,7 +11,6 @@ class AdminUtil extends StatefulWidget {
 }
 
 class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
-  MotionTabController _tabController;
   int _selectedIndex = 0;
 
   final _pages = [
