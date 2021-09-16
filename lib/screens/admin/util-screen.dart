@@ -42,11 +42,11 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
       'title': 'Branches',
     },
     {
-      'page': EventForm(),
+      'page': EventListView(),
       'title': 'Events',
     },
     {
-      'page': SupplementForm(),
+      'page': SupplementList(),
       'title': 'Supplements',
     },
   ];
