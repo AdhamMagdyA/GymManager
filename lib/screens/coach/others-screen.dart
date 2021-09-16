@@ -19,7 +19,7 @@ class OthersScreen extends StatelessWidget {
         children: [
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-                primary: Colors.amber,
+                primary: Colors.white,
                 onPrimary: Colors.black,
                 fixedSize: Size.fromWidth(150),
                 shape: RoundedRectangleBorder(
@@ -36,7 +36,7 @@ class OthersScreen extends StatelessWidget {
                         children: [
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                primary: Colors.amber,
+                                primary: Colors.white30,
                                 onPrimary: Colors.black,
                                 fixedSize: Size.fromWidth(150),
                                 shape: RoundedRectangleBorder(
@@ -56,7 +56,7 @@ class OthersScreen extends StatelessWidget {
                           ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.amber,
+                              primary: Colors.white30,
                               onPrimary: Colors.black,
                               fixedSize: Size.fromWidth(150),
                               shape: RoundedRectangleBorder(
@@ -76,7 +76,7 @@ class OthersScreen extends StatelessWidget {
                           ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                primary: Colors.amber,
+                                primary: Colors.white30,
                                 onPrimary: Colors.black,
                                 fixedSize: Size.fromWidth(150),
                                 shape: RoundedRectangleBorder(
@@ -95,7 +95,7 @@ class OthersScreen extends StatelessWidget {
                           ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                primary: Colors.amber,
+                                primary: Colors.white30,
                                 onPrimary: Colors.black,
                                 fixedSize: Size.fromWidth(150),
                                 shape: RoundedRectangleBorder(
@@ -115,7 +115,7 @@ class OthersScreen extends StatelessWidget {
                           ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                primary: Colors.amber,
+                                primary: Colors.white30,
                                 onPrimary: Colors.black,
                                 fixedSize: Size.fromWidth(150),
                                 shape: RoundedRectangleBorder(
@@ -142,7 +142,7 @@ class OthersScreen extends StatelessWidget {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: Colors.amber,
+              primary: Colors.white30,
               onPrimary: Colors.black,
               fixedSize: Size.fromWidth(150),
               shape: RoundedRectangleBorder(
@@ -160,7 +160,7 @@ class OthersScreen extends StatelessWidget {
                         children: [
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                primary: Colors.amber,
+                                primary: Colors.white30,
                                 onPrimary: Colors.black,
                                 fixedSize: Size.fromWidth(150),
                                 shape: RoundedRectangleBorder(
@@ -179,7 +179,7 @@ class OthersScreen extends StatelessWidget {
                           ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.amber,
+                              primary: Colors.white30,
                               onPrimary: Colors.black,
                               fixedSize: Size.fromWidth(150),
                               shape: RoundedRectangleBorder(
@@ -199,7 +199,7 @@ class OthersScreen extends StatelessWidget {
                           ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                primary: Colors.amber,
+                                primary: Colors.white30,
                                 onPrimary: Colors.black,
                                 fixedSize: Size.fromWidth(150),
                                 shape: RoundedRectangleBorder(
@@ -229,7 +229,7 @@ class OthersScreen extends StatelessWidget {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: Colors.amber,
+              primary: Colors.white30,
               onPrimary: Colors.black,
               fixedSize: Size.fromWidth(150),
               shape: RoundedRectangleBorder(
@@ -258,7 +258,7 @@ class OthersScreen extends StatelessWidget {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-                primary: Colors.amber,
+                primary: Colors.white30,
                 onPrimary: Colors.black,
                 fixedSize: Size.fromWidth(150),
                 shape: RoundedRectangleBorder(
@@ -272,7 +272,7 @@ class OthersScreen extends StatelessWidget {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-                primary: Colors.amber,
+                primary: Colors.white30,
                 onPrimary: Colors.black,
                 fixedSize: Size.fromWidth(150),
                 shape: RoundedRectangleBorder(
@@ -286,7 +286,7 @@ class OthersScreen extends StatelessWidget {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-                primary: Colors.amber,
+                primary: Colors.white30,
                 onPrimary: Colors.black,
                 fixedSize: Size.fromWidth(150),
                 shape: RoundedRectangleBorder(
@@ -300,7 +300,7 @@ class OthersScreen extends StatelessWidget {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-                primary: Colors.amber,
+                primary: Colors.white30,
                 onPrimary: Colors.black,
                 fixedSize: Size.fromWidth(150),
                 shape: RoundedRectangleBorder(
@@ -314,7 +314,7 @@ class OthersScreen extends StatelessWidget {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: Colors.amber,
+              primary: Colors.white30,
               onPrimary: Colors.black,
               fixedSize: Size.fromWidth(150),
               shape: RoundedRectangleBorder(

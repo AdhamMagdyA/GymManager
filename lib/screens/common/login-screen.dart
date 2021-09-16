@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/common/my_popup.dart';
 import 'package:gym_project/screens/admin/util-screen.dart';
+import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
+import 'package:gym_project/screens/member/member-util.dart';
+import 'package:gym_project/screens/nutritionist/util-screen.dart';
 import '../../style/styling.dart';
 import '../../widget/button.dart';
 
@@ -102,86 +105,121 @@ class _LoginState extends State<Login> {
                                   roundedBorder: true,
                                   onTap: () {
                                     return showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            primary: Colors.amber,
-                            fixedSize: Size.fromWidth(150),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            )),
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AdminUtil()),
-                          );
-                        },
-                        child: Text('Admin'),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            primary: Colors.amber,
-                            fixedSize: Size.fromWidth(150),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            )),
-                        onPressed: () {
-                        },
-                        child: Text('Coach'),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            primary: Colors.amber,
-                            fixedSize: Size.fromWidth(150),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            )),
-                        onPressed: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => MyListView()),
-                          // );
-                        },
-                        child: Text('Member'),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            primary: Colors.amber,
-                            fixedSize: Size.fromWidth(150),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            )),
-                        onPressed: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => Scaffold(
-                          //             body: MyListView(),
-                          //           )),
-                          // );
-                        },
-                        child: Text('Nutritionist'),
-                      ),
-                    ],
-                  ),
-                );
-              });
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            content: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          primary: Colors.amber,
+                                                          fixedSize:
+                                                              Size.fromWidth(
+                                                                  150),
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        16),
+                                                          )),
+                                                  onPressed: () {
+                                                    Navigator.pushReplacement(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              AdminUtil()),
+                                                    );
+                                                  },
+                                                  child: Text('Admin'),
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          primary: Colors.amber,
+                                                          fixedSize:
+                                                              Size.fromWidth(
+                                                                  150),
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        16),
+                                                          )),
+                                                  onPressed: () {
+                                                    Navigator.pushReplacement(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              CoachTabsScreen()),
+                                                    );
+                                                  },
+                                                  child: Text('Coach'),
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          primary: Colors.amber,
+                                                          fixedSize:
+                                                              Size.fromWidth(
+                                                                  150),
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        16),
+                                                          )),
+                                                  onPressed: () {
+                                                    Navigator.pushReplacement(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              MemberUtil()),
+                                                    );
+                                                  },
+                                                  child: Text('Member'),
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          primary: Colors.amber,
+                                                          fixedSize:
+                                                              Size.fromWidth(
+                                                                  150),
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        16),
+                                                          )),
+                                                  onPressed: () {
+                                                    Navigator.pushReplacement(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              NutritionistUtil()),
+                                                    );
+                                                  },
+                                                  child: Text('Nutritionist'),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        });
                                   },
                                 ),
                               ],
