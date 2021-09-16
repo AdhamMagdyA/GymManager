@@ -7,13 +7,16 @@ class CustomListTileWithoutCounter extends StatefulWidget {
   final String subtitle2;
   final String subtitle3;
 
-  CustomListTileWithoutCounter(this.path,this.title, this.subtitle1, this.subtitle2, this.subtitle3);
+  CustomListTileWithoutCounter(
+      this.path, this.title, this.subtitle1, this.subtitle2, this.subtitle3);
 
   @override
-  _CustomListTileWithoutCounterState createState() => _CustomListTileWithoutCounterState();
+  _CustomListTileWithoutCounterState createState() =>
+      _CustomListTileWithoutCounterState();
 }
 
-class _CustomListTileWithoutCounterState extends State<CustomListTileWithoutCounter> {
+class _CustomListTileWithoutCounterState
+    extends State<CustomListTileWithoutCounter> {
   int number = 0;
   @override
   Widget build(BuildContext context) {
@@ -39,19 +42,18 @@ class _CustomListTileWithoutCounterState extends State<CustomListTileWithoutCoun
           children: [
             Text(
               widget.subtitle1,
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.white60),
             ),
             Text(
               widget.subtitle2,
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.white60),
             ),
             Text(
               widget.subtitle3,
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.white60),
             ),
           ],
         ),
-        
       ),
     );
   }

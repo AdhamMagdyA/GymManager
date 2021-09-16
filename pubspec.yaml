@@ -27,7 +27,6 @@ dependencies:
     sdk: flutter
   hexcolor: ^2.0.5
   pie_chart: ^5.0.0
-  image_picker: ^0.8.4
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -39,6 +38,7 @@ dependencies:
   backdrop: ^0.6.2
   flutter_datetime_picker: ^1.5.1
   multi_select_flutter: ^4.0.0
+  image_picker: ^0.8.4
 
 dev_dependencies:
   flutter_test:
@@ -56,6 +56,11 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/images/membership.png
+    - assets/images/membership.jfif
+    - assets/images/OIP.jfif
+    - assets/images/branch.jfif
+    - assets/images/Boxing.jfif
     - assets/images/branch.png
     - assets/images/login.png
     - assets/images/Rectangle.png

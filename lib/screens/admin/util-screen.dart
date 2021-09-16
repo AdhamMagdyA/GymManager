@@ -3,15 +3,34 @@ import 'package:gym_project/screens/Events/events-list.dart';
 import 'package:gym_project/screens/Events/events-tile.dart';
 import 'package:gym_project/screens/Supplements/supplement-details.dart';
 import 'package:gym_project/screens/Supplements/supplement-grid-view.dart';
+import 'package:gym_project/screens/admin/branches/edit_branch.dart';
+import 'package:gym_project/screens/admin/classes/class_details.dart';
+import 'package:gym_project/screens/admin/classes/edit_class.dart';
+import 'package:gym_project/screens/admin/memberships/create_membership.dart';
+import 'package:gym_project/screens/admin/memberships/edit_membership.dart';
+import 'package:gym_project/screens/admin/nutritionist_sessions/edit_nutrionist_session.dart';
+import 'package:gym_project/screens/admin/users/user_details.dart';
+import 'package:gym_project/screens/admin/users/users_list.dart';
+import 'package:gym_project/screens/common/FormTemplate.dart';
+import 'package:gym_project/screens/common/ProfilePage.dart';
 import 'package:gym_project/screens/common/grid_view.dart';
+import 'package:gym_project/screens/admin/classes/classes_list.dart';
 import 'package:gym_project/screens/admin/admin_home_page.dart';
 import 'package:gym_project/screens/questions/add-question-screen.dart';
 import 'package:gym_project/screens/questions/questions-screen.dart';
+import 'package:gym_project/screens/admin/classes/create_class.dart';
+import 'package:gym_project/screens/admin/equipment/create_equipment.dart';
+import 'package:gym_project/screens/admin/users/edit_user.dart';
 import 'package:gym_project/widget/drawer.dart';
-//import 'package:motion_tab_bar/MotionTabController.dart';
-
+import 'branches/branch_details.dart';
 import 'branches/branches_list.dart';
+import 'equipment/equipment_details.dart';
 import 'equipment/equipment_list.dart';
+import 'memberships/membership_details.dart';
+import 'memberships/memberships_list.dart';
+import 'nutritionist_sessions/create_Nutrisionist_Session.dart';
+import 'nutritionist_sessions/nutritionist_sessions_list.dart';
+import 'others.dart';
 
 class AdminUtil extends StatefulWidget {
   const AdminUtil({Key key}) : super(key: key);
@@ -30,20 +49,20 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
       'title': 'Homepage',
     },
     {
-      'page': EquipmentList(),
-      'title': 'Equipment',
+      'page': UsersList(),
+      'title': 'Users',
     },
     {
       'page': BranchesList(),
       'title': 'Branches',
     },
     {
-      'page': EventListView(),
-      'title': 'Events',
+      'page': MembershipsList(),
+      'title': 'Memberships',
     },
     {
-      'page': SupplementList(),
-      'title': 'Supplements',
+      'page': Others(),
+      'title': 'Ohters',
     },
   ];
   @override
@@ -79,16 +98,16 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.two_wheeler_rounded),
-            label: 'Equipment',
+            icon: Icon(Icons.supervised_user_circle),
+            label: 'Users',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.workspaces),
             label: 'Branches',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.view_list),
-            label: 'Events',
+            icon: Icon(Icons.class_),
+            label: 'Memberships',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.view_list),
@@ -100,25 +119,6 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
         unselectedItemColor: Color(0xFFFFCE2B).withAlpha(100),
         onTap: _onItemTapped,
       ),
-      ////navigation bar code begins here
-      //     bottomNavigationBar: MotionTabBar(
-      //         labels: [
-      //           "classes", "sessions","AdminUtil","member","invent"
-      //         ],
-      //         initialSelectedTab: "AdminUtil",
-      //         tabIconColor: Colors.black,
-      //         tabSelectedColor: Color(0xFFFFCE2B),
-      //         onTabItemSelected: (int value){
-      //              setState(() {
-      //                 _tabController.index = value;
-      //              });
-      //         },
-      //         icons: [
-      //           Icons.account_box,Icons.menu,Icons.home,Icons.menu,Icons.question_answer
-      //         ],
-      //         textStyle: TextStyle(color: Colors.black),
-      // ),
-      /////////////////////////////////////////////////////////
     );
   }
 }

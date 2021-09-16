@@ -35,7 +35,10 @@ class AdminHomePage extends StatelessWidget {
             style: TextStyle(
                 color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
           ),
-          _chip("See all", primary)
+          InkWell(
+            onTap: () {},
+            child: _chip("See all", primary),
+          ),
         ],
       ),
     );

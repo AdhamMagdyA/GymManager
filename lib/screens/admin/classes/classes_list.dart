@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/common/my_list_tile_without_counter.dart';
 
-class BranchesList extends StatefulWidget {
-  final String title = 'Elmaadi';
-  final String subtitle1 = '';
-  final String subtitle2 = '0101111002';
-  final String subtitle3 = '';
-
-  BranchesList();
-
+class ClassesList extends StatefulWidget {
+  final String title = 'Yoga';
+  final String subtitle1 = '2 Hours';
+  final String subtitle2 = '43/60 Member';
+  final String subtitle3 = '85 L.E.';
   @override
-  _BranchesListState createState() => _BranchesListState();
+  _ClassesListState createState() => _ClassesListState();
 }
 
-class _BranchesListState extends State<BranchesList> {
+class _ClassesListState extends State<ClassesList> {
   final length = 12;
 
   int number = 0;
@@ -24,7 +21,7 @@ class _BranchesListState extends State<BranchesList> {
       floatingActionButton: Container(
         child: FloatingActionButton.extended(
           onPressed: () {
-            Navigator.pushNamed(context, '/create-branch');
+            Navigator.pushNamed(context, '/create-class');
           },
           isExtended: false,
           label: Icon(Icons.add),
@@ -38,6 +35,33 @@ class _BranchesListState extends State<BranchesList> {
         padding: EdgeInsetsDirectional.all(10),
         child: ListView(
           children: [
+            Container(
+              padding: EdgeInsets.all(20),
+              child: Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: new Icon(
+                      Icons.arrow_back_ios,
+                      color: Color(0xFFFFCE2B),
+                      size: 22.0,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 25.0),
+                    //-->header
+                    child: new Text('Classes List',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                            fontFamily: 'sans-serif-light',
+                            color: Colors.white)),
+                  ),
+                ],
+              ),
+            ),
             Material(
                 elevation: 5.0,
                 borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -62,7 +86,7 @@ class _BranchesListState extends State<BranchesList> {
                 itemBuilder: (ctx, index) {
                   return InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, '/branch-details');
+                      Navigator.pushNamed(context, '/class-details');
                     },
                     child: CustomListTileWithoutCounter(
                         'assets/images/branch.png',

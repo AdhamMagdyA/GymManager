@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/common/my_list_tile_without_counter.dart';
 
-class BranchesList extends StatefulWidget {
-  final String title = 'Elmaadi';
-  final String subtitle1 = '';
-  final String subtitle2 = '0101111002';
-  final String subtitle3 = '';
-
-  BranchesList();
+class UsersList extends StatefulWidget {
+  final String title = 'Youssef Kholy';
+  final String subtitle1 = 'Branch';
+  final String subtitle2 = '01002003004';
+  final String subtitle3 = 'Member';
 
   @override
-  _BranchesListState createState() => _BranchesListState();
+  _UsersListState createState() => _UsersListState();
 }
 
-class _BranchesListState extends State<BranchesList> {
+class _UsersListState extends State<UsersList> {
   final length = 12;
 
   int number = 0;
@@ -24,7 +22,7 @@ class _BranchesListState extends State<BranchesList> {
       floatingActionButton: Container(
         child: FloatingActionButton.extended(
           onPressed: () {
-            Navigator.pushNamed(context, '/create-branch');
+            Navigator.pushNamed(context, '/create-user');
           },
           isExtended: false,
           label: Icon(Icons.add),
@@ -62,10 +60,10 @@ class _BranchesListState extends State<BranchesList> {
                 itemBuilder: (ctx, index) {
                   return InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, '/branch-details');
+                      Navigator.pushNamed(context, '/user-details');
                     },
                     child: CustomListTileWithoutCounter(
-                        'assets/images/branch.png',
+                        'assets/images/user_icon.png',
                         widget.title,
                         widget.subtitle1,
                         widget.subtitle2,
