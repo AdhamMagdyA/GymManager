@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/common/crowd-meter.dart';
 import 'package:gym_project/screens/coach/exercises/create-exercise.dart';
+import 'package:gym_project/screens/coach/exercises/exercises_screen.dart';
 import 'package:gym_project/screens/coach/groups/create-group.dart';
+import 'package:gym_project/screens/coach/groups/view-groups.dart';
 import 'package:gym_project/screens/coach/private%20sessions/create-private-session.dart';
 import 'package:gym_project/screens/coach/sets/create-set.dart';
+import 'package:gym_project/screens/coach/sets/view-sets.dart';
 
 class OthersScreen extends StatelessWidget {
   const OthersScreen({Key key}) : super(key: key);
@@ -145,7 +149,108 @@ class OthersScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              return showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      backgroundColor: Colors.black,
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.amber,
+                                onPrimary: Colors.black,
+                                fixedSize: Size.fromWidth(150),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                )),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ExercisesScreen()));
+                            },
+                            child: Text('My Exercises'),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.amber,
+                              onPrimary: Colors.black,
+                              fixedSize: Size.fromWidth(150),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ViewSetsScreen()));
+                            },
+                            child: Text('My Sets'),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.amber,
+                                onPrimary: Colors.black,
+                                fixedSize: Size.fromWidth(150),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                )),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ViewGroupsScreen()));
+                            },
+                            child: Text('My Groups'),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      ),
+                    );
+                  });
+            },
+            child: Text('Inventory'),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: Colors.amber,
+              onPrimary: Colors.black,
+              fixedSize: Size.fromWidth(150),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+            onPressed: () {
+              return showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      backgroundColor: Colors.black,
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          CrowdMeter(checkedInMembers: 40, totalMembers: 100),
+                        ],
+                      ),
+                    );
+                  });
+            },
             child: Text('Crowd Meter'),
           ),
           SizedBox(
