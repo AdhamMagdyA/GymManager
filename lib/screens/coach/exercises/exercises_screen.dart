@@ -111,14 +111,15 @@ class ExercisesScreenState extends State<ExercisesScreen> {
   }
 
   void getFinalSelectedItems() {
+    int index = 0;
     for (Map<int, int> selectedItem in _numberOfSelectedInstances) {
       // print(selectedItem);
       selectedItem.forEach((key, value) {
         // print(sets[key]);
-        finalSelectedItems[key] = {
-          ..._exercises[key],
-          'value': value,
-        };
+        for (int i = 0; i < value; i++) {
+          finalSelectedItems[index] = _exercises[key];
+          index++;
+        }
       });
     }
     print(finalSelectedItems);
@@ -307,6 +308,7 @@ class ExercisesScreenState extends State<ExercisesScreen> {
                   child: Text('Submit'),
                   style: ElevatedButton.styleFrom(
                       primary: Colors.amber,
+                      onPrimary: Colors.black,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       )),

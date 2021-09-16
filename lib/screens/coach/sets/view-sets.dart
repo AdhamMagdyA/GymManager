@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gym_project/common/my_choosing_screen.dart';
 import 'package:gym_project/common/my_list_tile.dart';
+import 'package:gym_project/screens/coach/sets/edit-set.dart';
 import 'package:gym_project/screens/common/view-set-details-screen.dart';
 
 class ViewSetsScreen extends StatefulWidget {
+  bool isSelectionTime = false;
+  ViewSetsScreen(this.isSelectionTime);
   @override
   _ViewSetsScreenState createState() => _ViewSetsScreenState();
 }
@@ -36,6 +39,7 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
   void setSelectionMode(bool value) {
     setState(() {
       _selectionMode = value;
+      widget.isSelectionTime = value;
     });
   }
 
@@ -80,15 +84,17 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
   }
 
   void getFinalSelectedItems() {
+    int index = 0;
     for (Map<int, int> selectedItem in _numberOfSelectedInstances) {
       // print(selectedItem);
       selectedItem.forEach((key, value) {
         // print(sets[key]);
-        finalSelectedItems[key] = {
-          ...sets[key],
-          'value': value,
-        };
+        for (int i = 0; i < value; i++) {
+          finalSelectedItems[index] = sets[key];
+          index++;
+        }
       });
+      print(finalSelectedItems);
     }
     // print(finalSelectedItems);
   }
@@ -159,17 +165,16 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
                     itemCount: sets.length,
                     itemBuilder: (ctx, index) {
                       return SetsListTile(
-                        sets[index]['title'],
-                        [sets[index]['description'], 'sub 2', 'sub 3'],
-                        index,
-                        _selectionMode,
-                        setSelectionMode,
-                        incrementItem,
-                        decrementItem,
-                        selectedItemsNumber,
-                        isSelected,
-                        'https://images.app.goo.gl/oSJrrxJh1LGFiope9',
-                      );
+                          sets[index],
+                          index,
+                          _selectionMode,
+                          setSelectionMode,
+                          incrementItem,
+                          decrementItem,
+                          selectedItemsNumber,
+                          isSelected,
+                          'https://images.app.goo.gl/oSJrrxJh1LGFiope9',
+                          widget.isSelectionTime);
                     }),
               ],
             ),
@@ -181,6 +186,7 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
                   child: Text('Submit'),
                   style: ElevatedButton.styleFrom(
                       primary: Colors.amber,
+                      onPrimary: Colors.black,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       )),
@@ -224,8 +230,7 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
 }
 
 class SetsListTile extends StatefulWidget {
-  final String title;
-  final List<String> subtitles;
+  final Map set;
   final int index;
   final bool selectionMode;
   final Function setSelectionMode;
@@ -234,19 +239,19 @@ class SetsListTile extends StatefulWidget {
   final Function selectedItemsNumber;
   final Function isSelected;
   final String iconData;
+  final bool selectionTime;
 
   SetsListTile(
-    this.title,
-    this.subtitles,
-    this.index,
-    this.selectionMode,
-    this.setSelectionMode,
-    this.incrementItem,
-    this.decrementItem,
-    this.selectedItemsNumber,
-    this.isSelected,
-    this.iconData,
-  );
+      this.set,
+      this.index,
+      this.selectionMode,
+      this.setSelectionMode,
+      this.incrementItem,
+      this.decrementItem,
+      this.selectedItemsNumber,
+      this.isSelected,
+      this.iconData,
+      this.selectionTime);
   @override
   _SetsListTileState createState() => _SetsListTileState();
 }
@@ -282,51 +287,66 @@ class _SetsListTileState extends State<SetsListTile> {
             child: FlutterLogo(),
           ),
           title: Text(
-            widget.title,
+            widget.set['title'],
             style: TextStyle(color: Colors.white),
           ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              for (String subtitle in widget.subtitles)
-                Text(
-                  subtitle,
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                )
+              Text(
+                widget.set['description'],
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              )
             ],
           ),
-          trailing: !widget.selectionMode
-              ? null
-              : Column(
-                  children: [
-                    GestureDetector(
-                      child: Icon(
-                        Icons.add,
-                        size: 15,
+          trailing: !widget.selectionTime
+              ? TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EditSetForm(widget.set)));
+                  },
+                  child: Text(
+                    'Edit',
+                    style: TextStyle(
+                        fontSize: 15,
                         color: Colors.white,
-                      ),
-                      onTap: () => widget.incrementItem(widget.index),
+                        fontWeight: FontWeight.bold),
+                  ),
+                )
+              : !widget.selectionMode
+                  ? null
+                  : Column(
+                      children: [
+                        GestureDetector(
+                          child: Icon(
+                            Icons.add,
+                            size: 15,
+                            color: Colors.white,
+                          ),
+                          onTap: () => widget.incrementItem(widget.index),
+                        ),
+                        Text(
+                          "${widget.selectedItemsNumber(widget.index)}",
+                          style: TextStyle(fontSize: 12, color: Colors.white),
+                        ),
+                        GestureDetector(
+                          child: Icon(
+                            Icons.remove,
+                            size: 15,
+                            color: Colors.white,
+                          ),
+                          onTap: () => widget.isSelected(widget.index)
+                              ? widget.decrementItem(widget.index)
+                              : null,
+                        )
+                      ],
+                      mainAxisSize: MainAxisSize.min,
                     ),
-                    Text(
-                      "${widget.selectedItemsNumber(widget.index)}",
-                      style: TextStyle(fontSize: 12, color: Colors.white),
-                    ),
-                    GestureDetector(
-                      child: Icon(
-                        Icons.remove,
-                        size: 15,
-                        color: Colors.white,
-                      ),
-                      onTap: () => widget.isSelected(widget.index)
-                          ? widget.decrementItem(widget.index)
-                          : null,
-                    )
-                  ],
-                  mainAxisSize: MainAxisSize.min,
-                ),
         ),
       ),
     );

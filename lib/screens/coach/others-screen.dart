@@ -49,7 +49,7 @@ class OthersScreen extends StatelessWidget {
                                       builder: (context) =>
                                           CreateExerciseForm()));
                             },
-                            child: Text('Exercises'),
+                            child: Text('Exercise'),
                           ),
                           SizedBox(
                             height: 10,
@@ -69,7 +69,7 @@ class OthersScreen extends StatelessWidget {
                                   MaterialPageRoute(
                                       builder: (context) => CreateSetForm()));
                             },
-                            child: Text('Sets'),
+                            child: Text('Set'),
                           ),
                           SizedBox(
                             height: 10,
@@ -88,7 +88,7 @@ class OthersScreen extends StatelessWidget {
                                   MaterialPageRoute(
                                       builder: (context) => CreateGroupForm()));
                             },
-                            child: Text('Groups'),
+                            child: Text('Group'),
                           ),
                           SizedBox(
                             height: 10,
@@ -108,7 +108,7 @@ class OthersScreen extends StatelessWidget {
                               //         builder: (context) =>
                               //             CreateGroupForm()));
                             },
-                            child: Text('Classes'),
+                            child: Text('Class'),
                           ),
                           SizedBox(
                             height: 10,
@@ -128,7 +128,7 @@ class OthersScreen extends StatelessWidget {
                                       builder: (context) =>
                                           CreatePrivateSessionForm()));
                             },
-                            child: Text('Private Sessions'),
+                            child: Text('Private Session'),
                           ),
                         ],
                       ),
@@ -190,7 +190,8 @@ class OthersScreen extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => ViewSetsScreen()));
+                                      builder: (context) =>
+                                          ViewSetsScreen(false)));
                             },
                             child: Text('All Sets'),
                           ),
@@ -210,7 +211,7 @@ class OthersScreen extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          ViewGroupsScreen()));
+                                          ViewGroupsScreen(false)));
                             },
                             child: Text('All Groups'),
                           ),

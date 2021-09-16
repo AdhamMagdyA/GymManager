@@ -4,7 +4,12 @@ import 'package:gym_project/common/my_choosing_screen.dart';
 import 'package:gym_project/common/my_list_tile.dart';
 import 'package:gym_project/screens/common/view-group-details-screen.dart';
 
+import 'edit-group.dart';
+
 class ViewGroupsScreen extends StatefulWidget {
+  bool isSelectionTime = false;
+
+  ViewGroupsScreen(this.isSelectionTime);
   @override
   _ViewGroupsScreenState createState() => _ViewGroupsScreenState();
 }
@@ -38,6 +43,7 @@ class _ViewGroupsScreenState extends State<ViewGroupsScreen> {
   void setSelectionMode(bool value) {
     setState(() {
       _selectionMode = value;
+      widget.isSelectionTime = value;
     });
   }
 
@@ -162,8 +168,7 @@ class _ViewGroupsScreenState extends State<ViewGroupsScreen> {
                     itemCount: groups.length,
                     itemBuilder: (ctx, index) {
                       return GroupsListTile(
-                        groups[index]['title'],
-                        [groups[index]['description'], 'sub 2', 'sub 3'],
+                        groups[index],
                         index,
                         _selectionMode,
                         setSelectionMode,
@@ -172,6 +177,7 @@ class _ViewGroupsScreenState extends State<ViewGroupsScreen> {
                         selectedItemsNumber,
                         isSelected,
                         'https://images.app.goo.gl/oSJrrxJh1LGFiope9',
+                        widget.isSelectionTime,
                       );
                     }),
               ],
@@ -184,6 +190,7 @@ class _ViewGroupsScreenState extends State<ViewGroupsScreen> {
                   child: Text('Submit'),
                   style: ElevatedButton.styleFrom(
                       primary: Colors.amber,
+                      onPrimary: Colors.black,
                       fixedSize: Size.fromWidth(width),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
@@ -228,8 +235,7 @@ class _ViewGroupsScreenState extends State<ViewGroupsScreen> {
 }
 
 class GroupsListTile extends StatefulWidget {
-  final String title;
-  final List<String> subtitles;
+  final Map group;
   final int index;
   final bool selectionMode;
   final Function setSelectionMode;
@@ -238,10 +244,9 @@ class GroupsListTile extends StatefulWidget {
   final Function selectedItemsNumber;
   final Function isSelected;
   final String iconData;
-
+  final bool selectionTime;
   GroupsListTile(
-    this.title,
-    this.subtitles,
+    this.group,
     this.index,
     this.selectionMode,
     this.setSelectionMode,
@@ -250,6 +255,7 @@ class GroupsListTile extends StatefulWidget {
     this.selectedItemsNumber,
     this.isSelected,
     this.iconData,
+    this.selectionTime,
   );
   @override
   _GroupsListTileState createState() => _GroupsListTileState();
@@ -286,51 +292,66 @@ class _GroupsListTileState extends State<GroupsListTile> {
             child: FlutterLogo(),
           ),
           title: Text(
-            widget.title,
+            widget.group['title'],
             style: TextStyle(color: Colors.white),
           ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              for (String subtitle in widget.subtitles)
-                Text(
-                  subtitle,
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                )
+              Text(
+                widget.group['description'],
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              )
             ],
           ),
-          trailing: !widget.selectionMode
-              ? null
-              : Column(
-                  children: [
-                    GestureDetector(
-                      child: Icon(
-                        Icons.add,
-                        size: 15,
+          trailing: !widget.selectionTime
+              ? TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EditGroupForm(widget.group)));
+                  },
+                  child: Text(
+                    'Edit',
+                    style: TextStyle(
+                        fontSize: 15,
                         color: Colors.white,
-                      ),
-                      onTap: () => widget.incrementItem(widget.index),
+                        fontWeight: FontWeight.bold),
+                  ),
+                )
+              : !widget.selectionMode
+                  ? null
+                  : Column(
+                      children: [
+                        GestureDetector(
+                          child: Icon(
+                            Icons.add,
+                            size: 15,
+                            color: Colors.white,
+                          ),
+                          onTap: () => widget.incrementItem(widget.index),
+                        ),
+                        Text(
+                          "${widget.selectedItemsNumber(widget.index)}",
+                          style: TextStyle(fontSize: 12, color: Colors.white),
+                        ),
+                        GestureDetector(
+                          child: Icon(
+                            Icons.remove,
+                            size: 15,
+                            color: Colors.white,
+                          ),
+                          onTap: () => widget.isSelected(widget.index)
+                              ? widget.decrementItem(widget.index)
+                              : null,
+                        )
+                      ],
+                      mainAxisSize: MainAxisSize.min,
                     ),
-                    Text(
-                      "${widget.selectedItemsNumber(widget.index)}",
-                      style: TextStyle(fontSize: 12, color: Colors.white),
-                    ),
-                    GestureDetector(
-                      child: Icon(
-                        Icons.remove,
-                        size: 15,
-                        color: Colors.white,
-                      ),
-                      onTap: () => widget.isSelected(widget.index)
-                          ? widget.decrementItem(widget.index)
-                          : null,
-                    )
-                  ],
-                  mainAxisSize: MainAxisSize.min,
-                ),
         ),
       ),
     );
