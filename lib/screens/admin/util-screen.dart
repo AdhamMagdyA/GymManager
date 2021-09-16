@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:gym_project/main.dart';
-import 'package:gym_project/screens/Events/event-form.dart';
 import 'package:gym_project/screens/Events/events-list.dart';
 import 'package:gym_project/screens/Events/events-tile.dart';
-import 'package:gym_project/screens/Feedbacks/feedback-form.dart';
-import 'package:gym_project/screens/Invitations/invitation-form.dart';
-import 'package:gym_project/screens/Invitations/invitation-list.dart';
 import 'package:gym_project/screens/Supplements/supplement-details.dart';
-import 'package:gym_project/screens/Supplements/supplement-form.dart';
 import 'package:gym_project/screens/Supplements/supplement-grid-view.dart';
 import 'package:gym_project/screens/common/grid_view.dart';
 import 'package:gym_project/screens/admin/admin_home_page.dart';
+import 'package:gym_project/screens/questions/add-question-screen.dart';
 import 'package:gym_project/widget/drawer.dart';
 //import 'package:motion_tab_bar/MotionTabController.dart';
 
@@ -30,8 +25,8 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
 
   final _pages = [
     {
-      'page': InvitationList(),
-      'title': 'Invitations',
+      'page': AdminHomePage(),
+      'title': 'Homepage',
     },
     {
       'page': EquipmentList(),

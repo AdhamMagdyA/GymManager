@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/screens/announcements/add-announcement-screen.dart';
 import 'package:gym_project/screens/announcements/announcements-list-tile.dart';
 
 class AnnouncementsScreen extends StatefulWidget {
@@ -22,7 +23,14 @@ class _AnnouncementsScreenState extends State<AnnouncementsScreen> {
     return Scaffold(
       floatingActionButton: user_role == "admin"
           ? FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddAnnouncementScreen(),
+                  ),
+                );
+              },
               child: Icon(
                 Icons.add,
                 color: Colors.white,
@@ -36,20 +44,29 @@ class _AnnouncementsScreenState extends State<AnnouncementsScreen> {
           child: ListView(
             children: [
               AnnouncementsListTile(
-                  "Announcement 1",
-                  "Nam id varius sapien. Vestibulum rhoncus viverra ligula eu tempor. Praesent accumsan libero ut venenatis sodales. Donec convallis cursus lectus in egestas. Aenean ullamcorper, libero ac cursus viverra, ante sapien scelerisque nunc",
-                  "18-9-2021 at 7:00 PM",
-                  "admin"),
+                title: "Announcement 1",
+                body:
+                    "Nam id varius sapien. Vestibulum rhoncus viverra ligula eu tempor. Praesent accumsan libero ut venenatis sodales. Donec convallis cursus lectus in egestas. Aenean ullamcorper, libero ac cursus viverra, ante sapien scelerisque nunc",
+                date: "18-9-2021 at 7:00 PM",
+                role: "admin",
+                id: 1,
+              ),
               AnnouncementsListTile(
-                  "Announcement 2",
-                  "Nam id varius sapien. Vestibulum rhoncus viverra ligula eu tempor. Praesent accumsan libero ut venenatis sodales. Donec convallis cursus lectus in egestas. Aenean ullamcorper, libero ac cursus viverra, ante sapien scelerisque nunc",
-                  "18-9-2021 at 6:00 PM",
-                  "admin"),
+                title: "Announcement 2",
+                body:
+                    "Nam id varius sapien. Vestibulum rhoncus viverra ligula eu tempor. Praesent accumsan libero ut venenatis sodales. Donec convallis cursus lectus in egestas. Aenean ullamcorper, libero ac cursus viverra, ante sapien scelerisque nunc",
+                date: "18-9-2021 at 6:00 PM",
+                role: "admin",
+                id: 2,
+              ),
               AnnouncementsListTile(
-                  "Announcement 3",
-                  "Nam id varius sapien. Vestibulum rhoncus viverra ligula eu tempor. Praesent accumsan libero ut venenatis sodales. Donec convallis cursus lectus in egestas. Aenean ullamcorper, libero ac cursus viverra, ante sapien scelerisque nunc",
-                  "18-9-2021 at 5:00 PM",
-                  "admin"),
+                title: "Announcement 3",
+                body:
+                    "Nam id varius sapien. Vestibulum rhoncus viverra ligula eu tempor. Praesent accumsan libero ut venenatis sodales. Donec convallis cursus lectus in egestas. Aenean ullamcorper, libero ac cursus viverra, ante sapien scelerisque nunc",
+                date: "18-9-2021 at 5:00 PM",
+                role: "admin",
+                id: 3,
+              ),
             ],
           ),
         ),

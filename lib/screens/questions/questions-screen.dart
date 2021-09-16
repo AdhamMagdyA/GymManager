@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/common/my_list_tile.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
+import 'package:gym_project/screens/questions/add-question-screen.dart';
 import 'package:gym_project/screens/questions/all-questions.dart';
 import 'package:gym_project/screens/questions/coach-questions.dart';
 import 'package:gym_project/screens/questions/my-questions.dart';
@@ -41,7 +42,14 @@ class _QuestionsScreenState extends State<QuestionsScreen>
       length: tabs.length,
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddQuestionScreen(),
+              ),
+            );
+          },
           child: Icon(
             Icons.add,
             color: Colors.white,
