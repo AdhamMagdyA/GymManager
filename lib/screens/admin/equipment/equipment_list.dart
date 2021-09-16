@@ -15,7 +15,9 @@ class _EquipmentListState extends State<EquipmentList> {
     return Scaffold(
         floatingActionButton: Container(
           child: FloatingActionButton.extended(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, '/create-equipment');
+            },
             isExtended: false,
             label: Icon(Icons.add),
           ),
@@ -37,6 +39,7 @@ class _EquipmentListState extends State<EquipmentList> {
                 ),
                 width: double.infinity,
               ),
+
               //background design
               new Align(
                 alignment: const Alignment(1.0, -1.0),
@@ -63,11 +66,33 @@ class _EquipmentListState extends State<EquipmentList> {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text("Equipment",
-                              style: TextStyle(
-                                  fontSize: 40,
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.white)),
+                          Container(
+                            padding: EdgeInsets.all(20),
+                            child: Row(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: new Icon(
+                                    Icons.arrow_back_ios,
+                                    color: Color(0xFFFFCE2B),
+                                    size: 22.0,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 25.0),
+                                  //-->header
+                                  child: new Text('Equipment List',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20.0,
+                                          fontFamily: 'sans-serif-light',
+                                          color: Colors.white)),
+                                ),
+                              ],
+                            ),
+                          ),
                           SizedBox(
                             height: 40,
                           ),

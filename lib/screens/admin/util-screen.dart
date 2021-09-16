@@ -6,6 +6,7 @@ import 'package:gym_project/screens/admin/memberships/create_membership.dart';
 import 'package:gym_project/screens/admin/memberships/edit_membership.dart';
 import 'package:gym_project/screens/admin/nutritionist_sessions/edit_nutrionist_session.dart';
 import 'package:gym_project/screens/admin/users/user_details.dart';
+import 'package:gym_project/screens/admin/users/users_list.dart';
 import 'package:gym_project/screens/common/FormTemplate.dart';
 import 'package:gym_project/screens/common/ProfilePage.dart';
 import 'package:gym_project/screens/common/grid_view.dart';
@@ -38,23 +39,23 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
 
   final _pages = [
     {
-      'page': EditClass(),
+      'page': AdminHomePage(),
       'title': 'Homepage',
     },
     {
-      'page': CreateMembership(),
-      'title': 'Equipment',
+      'page': UsersList(),
+      'title': 'Users',
     },
     {
-      'page': EditMembership(),
+      'page': BranchesList(),
       'title': 'Branches',
     },
     {
-      'page': NutrisionistSessionCreate(),
-      'title': 'Branch',
+      'page': MembershipsList(),
+      'title': 'Memberships',
     },
     {
-      'page': EditNutrionistSession(),
+      'page': Others(),
       'title': 'Ohters',
     },
   ];
@@ -91,8 +92,8 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.two_wheeler_rounded),
-            label: 'Equipment',
+            icon: Icon(Icons.supervised_user_circle),
+            label: 'Users',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.workspaces),
@@ -100,7 +101,7 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.class_),
-            label: 'Branch',
+            label: 'Memberships',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.view_list),

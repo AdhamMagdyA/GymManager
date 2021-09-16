@@ -10,8 +10,12 @@ class Others extends StatefulWidget {
 }
 
 class _OthersState extends State<Others> {
-  final length = 5;
-  final title = ["Exercises", "classes", "equipment", "sessions", "diet plans"];
+  final title = ["Classes", "Equipment", "NutritionistSessions"];
+  final paths = [
+    "/class-list",
+    "/equipment-list",
+    "/nutritionist-session-list"
+  ];
   int number = 0;
 
   @override
@@ -26,9 +30,13 @@ class _OthersState extends State<Others> {
             ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: length,
+                itemCount: title.length,
                 itemBuilder: (ctx, index) {
-                  return OnlyTitleCard(title[index]);
+                  return InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, paths[index]);
+                      },
+                      child: OnlyTitleCard(title[index]));
                 }),
           ],
         ),

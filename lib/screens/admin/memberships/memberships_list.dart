@@ -23,7 +23,9 @@ class _MembershipsListState extends State<MembershipsList> {
     return Scaffold(
       floatingActionButton: Container(
         child: FloatingActionButton.extended(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, '/create-membership');
+          },
           isExtended: false,
           label: Icon(Icons.add),
         ),
@@ -58,12 +60,17 @@ class _MembershipsListState extends State<MembershipsList> {
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: length,
                 itemBuilder: (ctx, index) {
-                  return CustomListTileWithoutCounter(
-                      'assets/images/membership.png',
-                      widget.title,
-                      widget.subtitle1,
-                      widget.subtitle2,
-                      widget.subtitle3);
+                  return InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/membership-details');
+                    },
+                    child: CustomListTileWithoutCounter(
+                        'assets/images/membership.png',
+                        widget.title,
+                        widget.subtitle1,
+                        widget.subtitle2,
+                        widget.subtitle3),
+                  );
                 }),
           ],
         ),

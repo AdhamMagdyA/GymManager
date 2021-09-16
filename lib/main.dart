@@ -1,4 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/screens/admin/admin_home_page.dart';
+import 'package:gym_project/screens/admin/branches/branch_details.dart';
+import 'package:gym_project/screens/admin/branches/branches_list.dart';
+import 'package:gym_project/screens/admin/branches/create_branch.dart';
+import 'package:gym_project/screens/admin/branches/edit_branch.dart';
+import 'package:gym_project/screens/admin/classes/class_details.dart';
+import 'package:gym_project/screens/admin/classes/classes_list.dart';
+import 'package:gym_project/screens/admin/classes/create_class.dart';
+import 'package:gym_project/screens/admin/classes/edit_class.dart';
+import 'package:gym_project/screens/admin/equipment/create_equipment.dart';
+import 'package:gym_project/screens/admin/equipment/edit_equipment.dart';
+import 'package:gym_project/screens/admin/equipment/equipment_details.dart';
+import 'package:gym_project/screens/admin/equipment/equipment_list.dart';
+import 'package:gym_project/screens/admin/memberships/create_membership.dart';
+import 'package:gym_project/screens/admin/memberships/edit_membership.dart';
+import 'package:gym_project/screens/admin/memberships/membership_details.dart';
+import 'package:gym_project/screens/admin/nutritionist_sessions/create_Nutrisionist_Session.dart';
+import 'package:gym_project/screens/admin/nutritionist_sessions/edit_nutrionist_session.dart';
+import 'package:gym_project/screens/admin/nutritionist_sessions/nutritionist_sessions_list.dart';
+import 'package:gym_project/screens/admin/users/create_user.dart';
+import 'package:gym_project/screens/admin/users/edit_user.dart';
+import 'package:gym_project/screens/admin/users/user_details.dart';
 import 'package:gym_project/screens/admin/util-screen.dart';
 
 import 'screens/common/ProfilePage.dart';
@@ -13,6 +35,40 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {
+        // When navigating to the "/" route, build the FirstScreen widget.
+        '': (context) => AdminHomePage(),
+        // user routes
+        '/user-details': (context) => UserDetails(),
+        '/create-user': (context) => CreateUserForm(),
+        '/edit-user': (context) => EditUserForm(),
+        //branches routes
+        'branches-list': (context) => BranchesList(),
+        '/branch-details': (context) => BranchDetails(),
+        '/create-branch': (context) => CreateBranchForm(),
+        '/edit-branch': (context) => EditBranchForm(),
+        //membership routes
+        '/membership-details': (context) => MembershipDetails(),
+        '/create-membership': (context) => CreateMembership(),
+        '/edit-membership': (context) => EditMembership(),
+        //Classes routes
+        '/class-list': (context) => ClassesList(),
+        '/class-details': (context) => ClassDetails(),
+        '/create-class': (context) => CreateClassForm(),
+        '/edit-class': (context) => EditClass(),
+        //nutritionist-session routes
+        '/nutritionist-session-list': (context) => NutritionistSessionsList(),
+        '/create-nutritionist-session': (context) =>
+            NutrisionistSessionCreate(),
+        '/edit-nutritionist-session': (context) => EditNutrionistSession(),
+        //Equipment routes
+        '/equipment-list': (context) => EquipmentList(),
+        '/equipment-details': (context) => EquipmentDetails(),
+        '/create-equipment': (context) => CreateEquipmentForm(),
+        '/edit-equipment': (context) => EditEquipmentForm(),
+
+        '/nutritionist-sessions-list': (context) => NutritionistSessionsList(),
+      },
       debugShowCheckedModeBanner: false,
       title: 'Gym',
       theme: ThemeData(
@@ -34,52 +90,6 @@ class MyApp extends StatelessWidget {
             headline6: TextStyle(color: Colors.white),
           )),
       home: AdminUtil(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, @required this.title}) : super(key: key);
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
     );
   }
 }

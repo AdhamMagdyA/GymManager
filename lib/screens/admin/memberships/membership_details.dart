@@ -9,7 +9,9 @@ class MembershipDetails extends StatelessWidget {
       backgroundColor: Colors.black,
       floatingActionButton: Container(
         child: FloatingActionButton.extended(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, '/edit-membership');
+          },
           isExtended: false,
           label: Icon(Icons.edit),
         ),
@@ -23,6 +25,33 @@ class MembershipDetails extends StatelessWidget {
           ListView(
             shrinkWrap: true,
             children: <Widget>[
+              Container(
+                padding: EdgeInsets.all(20),
+                child: Row(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: new Icon(
+                        Icons.arrow_back_ios,
+                        color: Color(0xFFFFCE2B),
+                        size: 22.0,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 25.0),
+                      //-->header
+                      child: new Text('Membership Info',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                              fontFamily: 'sans-serif-light',
+                              color: Colors.white)),
+                    ),
+                  ],
+                ),
+              ),
               Container(
                 child: Image.asset(
                   'assets/images/membership.jfif',

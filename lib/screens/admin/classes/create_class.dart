@@ -40,28 +40,33 @@ class _CreateClassFormState extends State<CreateClassForm>
                   color: Color(0xFF181818), //background color
                   child: new Column(
                     children: <Widget>[
-                      Padding(
-                          padding: EdgeInsets.only(left: 20.0, top: 20.0),
-                          child: new Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              new Icon(
+                      Container(
+                        padding: EdgeInsets.all(20),
+                        child: Row(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: new Icon(
                                 Icons.arrow_back_ios,
                                 color: Color(0xFFFFCE2B),
                                 size: 22.0,
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 25.0),
-                                //-->header
-                                child: new Text('Create Class',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20.0,
-                                        fontFamily: 'sans-serif-light',
-                                        color: Colors.white)),
-                              )
-                            ],
-                          )),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 25.0),
+                              //-->header
+                              child: new Text('Create Class',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20.0,
+                                      fontFamily: 'sans-serif-light',
+                                      color: Colors.white)),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),

@@ -7,7 +7,9 @@ class EquipmentDetails extends StatelessWidget {
     return Scaffold(
       floatingActionButton: Container(
         child: FloatingActionButton.extended(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, '/edit-equipment');
+          },
           isExtended: false,
           label: Icon(Icons.edit),
         ),

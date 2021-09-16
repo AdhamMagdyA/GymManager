@@ -14,7 +14,9 @@ class _BranchDetailsState extends State<BranchDetails> {
     return Scaffold(
       floatingActionButton: Container(
         child: FloatingActionButton.extended(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, '/edit-branch');
+          },
           isExtended: false,
           label: Icon(Icons.edit),
         ),
@@ -29,6 +31,33 @@ class _BranchDetailsState extends State<BranchDetails> {
           ListView(
             shrinkWrap: true,
             children: <Widget>[
+              Container(
+                padding: EdgeInsets.all(20),
+                child: Row(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: new Icon(
+                        Icons.arrow_back_ios,
+                        color: Color(0xFFFFCE2B),
+                        size: 22.0,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 25.0),
+                      //-->header
+                      child: new Text('Branch Info',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                              fontFamily: 'sans-serif-light',
+                              color: Colors.white)),
+                    ),
+                  ],
+                ),
+              ),
               Container(
                 child: Image.asset(
                   'assets/images/branch.jfif',
