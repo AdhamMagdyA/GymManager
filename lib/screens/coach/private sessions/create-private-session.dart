@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:gym_project/screens/coach/view-sets.dart';
+import 'package:gym_project/screens/coach/sets/view-sets.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class CreatePrivateSessionForm extends StatefulWidget {
@@ -304,16 +304,19 @@ class MapScreenState extends State<CreatePrivateSessionForm>
                                               },
                                               onConfirm: (dateTime) {
                                                 print('confirm $dateTime');
-                                                setState(() {
-                                                  confirmedDateTime = dateTime;
-                                                  dateTimeStatus = true;
-                                                  print(dateTimeStatus);
-                                                  refresh();
-                                                });
                                               },
                                               currentTime: DateTime.now(),
                                               locale: LocaleType.en,
-                                            );
+                                            ).then((dateTimeFinal) {
+                                              setState(() {
+                                                confirmedDateTime =
+                                                    dateTimeFinal;
+                                                dateTimeStatus = true;
+                                                print(confirmedDateTime);
+                                                print(dateTimeStatus);
+                                                refresh();
+                                              });
+                                            });
                                           },
                                         ),
                                       ],
@@ -330,8 +333,9 @@ class MapScreenState extends State<CreatePrivateSessionForm>
                             children: <Widget>[
                               dateTimeStatus
                                   ? new Flexible(
-                                      child: new Text(
-                                          confirmedDateTime.toString()),
+                                      child: new TextFormField(
+                                          initialValue:
+                                              confirmedDateTime.toString()),
                                     )
                                   : SizedBox(
                                       height: 1,

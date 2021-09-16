@@ -6,7 +6,6 @@ import 'package:gym_project/screens/coach/exercises/create-exercise.dart';
 import 'package:gym_project/screens/coach/others-screen.dart';
 import 'package:gym_project/screens/coach/members-screen.dart';
 import 'package:gym_project/screens/coach/private%20sessions/create-private-session.dart';
-import 'package:gym_project/screens/coach/sessions-screen.dart';
 import 'package:gym_project/screens/coach/sets/create-set.dart';
 import 'package:gym_project/screens/coach/view-booked-sessions.dart';
 import 'package:gym_project/screens/coach/view-my-private-sessions.dart';
@@ -40,15 +39,15 @@ class _CoachTabsScreenState extends State<CoachTabsScreen>
     _tabController = new TabController(length: 2, vsync: this);
     _pages = [
       {
-        'page': ClassesScreen(),
+        'page': ViewGroupsScreen(),
         'title': 'My Classes',
       },
       {
-        'page': SessionsScreen(_tabController),
+        'page': CreateSetForm(),
         'title': 'My Sessions',
       },
       {
-        'page': CoachHomeScreen(),
+        'page': CreateGroupForm(),
         'title': 'Home',
       },
       {
@@ -56,7 +55,7 @@ class _CoachTabsScreenState extends State<CoachTabsScreen>
         'title': 'My members',
       },
       {
-        'page': GridViewScreen(),
+        'page': ViewMyPrivateSessionsScreen(),
         'title': 'Others',
       },
     ];

@@ -187,7 +187,7 @@ class ExerciseDetailsScreen extends StatelessWidget {
                 shrinkWrap: true,
                 slivers: <Widget>[
                   SliverPadding(
-                    padding: const EdgeInsets.all(26.0),
+                    padding: const EdgeInsets.only(left: 80.0, right: 80.0),
                     sliver: SliverGrid.count(
                       crossAxisCount: 1,
                       mainAxisSpacing: 10,
@@ -209,6 +209,34 @@ class ExerciseDetailsScreen extends StatelessWidget {
                 ],
               ),
             ],
+          ),
+          Padding(
+            padding: EdgeInsets.only(
+              top: 10,
+              left: 10,
+            ),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Container(
+                  height: 42,
+                  width: 42,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
         ],
       ),

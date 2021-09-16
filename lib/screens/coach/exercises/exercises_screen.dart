@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'common/view-exercises-details-screen.dart';
+
 class ExercisesScreen extends StatefulWidget {
   const ExercisesScreen({Key key}) : super(key: key);
 
@@ -371,6 +373,10 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
           widget.setSelectionMode(true);
           widget.incrementItem(widget.index);
         }
+      },
+      onTap: () {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ExerciseDetailsScreen()));
       },
       child: Container(
         height: 200,

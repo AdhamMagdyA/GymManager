@@ -2,6 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:gym_project/screens/coach/equipment/equipments-list.dart';
+
+Map selectedEquipment;
 
 class CreateExerciseForm extends StatefulWidget {
   @override
@@ -362,9 +365,13 @@ class MapScreenState extends State<CreateExerciseForm>
                                             borderRadius:
                                                 BorderRadius.circular(16),
                                           )),
-                                      onPressed: () {
-                                        print('Now choosing equipment!');
-                                        // Navigator.pop(context, finalSelectedItems);
+                                      onPressed: () async {
+                                        Map result = await Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  EquipmentsList(),
+                                            ));
                                       }),
                                 ),
                               ],
