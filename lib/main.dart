@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
+import 'package:gym_project/screens/common/grid_view.dart';
 import 'package:gym_project/screens/common/login-screen.dart';
 import 'package:gym_project/screens/common/tabs-screen.dart';
 import 'package:gym_project/screens/admin/util-screen.dart';
 import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
+import 'package:gym_project/screens/exercises_screen.dart';
+import 'package:gym_project/screens/items_screen.dart';
+import 'package:gym_project/screens/my_choosing_gridview_screen.dart';
+import 'package:gym_project/screens/supplementaries_screen.dart';
+import 'package:gym_project/screens/training_mode_exercise_screen.dart';
+import 'package:gym_project/screens/training_mode_overview_screen.dart';
 
 import 'screens/common/ProfilePage.dart';
 import 'screens/member/home-screen.dart';
