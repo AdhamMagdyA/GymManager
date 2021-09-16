@@ -11,6 +11,7 @@ import 'package:gym_project/screens/admin/memberships/edit_membership.dart';
 import 'package:gym_project/screens/admin/nutritionist_sessions/edit_nutrionist_session.dart';
 import 'package:gym_project/screens/admin/users/user_details.dart';
 import 'package:gym_project/screens/admin/users/users_list.dart';
+import 'package:gym_project/screens/coach/others-screen.dart';
 import 'package:gym_project/screens/common/FormTemplate.dart';
 import 'package:gym_project/screens/common/ProfilePage.dart';
 import 'package:gym_project/screens/common/grid_view.dart';
@@ -61,7 +62,7 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
       'title': 'Memberships',
     },
     {
-      'page': Others(),
+      'page': OthersScreen(),
       'title': 'Ohters',
     },
   ];
@@ -111,7 +112,7 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.view_list),
-            label: 'Supplements',
+            label: 'Others',
           ),
         ],
         currentIndex: _selectedIndex,
