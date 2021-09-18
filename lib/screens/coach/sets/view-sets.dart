@@ -4,6 +4,9 @@ import 'package:gym_project/common/my_choosing_screen.dart';
 import 'package:gym_project/common/my_list_tile.dart';
 import 'package:gym_project/screens/coach/sets/edit-set.dart';
 import 'package:gym_project/screens/common/view-set-details-screen.dart';
+import 'package:gym_project/viewmodels/set-list-view-model.dart';
+import 'package:gym_project/viewmodels/set-view-model.dart';
+import 'package:provider/provider.dart';
 
 class ViewSetsScreen extends StatefulWidget {
   bool isSelectionTime = false;
@@ -13,28 +16,17 @@ class ViewSetsScreen extends StatefulWidget {
 }
 
 class _ViewSetsScreenState extends State<ViewSetsScreen> {
-  final List<dynamic> sets = [
-    {
-      'title': 'Set 1',
-      "description": 'Set consisting of 3 exercises, for your health!',
-    },
-    {
-      'title': 'Set 2',
-      "description": 'Set consisting of 3 exercises, for your health!',
-    },
-    {
-      'title': 'Set 3',
-      "description": 'Set consisting of 3 exercises, for your health!',
-    },
-    {
-      'title': 'Set 4',
-      "description": 'Set consisting of 3 exercises, for your health!',
-    },
-  ];
-
+  List<SetViewModel> _sets = [];
   bool _selectionMode = false;
   List<Map<int, int>> _numberOfSelectedInstances = [];
   Map<int, Object> finalSelectedItems = {};
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<SetListViewModel>(context, listen: false).fetchListSets();
+  }
 
   void setSelectionMode(bool value) {
     setState(() {
@@ -90,7 +82,7 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
       selectedItem.forEach((key, value) {
         // print(sets[key]);
         for (int i = 0; i < value; i++) {
-          finalSelectedItems[index] = sets[key];
+          finalSelectedItems[index] = _sets[key];
           index++;
         }
       });
@@ -103,6 +95,10 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var setListViewModel = Provider.of<SetListViewModel>(context);
+    _sets = setListViewModel.sets;
+    print('Now sets are');
+    print(_sets);
     return Container(
       color: Colors.black,
       padding: EdgeInsetsDirectional.all(10),
@@ -110,74 +106,82 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
         children: [
           Material(
             color: Colors.black,
-            child: ListView(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(top: 60),
-                  child: Material(
-                      elevation: 5.0,
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                      child: TextField(
-                        controller: TextEditingController(text: 'Search...'),
-                        cursorColor: Theme.of(context).primaryColor,
-                        style: TextStyle(color: Colors.black, fontSize: 18),
-                        decoration: InputDecoration(
-                            suffixIcon: Material(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30)),
-                              child: Icon(Icons.search),
-                            ),
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 25, vertical: 13)),
-                      )),
-                ),
-                SizedBox(height: 20),
-                if (_selectionMode)
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
+            child: _sets.isEmpty
+                ? Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                    ),
+                  )
+                : ListView(
                     children: [
-                      Expanded(
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: Text(
-                            'Selected ${_numberOfSelectedInstances.length} of ${sets.length}',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
+                      Container(
+                        margin: EdgeInsets.only(top: 60),
+                        child: Material(
+                            elevation: 5.0,
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            child: TextField(
+                              controller:
+                                  TextEditingController(text: 'Search...'),
+                              cursorColor: Theme.of(context).primaryColor,
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 18),
+                              decoration: InputDecoration(
+                                  suffixIcon: Material(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(30)),
+                                    child: Icon(Icons.search),
+                                  ),
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 25, vertical: 13)),
+                            )),
                       ),
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _selectionMode = false;
-                            _numberOfSelectedInstances.clear();
-                          });
-                        },
-                        icon: Icon(
-                          Icons.close,
-                          color: Colors.white,
+                      SizedBox(height: 20),
+                      if (_selectionMode)
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Expanded(
+                              child: Container(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  'Selected ${_numberOfSelectedInstances.length} of ${_sets.length}',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _selectionMode = false;
+                                  _numberOfSelectedInstances.clear();
+                                });
+                              },
+                              icon: Icon(
+                                Icons.close,
+                                color: Colors.white,
+                              ),
+                            )
+                          ],
                         ),
-                      )
+                      ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: _sets.length,
+                          itemBuilder: (ctx, index) {
+                            return SetsListTile(
+                                _sets[index],
+                                index,
+                                _selectionMode,
+                                setSelectionMode,
+                                incrementItem,
+                                decrementItem,
+                                selectedItemsNumber,
+                                isSelected,
+                                'https://images.app.goo.gl/oSJrrxJh1LGFiope9',
+                                widget.isSelectionTime);
+                          }),
                     ],
                   ),
-                ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: sets.length,
-                    itemBuilder: (ctx, index) {
-                      return SetsListTile(
-                          sets[index],
-                          index,
-                          _selectionMode,
-                          setSelectionMode,
-                          incrementItem,
-                          decrementItem,
-                          selectedItemsNumber,
-                          isSelected,
-                          'https://images.app.goo.gl/oSJrrxJh1LGFiope9',
-                          widget.isSelectionTime);
-                    }),
-              ],
-            ),
           ),
           if (_selectionMode)
             Align(
@@ -230,7 +234,7 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
 }
 
 class SetsListTile extends StatefulWidget {
-  final Map set;
+  final SetViewModel set;
   final int index;
   final bool selectionMode;
   final Function setSelectionMode;
@@ -278,8 +282,17 @@ class _SetsListTileState extends State<SetsListTile> {
             widget.setSelectionMode(true);
           },
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => SetDetailsScreen()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MultiProvider(
+                          providers: [
+                            ChangeNotifierProvider(
+                              create: (_) => SetListViewModel(),
+                            ),
+                          ],
+                          child: SetDetailsScreen(widget.set.id),
+                        )));
           },
           leading: CircleAvatar(
             radius: 20,
@@ -287,7 +300,7 @@ class _SetsListTileState extends State<SetsListTile> {
             child: FlutterLogo(),
           ),
           title: Text(
-            widget.set['title'],
+            widget.set.title,
             style: TextStyle(color: Colors.white),
           ),
           subtitle: Column(
@@ -295,7 +308,7 @@ class _SetsListTileState extends State<SetsListTile> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                widget.set['description'],
+                widget.set.description,
                 style: TextStyle(
                   color: Colors.white,
                 ),

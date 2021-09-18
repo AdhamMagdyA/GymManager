@@ -7,6 +7,9 @@ import 'package:gym_project/screens/coach/groups/view-groups.dart';
 import 'package:gym_project/screens/coach/private%20sessions/create-private-session.dart';
 import 'package:gym_project/screens/coach/sets/create-set.dart';
 import 'package:gym_project/screens/coach/sets/view-sets.dart';
+import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
+import 'package:gym_project/viewmodels/set-list-view-model.dart';
+import 'package:provider/provider.dart';
 
 class OthersScreen extends StatelessWidget {
   const OthersScreen({Key key}) : super(key: key);
@@ -189,8 +192,16 @@ class OthersScreen extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          ExercisesScreen(false)));
+                                    builder: (context) => MultiProvider(
+                                      providers: [
+                                        ChangeNotifierProvider(
+                                          create: (_) =>
+                                              ExerciseListViewModel(),
+                                        ),
+                                      ],
+                                      child: ExercisesScreen(false),
+                                    ),
+                                  ));
                             },
                             child: Text('All Exercises'),
                           ),
@@ -210,8 +221,15 @@ class OthersScreen extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          ViewSetsScreen(false)));
+                                      builder: (context) => MultiProvider(
+                                            providers: [
+                                              ChangeNotifierProvider(
+                                                create: (_) =>
+                                                    SetListViewModel(),
+                                              ),
+                                            ],
+                                            child: ViewSetsScreen(false),
+                                          )));
                             },
                             child: Text('All Sets'),
                           ),
