@@ -64,7 +64,7 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
       'title': 'Memberships',
     },
     {
-      'page': OthersScreen(),
+      'page': Others(),
       'title': 'Ohters',
     },
   ];
