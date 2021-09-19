@@ -44,8 +44,6 @@ import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
 import 'package:gym_project/screens/items_screen.dart';
 import 'package:gym_project/screens/my_choosing_gridview_screen.dart';
-import 'package:gym_project/screens/training_mode_exercise_screen.dart';
-import 'package:gym_project/screens/training_mode_overview_screen.dart';
 
 import 'screens/common/ProfilePage.dart';
 import 'screens/member/home-screen.dart';
