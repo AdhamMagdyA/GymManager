@@ -40,6 +40,7 @@ import 'package:gym_project/screens/my_choosing_gridview_screen.dart';
 import 'package:gym_project/screens/member/training-mode/training_mode_exercise_screen.dart';
 import 'package:gym_project/screens/member/training-mode/training_mode_overview_screen.dart';
 import 'package:gym_project/screens/nutritionist/util-screen.dart';
+import 'package:gym_project/screens/questions/questions-screen.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
 

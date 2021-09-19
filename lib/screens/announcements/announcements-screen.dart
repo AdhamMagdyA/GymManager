@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/screens/announcements/add-announcement-screen.dart';
 import 'package:gym_project/screens/announcements/announcements-list-tile.dart';
+import 'package:gym_project/widget/providers/user.dart';
+import 'package:provider/provider.dart';
 
 class AnnouncementsScreen extends StatefulWidget {
   const AnnouncementsScreen({Key key}) : super(key: key);
@@ -15,7 +17,7 @@ class _AnnouncementsScreenState extends State<AnnouncementsScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    user_role = "admin";
+    user_role = Provider.of<User>(context, listen: false).role;
   }
 
   @override
@@ -48,7 +50,7 @@ class _AnnouncementsScreenState extends State<AnnouncementsScreen> {
                 body:
                     "Nam id varius sapien. Vestibulum rhoncus viverra ligula eu tempor. Praesent accumsan libero ut venenatis sodales. Donec convallis cursus lectus in egestas. Aenean ullamcorper, libero ac cursus viverra, ante sapien scelerisque nunc",
                 date: "18-9-2021 at 7:00 PM",
-                role: "admin",
+                //role: "admin",
                 id: 1,
               ),
               AnnouncementsListTile(
@@ -56,7 +58,7 @@ class _AnnouncementsScreenState extends State<AnnouncementsScreen> {
                 body:
                     "Nam id varius sapien. Vestibulum rhoncus viverra ligula eu tempor. Praesent accumsan libero ut venenatis sodales. Donec convallis cursus lectus in egestas. Aenean ullamcorper, libero ac cursus viverra, ante sapien scelerisque nunc",
                 date: "18-9-2021 at 6:00 PM",
-                role: "admin",
+                //role: "admin",
                 id: 2,
               ),
               AnnouncementsListTile(
@@ -64,7 +66,7 @@ class _AnnouncementsScreenState extends State<AnnouncementsScreen> {
                 body:
                     "Nam id varius sapien. Vestibulum rhoncus viverra ligula eu tempor. Praesent accumsan libero ut venenatis sodales. Donec convallis cursus lectus in egestas. Aenean ullamcorper, libero ac cursus viverra, ante sapien scelerisque nunc",
                 date: "18-9-2021 at 5:00 PM",
-                role: "admin",
+                //role: "admin",
                 id: 3,
               ),
             ],
