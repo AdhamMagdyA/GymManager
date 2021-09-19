@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 
 class CustomListTile extends StatefulWidget {
+  final IconData iconData;
   final String title;
-  final String subtitle1;
-  final String subtitle2;
-  final String subtitle3;
+  final List<String> subtitles;
+  String trailing = '';
 
-  CustomListTile(this.title, this.subtitle1, this.subtitle2, this.subtitle3);
+  CustomListTile(this.title, this.subtitles, {this.iconData, this.trailing});
   @override
   _CustomListTileState createState() => _CustomListTileState();
 }
 
 class _CustomListTileState extends State<CustomListTile> {
-  int number = 0;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,7 +24,7 @@ class _CustomListTileState extends State<CustomListTile> {
         minVerticalPadding: 10,
         leading: CircleAvatar(
           radius: 20,
-          child: FlutterLogo(),
+          child: Icon(widget.iconData),
         ),
         title: Text(
           widget.title,
@@ -35,57 +34,16 @@ class _CustomListTileState extends State<CustomListTile> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              widget.subtitle1,
-              style: TextStyle(color: Colors.white),
-            ),
-            Text(
-              widget.subtitle2,
-              style: TextStyle(color: Colors.white),
-            ),
-            Text(
-              widget.subtitle3,
-              style: TextStyle(color: Colors.white),
-            ),
+            for (String subtitle in widget.subtitles)
+              Text(
+                subtitle,
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              )
           ],
         ),
-        trailing: Column(
-          children: [
-            GestureDetector(
-              child: Icon(
-                Icons.add,
-                size: 15,
-                color: Colors.white,
-              ),
-              onTap: () {
-                setState(() {
-                  number++;
-                });
-              },
-            ),
-            Text(
-              "${number}",
-              style: TextStyle(fontSize: 12, color: Colors.white),
-            ),
-            GestureDetector(
-              child: Icon(
-                Icons.remove,
-                size: 15,
-                color: Colors.white,
-              ),
-              onTap: () {
-                setState(() {
-                  if (number == 0) {
-                    number = 0;
-                  } else {
-                    number--;
-                  }
-                });
-              },
-            )
-          ],
-          mainAxisSize: MainAxisSize.min,
-        ),
+        trailing: Text(widget.trailing),
       ),
     );
   }

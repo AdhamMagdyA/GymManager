@@ -113,9 +113,7 @@ class _MyChoosingScreenState extends State<MyChoosingScreen> {
               itemBuilder: (ctx, index) {
                 return MyChoosingListTile(
                   'Main Title',
-                  'Subtitle 1',
-                  'Subtitle 2',
-                  'Subtitle 3',
+                  ['Subtitle 1', 'Subtitle 2'],
                   index,
                   _selectionMode,
                   setSelectionMode,
@@ -123,6 +121,7 @@ class _MyChoosingScreenState extends State<MyChoosingScreen> {
                   decrementItem,
                   selectedItemsNumber,
                   isSelected,
+                  'https://images.app.goo.gl/oSJrrxJh1LGFiope9',
                 );
               }),
         ],
@@ -133,9 +132,7 @@ class _MyChoosingScreenState extends State<MyChoosingScreen> {
 
 class MyChoosingListTile extends StatefulWidget {
   final String title;
-  final String subtitle1;
-  final String subtitle2;
-  final String subtitle3;
+  final List<String> subtitles;
   final int index;
   final bool selectionMode;
   final Function setSelectionMode;
@@ -143,12 +140,11 @@ class MyChoosingListTile extends StatefulWidget {
   final Function decrementItem;
   final Function selectedItemsNumber;
   final Function isSelected;
+  final String iconData;
 
   MyChoosingListTile(
     this.title,
-    this.subtitle1,
-    this.subtitle2,
-    this.subtitle3,
+    this.subtitles,
     this.index,
     this.selectionMode,
     this.setSelectionMode,
@@ -156,6 +152,7 @@ class MyChoosingListTile extends StatefulWidget {
     this.decrementItem,
     this.selectedItemsNumber,
     this.isSelected,
+    this.iconData,
   );
   @override
   _MyChoosingListTileState createState() => _MyChoosingListTileState();
@@ -182,8 +179,10 @@ class _MyChoosingListTileState extends State<MyChoosingListTile> {
           onLongPress: () {
             widget.setSelectionMode(true);
           },
+          onTap: () {},
           leading: CircleAvatar(
             radius: 20,
+            // child: Image.network(widget.iconData),
             child: FlutterLogo(),
           ),
           title: Text(
@@ -194,16 +193,13 @@ class _MyChoosingListTileState extends State<MyChoosingListTile> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                widget.subtitle1,
-                style: TextStyle(
-                  color: Colors.red,
-                ),
-              ),
-              Text(
-                widget.subtitle2,
-                style: TextStyle(color: Colors.white),
-              ),
+              for (String subtitle in widget.subtitles)
+                Text(
+                  subtitle,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                )
             ],
           ),
           trailing: !widget.selectionMode

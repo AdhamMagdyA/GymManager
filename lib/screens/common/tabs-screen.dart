@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/common/my_list_view.dart';
-import 'package:gym_project/common/my_popup.dart';
 import 'package:gym_project/screens/common/login-screen.dart';
 import 'package:gym_project/screens/nutritionist/member.dart';
 import 'package:gym_project/screens/common/details-screen.dart';
 import 'package:gym_project/screens/common/login-screen.dart';
 import 'package:gym_project/screens/member/home-screen.dart';
+import 'package:gym_project/screens/questions/questions-screen.dart';
 import 'package:gym_project/widget/drawer.dart';
 import 'package:gym_project/widget/member_drawer.dart';
 import 'package:motion_tab_bar/MotionTabController.dart';
-import 'package:motion_tab_bar/motiontabbar.dart';
-
-import 'ProfilePage.dart';
 
 class Home extends StatefulWidget {
   const Home({Key key}) : super(key: key);
@@ -22,7 +19,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with TickerProviderStateMixin {
   MotionTabController _tabController;
-  int _selectedIndex = 0;
+  int _selectedIndex = 3;
 
   final _pages = [
     {
@@ -30,7 +27,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       'title': 'Categories',
     },
     {
-      'page': Login(),
+      'page': ListTile(),
       'title': 'Your Favorite',
     },
     {
@@ -38,7 +35,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       'title': 'Your Favorite',
     },
     {
-      'page': MyListView(),
+      'page': QuestionsScreen(),
       'title': 'Members',
     },
     {

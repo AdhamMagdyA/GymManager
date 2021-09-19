@@ -1,4 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/screens/Events/event-details.dart';
+import 'package:gym_project/screens/Events/events-list.dart';
+import 'package:gym_project/screens/Feedbacks/feedback-form.dart';
+import 'package:gym_project/screens/Invitations/invitation-form.dart';
+import 'package:gym_project/screens/Invitations/invitation-list.dart';
+import 'package:gym_project/screens/Supplements/supplement-grid-view.dart';
+import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
+import 'package:gym_project/screens/common/grid_view.dart';
+import 'package:gym_project/screens/common/login-screen.dart';
+import 'package:gym_project/screens/common/tabs-screen.dart';
 import 'package:gym_project/screens/admin/admin_home_page.dart';
 import 'package:gym_project/screens/admin/branches/branch_details.dart';
 import 'package:gym_project/screens/admin/branches/branches_list.dart';
@@ -22,12 +32,27 @@ import 'package:gym_project/screens/admin/users/create_user.dart';
 import 'package:gym_project/screens/admin/users/edit_user.dart';
 import 'package:gym_project/screens/admin/users/user_details.dart';
 import 'package:gym_project/screens/admin/util-screen.dart';
+import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
+import 'package:gym_project/screens/items_screen.dart';
+import 'package:gym_project/screens/my_choosing_gridview_screen.dart';
+import 'package:gym_project/screens/member/training-mode/training_mode_exercise_screen.dart';
+import 'package:gym_project/screens/member/training-mode/training_mode_overview_screen.dart';
+import 'package:gym_project/screens/nutritionist/util-screen.dart';
+import 'package:gym_project/widget/providers/user.dart';
+import 'package:provider/provider.dart';
 
 import 'screens/common/ProfilePage.dart';
 import 'screens/member/home-screen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => User()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -35,6 +60,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+
+      home: Login(),
       routes: {
         // When navigating to the "/" route, build the FirstScreen widget.
         '': (context) => AdminHomePage(),
@@ -68,6 +95,12 @@ class MyApp extends StatelessWidget {
         '/edit-equipment': (context) => EditEquipmentForm(),
 
         '/nutritionist-sessions-list': (context) => NutritionistSessionsList(),
+
+        '/events': (context) => EventListView(),
+        '/supplements': (context) => SupplementList(),
+        '/invite': (context) => InvitationForm(),
+        '/feedback': (context) => FeedbackForm(),
+        '/invitations': (context) => InvitationList(),
       },
       debugShowCheckedModeBanner: false,
       title: 'Gym',
@@ -89,7 +122,6 @@ class MyApp extends StatelessWidget {
             headline5: TextStyle(color: Colors.white),
             headline6: TextStyle(color: Colors.white),
           )),
-      home: AdminUtil(),
     );
   }
 }
