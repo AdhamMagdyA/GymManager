@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:gym_project/screens/nutritionist/view-meals-details-screen.dart';
 
 class MealsViewScreen extends StatefulWidget {
   const MealsViewScreen({Key key}) : super(key: key);

@@ -232,6 +232,7 @@ class MapScreenState extends State<CreateGroupForm>
                                   child: Text('Choose Exercises'),
                                   style: ElevatedButton.styleFrom(
                                       primary: Colors.amber,
+                                      onPrimary: Colors.black,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(16),
                                       )),
@@ -241,11 +242,12 @@ class MapScreenState extends State<CreateGroupForm>
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  ExercisesScreen(),
+                                                  ExercisesScreen(true),
                                             ));
-                                    if (result != {}) {
+                                    if (result.isNotEmpty) {
                                       setState(() {
                                         // selectedSets = result;
+
                                         for (var value in result.values) {
                                           var newValue = value as Map;
                                           selectedExercises.add(newValue);
@@ -264,9 +266,27 @@ class MapScreenState extends State<CreateGroupForm>
                         SizedBox(
                           height: 10,
                         ),
-                        if (selectedExercises != [])
-                          for (Map exercise in selectedExercises)
-                            CustomExerciseListTile(exercise, refresh),
+                        if (selectedExercises.isNotEmpty)
+                          ReorderableListView(
+                            shrinkWrap: true,
+                            children: <Widget>[
+                              for (int index = 0;
+                                  index < selectedExercises.length;
+                                  index++)
+                                CustomExerciseListTile(Key(index.toString()),
+                                    selectedExercises[index], refresh),
+                            ],
+                            onReorder: (int oldIndex, int newIndex) {
+                              setState(() {
+                                if (oldIndex < newIndex) {
+                                  newIndex -= 1;
+                                }
+                                final Map item =
+                                    selectedExercises.removeAt(oldIndex);
+                                selectedExercises.insert(newIndex, item);
+                              });
+                            },
+                          ),
                         Padding(
                             padding: EdgeInsets.only(
                                 left: 25.0, right: 25.0, top: 25.0),
@@ -305,6 +325,7 @@ class MapScreenState extends State<CreateGroupForm>
                                       child: Text('Choose Sets'),
                                       style: ElevatedButton.styleFrom(
                                           primary: Colors.amber,
+                                          onPrimary: Colors.black,
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(16),
@@ -316,11 +337,12 @@ class MapScreenState extends State<CreateGroupForm>
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                      ViewSetsScreen(),
+                                                      ViewSetsScreen(true),
                                                 ));
-                                        if (result != {}) {
+                                        if (result.isNotEmpty) {
                                           setState(() {
                                             // selectedSets = result;
+
                                             for (var value in result.values) {
                                               var newValue = value as Map;
                                               selectedSets.add(newValue);
@@ -341,9 +363,27 @@ class MapScreenState extends State<CreateGroupForm>
                         SizedBox(
                           height: 10,
                         ),
-                        if (selectedSets != [])
-                          for (Map set in selectedSets)
-                            CustomSetListTile(set, refresh),
+                        if (selectedSets.isNotEmpty)
+                          ReorderableListView(
+                            shrinkWrap: true,
+                            children: <Widget>[
+                              for (int index = 0;
+                                  index < selectedSets.length;
+                                  index++)
+                                CustomSetListTile(Key(index.toString()),
+                                    selectedSets[index], refresh),
+                            ],
+                            onReorder: (int oldIndex, int newIndex) {
+                              setState(() {
+                                if (oldIndex < newIndex) {
+                                  newIndex -= 1;
+                                }
+                                final Map item =
+                                    selectedSets.removeAt(oldIndex);
+                                selectedSets.insert(newIndex, item);
+                              });
+                            },
+                          ),
                         Padding(
                           padding: EdgeInsets.only(
                               left: 95.0, bottom: 0, right: 95.0, top: 50.0),
@@ -363,7 +403,7 @@ class MapScreenState extends State<CreateGroupForm>
                                             new BorderRadius.circular(10.0),
                                       ),
                                       primary: Color(0xFFFFCE2B),
-                                      onPrimary: Colors.white,
+                                      onPrimary: Colors.black,
                                       // padding: EdgeInsets.symmetric(
                                       //     horizontal: 10, vertical: 5),
                                       textStyle: TextStyle(
@@ -406,10 +446,11 @@ class MapScreenState extends State<CreateGroupForm>
 }
 
 class CustomSetListTile extends StatefulWidget {
+  final Key key;
   final Map set;
   final Function() notifyParent;
 
-  CustomSetListTile(this.set, this.notifyParent);
+  CustomSetListTile(this.key, this.set, this.notifyParent) : super(key: key);
   @override
   _CustomSetListTileState createState() => _CustomSetListTileState();
 }
@@ -418,12 +459,14 @@ class _CustomSetListTileState extends State<CustomSetListTile> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: widget.key,
       margin: EdgeInsetsDirectional.only(bottom: 10),
       decoration: BoxDecoration(
         color: Color(0xff181818),
         borderRadius: BorderRadius.circular(16),
       ),
       child: ListTile(
+        key: widget.key,
         minVerticalPadding: 10,
         leading: CircleAvatar(
           radius: 20,
@@ -447,8 +490,8 @@ class _CustomSetListTileState extends State<CustomSetListTile> {
         ),
         trailing: Column(
           children: [
-            Text(widget.set['value'].toString()),
-            SizedBox(height: 4),
+            // Text(widget.set['value'].toString()),
+            // SizedBox(height: 4),
             GestureDetector(
               child: Icon(
                 Icons.close,
@@ -469,9 +512,11 @@ class _CustomSetListTileState extends State<CustomSetListTile> {
 
 class CustomExerciseListTile extends StatefulWidget {
   final Map exercise;
+  final Key key;
   final Function() notifyParent;
 
-  CustomExerciseListTile(this.exercise, this.notifyParent);
+  CustomExerciseListTile(this.key, this.exercise, this.notifyParent)
+      : super(key: key);
   @override
   _CustomExerciseListTileState createState() => _CustomExerciseListTileState();
 }
@@ -480,12 +525,14 @@ class _CustomExerciseListTileState extends State<CustomExerciseListTile> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: widget.key,
       margin: EdgeInsetsDirectional.only(bottom: 10),
       decoration: BoxDecoration(
         color: Color(0xff181818),
         borderRadius: BorderRadius.circular(16),
       ),
       child: ListTile(
+        key: widget.key,
         minVerticalPadding: 10,
         leading: CircleAvatar(
           radius: 20,
@@ -521,8 +568,8 @@ class _CustomExerciseListTileState extends State<CustomExerciseListTile> {
         ),
         trailing: Column(
           children: [
-            Text(widget.exercise['value'].toString()),
-            SizedBox(height: 4),
+            // Text(widget.exercise['value'].toString()),
+            // SizedBox(height: 4),
             GestureDetector(
               child: Icon(
                 Icons.close,

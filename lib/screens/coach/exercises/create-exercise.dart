@@ -1,8 +1,13 @@
-import 'dart:math';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gym_project/screens/coach/equipment/equipments-list.dart';
+import 'package:image_picker/image_picker.dart';
+
+import 'dart:io';
+import 'package:flutter/foundation.dart';
+import 'package:image_picker/image_picker.dart';
 
 Map selectedEquipment = {};
 
@@ -17,6 +22,9 @@ class MapScreenState extends State<CreateExerciseForm>
     with SingleTickerProviderStateMixin {
   bool _status = true;
   final FocusNode myFocusNode = FocusNode();
+  XFile _imageFile;
+  XFile _gifFile;
+  final ImagePicker _picker = ImagePicker();
 
   @override
   void initState() {
@@ -25,6 +33,103 @@ class MapScreenState extends State<CreateExerciseForm>
 
   refresh() {
     setState(() {});
+  }
+
+  Widget imageProfile(String imageType) {
+    ImageProvider backgroundImage;
+    if (imageType == 'image') {
+      if (_imageFile == null)
+        backgroundImage = AssetImage("assets/images/as.png");
+      else if (kIsWeb)
+        backgroundImage = NetworkImage(_imageFile.path);
+      else
+        backgroundImage = FileImage(File(_imageFile.path));
+    } else if (imageType == 'gif') {
+      if (_gifFile == null)
+        backgroundImage = AssetImage("assets/images/as.png");
+      else if (kIsWeb)
+        backgroundImage = NetworkImage(_gifFile.path);
+      else
+        backgroundImage = FileImage(File(_gifFile.path));
+    }
+    return Center(
+      child: Stack(children: <Widget>[
+        CircleAvatar(radius: 80.0, backgroundImage: backgroundImage),
+        Positioned(
+          bottom: 20.0,
+          right: 20.0,
+          child: InkWell(
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                builder: ((builder) => bottomSheet(imageType)),
+              );
+            },
+            child: CircleAvatar(
+              backgroundColor: Colors.black.withOpacity(0.3),
+              child: Icon(
+                Icons.camera_alt,
+                color: Colors.teal,
+                size: 28.0,
+              ),
+            ),
+          ),
+        ),
+      ]),
+    );
+  }
+
+  Widget bottomSheet(String imageType) {
+    return Container(
+      height: 100.0,
+      width: MediaQuery.of(context).size.width,
+      margin: EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 20,
+      ),
+      child: Column(
+        children: <Widget>[
+          Text(
+            "Choose Profile photo",
+            style: TextStyle(
+              fontSize: 20.0,
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+            TextButton.icon(
+              icon: Icon(Icons.camera),
+              onPressed: () {
+                takePhoto(ImageSource.camera, imageType);
+                Navigator.of(context).pop();
+              },
+              label: Text("Camera"),
+            ),
+            TextButton.icon(
+              icon: Icon(Icons.image),
+              onPressed: () {
+                takePhoto(ImageSource.gallery, imageType);
+                Navigator.of(context).pop();
+              },
+              label: Text("Gallery"),
+            ),
+          ])
+        ],
+      ),
+    );
+  }
+
+  void takePhoto(ImageSource source, String imageType) async {
+    final pickedFile = await _picker.pickImage(
+      source: source,
+    );
+    setState(() {
+      if (imageType == 'image')
+        _imageFile = pickedFile;
+      else if (imageType == 'gif') _gifFile = pickedFile;
+    });
   }
 
   @override
@@ -252,15 +357,16 @@ class MapScreenState extends State<CreateExerciseForm>
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                              left: 25.0, right: 25.0, top: 2.0),
+                              left: 25.0, right: 25.0, top: 25.0),
                           child: new Row(
                             mainAxisSize: MainAxisSize.max,
                             children: <Widget>[
-                              new Flexible(
-                                child: new TextField(
-                                  decoration: const InputDecoration(
-                                      hintText: "Enter Gif link"),
-                                ),
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  imageProfile('gif'),
+                                ],
                               ),
                             ],
                           ),
@@ -325,19 +431,21 @@ class MapScreenState extends State<CreateExerciseForm>
                               ],
                             )),
                         Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                new Flexible(
-                                  child: new TextField(
-                                    decoration: const InputDecoration(
-                                        hintText: "Enter image link"),
-                                  ),
-                                ),
-                              ],
-                            )),
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 25.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  imageProfile('image'),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
                         Padding(
                           padding: EdgeInsets.only(
                               left: 25.0, right: 25.0, top: 25.0),
@@ -392,10 +500,11 @@ class MapScreenState extends State<CreateExerciseForm>
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                EquipmentsList(),
+                                                EquipmentsList(true),
                                           ));
                                       setState(() {
-                                        selectedEquipment = result;
+                                        if (result != null)
+                                          selectedEquipment = result;
                                         print(selectedEquipment);
                                       });
                                     }),

@@ -14,7 +14,6 @@ class _MyTimelineState extends State<MyTimeline> {
   Map<String, List<dynamic>> timelineItems = {};
   @override
   void initState() {
-    // TODO: implement initState
     widget.data.forEach((element) {
       DateTime now = DateTime.parse(element[widget.stackBy]);
       DateFormat formatter = DateFormat('MMM d - HH:mm');

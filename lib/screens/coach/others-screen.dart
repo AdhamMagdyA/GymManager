@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/common/crowd-meter.dart';
+import 'package:gym_project/screens/Events/events-list.dart';
+import 'package:gym_project/screens/Supplements/supplement-grid-view.dart';
+import 'package:gym_project/screens/admin/branches/branches_list.dart';
+import 'package:gym_project/screens/admin/classes/create_class.dart';
+import 'package:gym_project/screens/announcements/announcements-screen.dart';
 import 'package:gym_project/screens/coach/exercises/create-exercise.dart';
 import 'package:gym_project/screens/coach/exercises/exercises_screen.dart';
 import 'package:gym_project/screens/coach/groups/create-group.dart';
@@ -7,24 +12,36 @@ import 'package:gym_project/screens/coach/groups/view-groups.dart';
 import 'package:gym_project/screens/coach/private%20sessions/create-private-session.dart';
 import 'package:gym_project/screens/coach/sets/create-set.dart';
 import 'package:gym_project/screens/coach/sets/view-sets.dart';
+import 'package:gym_project/screens/questions/questions-screen.dart';
+import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
+import 'package:gym_project/viewmodels/set-list-view-model.dart';
+import 'package:provider/provider.dart';
 
 class OthersScreen extends StatelessWidget {
   const OthersScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                onPrimary: Colors.black,
-                fixedSize: Size.fromWidth(150),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                )),
+    return GridView.count(
+      primary: false,
+      padding: EdgeInsets.all(20),
+      crossAxisSpacing: 10,
+      mainAxisSpacing: 10,
+      crossAxisCount: 2,
+      children: [
+        Container(
+          decoration: new BoxDecoration(
+            // color: const Color(0xff181818),
+            image: new DecorationImage(
+              image: AssetImage('assets/images/others-create.png'),
+              colorFilter: new ColorFilter.mode(
+                Colors.black.withOpacity(0.4),
+                BlendMode.dstATop,
+              ),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: TextButton(
             onPressed: () {
               return showDialog(
                   context: context,
@@ -36,7 +53,7 @@ class OthersScreen extends StatelessWidget {
                         children: [
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                primary: Colors.white30,
+                                primary: Colors.amber,
                                 onPrimary: Colors.black,
                                 fixedSize: Size.fromWidth(150),
                                 shape: RoundedRectangleBorder(
@@ -49,14 +66,14 @@ class OthersScreen extends StatelessWidget {
                                       builder: (context) =>
                                           CreateExerciseForm()));
                             },
-                            child: Text('Exercises'),
+                            child: Text('Exercise'),
                           ),
                           SizedBox(
                             height: 10,
                           ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.white30,
+                              primary: Colors.amber,
                               onPrimary: Colors.black,
                               fixedSize: Size.fromWidth(150),
                               shape: RoundedRectangleBorder(
@@ -69,14 +86,14 @@ class OthersScreen extends StatelessWidget {
                                   MaterialPageRoute(
                                       builder: (context) => CreateSetForm()));
                             },
-                            child: Text('Sets'),
+                            child: Text('Set'),
                           ),
                           SizedBox(
                             height: 10,
                           ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                primary: Colors.white30,
+                                primary: Colors.amber,
                                 onPrimary: Colors.black,
                                 fixedSize: Size.fromWidth(150),
                                 shape: RoundedRectangleBorder(
@@ -88,34 +105,33 @@ class OthersScreen extends StatelessWidget {
                                   MaterialPageRoute(
                                       builder: (context) => CreateGroupForm()));
                             },
-                            child: Text('Groups'),
+                            child: Text('Group'),
                           ),
                           SizedBox(
                             height: 10,
                           ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                primary: Colors.white30,
+                                primary: Colors.amber,
                                 onPrimary: Colors.black,
                                 fixedSize: Size.fromWidth(150),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(16),
                                 )),
                             onPressed: () {
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) =>
-                              //             CreateGroupForm()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CreateClassForm()));
                             },
-                            child: Text('Classes'),
+                            child: Text('Class'),
                           ),
                           SizedBox(
                             height: 10,
                           ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                primary: Colors.white30,
+                                primary: Colors.amber,
                                 onPrimary: Colors.black,
                                 fixedSize: Size.fromWidth(150),
                                 shape: RoundedRectangleBorder(
@@ -128,27 +144,38 @@ class OthersScreen extends StatelessWidget {
                                       builder: (context) =>
                                           CreatePrivateSessionForm()));
                             },
-                            child: Text('Private Sessions'),
+                            child: Text('Private Session'),
                           ),
                         ],
                       ),
                     );
                   });
             },
-            child: Text('Create'),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              primary: Colors.white30,
-              onPrimary: Colors.black,
-              fixedSize: Size.fromWidth(150),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
+            child: Center(
+              child: Text(
+                'Create',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.amber,
+                ),
               ),
             ),
+          ),
+        ),
+        Container(
+          decoration: new BoxDecoration(
+            // color: const Color(0xff181818),
+            image: new DecorationImage(
+              image: AssetImage('assets/images/others-inventory.png'),
+              colorFilter: new ColorFilter.mode(
+                Colors.black.withOpacity(0.4),
+                BlendMode.dstATop,
+              ),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: TextButton(
             onPressed: () {
               return showDialog(
                   context: context,
@@ -160,7 +187,7 @@ class OthersScreen extends StatelessWidget {
                         children: [
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                primary: Colors.white30,
+                                primary: Colors.amber,
                                 onPrimary: Colors.black,
                                 fixedSize: Size.fromWidth(150),
                                 shape: RoundedRectangleBorder(
@@ -170,7 +197,16 @@ class OthersScreen extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => ExercisesScreen()));
+                                    builder: (context) => MultiProvider(
+                                      providers: [
+                                        ChangeNotifierProvider(
+                                          create: (_) =>
+                                              ExerciseListViewModel(),
+                                        ),
+                                      ],
+                                      child: ExercisesScreen(false),
+                                    ),
+                                  ));
                             },
                             child: Text('All Exercises'),
                           ),
@@ -179,7 +215,7 @@ class OthersScreen extends StatelessWidget {
                           ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.white30,
+                              primary: Colors.amber,
                               onPrimary: Colors.black,
                               fixedSize: Size.fromWidth(150),
                               shape: RoundedRectangleBorder(
@@ -190,7 +226,15 @@ class OthersScreen extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => ViewSetsScreen()));
+                                      builder: (context) => MultiProvider(
+                                            providers: [
+                                              ChangeNotifierProvider(
+                                                create: (_) =>
+                                                    SetListViewModel(),
+                                              ),
+                                            ],
+                                            child: ViewSetsScreen(false),
+                                          )));
                             },
                             child: Text('All Sets'),
                           ),
@@ -199,7 +243,7 @@ class OthersScreen extends StatelessWidget {
                           ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                primary: Colors.white30,
+                                primary: Colors.amber,
                                 onPrimary: Colors.black,
                                 fixedSize: Size.fromWidth(150),
                                 shape: RoundedRectangleBorder(
@@ -210,7 +254,7 @@ class OthersScreen extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          ViewGroupsScreen()));
+                                          ViewGroupsScreen(false)));
                             },
                             child: Text('All Groups'),
                           ),
@@ -222,20 +266,31 @@ class OthersScreen extends StatelessWidget {
                     );
                   });
             },
-            child: Text('Inventory'),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              primary: Colors.white30,
-              onPrimary: Colors.black,
-              fixedSize: Size.fromWidth(150),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
+            child: Center(
+              child: Text(
+                'Inventory',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.amber,
+                ),
               ),
             ),
+          ),
+        ),
+        Container(
+          decoration: new BoxDecoration(
+            // color: const Color(0xff181818),
+            image: new DecorationImage(
+              image: AssetImage('assets/images/others-crowdmeter.png'),
+              colorFilter: new ColorFilter.mode(
+                Colors.black.withOpacity(0.4),
+                BlendMode.dstATop,
+              ),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: TextButton(
             onPressed: () {
               return showDialog(
                   context: context,
@@ -251,81 +306,166 @@ class OthersScreen extends StatelessWidget {
                     );
                   });
             },
-            child: Text('Crowd Meter'),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                primary: Colors.white30,
-                onPrimary: Colors.black,
-                fixedSize: Size.fromWidth(150),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                )),
-            onPressed: () {},
-            child: Text('Announcements'),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                primary: Colors.white30,
-                onPrimary: Colors.black,
-                fixedSize: Size.fromWidth(150),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                )),
-            onPressed: () {},
-            child: Text('Q&A'),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                primary: Colors.white30,
-                onPrimary: Colors.black,
-                fixedSize: Size.fromWidth(150),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                )),
-            onPressed: () {},
-            child: Text('Supplements'),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                primary: Colors.white30,
-                onPrimary: Colors.black,
-                fixedSize: Size.fromWidth(150),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                )),
-            onPressed: () {},
-            child: Text('Events'),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              primary: Colors.white30,
-              onPrimary: Colors.black,
-              fixedSize: Size.fromWidth(150),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
+            child: Center(
+              child: Text(
+                'Crowd Meter',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.amber,
+                ),
               ),
             ),
-            onPressed: () {},
-            child: Text('Branches'),
           ),
-        ],
-      ),
+        ),
+        Container(
+          decoration: new BoxDecoration(
+            // color: const Color(0xff181818),
+            image: new DecorationImage(
+              image: AssetImage('assets/images/others-announcements.png'),
+              colorFilter: new ColorFilter.mode(
+                Colors.black.withOpacity(0.4),
+                BlendMode.dstATop,
+              ),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: TextButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AnnouncementsScreen()));
+            },
+            child: Center(
+              child: Text(
+                'Announcements',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.amber,
+                ),
+              ),
+            ),
+          ),
+        ),
+        Container(
+          decoration: new BoxDecoration(
+            // color: const Color(0xff181818),
+            image: new DecorationImage(
+              image: AssetImage('assets/images/others-questions.png'),
+              colorFilter: new ColorFilter.mode(
+                Colors.black.withOpacity(0.4),
+                BlendMode.dstATop,
+              ),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: TextButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => QuestionsScreen()));
+            },
+            child: Center(
+              child: Text(
+                'Q&A',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.amber,
+                ),
+              ),
+            ),
+          ),
+        ),
+        Container(
+          decoration: new BoxDecoration(
+            // color: const Color(0xff181818),
+            image: new DecorationImage(
+              image: AssetImage('assets/images/others-supplements.png'),
+              colorFilter: new ColorFilter.mode(
+                Colors.black.withOpacity(0.4),
+                BlendMode.dstATop,
+              ),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: TextButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SupplementList()));
+            },
+            child: Center(
+              child: Text(
+                'Supplements',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.amber,
+                ),
+              ),
+            ),
+          ),
+        ),
+        Container(
+          decoration: new BoxDecoration(
+            // color: const Color(0xff181818),
+            image: new DecorationImage(
+              image: AssetImage('assets/images/others-events.png'),
+              colorFilter: new ColorFilter.mode(
+                Colors.black.withOpacity(0.4),
+                BlendMode.dstATop,
+              ),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: TextButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => EventListView()));
+            },
+            child: Center(
+              child: Text(
+                'Events',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.amber,
+                ),
+              ),
+            ),
+          ),
+        ),
+        Container(
+          decoration: new BoxDecoration(
+            // color: const Color(0xff181818),
+            image: new DecorationImage(
+              image: AssetImage('assets/images/others-branches.png'),
+              colorFilter: new ColorFilter.mode(
+                Colors.black.withOpacity(0.4),
+                BlendMode.dstATop,
+              ),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: TextButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => BranchesList()));
+            },
+            child: Center(
+              child: Text(
+                'Branches',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.amber,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

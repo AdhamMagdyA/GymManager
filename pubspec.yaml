@@ -21,6 +21,7 @@ environment:
   sdk: ">=2.11.0 <3.0.0"
 
 dependencies:
+  dio: ^4.0.0
   timelines: ^0.1.0
   motion_tab_bar: ^0.1.5
   flutter:
@@ -41,6 +42,7 @@ dependencies:
   multi_select_flutter: ^4.0.0
   image_picker: ^0.8.4
   provider: ^6.0.0
+  video_player: ^2.2.3
 
 dev_dependencies:
   flutter_test:
@@ -65,6 +67,14 @@ flutter:
     - assets/images/Boxing.jfif
     - assets/images/branch.png
     - assets/images/login.png
+    - assets/images/others-create.png
+    - assets/images/others-crowdmeter.png
+    - assets/images/others-announcements.png
+    - assets/images/others-inventory.png
+    - assets/images/others-branches.png
+    - assets/images/others-questions.png
+    - assets/images/others-supplements.png
+    - assets/images/others-events.png
     - assets/images/Rectangle.png
     - assets/images/logo.png
     - assets/images/details.png
