@@ -242,6 +242,20 @@ class ItemsScreenState extends State<ItemsScreen> {
               ),
             ],
           ),
+          if (_numberOfSelectedInstances.length > 0)
+            Container(
+              margin: EdgeInsets.only(bottom: 20),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(primary: Color(0xFFFFCE2B)),
+                  child: Text('Submit'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+            ),
         ],
       ),
     ));

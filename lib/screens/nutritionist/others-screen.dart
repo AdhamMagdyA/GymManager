@@ -7,6 +7,10 @@ import 'package:gym_project/screens/coach/groups/view-groups.dart';
 import 'package:gym_project/screens/coach/private%20sessions/create-private-session.dart';
 import 'package:gym_project/screens/coach/sets/create-set.dart';
 import 'package:gym_project/screens/coach/sets/view-sets.dart';
+import 'package:gym_project/screens/nutritionist/item-creation-form.dart';
+import 'package:gym_project/screens/nutritionist/meal-creation-from.dart';
+import 'package:gym_project/screens/nutritionist/plan-creation-form.dart';
+import 'package:gym_project/screens/nutritionist/fitness-summary-creation-form.dart';
 
 class OthersScreen extends StatelessWidget {
   const OthersScreen({Key key}) : super(key: key);
@@ -43,11 +47,10 @@ class OthersScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(16),
                                 )),
                             onPressed: () {
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) =>
-                              //             CreateExerciseForm()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CreateItemForm()));
                             },
                             child: Text('Items'),
                           ),
@@ -64,10 +67,10 @@ class OthersScreen extends StatelessWidget {
                               ),
                             ),
                             onPressed: () {
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) => CreateSetForm()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CreateMealForm()));
                             },
                             child: Text('Meals'),
                           ),
@@ -83,12 +86,32 @@ class OthersScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(16),
                                 )),
                             onPressed: () {
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) => CreateGroupForm()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CreatePlanForm()));
                             },
                             child: Text('Plans'),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.amber,
+                                onPrimary: Colors.black,
+                                fixedSize: Size.fromWidth(150),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                )),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          CreateFitnessSummaryForm()));
+                            },
+                            child: Text('Fitness Summary'),
                           ),
                         ],
                       ),
