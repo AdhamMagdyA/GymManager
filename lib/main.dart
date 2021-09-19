@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/screens/Events/event-details.dart';
+import 'package:gym_project/screens/Events/event-form.dart';
 import 'package:gym_project/screens/Events/events-list.dart';
 import 'package:gym_project/screens/Feedbacks/feedback-form.dart';
 import 'package:gym_project/screens/Invitations/invitation-form.dart';
 import 'package:gym_project/screens/Invitations/invitation-list.dart';
+import 'package:gym_project/screens/Supplements/supplement-form.dart';
 import 'package:gym_project/screens/Supplements/supplement-grid-view.dart';
 import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
 import 'package:gym_project/screens/common/grid_view.dart';
@@ -96,8 +98,18 @@ class MyApp extends StatelessWidget {
 
         '/nutritionist-sessions-list': (context) => NutritionistSessionsList(),
 
+        //Events routes
         '/events': (context) => EventListView(),
+        '/create-event': (context) => EventForm(),
+        '/edit-event': (context) => EventForm(),
+
+
+        //supplements routes
         '/supplements': (context) => SupplementList(),
+        '/create-supplement': (context) => SupplementForm(),
+        '/edit-supplement': (context) => SupplementForm(),
+
+
         '/invite': (context) => InvitationForm(),
         '/feedback': (context) => FeedbackForm(),
         '/invitations': (context) => InvitationList(),

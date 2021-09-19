@@ -3,7 +3,7 @@ import 'package:gym_project/screens/Supplements/supplement-details.dart';
 
 
 //if there is no subTitle1,2,3,4 put their values in the call with ''
-Widget SupplementCard(image, title, price, context) {
+Widget SupplementCard(image, title, price, context,role) {
   return GestureDetector(
     child: Container(
       height: 200,
@@ -39,6 +39,17 @@ Widget SupplementCard(image, title, price, context) {
                   fontSize: 12,
                   color: Colors.black,
                 )):Container(),
+                SizedBox(height: 10,),
+            InkWell(
+                      onTap: () {
+
+                      },
+                      child: role =='admin' ? new Icon(
+                        Icons.delete,
+                        color: Colors.red,
+                        size: 25.0,
+                      ):Container(),
+                    ),    
           ],
         ),
       ),
