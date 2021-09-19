@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/core/presentation/res/text_styles.dart';
 import 'package:gym_project/screens/admin/crowd_meter.dart';
+import 'package:gym_project/screens/admin/equipment/equipment_list.dart';
 
 class BranchDetails extends StatefulWidget {
   const BranchDetails({Key key}) : super(key: key);
@@ -232,6 +234,21 @@ class _BranchDetailsState extends State<BranchDetails> {
                         fontWeight: FontWeight.w400,
                         fontFamily: 'assets/fonts/Changa-Bold.ttf',
                       ))),
+              Container(
+                padding: EdgeInsets.all(10),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.amber,
+                    textStyle: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/equipment-list');
+                  },
+                  child: const Text('View Equipment'),
+                ),
+              ),
               Container(
                 child: CrowdMeter(
                   checkedInMembers: 60,
