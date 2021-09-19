@@ -51,7 +51,7 @@ class MapScreenState extends State<CreateGroupForm>
                           child: new Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                             GestureDetector(
+                              GestureDetector(
                                 child: new Icon(
                                   Icons.arrow_back_ios,
                                   color: Color(0xFFFFCE2B),
@@ -292,6 +292,7 @@ class MapScreenState extends State<CreateGroupForm>
                         SizedBox(
                           height: 15,
                         ),
+                        //for choosing
                         Padding(
                           padding: EdgeInsets.only(
                               left: 25.0, right: 25.0, top: 2.0),
