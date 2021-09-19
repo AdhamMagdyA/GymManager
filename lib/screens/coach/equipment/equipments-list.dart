@@ -98,7 +98,8 @@ class EquipmentsListState extends State<EquipmentsList> {
                             ),
                             child: GestureDetector(
                               onTap: () {
-                                Navigator.pop(context);
+                                // return null if back button is used
+                                Navigator.of(context).pop(null);
                               },
                               child: Align(
                                 alignment: Alignment.topLeft,

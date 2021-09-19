@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -16,7 +14,6 @@ class CreateSetForm extends StatefulWidget {
 //you can change the form fields from lines (119 ,138 , etc ) -> each padding represent a field
 class MapScreenState extends State<CreateSetForm>
     with SingleTickerProviderStateMixin {
-  bool _status = true;
   final FocusNode myFocusNode = FocusNode();
 
   @override
@@ -233,23 +230,20 @@ class MapScreenState extends State<CreateSetForm>
                                         borderRadius: BorderRadius.circular(16),
                                       )),
                                   onPressed: () async {
-                                    Map<int, Object> result =
-                                        await Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ExercisesScreen(true),
-                                            ));
-                                    if (result.isNotEmpty) {
+                                    var result = await Navigator.pushNamed(
+                                      context,
+                                      ExercisesScreen.routeName,
+                                      arguments: selectedExercises,
+                                    ) as Map<int, Object>;
+                                    if (result != null) {
                                       setState(() {
-                                        // selectedSets = result;
-                                        for (var value in result.values) {
-                                          var newValue = value as Map;
-                                          selectedExercises.add(newValue);
+                                        selectedExercises.clear();
+                                        for (var entry in result.entries) {
+                                          selectedExercises.add({
+                                            'index': entry.key,
+                                            ...entry.value as Map,
+                                          });
                                         }
-
-                                        print('result is');
-                                        print(selectedExercises);
                                       });
                                     }
                                   },
@@ -314,7 +308,6 @@ class MapScreenState extends State<CreateSetForm>
                                     ),
                                     onPressed: () {
                                       setState(() {
-                                        _status = true;
                                         FocusScope.of(context)
                                             .requestFocus(new FocusNode());
                                       });
@@ -413,7 +406,6 @@ class _CustomExerciseListTileState extends State<CustomExerciseListTile> {
               ),
               onTap: () {
                 selectedExercises.remove(widget.exercise);
-                print(selectedExercises);
                 widget.notifyParent();
               },
             ),
