@@ -31,7 +31,7 @@ class _OthersState extends State<Others> {
     "/",
     "/",
     "/",
-    "/",
+    "/questions",
     "/supplements",
     "/invitations",
     "/events",

@@ -8,6 +8,8 @@ import 'package:gym_project/screens/Invitations/invitation-list.dart';
 import 'package:gym_project/screens/Supplements/supplement-form.dart';
 import 'package:gym_project/screens/Supplements/supplement-grid-view.dart';
 import 'package:gym_project/screens/admin/memberships/memberships_list.dart';
+import 'package:gym_project/screens/announcements/add-announcement-screen.dart';
+import 'package:gym_project/screens/announcements/announcements-screen.dart';
 import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
 import 'package:gym_project/screens/common/grid_view.dart';
 import 'package:gym_project/screens/common/login-screen.dart';
@@ -41,7 +43,9 @@ import 'package:gym_project/screens/my_choosing_gridview_screen.dart';
 import 'package:gym_project/screens/member/training-mode/training_mode_exercise_screen.dart';
 import 'package:gym_project/screens/member/training-mode/training_mode_overview_screen.dart';
 import 'package:gym_project/screens/nutritionist/util-screen.dart';
+import 'package:gym_project/screens/questions/add-question-screen.dart';
 import 'package:gym_project/screens/questions/questions-screen.dart';
+import 'package:gym_project/screens/questions/single-question.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
 
@@ -113,6 +117,15 @@ class MyApp extends StatelessWidget {
         '/invite': (context) => InvitationForm(),
         '/feedback': (context) => FeedbackForm(),
         '/invitations': (context) => InvitationList(),
+
+        //questions&answers routes
+        '/questions': (context) => QuestionsScreen(),
+        '/add-question': (context) => AddQuestionScreen(),
+        '/question-answers': (context) => SingleQuestionScreen(),
+
+        //announcements routes
+        '/announcements': (context) => AnnouncementsScreen(),
+        '/create-announcement': (context) => AddAnnouncementScreen(),
       },
       debugShowCheckedModeBanner: false,
       title: 'Gym',
