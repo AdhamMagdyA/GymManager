@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 
-class InvitationTile extends StatefulWidget {
+class FeedbackTile extends StatefulWidget {
   final String path;
   final String memberName;
-  final String guestName;
-  final String guestPhoneNumber;
+  final String title;
+  final String description;
 
-  InvitationTile(this.path, this.memberName, this.guestName, this.guestPhoneNumber);
+  FeedbackTile(this.path, this.memberName, this.title, this.description);
 
   @override
-  _InvitationTileState createState() => _InvitationTileState();
+  _FeedbackTileState createState() => _FeedbackTileState();
 }
 
-class _InvitationTileState extends State<InvitationTile> {
+class _FeedbackTileState extends State<FeedbackTile> {
   int number = 0;
   String role = 'admin';
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -34,22 +35,12 @@ class _InvitationTileState extends State<InvitationTile> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Member : " ,style:TextStyle(color: Colors.amberAccent) ,),
                 Text(
-                  widget.memberName,
-                  style: TextStyle(color: Colors.white),
+                  widget.title,
+                  style: TextStyle(color: Colors.amberAccent),
                 ),
-              ],
-            ),
-            Row(
-              children: [
-                Text("Guest : ",style: TextStyle(color: Colors.amberAccent),),
-                Text(
-                  widget.guestName,
-                  style: TextStyle(color: Colors.white),
-                ),
-                Spacer(),
                 InkWell(
                   onTap: () {
 
@@ -64,11 +55,22 @@ class _InvitationTileState extends State<InvitationTile> {
             ),
             Row(
               children: [
-                Text("Guest Number : ",style: TextStyle(color: Colors.amberAccent),),
+                // Text("Guest : ",style: TextStyle(color: Colors.amberAccent),),
                 Text(
-                  widget.guestPhoneNumber,
+                  widget.memberName,
                   style: TextStyle(color: Colors.white),
                 ),
+              ],
+            ),
+            Row(
+              children: [
+                // Text("Guest Number : ",style: TextStyle(color: Colors.amberAccent),),
+                Flexible(
+                  child: Text(
+                    widget.description,
+                    style: TextStyle(color: Colors.grey),
+                    overflow: TextOverflow.clip,
+                  ),)
               ],
             ),
           ],

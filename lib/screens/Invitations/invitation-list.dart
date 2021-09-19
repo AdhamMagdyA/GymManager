@@ -15,7 +15,7 @@ class InvitationList extends StatefulWidget {
 }
 
 class _InvitationListState extends State<InvitationList> {
-  final length = 5;
+  final length = 10;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +28,8 @@ class _InvitationListState extends State<InvitationList> {
             SizedBox(height: 20),
             ListView.builder(
                 shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+
                 itemCount: length,
                 itemBuilder: (ctx, index) {
                   return InvitationTile('assets/images/invite.png', widget.memberName,
