@@ -21,6 +21,18 @@ class _BranchesListState extends State<BranchesList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Container(
+        child: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.pushNamed(context, '/create-branch');
+          },
+          isExtended: false,
+          label: Icon(Icons.add),
+        ),
+        height: MediaQuery.of(context).size.height * 0.075,
+        width: MediaQuery.of(context).size.width * 0.1,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       body: Container(
         color: Colors.black,
         padding: EdgeInsetsDirectional.all(10),
@@ -48,12 +60,17 @@ class _BranchesListState extends State<BranchesList> {
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: length,
                 itemBuilder: (ctx, index) {
-                  return CustomListTileWithoutCounter(
-                      'assets/images/branch.png',
-                      widget.title,
-                      widget.subtitle1,
-                      widget.subtitle2,
-                      widget.subtitle3);
+                  return InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/branch-details');
+                    },
+                    child: CustomListTileWithoutCounter(
+                        'assets/images/branch.png',
+                        widget.title,
+                        widget.subtitle1,
+                        widget.subtitle2,
+                        widget.subtitle3),
+                  );
                 }),
           ],
         ),

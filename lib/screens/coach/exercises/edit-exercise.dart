@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 
-class CreateEquipmentForm extends StatefulWidget {
-  const CreateEquipmentForm({Key key}) : super(key: key);
+class EditExerciseForm extends StatefulWidget {
+  const EditExerciseForm({Key key}) : super(key: key);
 
   @override
-  _CreateEquipmentFormState createState() => _CreateEquipmentFormState();
+  _EditExerciseFormState createState() => _EditExerciseFormState();
 }
 
-class _CreateEquipmentFormState extends State<CreateEquipmentForm>
+class _EditExerciseFormState extends State<EditExerciseForm>
     with SingleTickerProviderStateMixin {
   bool _status = true;
   final FocusNode myFocusNode = FocusNode();
@@ -53,12 +53,14 @@ class _CreateEquipmentFormState extends State<CreateEquipmentForm>
                               Padding(
                                 padding: EdgeInsets.only(left: 25.0),
                                 //-->header
-                                child: new Text('Create Equipment',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20.0,
-                                        fontFamily: 'sans-serif-light',
-                                        color: Colors.white)),
+                                child: new Text(
+                                  'Edit Exercise',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20.0,
+                                      fontFamily: 'sans-serif-light',
+                                      color: Colors.white),
+                                ),
                               )
                             ],
                           )),
@@ -95,7 +97,7 @@ class _CreateEquipmentFormState extends State<CreateEquipmentForm>
                                 children: <Widget>[
                                   new Text(
                                     //---> topic
-                                    'Equipment Information',
+                                    'Exercise Information',
                                     style: TextStyle(
                                       fontSize: 18.0,
                                       fontWeight: FontWeight.bold,
@@ -139,7 +141,7 @@ class _CreateEquipmentFormState extends State<CreateEquipmentForm>
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   new Text(
-                                    'Name',
+                                    'Title',
                                     style: TextStyle(
                                       fontSize: 16.0,
                                       fontWeight: FontWeight.bold,
@@ -158,10 +160,8 @@ class _CreateEquipmentFormState extends State<CreateEquipmentForm>
                             mainAxisSize: MainAxisSize.max,
                             children: <Widget>[
                               new Flexible(
-                                child: new TextField(
-                                  decoration: const InputDecoration(
-                                    hintText: "Enter equipment name",
-                                  ),
+                                child: new TextFormField(
+                                  initialValue: "Dummy Text",
                                 ),
                               ),
                             ],
@@ -178,7 +178,7 @@ class _CreateEquipmentFormState extends State<CreateEquipmentForm>
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   new Text(
-                                    'Information',
+                                    'Description',
                                     style: TextStyle(
                                       fontSize: 16.0,
                                       fontWeight: FontWeight.bold,
@@ -191,6 +191,119 @@ class _CreateEquipmentFormState extends State<CreateEquipmentForm>
                           ),
                         ),
                         Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 2.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Flexible(
+                                child: new TextFormField(
+                                  initialValue: "Dummy Text",
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 25.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text(
+                                    'Gif',
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 2.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Flexible(
+                                child: new TextFormField(
+                                  decoration: const InputDecoration(
+                                      hintText: "Enter Gif link"),
+                                  initialValue: "Dummy Text",
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(
+                                left: 25.0, right: 25.0, top: 25.0),
+                            child: new Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                new Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    new Text(
+                                      'Repetitions',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )),
+                        Padding(
+                            padding: EdgeInsets.only(
+                                left: 25.0, right: 25.0, top: 2.0),
+                            child: new Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                new Flexible(
+                                  child: new TextFormField(
+                                    decoration: const InputDecoration(
+                                        hintText:
+                                            "Enter number of repetitions"),
+                                    initialValue: "Dummy",
+                                  ),
+                                ),
+                              ],
+                            )),
+                        Padding(
+                            padding: EdgeInsets.only(
+                                left: 25.0, right: 25.0, top: 25.0),
+                            child: new Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                new Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    new Text(
+                                      'Image',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )),
+                        Padding(
                             padding: EdgeInsets.only(
                                 left: 25.0, right: 25.0, top: 2.0),
                             child: new Row(
@@ -199,12 +312,56 @@ class _CreateEquipmentFormState extends State<CreateEquipmentForm>
                                 new Flexible(
                                   child: new TextField(
                                     decoration: const InputDecoration(
-                                        hintText:
-                                            "Enter equipment's extra information"),
+                                        hintText: "Enter image link"),
                                   ),
                                 ),
                               ],
                             )),
+                        Padding(
+                            padding: EdgeInsets.only(
+                                left: 25.0, right: 25.0, top: 25.0),
+                            child: new Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                new Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    new Text(
+                                      'Equipment',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 2.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Flexible(
+                                child: ElevatedButton(
+                                    child: Text('Choose Equipment'),
+                                    style: ElevatedButton.styleFrom(
+                                        primary: Colors.amber,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                        )),
+                                    onPressed: () {
+                                      print('Now choosing equipment!');
+                                      // Navigator.pop(context, finalSelectedItems);
+                                    }),
+                              ),
+                            ],
+                          ),
+                        ),
                         Padding(
                           padding: EdgeInsets.only(
                               left: 95.0, bottom: 0, right: 95.0, top: 50.0),
@@ -217,7 +374,7 @@ class _CreateEquipmentFormState extends State<CreateEquipmentForm>
                                   padding: EdgeInsets.only(right: 20.0),
                                   child: Container(
                                       child: new ElevatedButton(
-                                    child: new Text("Create"),
+                                    child: new Text("Edit"),
                                     style: ElevatedButton.styleFrom(
                                         shape: new RoundedRectangleBorder(
                                           borderRadius:

@@ -19,6 +19,18 @@ class _UsersListState extends State<UsersList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Container(
+        child: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.pushNamed(context, '/create-user');
+          },
+          isExtended: false,
+          label: Icon(Icons.add),
+        ),
+        height: MediaQuery.of(context).size.height * 0.075,
+        width: MediaQuery.of(context).size.width * 0.1,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       body: Container(
         color: Colors.black,
         padding: EdgeInsetsDirectional.all(10),
@@ -46,12 +58,17 @@ class _UsersListState extends State<UsersList> {
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: length,
                 itemBuilder: (ctx, index) {
-                  return CustomListTileWithoutCounter(
-                      'assets/images/user_icon.png',
-                      widget.title,
-                      widget.subtitle1,
-                      widget.subtitle2,
-                      widget.subtitle3);
+                  return InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/user-details');
+                    },
+                    child: CustomListTileWithoutCounter(
+                        'assets/images/user_icon.png',
+                        widget.title,
+                        widget.subtitle1,
+                        widget.subtitle2,
+                        widget.subtitle3),
+                  );
                 }),
           ],
         ),

@@ -45,10 +45,15 @@ class _CreateUserFormState extends State<CreateUserForm>
                           child: new Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              new Icon(
-                                Icons.arrow_back_ios,
-                                color: Color(0xFFFFCE2B),
-                                size: 22.0,
+                              InkWell(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: new Icon(
+                                  Icons.arrow_back_ios,
+                                  color: Color(0xFFFFCE2B),
+                                  size: 22.0,
+                                ),
                               ),
                               Padding(
                                 padding: EdgeInsets.only(left: 25.0),
@@ -481,9 +486,9 @@ class _CreateUserFormState extends State<CreateUserForm>
                                         primary: Color(0xFFFFCE2B),
                                         onPrimary: Colors.black,
                                         padding: EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 5),
+                                            horizontal: 10, vertical: 10),
                                         textStyle: TextStyle(
-                                          fontSize: 15,
+                                          fontSize: 10,
                                           fontWeight: FontWeight.bold,
                                         )),
                                     onPressed: () {

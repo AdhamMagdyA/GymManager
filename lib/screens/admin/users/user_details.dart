@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class UserDetails extends StatefulWidget {
-  const UserDetails({ Key key }) : super(key: key);
+  const UserDetails({Key key}) : super(key: key);
 
   @override
   _UserDetailsState createState() => _UserDetailsState();
 }
 
-class _UserDetailsState extends State<UserDetails>{
+class _UserDetailsState extends State<UserDetails> {
   bool _status = true;
   final FocusNode myFocusNode = FocusNode();
 
@@ -23,6 +23,33 @@ class _UserDetailsState extends State<UserDetails>{
         color: Color(0xFF181818), //background color
         child: new ListView(
           children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(left: 20, top: 10),
+              child: Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: new Icon(
+                      Icons.arrow_back_ios,
+                      color: Color(0xFFFFCE2B),
+                      size: 22.0,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 25.0),
+                    //-->header
+                    child: new Text('User Info',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                            fontFamily: 'sans-serif-light',
+                            color: Colors.white)),
+                  ),
+                ],
+              ),
+            ),
             Column(
               children: <Widget>[
                 new Container(
@@ -137,6 +164,16 @@ class _UserDetailsState extends State<UserDetails>{
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
+          InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: new Icon(
+              Icons.arrow_back_ios,
+              color: Color(0xFFFFCE2B),
+              size: 22.0,
+            ),
+          ),
           Expanded(
             child: Padding(
               padding: EdgeInsets.only(right: 10.0),
@@ -198,30 +235,48 @@ class _UserDetailsState extends State<UserDetails>{
   }
 
   Widget _getEditIcon() {
-    return new GestureDetector(
-      child: new CircleAvatar(
-        backgroundColor: Color(0xFFFFCE2B),
-        radius: 20.0,
-        child: new Icon(
-          Icons.edit,
-          color: Colors.black,
-          size: 23.0,
+    return Row(
+      children: [
+        new GestureDetector(
+          child: new CircleAvatar(
+            backgroundColor: Color(0xFFFFCE2B),
+            radius: 20.0,
+            child: new Icon(
+              Icons.edit,
+              color: Colors.black,
+              size: 23.0,
+            ),
+          ),
+          onTap: () {
+            Navigator.pushNamed(context, '/edit-user');
+          },
         ),
-      ),
-      onTap: () {
-        // setState(() {
-        //   _status = false;
-        // });
-      },
+        SizedBox(
+          width: 10,
+        ),
+        new GestureDetector(
+          child: new CircleAvatar(
+            backgroundColor: Color(0xFFFFCE2B),
+            radius: 20.0,
+            child: new Icon(
+              Icons.delete,
+              color: Colors.black,
+              size: 23.0,
+            ),
+          ),
+          onTap: () {
+            Navigator.pop(context);
+          },
+        ),
+      ],
     );
   }
 
-  Widget _dataElement(String title, String body){
+  Widget _dataElement(String title, String body) {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.only(
-              left: 25.0, right: 25.0, top: 25.0),
+          padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 25.0),
           child: new Row(
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
@@ -232,10 +287,10 @@ class _UserDetailsState extends State<UserDetails>{
                   new Text(
                     title,
                     style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        ),
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
                   ),
                 ],
               ),
@@ -243,8 +298,7 @@ class _UserDetailsState extends State<UserDetails>{
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(
-              left: 25.0, right: 25.0, top: 2.0),
+          padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 2.0),
           child: new Row(
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
@@ -252,7 +306,8 @@ class _UserDetailsState extends State<UserDetails>{
                 child: Container(
                   padding: EdgeInsets.only(left: 5),
                   child: Text(
-                    body,style: TextStyle(
+                    body,
+                    style: TextStyle(
                       color: Colors.black,
                     ),
                   ),
