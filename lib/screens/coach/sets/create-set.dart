@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
+import 'package:provider/provider.dart';
 
 import '../exercises/exercises_screen.dart';
 
@@ -235,7 +237,22 @@ class MapScreenState extends State<CreateSetForm>
                                       ExercisesScreen.routeName,
                                       arguments: selectedExercises,
                                     ) as Map<int, Object>;
-                                    if (result != null) {
+                                    // Map<int, Object> result =
+                                    //     await Navigator.push(
+                                    //         context,
+                                    //         MaterialPageRoute(
+                                    //           builder: (context) =>
+                                    //               MultiProvider(
+                                    //             providers: [
+                                    //               ChangeNotifierProvider(
+                                    //                 create: (_) =>
+                                    //                     ExerciseListViewModel(),
+                                    //               ),
+                                    //             ],
+                                    //             child: ExercisesScreen(false),
+                                    //           ),
+                                    //         ));
+                                    if (result.isNotEmpty) {
                                       setState(() {
                                         selectedExercises.clear();
                                         for (var entry in result.entries) {
@@ -244,6 +261,7 @@ class MapScreenState extends State<CreateSetForm>
                                             ...entry.value as Map,
                                           });
                                         }
+                                        print(selectedExercises);
                                       });
                                     }
                                   },

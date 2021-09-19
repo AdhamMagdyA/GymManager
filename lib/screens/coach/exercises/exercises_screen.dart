@@ -16,26 +16,74 @@ class ExercisesScreen extends StatefulWidget {
 }
 
 class ExercisesScreenState extends State<ExercisesScreen> {
-  List<ExerciseViewModel> _exercises = [];
+  // List<ExerciseViewModel> _exercises = [];
+  List<Map> _exercises = [
+    {
+      'title': 'Leg Pushes',
+      'image':
+          'https://www.bodybuilding.com/images/2016/june/leg-workouts-for-men-7-best-workouts-for-quads-glutes-hams-header-v2-960x540.jpg',
+      'reps': 10,
+      'duration': null,
+      'coach': 'Amr Fatouh',
+    },
+    {
+      'title': 'Dumbell Curls',
+      'image': 'https://ak.picdn.net/shutterstock/videos/32071954/thumb/1.jpg',
+      'reps': 15,
+      'duration': null,
+      'coach': 'Amr Fatouh',
+    },
+    {
+      'title': 'Crunches',
+      'image':
+          'https://yegfitness.ca/wp-content/uploads/2021/07/How-Nutrition-Can-Improve-Your-Workout-Quality.jpg',
+      'reps': 15,
+      'duration': null,
+      'coach': 'Amr Fatouh',
+    },
+    {
+      'title': 'Rope Swings',
+      'image':
+          'https://www.mensjournal.com/wp-content/uploads/2018/09/eytfhjb.jpg?w=1152&h=630&crop=1&quality=86&strip=all',
+      'reps': null,
+      'duration': '01:30',
+      'coach': 'Amr Fatouh',
+    },
+    {
+      'title': 'Spread Up',
+      'image':
+          'https://www.usnews.com/dims4/USNEWS/aa5868a/2147483647/crop/2118x1390%2B1%2B0/resize/640x420/quality/85/?url=http%3A%2F%2Fmedia.beam.usnews.com%2F48%2F14%2F7957075045b49d3cbc401ef61eb8%2F210824-yoga-stock.jpg',
+      'reps': null,
+      'duration': '05:00',
+      'coach': 'Amr Fatouh',
+    },
+    {
+      'title': 'Bar Lifting',
+      'image':
+          'https://www.ironmaster.com/mm5/graphics/00000001/woo/2016/07/im1500-3-e1502822806930.jpg',
+      'reps': 10,
+      'duration': null,
+      'coach': 'Amr Fatouh',
+    },
+  ];
 
   @override
   void initState() {
     super.initState();
-    Provider.of<ExerciseListViewModel>(context, listen: false)
-        .fetchListExercises();
+    // Provider.of<ExerciseListViewModel>(context, listen: false)
+    //     .fetchListExercises();
   }
 
   bool _selectionMode = false;
   List<Map<int, int>> _numberOfSelectedInstances = [];
   Map<int, Object> finalSelectedItems = {};
   bool _argumentsLoaded = false;
-
+  List<Map<Object, Object>> oldSelectedExercise = [];
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (!_argumentsLoaded) {
-      List<Map<Object, Object>> oldSelectedExercise =
-          ModalRoute.of(context).settings.arguments;
+    if (_argumentsLoaded) {
+      oldSelectedExercise = ModalRoute.of(context).settings.arguments;
       if (oldSelectedExercise.isNotEmpty) {
         setState(() {
           oldSelectedExercise.forEach((exercise) {
@@ -115,8 +163,8 @@ class ExercisesScreenState extends State<ExercisesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var exerciseListViewModel = Provider.of<ExerciseListViewModel>(context);
-    _exercises = exerciseListViewModel.exercises;
+    // var exerciseListViewModel = Provider.of<ExerciseListViewModel>(context);
+    // _exercises = exerciseListViewModel.exercises;
     print('Now exercises is');
     print(_exercises);
     return Scaffold(
@@ -283,12 +331,12 @@ class ExercisesScreenState extends State<ExercisesScreen> {
                               index < _exercises.length;
                               index++)
                             MyChoosingGridViewCard(
-                                id: _exercises[index].id,
-                                image: _exercises[index].image,
-                                title: _exercises[index].title,
-                                reps: _exercises[index].reps,
-                                duration: _exercises[index].duration,
-                                coach: _exercises[index].coachName,
+                                id: _exercises[index]['id'],
+                                image: _exercises[index]['image'],
+                                title: _exercises[index]['title'],
+                                reps: _exercises[index]['reps'],
+                                duration: _exercises[index]['duration'],
+                                coach: _exercises[index]['coach'],
                                 index: index,
                                 selectionMode: _selectionMode,
                                 setSelectionMode: setSelectionMode,
@@ -314,7 +362,7 @@ class ExercisesScreenState extends State<ExercisesScreen> {
                         borderRadius: BorderRadius.circular(16),
                       )),
                   onPressed: () {
-                    // getFinalSelectedItems();
+                    getFinalSelectedItems();
                     Navigator.pop(context, finalSelectedItems);
                   }),
             ),
@@ -415,14 +463,15 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => MultiProvider(
-              providers: [
-                ChangeNotifierProvider(
-                  create: (_) => ExerciseListViewModel(),
-                ),
-              ],
-              child: ExerciseDetailsScreen(widget.id),
-            ),
+            // builder: (context) => MultiProvider(
+            //   providers: [
+            //     ChangeNotifierProvider(
+            //       create: (_) => ExerciseListViewModel(),
+            //     ),
+            //   ],
+            //   child: ExerciseDetailsScreen(),
+            // ),
+            builder: (context) => ExerciseDetailsScreen(),
           ),
         );
       },

@@ -6,7 +6,7 @@ import 'package:gym_project/screens/coach/exercises/exercises_screen.dart';
 import 'package:gym_project/viewmodels/set-view-model.dart';
 
 class EditSetForm extends StatefulWidget {
-  final SetViewModel set;
+  final Map set;
   EditSetForm(this.set);
   @override
   MapScreenState createState() => MapScreenState();
@@ -168,7 +168,7 @@ class MapScreenState extends State<EditSetForm>
                                   child: new TextFormField(
                                     decoration: const InputDecoration(
                                         hintText: "Enter Your Title"),
-                                    initialValue: widget.set.title,
+                                    initialValue: widget.set['title'],
                                   ),
                                 ),
                               ],
@@ -206,7 +206,7 @@ class MapScreenState extends State<EditSetForm>
                                     decoration: const InputDecoration(
                                       hintText: "Enter Your Description",
                                     ),
-                                    initialValue: widget.set.description,
+                                    initialValue: widget.set['description'],
                                   ),
                                 ),
                               ],

@@ -197,15 +197,17 @@ class OthersScreen extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => MultiProvider(
-                                      providers: [
-                                        ChangeNotifierProvider(
-                                          create: (_) =>
-                                              ExerciseListViewModel(),
-                                        ),
-                                      ],
-                                      child: ExercisesScreen(false),
-                                    ),
+                                    // builder: (context) => MultiProvider(
+                                    //   providers: [
+                                    //     ChangeNotifierProvider(
+                                    //       create: (_) =>
+                                    //           ExerciseListViewModel(),
+                                    //     ),
+                                    //   ],
+                                    //   child: ExercisesScreen(false),
+                                    // ),
+                                    builder: (context) =>
+                                        ExercisesScreen(false),
                                   ));
                             },
                             child: Text('All Exercises'),

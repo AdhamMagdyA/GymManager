@@ -1,9 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:gym_project/common/my-list-tile-without-trailing.dart';
-import 'package:gym_project/common/my_list_tile.dart';
 import 'package:gym_project/screens/coach/sets/view-sets.dart';
 import 'package:gym_project/screens/coach/exercises/exercises_screen.dart';
 
