@@ -19,21 +19,9 @@ class _QuestionsScreenState extends State<QuestionsScreen>
   List<Widget> tabs = [
     Tab(
       text: 'All',
-      /*child: Text(
-        "All",
-        style: TextStyle(
-          color: Colors.white,
-        ),
-      ),*/
     ),
     Tab(
       text: 'My Questions',
-      /*child: Text(
-        "My Questions",
-        style: TextStyle(
-          color: Colors.white,
-        ),
-      ),*/
     ),
   ];
   @override

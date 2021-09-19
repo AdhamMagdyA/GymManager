@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/screens/questions/add-question-screen.dart';
 import 'package:gym_project/screens/questions/single-question.dart';
+import 'package:gym_project/widget/providers/user.dart';
+import 'package:provider/provider.dart';
 
 class QuestionsListTile extends StatefulWidget {
   final String title;
   final String body;
   final String date;
   final int num_of_answers;
-  final String role;
+  String role;
   final int id;
 
   QuestionsListTile({
@@ -15,7 +17,7 @@ class QuestionsListTile extends StatefulWidget {
     this.body,
     this.date,
     this.num_of_answers,
-    this.role,
+    //this.role,
     this.id,
   });
   @override
@@ -30,6 +32,7 @@ class _QuestionsListTileState extends State<QuestionsListTile> {
     // TODO: implement initState
     super.initState();
     is_visible = true;
+    widget.role = Provider.of<User>(context, listen: false).role;
   }
 
   @override
@@ -99,7 +102,7 @@ class _QuestionsListTileState extends State<QuestionsListTile> {
                     ),
                   ],
                 ),
-                widget.role == "question_owner"
+                (widget.role == "question_owner" || widget.role == "admin")
                     ? Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.end,
