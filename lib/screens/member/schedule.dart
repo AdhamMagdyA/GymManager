@@ -1,20 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/common/my_list_tile_without_counter.dart';
 
-class MembershipsList extends StatefulWidget {
-  final String title = 'Gold Membership';
-  final String subtitle1 = '30 Classes';
-  final String subtitle2 = '\$50';
-  final String subtitle3 = '1 month';
-
-  MembershipsList();
+class MemberSchedule extends StatefulWidget {
+  final List<String> _titles = [
+    'Yoga',
+    'Zumba',
+    'Abs',
+    'Power Lifting Contest'
+  ];
+  final List<String> _types = [
+    'Class',
+    'Online Class',
+    'Class',
+    'Event',
+  ];
+  final List<String> _spaces = [
+    ' ',
+    ' ',
+    ' ',
+    ' ',
+  ];
+  final List<String> _times = [
+    '10:30 AM',
+    '12:30 PM',
+    '2:30 PM',
+    '4:00 PM',
+  ];
 
   @override
-  _MembershipsListState createState() => _MembershipsListState();
+  _MemberScheduleState createState() => _MemberScheduleState();
 }
 
-class _MembershipsListState extends State<MembershipsList> {
-  final length = 12;
+class _MemberScheduleState extends State<MemberSchedule> {
+  final length = 4;
 
   int number = 0;
 
@@ -24,7 +42,7 @@ class _MembershipsListState extends State<MembershipsList> {
       floatingActionButton: Container(
         child: FloatingActionButton.extended(
           onPressed: () {
-            Navigator.pushNamed(context, '/create-membership');
+            Navigator.pushNamed(context, '/schedule');
           },
           isExtended: false,
           label: Icon(Icons.add),
@@ -55,7 +73,7 @@ class _MembershipsListState extends State<MembershipsList> {
                   Padding(
                     padding: EdgeInsets.only(left: 25.0),
                     //-->header
-                    child: new Text('Memberships List',
+                    child: new Text('Your Schedule',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20.0,
@@ -83,22 +101,26 @@ class _MembershipsListState extends State<MembershipsList> {
                 )),
             SizedBox(height: 20),
             ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: length,
-                itemBuilder: (ctx, index) {
-                  return InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/membership-details');
-                    },
-                    child: CustomListTileWithoutCounter(
-                        'assets/images/membership.png',
-                        widget.title,
-                        widget.subtitle1,
-                        widget.subtitle2,
-                        widget.subtitle3),
-                  );
-                }),
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: length,
+              itemBuilder: (ctx, index) {
+                return InkWell(
+                  onTap: () {
+                    if (widget._types[index] == 'Class')
+                      Navigator.pushNamed(context, '/class-details');
+                    else if (widget._types[index] == 'Event')
+                      Navigator.pushNamed(context, '/event-details');
+                  },
+                  child: CustomListTileWithoutCounter(
+                      'assets/images/branch.png',
+                      widget._titles[index],
+                      'Type:' + widget._types[index],
+                      widget._spaces[index],
+                      widget._times[index]),
+                );
+              },
+            ),
           ],
         ),
       ),

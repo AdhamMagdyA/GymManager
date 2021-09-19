@@ -41,7 +41,8 @@ class MyDrawer extends StatelessWidget {
             // Update the state of the app
             // ...
             // Then close the drawer
-            Navigator.pop(context);
+            int count = 0;
+            Navigator.of(context).popUntil((_) => count++ >= 2);
           },
           
         ),

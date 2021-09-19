@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:gym_project/screens/admin/equipment/equipments-list.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 class EditBranchForm extends StatefulWidget {
   const EditBranchForm({Key key}) : super(key: key);
@@ -9,6 +11,8 @@ class EditBranchForm extends StatefulWidget {
   @override
   _EditBranchFormState createState() => _EditBranchFormState();
 }
+
+List<Map> _selectedEquipment = [];
 
 class _EditBranchFormState extends State<EditBranchForm>
     with SingleTickerProviderStateMixin {
@@ -19,6 +23,10 @@ class _EditBranchFormState extends State<EditBranchForm>
   void initState() {
     // TODO: implement initState
     super.initState();
+  }
+
+  refresh() {
+    setState(() {});
   }
 
   PickedFile _imageFile;
@@ -241,6 +249,79 @@ class _EditBranchFormState extends State<EditBranchForm>
                             )),
                         Padding(
                           padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 25.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text(
+                                    'Choose Equipment',
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 2.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Flexible(
+                                child: Center(
+                                    child: ElevatedButton(
+                                  child: Text('Choose Equipment'),
+                                  style: ElevatedButton.styleFrom(
+                                      primary: Colors.amber,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                      )),
+                                  onPressed: () async {
+                                    Map<int, Object> result =
+                                        await Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  EquipmentListSelectable(),
+                                            ));
+                                    if (result != {}) {
+                                      setState(() {
+                                        // selectedSets = result;
+                                        for (var value in result.values) {
+                                          var newValue = value as Map;
+                                          _selectedEquipment.add(newValue);
+                                        }
+
+                                        print('result is');
+                                        print(_selectedEquipment);
+                                      });
+                                    }
+                                  },
+                                )),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        if (_selectedEquipment != [])
+                          for (Map equipment in _selectedEquipment)
+                            CustomEquipmentListTile(equipment, refresh),
+                        Padding(
+                          padding: EdgeInsets.only(
                               left: 95.0, bottom: 0, right: 95.0, top: 50.0),
                           child: new Row(
                             mainAxisSize: MainAxisSize.max,
@@ -375,5 +456,56 @@ class _EditBranchFormState extends State<EditBranchForm>
     // Clean up the controller when the Widget is disposed
     myFocusNode.dispose();
     super.dispose();
+  }
+}
+
+class CustomEquipmentListTile extends StatefulWidget {
+  final Map equipment;
+  final Function() notifyParent;
+
+  CustomEquipmentListTile(this.equipment, this.notifyParent);
+  @override
+  _CustomEquipmentListTileState createState() =>
+      _CustomEquipmentListTileState();
+}
+
+class _CustomEquipmentListTileState extends State<CustomEquipmentListTile> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsetsDirectional.only(bottom: 10),
+      decoration: BoxDecoration(
+        color: Color(0xff181818),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: ListTile(
+        minVerticalPadding: 10,
+        leading: CircleAvatar(
+          radius: 20,
+          child: FlutterLogo(),
+        ),
+        title: Text(
+          widget.equipment['name'],
+          style: TextStyle(color: Colors.white),
+        ),
+        trailing: Column(
+          children: [
+            Text(widget.equipment['value'].toString()),
+            SizedBox(height: 4),
+            GestureDetector(
+              child: Icon(
+                Icons.close,
+                color: Colors.white,
+              ),
+              onTap: () {
+                _selectedEquipment.remove(widget.equipment);
+                print(_selectedEquipment);
+                widget.notifyParent();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

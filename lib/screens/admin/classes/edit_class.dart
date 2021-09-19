@@ -2,16 +2,61 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 class EditClass extends StatefulWidget {
   @override
   MapScreenState createState() => MapScreenState();
 }
 
+class Member {
+  final int id;
+  final String name;
+
+  Member({
+    this.id,
+    this.name,
+  });
+}
+
 //you can change the form heading from line 51,93
 //you can change the form fields from lines (119 ,138 , etc ) -> each padding represent a field
 class MapScreenState extends State<EditClass>
     with SingleTickerProviderStateMixin {
+  static List<Member> _members = [
+    Member(id: 1, name: "Lion"),
+    Member(id: 2, name: "Flamingo"),
+    Member(id: 3, name: "Hippo"),
+    Member(id: 4, name: "Horse"),
+    Member(id: 5, name: "Tiger"),
+    Member(id: 6, name: "Penguin"),
+    Member(id: 7, name: "Spider"),
+    Member(id: 8, name: "Snake"),
+    Member(id: 9, name: "Bear"),
+    Member(id: 10, name: "Beaver"),
+    Member(id: 11, name: "Cat"),
+    Member(id: 12, name: "Fish"),
+    Member(id: 13, name: "Rabbit"),
+    Member(id: 14, name: "Mouse"),
+    Member(id: 15, name: "Dog"),
+    Member(id: 16, name: "Zebra"),
+    Member(id: 17, name: "Cow"),
+    Member(id: 18, name: "Frog"),
+    Member(id: 19, name: "Blue Jay"),
+    Member(id: 20, name: "Moose"),
+    Member(id: 21, name: "Gecko"),
+    Member(id: 22, name: "Kangaroo"),
+    Member(id: 23, name: "Shark"),
+    Member(id: 24, name: "Crocodile"),
+    Member(id: 25, name: "Owl"),
+    Member(id: 26, name: "Dragonfly"),
+    Member(id: 27, name: "Dolphin"),
+  ];
+  final _items = _members
+      .map((member) => MultiSelectItem<Member>(member, member.name))
+      .toList();
+  List<Member> _selectedMembers = [];
+
   bool _status = true;
   final FocusNode myFocusNode = FocusNode();
 
@@ -464,6 +509,76 @@ class MapScreenState extends State<EditClass>
                                 ),
                               ],
                             )),
+                        Padding(
+                            padding: EdgeInsets.only(
+                                left: 25.0, right: 25.0, top: 25.0),
+                            child: new Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                new Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    new Text(
+                                      'Edit Members',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )),
+                        Container(
+                          margin: EdgeInsets.only(top: 10, right: 20, left: 20),
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            border: Border.all(
+                              color: Colors.black,
+                              width: 2,
+                            ),
+                          ),
+                          child: Column(
+                            children: <Widget>[
+                              MultiSelectBottomSheetField(
+                                initialChildSize: 0.4,
+                                listType: MultiSelectListType.CHIP,
+                                searchable: true,
+                                buttonText: Text(
+                                  "Choose Members",
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                                title: Text("Members"),
+                                items: _items,
+                                onConfirm: (values) {
+                                  _selectedMembers = values;
+                                },
+                                chipDisplay: MultiSelectChipDisplay(
+                                  onTap: (value) {
+                                    setState(() {
+                                      _selectedMembers.remove(value);
+                                    });
+                                  },
+                                  chipColor: Colors.black.withAlpha(200),
+                                  textStyle: TextStyle(color: Colors.white),
+                                  scroll: true,
+                                ),
+                              ),
+                              _selectedMembers == null ||
+                                      _selectedMembers.isEmpty
+                                  ? Container(
+                                      padding: EdgeInsets.all(10),
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        "Selected Members",
+                                        style: TextStyle(color: Colors.black54),
+                                      ))
+                                  : Container(),
+                            ],
+                          ),
+                        ),
                         !_status ? _getActionButtons() : new Container(),
                       ],
                     ),

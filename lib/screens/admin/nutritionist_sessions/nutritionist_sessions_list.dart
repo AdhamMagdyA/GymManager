@@ -86,13 +86,92 @@ class _NutritionistSessionsListState extends State<NutritionistSessionsList> {
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: length,
                 itemBuilder: (ctx, index) {
-                  return CustomListTileWithoutCounter(
+                  return NutritionistSessionTile(
                       'assets/images/branch.png',
                       widget.title,
                       widget.subtitle1,
                       widget.subtitle2,
                       widget.subtitle3);
                 }),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class NutritionistSessionTile extends StatefulWidget {
+  final String path;
+  final String title;
+  final String subtitle1;
+  final String subtitle2;
+  final String subtitle3;
+
+  NutritionistSessionTile(
+      this.path, this.title, this.subtitle1, this.subtitle2, this.subtitle3);
+
+  @override
+  _NutritionistSessionTileState createState() =>
+      _NutritionistSessionTileState();
+}
+
+class _NutritionistSessionTileState extends State<NutritionistSessionTile> {
+  int number = 0;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsetsDirectional.only(bottom: 10),
+      decoration: BoxDecoration(
+        color: Color(0xff181818),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: ListTile(
+        minVerticalPadding: 10,
+        leading: CircleAvatar(
+          radius: 20,
+          child: Image.asset(widget.path),
+        ),
+        title: Text(
+          widget.title,
+          style: TextStyle(color: Colors.white),
+        ),
+        subtitle: Row(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  widget.subtitle1,
+                  style: TextStyle(color: Colors.white60),
+                ),
+                Text(
+                  widget.subtitle2,
+                  style: TextStyle(color: Colors.white60),
+                ),
+                Text(
+                  widget.subtitle3,
+                  style: TextStyle(color: Colors.white60),
+                ),
+              ],
+            ),
+            Expanded(
+              child: Container(),
+            ),
+            Container(
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.amber),
+                  foregroundColor:
+                      MaterialStateProperty.all<Color>(Colors.black),
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/edit-nutritionist-session');
+                },
+                child: Text('Edit'),
+              ),
+            )
           ],
         ),
       ),
