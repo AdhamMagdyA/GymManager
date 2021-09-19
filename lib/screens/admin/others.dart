@@ -21,6 +21,7 @@ class _OthersState extends State<Others> {
     "Q&A",
     "Supplments",
     "Invitations",
+    "events",
   ];
   final paths = [
     "/class-list",
@@ -31,8 +32,9 @@ class _OthersState extends State<Others> {
     "/",
     "/",
     "/",
-    "/",
-    "/",
+    "/supplements",
+    "/invitations",
+    "/events",
   ];
   int number = 0;
 
