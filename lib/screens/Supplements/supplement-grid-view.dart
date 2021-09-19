@@ -11,9 +11,23 @@ class SupplementList extends StatefulWidget {
 }
 
 class _SupplementListState extends State<SupplementList> {
+  final String role = 'admin';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: this.role =='admin'? Container(
+        child: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.pushNamed(context, '/create-supplement');
+          },
+          isExtended: false,
+          label: Icon(Icons.add),
+        ),
+        height: MediaQuery.of(context).size.height * 0.075,
+        width: MediaQuery.of(context).size.width * 0.1,
+      ):Container(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
         body: SafeArea(
       child: Stack(
         children: <Widget>[
@@ -63,41 +77,47 @@ class _SupplementListState extends State<SupplementList> {
                       dumbbell,
                       'Dumbbell',
                       '1000 \$',
-                      context
+                      context,
+                      this.role
                     ),
                     SupplementCard(
                       dumbbell,
                       'Dumbbell',
                       '1000 \$',
-                      context
+                      context,
+                      this.role
 
                     ),
                     SupplementCard(
                       dumbbell,
                       'Dumbbell',
                       '1000 \$',
-                      context
+                      context,
+                      this.role
 
                     ),
                     SupplementCard(
                       dumbbell,
                       'Dumbbell',
                       '1000 \$',
-                      context
+                      context,
+                      this.role
 
                     ),
                     SupplementCard(
                       dumbbell,
                       'Dumbbell',
                       '1000 \$',
-                      context
+                      context,
+                      this.role
 
                     ),
                     SupplementCard(
                       dumbbell,
                       'Dumbbell',
                       '1000 \$',
-                      context
+                      context,
+                      this.role
 
                     ),
                   ],

@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/screens/announcements/add-announcement-screen.dart';
+import 'package:gym_project/widget/providers/user.dart';
+import 'package:provider/provider.dart';
 
 class AnnouncementsListTile extends StatefulWidget {
   final String title;
   final String body;
   final String date;
-  final String role; // member or admin
+  String role; // member or admin
   final int id;
 
-  AnnouncementsListTile({this.title, this.body, this.date, this.role, this.id});
+  AnnouncementsListTile({this.title, this.body, this.date, this.id});
   @override
   _AnnouncementsListTileState createState() => _AnnouncementsListTileState();
 }
@@ -21,6 +23,7 @@ class _AnnouncementsListTileState extends State<AnnouncementsListTile> {
     // TODO: implement initState
     super.initState();
     is_visible = true;
+    widget.role = Provider.of<User>(context, listen: false).role;
   }
 
   @override

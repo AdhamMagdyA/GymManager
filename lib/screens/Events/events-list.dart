@@ -10,8 +10,6 @@ class EventListView extends StatefulWidget {
   final String startTime = '7:00 AM';
   final String endTime = '10:00 AM';
   final String icon = '';
-
-
   
 
   EventListView();
@@ -24,6 +22,7 @@ class EventListView extends StatefulWidget {
 
 class _EventListViewState extends State<EventListView> with TickerProviderStateMixin {
   
+  final String role = 'admin';
   @override
   void initState() {
 
@@ -86,6 +85,18 @@ class _EventListViewState extends State<EventListView> with TickerProviderStateM
   
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: this.role =='admin'? Container(
+        child: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.pushNamed(context, '/create-event');
+          },
+          isExtended: false,
+          label: Icon(Icons.add),
+        ),
+        height: MediaQuery.of(context).size.height * 0.075,
+        width: MediaQuery.of(context).size.width * 0.1,
+      ):Container(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(kTextTabBarHeight -10),
         child:Align(

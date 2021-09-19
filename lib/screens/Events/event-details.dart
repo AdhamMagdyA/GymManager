@@ -2,11 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:gym_project/style/styling.dart';
 
 class EventDetailsScreen extends StatelessWidget {
+  final String role = 'member';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      floatingActionButton: Container(
+      floatingActionButton: this.role == 'admin' ? Container(
+        child: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.pushNamed(context, '/edit-event');
+          },
+          isExtended: false,
+          label: Icon(Icons.edit),
+        ),
+        height: MediaQuery.of(context).size.height * 0.075,
+        width: MediaQuery.of(context).size.width * 0.1,
+      )
+      : Container(
         child: FloatingActionButton.extended(
             onPressed: () {},
             isExtended: true,
@@ -20,13 +32,49 @@ class EventDetailsScreen extends StatelessWidget {
           height: MediaQuery.of(context).size.height*0.075,
           width : MediaQuery.of(context).size.width*0.45,
       ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButtonLocation: this.role == 'admin'? FloatingActionButtonLocation.miniEndFloat : FloatingActionButtonLocation.centerFloat,
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
           ListView(
             shrinkWrap: true,
             children: <Widget>[
+              Container(
+                color: Color(0xff181818),
+                padding: EdgeInsets.all(20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: new Icon(
+                        Icons.arrow_back_ios,
+                        color: Color(0xFFFFCE2B),
+                        size: 22.0,
+                      ),
+                    ),
+                     Text('Event Info',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                              fontFamily: 'sans-serif-light',
+                              color: Colors.white)),
+                    
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: this.role =='admin' ? new Icon(
+                        Icons.delete,
+                        color: Colors.red,
+                        size: 22.0,
+                      ):Container(),
+                    ),
+                  ],
+                ),
+              ),
               Container(
                 child:Image.asset(
                       'assets/images/ht.png',
