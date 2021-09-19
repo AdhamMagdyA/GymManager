@@ -45,25 +45,30 @@ class _UsersListState extends State<UsersList>
         appBar: new AppBar(
           backgroundColor: Colors.black,
           automaticallyImplyLeading: false,
-          bottom: TabBar(
-              unselectedLabelColor: Colors.amber,
-              labelColor: Colors.amber,
-              indicatorColor: Colors.amber,
-              controller: _myTabController,
-              tabs: [
-                Tab(
-                  text: 'all',
-                ),
-                Tab(
-                  text: 'members',
-                ),
-                Tab(
-                  text: 'coaches',
-                ),
-                Tab(
-                  text: 'nutritionists',
-                )
-              ]),
+          bottom: PreferredSize(
+            preferredSize: new Size(0, 0),
+            child: Container(
+              child: TabBar(
+                  unselectedLabelColor: Colors.amber,
+                  labelColor: Colors.amber,
+                  indicatorColor: Colors.amber,
+                  controller: _myTabController,
+                  tabs: [
+                    Tab(
+                      text: 'all',
+                    ),
+                    Tab(
+                      text: 'members',
+                    ),
+                    Tab(
+                      text: 'coaches',
+                    ),
+                    Tab(
+                      text: 'nutritionists',
+                    )
+                  ]),
+            ),
+          ),
         ),
         floatingActionButton: Container(
           child: FloatingActionButton.extended(
