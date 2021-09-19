@@ -9,6 +9,7 @@ import '../../common/view-exercises-details-screen.dart';
 class ExercisesScreen extends StatefulWidget {
   bool isSelectionTime = false;
   ExercisesScreen(this.isSelectionTime);
+  static String routeName = '/exercises/index';
 
   @override
   ExercisesScreenState createState() => ExercisesScreenState();
@@ -27,6 +28,26 @@ class ExercisesScreenState extends State<ExercisesScreen> {
   bool _selectionMode = false;
   List<Map<int, int>> _numberOfSelectedInstances = [];
   Map<int, Object> finalSelectedItems = {};
+  bool _argumentsLoaded = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_argumentsLoaded) {
+      List<Map<Object, Object>> oldSelectedExercise =
+          ModalRoute.of(context).settings.arguments;
+      if (oldSelectedExercise.isNotEmpty) {
+        setState(() {
+          oldSelectedExercise.forEach((exercise) {
+            _numberOfSelectedInstances
+                .add({exercise['index'] as int: exercise['value'] as int});
+            _selectionMode = true;
+          });
+        });
+      }
+      _argumentsLoaded = true;
+    }
+  }
 
   void setSelectionMode(bool value) {
     setState(() {
@@ -78,17 +99,18 @@ class ExercisesScreenState extends State<ExercisesScreen> {
   void getFinalSelectedItems() {
     int index = 0;
     for (Map<int, int> selectedItem in _numberOfSelectedInstances) {
-      // print(selectedItem);
       selectedItem.forEach((key, value) {
         // print(sets[key]);
         for (int i = 0; i < value; i++) {
           finalSelectedItems[index] = _exercises[key];
           index++;
         }
+        finalSelectedItems[key] = {
+          ..._exercises[key],
+          'value': value,
+        };
       });
     }
-    print(finalSelectedItems);
-    // print(finalSelectedItems);
   }
 
   @override

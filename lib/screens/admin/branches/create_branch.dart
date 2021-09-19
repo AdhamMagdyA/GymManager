@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
@@ -303,8 +304,10 @@ class _CreateBranchFormState extends State<CreateBranchForm>
         CircleAvatar(
           radius: 80.0,
           backgroundImage: _imageFile == null
-              ? AssetImage("assets/profile.jpeg")
-              : FileImage(File(_imageFile.path)),
+              ? AssetImage("assets/images/as.png")
+              : kIsWeb
+                  ? NetworkImage(_imageFile.path)
+                  : FileImage(File(_imageFile.path)),
         ),
         Positioned(
           bottom: 20.0,
@@ -316,10 +319,13 @@ class _CreateBranchFormState extends State<CreateBranchForm>
                 builder: ((builder) => bottomSheet()),
               );
             },
-            child: Icon(
-              Icons.camera_alt,
-              color: Colors.teal,
-              size: 28.0,
+            child: CircleAvatar(
+              backgroundColor: Colors.black.withOpacity(0.3),
+              child: Icon(
+                Icons.camera_alt,
+                color: Colors.teal,
+                size: 28.0,
+              ),
             ),
           ),
         ),
@@ -351,6 +357,7 @@ class _CreateBranchFormState extends State<CreateBranchForm>
               icon: Icon(Icons.camera),
               onPressed: () {
                 takePhoto(ImageSource.camera);
+                Navigator.of(context).pop();
               },
               label: Text("Camera"),
             ),
@@ -358,6 +365,7 @@ class _CreateBranchFormState extends State<CreateBranchForm>
               icon: Icon(Icons.image),
               onPressed: () {
                 takePhoto(ImageSource.gallery);
+                Navigator.of(context).pop();
               },
               label: Text("Gallery"),
             ),

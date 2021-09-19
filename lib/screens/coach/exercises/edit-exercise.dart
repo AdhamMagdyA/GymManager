@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gym_project/screens/coach/equipment/equipments-list.dart';
@@ -24,7 +24,7 @@ class MapScreenState extends State<EditExerciseForm>
     super.initState();
   }
 
-  PickedFile _imageFile;
+  XFile _imageFile;
   final ImagePicker _picker = ImagePicker();
 
   refresh() {
@@ -474,8 +474,10 @@ class MapScreenState extends State<EditExerciseForm>
         CircleAvatar(
           radius: 80.0,
           backgroundImage: _imageFile == null
-              ? AssetImage("assets/profile.jpeg")
-              : FileImage(File(_imageFile.path)),
+              ? AssetImage("assets/images/as.png")
+              : kIsWeb
+                  ? NetworkImage(_imageFile.path)
+                  : FileImage(File(_imageFile.path)),
         ),
         Positioned(
           bottom: 20.0,
@@ -487,10 +489,13 @@ class MapScreenState extends State<EditExerciseForm>
                 builder: ((builder) => bottomSheet()),
               );
             },
-            child: Icon(
-              Icons.camera_alt,
-              color: Colors.teal,
-              size: 28.0,
+            child: CircleAvatar(
+              backgroundColor: Colors.black.withOpacity(0.3),
+              child: Icon(
+                Icons.camera_alt,
+                color: Colors.teal,
+                size: 28.0,
+              ),
             ),
           ),
         ),
@@ -518,17 +523,19 @@ class MapScreenState extends State<EditExerciseForm>
             height: 20,
           ),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-            FlatButton.icon(
+            TextButton.icon(
               icon: Icon(Icons.camera),
               onPressed: () {
                 takePhoto(ImageSource.camera);
+                Navigator.of(context).pop();
               },
               label: Text("Camera"),
             ),
-            FlatButton.icon(
+            TextButton.icon(
               icon: Icon(Icons.image),
               onPressed: () {
                 takePhoto(ImageSource.gallery);
+                Navigator.of(context).pop();
               },
               label: Text("Gallery"),
             ),
@@ -539,7 +546,7 @@ class MapScreenState extends State<EditExerciseForm>
   }
 
   void takePhoto(ImageSource source) async {
-    final pickedFile = await _picker.getImage(
+    final pickedFile = await _picker.pickImage(
       source: source,
     );
     setState(() {

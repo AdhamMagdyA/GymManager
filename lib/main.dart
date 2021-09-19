@@ -1,4 +1,8 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
+import 'package:gym_project/experimenting_image_picker.dart';
+import 'package:gym_project/my_image_picker_2.dart';
 import 'package:gym_project/screens/Events/event-details.dart';
 import 'package:gym_project/screens/Events/event-form.dart';
 import 'package:gym_project/screens/Events/events-list.dart';
@@ -8,6 +12,10 @@ import 'package:gym_project/screens/Invitations/invitation-list.dart';
 import 'package:gym_project/screens/Supplements/supplement-form.dart';
 import 'package:gym_project/screens/Supplements/supplement-grid-view.dart';
 import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
+import 'package:gym_project/screens/coach/exercises/create-exercise.dart';
+import 'package:gym_project/screens/coach/exercises/edit-exercise.dart';
+import 'package:gym_project/screens/coach/exercises/exercises_screen.dart';
+import 'package:gym_project/screens/coach/sets/create-set.dart';
 import 'package:gym_project/screens/common/grid_view.dart';
 import 'package:gym_project/screens/common/login-screen.dart';
 import 'package:gym_project/screens/common/tabs-screen.dart';
@@ -43,6 +51,8 @@ import 'package:gym_project/screens/nutritionist/util-screen.dart';
 import 'package:gym_project/screens/questions/questions-screen.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
+import 'package:gym_project/screens/items_screen.dart';
+import 'package:gym_project/screens/my_choosing_gridview_screen.dart';
 
 import 'screens/common/ProfilePage.dart';
 import 'screens/member/home-screen.dart';
@@ -111,6 +121,8 @@ class MyApp extends StatelessWidget {
         '/invite': (context) => InvitationForm(),
         '/feedback': (context) => FeedbackForm(),
         '/invitations': (context) => InvitationList(),
+        // exercises
+        ExercisesScreen.routeName: (context) => ExercisesScreen(),
       },
       debugShowCheckedModeBanner: false,
       title: 'Gym',
