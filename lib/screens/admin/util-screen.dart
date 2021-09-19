@@ -11,6 +11,8 @@ import 'package:gym_project/screens/admin/memberships/edit_membership.dart';
 import 'package:gym_project/screens/admin/nutritionist_sessions/edit_nutrionist_session.dart';
 import 'package:gym_project/screens/admin/users/user_details.dart';
 import 'package:gym_project/screens/admin/users/users_list.dart';
+import 'package:gym_project/screens/announcements/announcements-list-tile.dart';
+import 'package:gym_project/screens/announcements/announcements-screen.dart';
 import 'package:gym_project/screens/coach/others-screen.dart';
 import 'package:gym_project/screens/common/FormTemplate.dart';
 import 'package:gym_project/screens/common/ProfilePage.dart';
@@ -60,8 +62,8 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
       'title': 'Branches',
     },
     {
-      'page': MembershipsList(),
-      'title': 'Memberships',
+      'page': AnnouncementsScreen(),
+      'title': 'Anouncements',
     },
     {
       'page': Others(),
@@ -110,8 +112,8 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
             label: 'Branches',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.class_),
-            label: 'Memberships',
+            icon: Icon(Icons.announcement),
+            label: 'Announcements',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.view_list),

@@ -7,6 +7,7 @@ import 'package:gym_project/screens/Invitations/invitation-form.dart';
 import 'package:gym_project/screens/Invitations/invitation-list.dart';
 import 'package:gym_project/screens/Supplements/supplement-form.dart';
 import 'package:gym_project/screens/Supplements/supplement-grid-view.dart';
+import 'package:gym_project/screens/admin/memberships/memberships_list.dart';
 import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
 import 'package:gym_project/screens/common/grid_view.dart';
 import 'package:gym_project/screens/common/login-screen.dart';
@@ -77,6 +78,7 @@ class MyApp extends StatelessWidget {
         '/create-branch': (context) => CreateBranchForm(),
         '/edit-branch': (context) => EditBranchForm(),
         //membership routes
+        '/memberships-list': (context) => MembershipsList(),
         '/membership-details': (context) => MembershipDetails(),
         '/create-membership': (context) => CreateMembership(),
         '/edit-membership': (context) => EditMembership(),
@@ -103,12 +105,10 @@ class MyApp extends StatelessWidget {
         '/create-event': (context) => EventForm(),
         '/edit-event': (context) => EventForm(),
 
-
         //supplements routes
         '/supplements': (context) => SupplementList(),
         '/create-supplement': (context) => SupplementForm(),
         '/edit-supplement': (context) => SupplementForm(),
-
 
         '/invite': (context) => InvitationForm(),
         '/feedback': (context) => FeedbackForm(),
