@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/common/crowd-meter.dart';
+import 'package:gym_project/screens/Events/events-list.dart';
+import 'package:gym_project/screens/Supplements/supplement-grid-view.dart';
+import 'package:gym_project/screens/admin/branches/branches_list.dart';
+import 'package:gym_project/screens/admin/classes/create_class.dart';
+import 'package:gym_project/screens/announcements/announcements-screen.dart';
 import 'package:gym_project/screens/coach/exercises/create-exercise.dart';
 import 'package:gym_project/screens/coach/exercises/exercises_screen.dart';
 import 'package:gym_project/screens/coach/groups/create-group.dart';
@@ -7,6 +12,7 @@ import 'package:gym_project/screens/coach/groups/view-groups.dart';
 import 'package:gym_project/screens/coach/private%20sessions/create-private-session.dart';
 import 'package:gym_project/screens/coach/sets/create-set.dart';
 import 'package:gym_project/screens/coach/sets/view-sets.dart';
+import 'package:gym_project/screens/questions/questions-screen.dart';
 import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
 import 'package:gym_project/viewmodels/set-list-view-model.dart';
 import 'package:provider/provider.dart';
@@ -113,11 +119,10 @@ class OthersScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(16),
                                 )),
                             onPressed: () {
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) =>
-                              //             CreateGroupForm()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CreateClassForm()));
                             },
                             child: Text('Class'),
                           ),
@@ -326,7 +331,12 @@ class OthersScreen extends StatelessWidget {
             ),
           ),
           child: TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AnnouncementsScreen()));
+            },
             child: Center(
               child: Text(
                 'Announcements',
@@ -352,7 +362,10 @@ class OthersScreen extends StatelessWidget {
             ),
           ),
           child: TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => QuestionsScreen()));
+            },
             child: Center(
               child: Text(
                 'Q&A',
@@ -378,7 +391,10 @@ class OthersScreen extends StatelessWidget {
             ),
           ),
           child: TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SupplementList()));
+            },
             child: Center(
               child: Text(
                 'Supplements',
@@ -404,7 +420,10 @@ class OthersScreen extends StatelessWidget {
             ),
           ),
           child: TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => EventListView()));
+            },
             child: Center(
               child: Text(
                 'Events',
@@ -430,7 +449,10 @@ class OthersScreen extends StatelessWidget {
             ),
           ),
           child: TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => BranchesList()));
+            },
             child: Center(
               child: Text(
                 'Branches',

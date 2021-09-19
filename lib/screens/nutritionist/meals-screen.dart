@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/screens/nutritionist/view-meals-details-screen.dart';
 
 class MealsViewScreen extends StatefulWidget {
   @override
@@ -138,10 +139,14 @@ class _MealsViewScreenState extends State<MealsViewScreen> {
         borderRadius: BorderRadius.circular(16),
       ),
       child: ListTile(
-        onTap: () {
+        onLongPress: () {
           setState(() {
             MealsViewScreen.whoIsSelected = index;
           });
+        },
+        onTap: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => MealsDetailsScreen()));
         },
         selected: MealsViewScreen.whoIsSelected == index,
         minVerticalPadding: 10,

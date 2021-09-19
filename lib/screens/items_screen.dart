@@ -145,33 +145,70 @@ class ItemsScreenState extends State<ItemsScreen> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(
-                        "Items",
-                        style: TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.w800,
-                          color: Colors.white,
-                        ),
+                      Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                              top: 10,
+                              left: 10,
+                            ),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Align(
+                                alignment: Alignment.topLeft,
+                                child: Container(
+                                  height: 42,
+                                  width: 42,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.arrow_back,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10, left: 10),
+                            child: Text(
+                              "Items",
+                              style: TextStyle(
+                                fontSize: 40,
+                                fontWeight: FontWeight.w800,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       SizedBox(height: 40),
-                      Material(
-                        elevation: 5.0,
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                        child: TextField(
-                          controller: TextEditingController(),
-                          cursorColor: Theme.of(context).primaryColor,
-                          style: TextStyle(color: Colors.black, fontSize: 18),
-                          decoration: InputDecoration(
-                            labelText: 'Search',
-                            suffixIcon: Material(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30)),
-                              child: Icon(Icons.search),
-                            ),
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.symmetric(
-                              horizontal: 25,
-                              vertical: 13,
+                      Container(
+                        child: Material(
+                          elevation: 5.0,
+                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                          child: TextField(
+                            controller: TextEditingController(),
+                            cursorColor: Theme.of(context).primaryColor,
+                            style: TextStyle(color: Colors.black, fontSize: 18),
+                            decoration: InputDecoration(
+                              labelText: 'Search',
+                              suffixIcon: Material(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30)),
+                                child: Icon(Icons.search),
+                              ),
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: 25,
+                                vertical: 13,
+                              ),
                             ),
                           ),
                         ),
