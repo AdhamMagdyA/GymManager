@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/screens/admin/classes/classes_list.dart';
+import 'package:gym_project/screens/admin/classes/edit_class.dart';
+import 'package:gym_project/screens/admin/users/users_list.dart';
 import 'package:gym_project/screens/coach/home-screen.dart';
 import 'package:gym_project/screens/coach/others-screen.dart';
 
@@ -23,7 +26,7 @@ class _CoachTabsScreenState extends State<CoachTabsScreen>
     _tabController = new TabController(length: 2, vsync: this);
     _pages = [
       {
-        'page': TrainingModeOverviewScreen(),
+        'page': ClassesList(),
         'title': 'My Classes',
       },
       {
@@ -35,7 +38,7 @@ class _CoachTabsScreenState extends State<CoachTabsScreen>
         'title': 'Home',
       },
       {
-        'page': CreatePrivateSessionForm(),
+        'page': MembersScreen(),
         'title': 'My members',
       },
       {
