@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/screens/Events/event-details.dart';
+import 'package:gym_project/screens/Events/event-form.dart';
 import 'package:gym_project/screens/Events/events-list.dart';
 import 'package:gym_project/screens/Feedbacks/feedback-form.dart';
 import 'package:gym_project/screens/Invitations/invitation-form.dart';
 import 'package:gym_project/screens/Invitations/invitation-list.dart';
+import 'package:gym_project/screens/Supplements/supplement-form.dart';
 import 'package:gym_project/screens/Supplements/supplement-grid-view.dart';
+import 'package:gym_project/screens/announcements/add-announcement-screen.dart';
+import 'package:gym_project/screens/announcements/announcements-screen.dart';
 import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
 import 'package:gym_project/screens/common/grid_view.dart';
 import 'package:gym_project/screens/common/login-screen.dart';
@@ -38,6 +42,9 @@ import 'package:gym_project/screens/my_choosing_gridview_screen.dart';
 import 'package:gym_project/screens/member/training-mode/training_mode_exercise_screen.dart';
 import 'package:gym_project/screens/member/training-mode/training_mode_overview_screen.dart';
 import 'package:gym_project/screens/nutritionist/util-screen.dart';
+import 'package:gym_project/screens/questions/add-question-screen.dart';
+import 'package:gym_project/screens/questions/questions-screen.dart';
+import 'package:gym_project/screens/questions/single-question.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
 
@@ -95,11 +102,28 @@ class MyApp extends StatelessWidget {
 
         '/nutritionist-sessions-list': (context) => NutritionistSessionsList(),
 
+        //Events routes
         '/events': (context) => EventListView(),
+        '/create-event': (context) => EventForm(),
+        '/edit-event': (context) => EventForm(),
+
+        //supplements routes
         '/supplements': (context) => SupplementList(),
+        '/create-supplement': (context) => SupplementForm(),
+        '/edit-supplement': (context) => SupplementForm(),
+
         '/invite': (context) => InvitationForm(),
         '/feedback': (context) => FeedbackForm(),
         '/invitations': (context) => InvitationList(),
+
+        //questions&answers routes
+        '/questions': (context) => QuestionsScreen(),
+        '/add-question': (context) => AddQuestionScreen(),
+        '/question-answers': (context) => SingleQuestionScreen(),
+
+        //announcements routes
+        '/announcements': (context) => AnnouncementsScreen(),
+        '/create-announcement': (context) => AddAnnouncementScreen(),
       },
       debugShowCheckedModeBanner: false,
       title: 'Gym',

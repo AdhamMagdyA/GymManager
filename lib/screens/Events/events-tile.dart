@@ -17,6 +17,7 @@ class EventListTile extends StatefulWidget {
 
 class _EventListTileState extends State<EventListTile> {
   int number = 0;
+  String role ='admin';
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -46,20 +47,36 @@ class _EventListTileState extends State<EventListTile> {
 
         ),
         
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
+        subtitle: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(height: 10,),
-            Text(
-              widget.date,
-              style: TextStyle(color: Colors.white),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(height: 10,),
+                Text(
+                  widget.date,
+                  style: TextStyle(color: Colors.white),
+                ),
+                Text(
+                  widget.startTime,
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
             ),
-            Text(
-              widget.startTime,
-              style: TextStyle(color: Colors.white),
-            ),
+            InkWell(
+                      onTap: () {
+
+                      },
+                      child: this.role =='admin' ? new Icon(
+                        Icons.delete,
+                        color: Colors.red,
+                        size: 22.0,
+                      ):Container(),
+                    ),
           ],
+          
         ),
         onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => EventDetailsScreen()));},
         ),
