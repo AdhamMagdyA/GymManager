@@ -1,7 +1,5 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:image_picker/image_picker.dart';
 
 class CreateClassForm extends StatefulWidget {
   const CreateClassForm({Key key}) : super(key: key);
@@ -21,11 +19,6 @@ class _CreateClassFormState extends State<CreateClassForm>
     super.initState();
   }
 
-  PickedFile _imageFile;
-  final ImagePicker _picker = ImagePicker();
-
-  int _value = 1;
-  int _value2 = 1;
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
