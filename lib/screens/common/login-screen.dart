@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/common/my_popup.dart';
+import 'package:gym_project/screens/admin/util-screen.dart';
+import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
+import 'package:gym_project/screens/member/member-util.dart';
+import 'package:gym_project/screens/nutritionist/util-screen.dart';
+import 'package:gym_project/widget/providers/user.dart';
+import 'package:provider/provider.dart';
 import '../../style/styling.dart';
 import '../../widget/button.dart';
 
@@ -98,6 +105,137 @@ class _LoginState extends State<Login> {
                                   border: false,
                                   btnTxt: 'Login',
                                   roundedBorder: true,
+                                  onTap: () {
+                                    return showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            content: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          primary: Colors.amber,
+                                                          fixedSize:
+                                                              Size.fromWidth(
+                                                                  150),
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        16),
+                                                          )),
+                                                  onPressed: () {
+                                                    Provider.of<User>(context,
+                                                            listen: false)
+                                                        .setRole('admin');
+                                                    Navigator.pushReplacement(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              AdminUtil()),
+                                                    );
+                                                  },
+                                                  child: Text('Admin'),
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          primary: Colors.amber,
+                                                          fixedSize:
+                                                              Size.fromWidth(
+                                                                  150),
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        16),
+                                                          )),
+                                                  onPressed: () {
+                                                    Provider.of<User>(context,
+                                                            listen: false)
+                                                        .setRole('coach');
+                                                    Navigator.pushReplacement(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              CoachTabsScreen()),
+                                                    );
+                                                  },
+                                                  child: Text('Coach'),
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          primary: Colors.amber,
+                                                          fixedSize:
+                                                              Size.fromWidth(
+                                                                  150),
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        16),
+                                                          )),
+                                                  onPressed: () {
+                                                    Provider.of<User>(context,
+                                                            listen: false)
+                                                        .setRole('member');
+                                                    Navigator.pushReplacement(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              MemberUtil()),
+                                                    );
+                                                  },
+                                                  child: Text('Member'),
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          primary: Colors.amber,
+                                                          fixedSize:
+                                                              Size.fromWidth(
+                                                                  150),
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        16),
+                                                          )),
+                                                  onPressed: () {
+                                                    Provider.of<User>(context,
+                                                            listen: false)
+                                                        .setRole(
+                                                            'nutritionist');
+                                                    Navigator.pushReplacement(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              NutritionistUtil()),
+                                                    );
+                                                  },
+                                                  child: Text('Nutritionist'),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        });
+                                  },
                                 ),
                               ],
                             ),

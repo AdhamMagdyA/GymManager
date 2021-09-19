@@ -17,38 +17,28 @@ import 'package:gym_project/screens/common/ProfilePage.dart';
 import 'package:gym_project/screens/common/grid_view.dart';
 import 'package:gym_project/screens/admin/classes/classes_list.dart';
 import 'package:gym_project/screens/admin/admin_home_page.dart';
+import 'package:gym_project/screens/member/home-screen.dart';
 import 'package:gym_project/screens/questions/add-question-screen.dart';
 import 'package:gym_project/screens/questions/questions-screen.dart';
 import 'package:gym_project/screens/admin/classes/create_class.dart';
 import 'package:gym_project/screens/admin/equipment/create_equipment.dart';
 import 'package:gym_project/screens/admin/users/edit_user.dart';
 import 'package:gym_project/widget/drawer.dart';
-import 'package:gym_project/widget/providers/user.dart';
-import 'package:provider/provider.dart';
-import 'branches/branch_details.dart';
-import 'branches/branches_list.dart';
-import 'equipment/equipment_details.dart';
-import 'equipment/equipment_list.dart';
-import 'memberships/membership_details.dart';
-import 'memberships/memberships_list.dart';
-import 'nutritionist_sessions/create_Nutrisionist_Session.dart';
-import 'nutritionist_sessions/nutritionist_sessions_list.dart';
-import 'others.dart';
 
-class AdminUtil extends StatefulWidget {
-  const AdminUtil({Key key}) : super(key: key);
+class MemberUtil extends StatefulWidget {
+  const MemberUtil({Key key}) : super(key: key);
 
   @override
-  _AdminUtilState createState() => _AdminUtilState();
+  _MemberUtilState createState() => _MemberUtilState();
 }
 
-class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
+class _MemberUtilState extends State<MemberUtil> with TickerProviderStateMixin {
   //MotionTabController _tabController;
   int _selectedIndex = 0;
 
   final _pages = [
     {
-      'page': AdminHomePage(),
+      'page': MemberHomeScreen(),
       'title': 'Homepage',
     },
     {
@@ -56,11 +46,11 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
       'title': 'Users',
     },
     {
-      'page': BranchesList(),
+      'page': ClassesList(),
       'title': 'Branches',
     },
     {
-      'page': MembershipsList(),
+      'page': EventListView(),
       'title': 'Memberships',
     },
     {
@@ -81,7 +71,6 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    print(Provider.of<User>(context, listen: true).role);
     return Scaffold(
       appBar: AppBar(
         title: Text(
