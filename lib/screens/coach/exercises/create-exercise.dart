@@ -134,7 +134,6 @@ class MapScreenState extends State<CreateExerciseForm>
 
   @override
   Widget build(BuildContext context) {
-    print(selectedEquipment);
     return new Scaffold(
       body: new Container(
         color: Color(0xFF181818), //background color
@@ -505,7 +504,6 @@ class MapScreenState extends State<CreateExerciseForm>
                                       setState(() {
                                         if (result != null)
                                           selectedEquipment = result;
-                                        print(selectedEquipment);
                                       });
                                     }),
                               ),

@@ -25,6 +25,7 @@ class MapScreenState extends State<EditExerciseForm>
   }
 
   XFile _imageFile;
+  XFile _gifFile;
   final ImagePicker _picker = ImagePicker();
 
   refresh() {
@@ -33,7 +34,6 @@ class MapScreenState extends State<EditExerciseForm>
 
   @override
   Widget build(BuildContext context) {
-    print(selectedEquipment);
     return new Scaffold(
       body: new Container(
         color: Color(0xFF181818), //background color
@@ -264,7 +264,7 @@ class MapScreenState extends State<EditExerciseForm>
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
-                                  imageProfile(),
+                                  imageProfile('gif'),
                                 ],
                               ),
                             ],
@@ -339,7 +339,7 @@ class MapScreenState extends State<EditExerciseForm>
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
-                                  imageProfile(),
+                                  imageProfile('image'),
                                 ],
                               ),
                             ],
@@ -403,7 +403,6 @@ class MapScreenState extends State<EditExerciseForm>
                                           ));
                                       setState(() {
                                         selectedEquipment = result;
-                                        print(selectedEquipment);
                                       });
                                     }),
                               ),
@@ -468,16 +467,28 @@ class MapScreenState extends State<EditExerciseForm>
     );
   }
 
-  Widget imageProfile() {
+  Widget imageProfile(String imageType) {
+    ImageProvider backgroundImage;
+    if (imageType == 'image') {
+      if (_imageFile == null)
+        backgroundImage = AssetImage("assets/images/as.png");
+      else if (kIsWeb)
+        backgroundImage = NetworkImage(_imageFile.path);
+      else
+        backgroundImage = FileImage(File(_imageFile.path));
+    } else if (imageType == 'gif') {
+      if (_gifFile == null)
+        backgroundImage = AssetImage("assets/images/as.png");
+      else if (kIsWeb)
+        backgroundImage = NetworkImage(_gifFile.path);
+      else
+        backgroundImage = FileImage(File(_gifFile.path));
+    }
     return Center(
       child: Stack(children: <Widget>[
         CircleAvatar(
           radius: 80.0,
-          backgroundImage: _imageFile == null
-              ? AssetImage("assets/images/as.png")
-              : kIsWeb
-                  ? NetworkImage(_imageFile.path)
-                  : FileImage(File(_imageFile.path)),
+          backgroundImage: backgroundImage,
         ),
         Positioned(
           bottom: 20.0,
@@ -486,7 +497,7 @@ class MapScreenState extends State<EditExerciseForm>
             onTap: () {
               showModalBottomSheet(
                 context: context,
-                builder: ((builder) => bottomSheet()),
+                builder: ((builder) => bottomSheet(imageType)),
               );
             },
             child: CircleAvatar(
@@ -503,7 +514,7 @@ class MapScreenState extends State<EditExerciseForm>
     );
   }
 
-  Widget bottomSheet() {
+  Widget bottomSheet(String imageType) {
     return Container(
       height: 100.0,
       width: MediaQuery.of(context).size.width,
@@ -526,7 +537,7 @@ class MapScreenState extends State<EditExerciseForm>
             TextButton.icon(
               icon: Icon(Icons.camera),
               onPressed: () {
-                takePhoto(ImageSource.camera);
+                takePhoto(ImageSource.camera, imageType);
                 Navigator.of(context).pop();
               },
               label: Text("Camera"),
@@ -534,7 +545,7 @@ class MapScreenState extends State<EditExerciseForm>
             TextButton.icon(
               icon: Icon(Icons.image),
               onPressed: () {
-                takePhoto(ImageSource.gallery);
+                takePhoto(ImageSource.gallery, imageType);
                 Navigator.of(context).pop();
               },
               label: Text("Gallery"),
@@ -545,12 +556,14 @@ class MapScreenState extends State<EditExerciseForm>
     );
   }
 
-  void takePhoto(ImageSource source) async {
+  void takePhoto(ImageSource source, String imageType) async {
     final pickedFile = await _picker.pickImage(
       source: source,
     );
     setState(() {
-      _imageFile = pickedFile;
+      if (imageType == 'image')
+        _imageFile = pickedFile;
+      else if (imageType == 'gif') _gifFile = pickedFile;
     });
   }
 
