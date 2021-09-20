@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/models/set.dart';
-import 'package:gym_project/services/webservice.dart';
+import 'package:gym_project/services/exercise-webservice.dart';
+import 'package:gym_project/services/set-webservice.dart';
 import 'package:gym_project/viewmodels/set-view-model.dart';
 
 enum LoadingStatus {
@@ -19,7 +20,7 @@ class SetListViewModel with ChangeNotifier {
   // methods to fetch news
   void fetchListSets() async {
     print('currently here!');
-    List<Set> _sets = await WebService().getSets();
+    List<Set> _sets = await SetWebService().getSets();
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
     this.sets = _sets.map((set) => SetViewModel(s: set)).toList();
@@ -37,13 +38,28 @@ class SetListViewModel with ChangeNotifier {
     print('id');
     print(setId);
     print('currently here!');
-    Set _set = await WebService().getSetDetails(setId);
+    Set _set = await SetWebService().getSetDetails(setId);
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
     this.set = SetViewModel(s: _set);
     print(set.id);
 
     if (this.sets.isEmpty) {
+      loadingStatus = LoadingStatus.Empty;
+    } else {
+      loadingStatus = LoadingStatus.Completed;
+    }
+
+    notifyListeners();
+  }
+
+  void postSet(Set set) async {
+    Set _set = await SetWebService().postSet(set);
+    loadingStatus = LoadingStatus.Searching;
+    notifyListeners();
+    this.set = SetViewModel(s: _set);
+
+    if (this.set == null) {
       loadingStatus = LoadingStatus.Empty;
     } else {
       loadingStatus = LoadingStatus.Completed;

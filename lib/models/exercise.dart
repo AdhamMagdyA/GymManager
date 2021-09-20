@@ -11,7 +11,7 @@ class Exercise {
   String image;
   Equipment equipment;
   String coachName;
-  String coachId;
+  int coachId;
   Exercise({
     this.id,
     this.title,
@@ -36,12 +36,12 @@ class Exercise {
       calBurnt: json['cal_burnt'],
       reps: json['reps'],
       image: json['image'],
-      coachId: json['coachId'],
-      coachName: json['name'],
+      coachId: json['coach_id'],
+      coachName: json['name'] ?? '',
     );
   }
   factory Exercise.detailsfromJson(Map<String, dynamic> json) {
-    print(json);
+    // print(json);
     return Exercise(
       id: json['id'],
       title: json['title'],
@@ -53,7 +53,7 @@ class Exercise {
       reps: json['reps'],
       image: json['image'],
       coachId: json['coachId'],
-      coachName: json['coach']['user']['name'],
+      coachName: json['coach']['user']['name'] ?? '',
     );
   }
 }

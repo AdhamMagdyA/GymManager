@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
+import 'package:gym_project/viewmodels/exercise-view-model.dart';
+import 'package:gym_project/viewmodels/set-list-view-model.dart';
 import 'package:provider/provider.dart';
+import 'package:gym_project/models/set.dart';
 
 import '../exercises/exercises_screen.dart';
 
-List<Map> selectedExercises = [];
+List<ExerciseViewModel> selectedExercises = [];
 
 class CreateSetForm extends StatefulWidget {
   @override
@@ -17,6 +20,10 @@ class CreateSetForm extends StatefulWidget {
 class MapScreenState extends State<CreateSetForm>
     with SingleTickerProviderStateMixin {
   final FocusNode myFocusNode = FocusNode();
+  Set _set;
+
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
 
   @override
   void initState() {
@@ -147,6 +154,7 @@ class MapScreenState extends State<CreateSetForm>
                               children: <Widget>[
                                 new Flexible(
                                   child: new TextField(
+                                    controller: titleController,
                                     decoration: const InputDecoration(
                                         hintText: "Enter Your Title"),
                                   ),
@@ -183,6 +191,7 @@ class MapScreenState extends State<CreateSetForm>
                               children: <Widget>[
                                 new Flexible(
                                   child: new TextField(
+                                    controller: descriptionController,
                                     decoration: const InputDecoration(
                                       hintText: "Enter Your Description",
                                     ),
@@ -236,30 +245,13 @@ class MapScreenState extends State<CreateSetForm>
                                       context,
                                       ExercisesScreen.routeName,
                                       arguments: selectedExercises,
-                                    ) as Map<int, Object>;
-                                    // Map<int, Object> result =
-                                    //     await Navigator.push(
-                                    //         context,
-                                    //         MaterialPageRoute(
-                                    //           builder: (context) =>
-                                    //               MultiProvider(
-                                    //             providers: [
-                                    //               ChangeNotifierProvider(
-                                    //                 create: (_) =>
-                                    //                     ExerciseListViewModel(),
-                                    //               ),
-                                    //             ],
-                                    //             child: ExercisesScreen(false),
-                                    //           ),
-                                    //         ));
+                                    ) as Map<int, ExerciseViewModel>;
                                     if (result.isNotEmpty) {
                                       setState(() {
                                         selectedExercises.clear();
-                                        for (var entry in result.entries) {
-                                          selectedExercises.add({
-                                            'index': entry.key,
-                                            ...entry.value as Map,
-                                          });
+                                        for (var value in result.values) {
+                                          var newValue = value;
+                                          selectedExercises.add(newValue);
                                         }
                                         print(selectedExercises);
                                       });
@@ -288,7 +280,7 @@ class MapScreenState extends State<CreateSetForm>
                                 if (oldIndex < newIndex) {
                                   newIndex -= 1;
                                 }
-                                final Map item =
+                                final ExerciseViewModel item =
                                     selectedExercises.removeAt(oldIndex);
                                 selectedExercises.insert(newIndex, item);
                               });
@@ -329,6 +321,22 @@ class MapScreenState extends State<CreateSetForm>
                                         FocusScope.of(context)
                                             .requestFocus(new FocusNode());
                                       });
+
+                                      print('Now set can be created!');
+
+                                      _set = new Set(
+                                        title: titleController.text,
+                                        description: descriptionController.text,
+                                        exercises: selectedExercises
+                                            .map((e) => e.exercise),
+                                      );
+
+                                      print(_set);
+
+                                      var setListViewModel =
+                                          Provider.of<SetListViewModel>(context)
+                                              .postSet(_set);
+                                      print('set saved!');
                                     },
                                   )),
                                 ),
@@ -358,7 +366,7 @@ class MapScreenState extends State<CreateSetForm>
 }
 
 class CustomExerciseListTile extends StatefulWidget {
-  final Map exercise;
+  final ExerciseViewModel exercise;
   final Key key;
   final Function() notifyParent;
 
@@ -386,7 +394,7 @@ class _CustomExerciseListTileState extends State<CustomExerciseListTile> {
           child: FlutterLogo(),
         ),
         title: Text(
-          widget.exercise['title'],
+          widget.exercise.title,
           style: TextStyle(color: Colors.white),
         ),
         subtitle: Column(
@@ -406,7 +414,7 @@ class _CustomExerciseListTileState extends State<CustomExerciseListTile> {
             //   ),
             // )
             Text(
-              widget.exercise['coach'],
+              widget.exercise.coachName,
               style: TextStyle(
                 color: Colors.white,
               ),

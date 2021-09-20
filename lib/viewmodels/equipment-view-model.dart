@@ -3,10 +3,16 @@ import 'package:gym_project/models/equipment.dart';
 class EquipmentViewModel {
   Equipment equipment;
 
+  EquipmentViewModel({Equipment e}) : equipment = e;
+
+  int get id {
+    return equipment.id;
+  }
+
   String get name {
     return equipment.name;
   }
-  
+
   String get description {
     return equipment.description;
   }

@@ -2,14 +2,23 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
+import 'package:gym_project/models/exercise.dart';
+import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
 import 'package:gym_project/screens/coach/equipment/equipments-list.dart';
+import 'package:gym_project/screens/coach/exercises/exercises_screen.dart';
+import 'package:gym_project/viewmodels/equipment-list-view-model.dart';
+import 'package:gym_project/viewmodels/equipment-view-model.dart';
+import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
+// import 'package:gym_project/viewmodels/exercise-view-model.dart';
 import 'package:image_picker/image_picker.dart';
+// import 'package:path_provider/path_provider.dart';
+// import 'package:path/path.dart' as Path;
 
-import 'dart:io';
 import 'package:flutter/foundation.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
-Map selectedEquipment = {};
+EquipmentViewModel selectedEquipment;
 
 class CreateExerciseForm extends StatefulWidget {
   @override
@@ -25,18 +34,37 @@ class MapScreenState extends State<CreateExerciseForm>
   XFile _imageFile;
   XFile _gifFile;
   final ImagePicker _picker = ImagePicker();
+  Exercise _exercise;
+
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController durationController = TextEditingController();
+  TextEditingController repetitionsController = TextEditingController();
+  TextEditingController caloriesController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    // Provider.of<ExerciseListViewModel>(context, listen: false)
+    //     .postExercise(_exercise);
   }
 
   refresh() {
     setState(() {});
   }
 
+  // Future<String> saveFile(XFile image) async {
+  //   final Directory directory = await getApplicationDocumentsDirectory();
+  //   final String path = directory.path;
+  //   final fileName = Path.basename(image.path);
+  //   image.saveTo('$path/$fileName');
+  //   print('$path/$fileName');
+  //   return '$path/$fileName';
+  // }
+
   Widget imageProfile(String imageType) {
     ImageProvider backgroundImage;
+
     if (imageType == 'image') {
       if (_imageFile == null)
         backgroundImage = AssetImage("assets/images/as.png");
@@ -125,16 +153,19 @@ class MapScreenState extends State<CreateExerciseForm>
     final pickedFile = await _picker.pickImage(
       source: source,
     );
+    // print(pickedFile.path);
     setState(() {
       if (imageType == 'image')
         _imageFile = pickedFile;
       else if (imageType == 'gif') _gifFile = pickedFile;
     });
+
+    // var savedImagePath = await saveFile(pickedFile);
   }
 
   @override
   Widget build(BuildContext context) {
-    print(selectedEquipment);
+    // print(selectedEquipment);
     return new Scaffold(
       body: new Container(
         color: Color(0xFF181818), //background color
@@ -195,10 +226,39 @@ class MapScreenState extends State<CreateExerciseForm>
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 25.0),
+                          child: new Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text(
+                                    //---> topic
+                                    'Exercise Information',
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[],
+                              )
+                            ],
+                          ),
+                        ),
+                        Padding(
                             padding: EdgeInsets.only(
                                 left: 25.0, right: 25.0, top: 25.0),
                             child: new Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 new Column(
@@ -206,23 +266,34 @@ class MapScreenState extends State<CreateExerciseForm>
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
                                     new Text(
-                                      //---> topic
-                                      'Exercise Information',
+                                      'Title',
                                       style: TextStyle(
-                                        fontSize: 18.0,
+                                        fontSize: 16.0,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
                                       ),
                                     ),
                                   ],
                                 ),
-                                new Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[],
-                                )
                               ],
                             )),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 2.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Flexible(
+                                child: new TextField(
+                                  controller: titleController,
+                                  decoration: const InputDecoration(
+                                      hintText: "Enter Title"),
+                                  maxLength: 255,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                         Padding(
                             padding: EdgeInsets.only(
                                 left: 25.0, right: 25.0, top: 25.0),
@@ -253,8 +324,9 @@ class MapScreenState extends State<CreateExerciseForm>
                               children: <Widget>[
                                 new Flexible(
                                   child: new TextField(
+                                    controller: descriptionController,
                                     decoration: const InputDecoration(
-                                      hintText: "Enter Your Description",
+                                      hintText: "Enter Description",
                                     ),
                                   ),
                                 ),
@@ -283,19 +355,22 @@ class MapScreenState extends State<CreateExerciseForm>
                               ],
                             )),
                         Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                new Flexible(
-                                  child: new TextField(
-                                    decoration: const InputDecoration(
-                                        hintText: "Enter Your Duration "),
-                                  ),
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 2.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Flexible(
+                                child: new TextField(
+                                  controller: durationController,
+                                  decoration: const InputDecoration(
+                                      hintText:
+                                          "Enter Duration in format h:m:s"),
                                 ),
-                              ],
-                            )),
+                              ),
+                            ],
+                          ),
+                        ),
                         Padding(
                             padding: EdgeInsets.only(
                                 left: 25.0, right: 25.0, top: 25.0),
@@ -307,7 +382,7 @@ class MapScreenState extends State<CreateExerciseForm>
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
                                     new Text(
-                                      'Title',
+                                      'Calories Burnt',
                                       style: TextStyle(
                                         fontSize: 16.0,
                                         fontWeight: FontWeight.bold,
@@ -319,19 +394,21 @@ class MapScreenState extends State<CreateExerciseForm>
                               ],
                             )),
                         Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                new Flexible(
-                                  child: new TextField(
-                                    decoration: const InputDecoration(
-                                        hintText: "Enter Your Title"),
-                                  ),
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 2.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Flexible(
+                                child: new TextField(
+                                  controller: caloriesController,
+                                  decoration: const InputDecoration(
+                                      hintText: "Enter Calories"),
                                 ),
-                              ],
-                            )),
+                              ),
+                            ],
+                          ),
+                        ),
                         Padding(
                           padding: EdgeInsets.only(
                               left: 25.0, right: 25.0, top: 25.0),
@@ -365,7 +442,9 @@ class MapScreenState extends State<CreateExerciseForm>
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
-                                  imageProfile('gif'),
+                                  Center(
+                                    child: imageProfile('gif'),
+                                  ),
                                 ],
                               ),
                             ],
@@ -401,9 +480,12 @@ class MapScreenState extends State<CreateExerciseForm>
                               children: <Widget>[
                                 new Flexible(
                                   child: new TextField(
+                                    controller: repetitionsController,
+                                    keyboardType: TextInputType.number,
                                     decoration: const InputDecoration(
                                         hintText:
                                             "Enter number of repetitions"),
+                                    maxLength: 3,
                                   ),
                                 ),
                               ],
@@ -440,7 +522,9 @@ class MapScreenState extends State<CreateExerciseForm>
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
-                                  imageProfile('image'),
+                                  Center(
+                                    child: imageProfile('image'),
+                                  ),
                                 ],
                               ),
                             ],
@@ -496,16 +580,25 @@ class MapScreenState extends State<CreateExerciseForm>
                                               BorderRadius.circular(16),
                                         )),
                                     onPressed: () async {
-                                      Map result = await Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                EquipmentsList(true),
-                                          ));
+                                      EquipmentViewModel result =
+                                          await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    MultiProvider(
+                                                  providers: [
+                                                    ChangeNotifierProvider(
+                                                      create: (_) =>
+                                                          EquipmentListViewModel(),
+                                                    ),
+                                                  ],
+                                                  child: EquipmentsList(true),
+                                                ),
+                                              ));
                                       setState(() {
                                         if (result != null)
                                           selectedEquipment = result;
-                                        print(selectedEquipment);
+                                        // print(selectedEquipment);
                                       });
                                     }),
                               ),
@@ -515,7 +608,7 @@ class MapScreenState extends State<CreateExerciseForm>
                         SizedBox(
                           height: 10,
                         ),
-                        if (selectedEquipment.isNotEmpty)
+                        if (selectedEquipment != null)
                           CustomEquipmentListTile(selectedEquipment, refresh),
                         Padding(
                           padding: EdgeInsets.only(
@@ -528,30 +621,159 @@ class MapScreenState extends State<CreateExerciseForm>
                                 child: Padding(
                                   padding: EdgeInsets.only(right: 0),
                                   child: Container(
-                                      child: new ElevatedButton(
-                                    child: new Text("Create"),
-                                    style: ElevatedButton.styleFrom(
-                                      shape: new RoundedRectangleBorder(
-                                        borderRadius:
-                                            new BorderRadius.circular(10.0),
+                                    child: new ElevatedButton(
+                                      child: new Text("Create"),
+                                      style: ElevatedButton.styleFrom(
+                                        shape: new RoundedRectangleBorder(
+                                          borderRadius:
+                                              new BorderRadius.circular(10.0),
+                                        ),
+                                        primary: Color(0xFFFFCE2B),
+                                        onPrimary: Colors.black,
+                                        // padding: EdgeInsets.symmetric(
+                                        //     horizontal: 10, vertical: 5),
+                                        textStyle: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                      primary: Color(0xFFFFCE2B),
-                                      onPrimary: Colors.black,
-                                      // padding: EdgeInsets.symmetric(
-                                      //     horizontal: 10, vertical: 5),
-                                      textStyle: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _status = true;
+                                          FocusScope.of(context)
+                                              .requestFocus(new FocusNode());
+                                        });
+                                        print('paths');
+                                        print(_gifFile.path);
+                                        print(_imageFile.path);
+                                        print('Now exercise can be created!');
+
+                                        _exercise = new Exercise(
+                                          title: titleController.text,
+                                          description:
+                                              descriptionController.text,
+                                          duration: durationController.text,
+                                          reps: int.parse(
+                                              repetitionsController.text),
+                                          image: _imageFile.path.substring(5),
+                                          gif: _gifFile.path.substring(5),
+                                          calBurnt: double.parse(
+                                              caloriesController.text),
+                                          equipment:
+                                              selectedEquipment.equipment,
+                                        );
+
+                                        // print(_exercise.title);
+                                        var exerciseListViewModel =
+                                            Provider.of<ExerciseListViewModel>(
+                                                    context,
+                                                    listen: false)
+                                                .postExercise(_exercise);
+
+                                        return AlertDialog(
+                                          backgroundColor: Colors.black,
+                                          content: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text(
+                                                'Exercise Created Successfully!',
+                                                style: TextStyle(
+                                                  color: Colors.amber,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 4,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  ElevatedButton(
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                            primary:
+                                                                Colors.amber,
+                                                            onPrimary:
+                                                                Colors.black,
+                                                            fixedSize:
+                                                                Size.fromWidth(
+                                                                    150),
+                                                            shape:
+                                                                RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          16),
+                                                            )),
+                                                    onPressed: () {
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                MultiProvider(
+                                                              providers: [
+                                                                ChangeNotifierProvider(
+                                                                  create: (_) =>
+                                                                      ExerciseListViewModel(),
+                                                                ),
+                                                              ],
+                                                              child:
+                                                                  ExercisesScreen(
+                                                                      false),
+                                                            ),
+                                                          ));
+                                                    },
+                                                    child: Text(
+                                                        'Go to exercises page'),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 4,
+                                                  ),
+                                                  ElevatedButton(
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                            primary:
+                                                                Colors.amber,
+                                                            onPrimary:
+                                                                Colors.black,
+                                                            fixedSize:
+                                                                Size.fromWidth(
+                                                                    150),
+                                                            shape:
+                                                                RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          16),
+                                                            )),
+                                                    onPressed: () {
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                MultiProvider(
+                                                              providers: [
+                                                                ChangeNotifierProvider(
+                                                                  create: (_) =>
+                                                                      ExerciseListViewModel(),
+                                                                ),
+                                                              ],
+                                                              child:
+                                                                  CoachTabsScreen(),
+                                                            ),
+                                                          ));
+                                                    },
+                                                    child:
+                                                        Text('Go to homepage'),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
                                     ),
-                                    onPressed: () {
-                                      setState(() {
-                                        _status = true;
-                                        FocusScope.of(context)
-                                            .requestFocus(new FocusNode());
-                                      });
-                                    },
-                                  )),
+                                  ),
                                 ),
                                 flex: 2,
                               ),
@@ -579,7 +801,7 @@ class MapScreenState extends State<CreateExerciseForm>
 }
 
 class CustomEquipmentListTile extends StatefulWidget {
-  final Map equipment;
+  final EquipmentViewModel equipment;
   final Function() notifyParent;
 
   CustomEquipmentListTile(this.equipment, this.notifyParent);
@@ -604,7 +826,7 @@ class _CustomEquipmentListTileState extends State<CustomEquipmentListTile> {
           child: FlutterLogo(),
         ),
         title: Text(
-          widget.equipment['name'],
+          widget.equipment.name,
           style: TextStyle(color: Colors.white),
         ),
         subtitle: Column(
@@ -612,7 +834,7 @@ class _CustomEquipmentListTileState extends State<CustomEquipmentListTile> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              widget.equipment['description'],
+              widget.equipment.description,
               style: TextStyle(
                 color: Colors.white,
               ),
@@ -625,7 +847,7 @@ class _CustomEquipmentListTileState extends State<CustomEquipmentListTile> {
             color: Colors.white,
           ),
           onTap: () {
-            selectedEquipment = {};
+            selectedEquipment = null;
             widget.notifyParent();
           },
         ),

@@ -10,6 +10,10 @@ class ExerciseViewModel {
     return exercise.title;
   }
 
+  String get gif {
+    return exercise.gif;
+  }
+
   int get id {
     return exercise.id;
   }
@@ -34,7 +38,7 @@ class ExerciseViewModel {
     return exercise.image;
   }
 
-  String get coachId {
+  int get coachId {
     return exercise.coachId;
   }
 

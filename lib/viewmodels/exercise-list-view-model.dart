@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/models/exercise.dart';
-import 'package:gym_project/services/webservice.dart';
+import 'package:gym_project/services/exercise-webservice.dart';
 
 import 'exercise-view-model.dart';
 
@@ -20,7 +20,7 @@ class ExerciseListViewModel with ChangeNotifier {
   // methods to fetch news
   void fetchListExercises() async {
     print('currently here!');
-    List<Exercise> _exercises = await WebService().getExercises();
+    List<Exercise> _exercises = await ExerciseWebService().getExercises();
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
     this.exercises =
@@ -38,13 +38,30 @@ class ExerciseListViewModel with ChangeNotifier {
   void fetchExercise(int exerciseId) async {
     print(exerciseId);
     print('currently here!');
-    Exercise _exercise = await WebService().getExerciseDetails(exerciseId);
+    Exercise _exercise =
+        await ExerciseWebService().getExerciseDetails(exerciseId);
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
     this.exercise = ExerciseViewModel(e: _exercise);
     print(exercise.id);
 
-    if (this.exercises.isEmpty) {
+    if (this.exercise == null) {
+      loadingStatus = LoadingStatus.Empty;
+    } else {
+      loadingStatus = LoadingStatus.Completed;
+    }
+
+    notifyListeners();
+  }
+
+  void postExercise(Exercise exercise) async {
+    // print('currently here!');
+    Exercise _exercise = await ExerciseWebService().postExercise(exercise);
+    loadingStatus = LoadingStatus.Searching;
+    notifyListeners();
+    this.exercise = ExerciseViewModel(e: _exercise);
+
+    if (this.exercise == null) {
       loadingStatus = LoadingStatus.Empty;
     } else {
       loadingStatus = LoadingStatus.Completed;

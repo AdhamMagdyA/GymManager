@@ -59,6 +59,7 @@ import 'package:gym_project/screens/nutritionist/meals-screen.dart';
 import 'package:gym_project/screens/nutritionist/plans-screen.dart';
 import 'package:gym_project/screens/nutritionist/util-screen.dart';
 import 'package:gym_project/screens/questions/questions-screen.dart';
+import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
 import 'package:gym_project/screens/items_screen.dart';
@@ -133,8 +134,22 @@ class MyApp extends StatelessWidget {
         '/invitations': (context) => InvitationList(),
 
         //exercises routes
-        '/exercises': (context) => ExercisesScreen(false),
-        '/exercises/index': (context) => ExercisesScreen(true),
+        '/exercises': (context) => MultiProvider(
+              providers: [
+                ChangeNotifierProvider(
+                  create: (_) => ExerciseListViewModel(),
+                ),
+              ],
+              child: ExercisesScreen(false),
+            ),
+        '/exercises/index': (context) => MultiProvider(
+              providers: [
+                ChangeNotifierProvider(
+                  create: (_) => ExerciseListViewModel(),
+                ),
+              ],
+              child: ExercisesScreen(true),
+            ),
         // '/create-exercise': (context) => CreateExerciseForm(),
         // '/edit-exercise': (context) => EditExerciseForm(),
 

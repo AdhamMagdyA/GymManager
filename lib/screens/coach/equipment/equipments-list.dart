@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/screens/coach/exercises/edit-exercise.dart';
+import 'package:gym_project/viewmodels/equipment-list-view-model.dart';
+import 'package:gym_project/viewmodels/equipment-view-model.dart';
+import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
+import 'package:provider/provider.dart';
 
 class EquipmentsList extends StatefulWidget {
   bool isSelectionTime = false;
@@ -10,30 +14,16 @@ class EquipmentsList extends StatefulWidget {
 }
 
 class EquipmentsListState extends State<EquipmentsList> {
-  List<Map> _equipments = [
-    {
-      'name': 'Dumbbell 1',
-      'description': 'description 1',
-      'picture': 'assets/images/dumbbell.png',
-    },
-    {
-      'name': 'Dumbbell 2',
-      'description': 'description 1',
-      'picture': 'assets/images/dumbbell.png',
-    },
-    {
-      'name': 'Dumbbell 3',
-      'description': 'description 1',
-      'picture': 'assets/images/dumbbell.png',
-    },
-    {
-      'name': 'Dumbbell 4',
-      'description': 'description 1',
-      'picture': 'assets/images/dumbbell.png',
-    },
-  ];
-
+  List<EquipmentViewModel> _equipments = [];
   bool _selectionMode = false;
+
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<EquipmentListViewModel>(context, listen: false)
+        .fetchListEquipments();
+  }
+
   void setSelectionMode(bool value) {
     setState(() {
       _selectionMode = value;
@@ -54,6 +44,8 @@ class EquipmentsListState extends State<EquipmentsList> {
 
   @override
   Widget build(BuildContext context) {
+    var equipmentListViewModel = Provider.of<EquipmentListViewModel>(context);
+    _equipments = equipmentListViewModel.equipments;
     return Scaffold(
         body: SafeArea(
       child: Stack(
@@ -80,118 +72,159 @@ class EquipmentsListState extends State<EquipmentsList> {
                     bottomRight: Radius.circular(160),
                     topRight: Radius.circular(0))),
           ),
-          CustomScrollView(
-            slivers: <Widget>[
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.all(26.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(
-                              top: 10,
-                              left: 10,
-                            ),
-                            child: GestureDetector(
-                              onTap: () {
-                                // return null if back button is used
-                                Navigator.of(context).pop(null);
-                              },
-                              child: Align(
-                                alignment: Alignment.topLeft,
-                                child: Container(
-                                  height: 42,
-                                  width: 42,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    shape: BoxShape.circle,
+          _equipments.isEmpty
+              ? Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
+                )
+              : CustomScrollView(
+                  slivers: <Widget>[
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.all(26.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    top: 10,
+                                    left: 10,
                                   ),
-                                  child: Center(
-                                    child: Icon(
-                                      Icons.arrow_back,
-                                      color: Colors.black,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      // return null if back button is used
+                                      Navigator.of(context).pop(null);
+                                    },
+                                    child: Align(
+                                      alignment: Alignment.topLeft,
+                                      child: Container(
+                                        height: 42,
+                                        width: 42,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Center(
+                                          child: Icon(
+                                            Icons.arrow_back,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
                                     ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    top: 10,
+                                    left: 10,
+                                  ),
+                                  child: Text(
+                                    "Equipments",
+                                    style: TextStyle(
+                                      fontSize: 40,
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 40),
+                            Material(
+                              elevation: 5.0,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30)),
+                              child: TextField(
+                                controller: TextEditingController(),
+                                cursorColor: Theme.of(context).primaryColor,
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 18),
+                                decoration: InputDecoration(
+                                  labelText: 'Search',
+                                  suffixIcon: Material(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(30)),
+                                    child: Icon(Icons.search),
+                                  ),
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 25,
+                                    vertical: 13,
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                              top: 10,
-                              left: 10,
-                            ),
-                            child: Text(
-                              "Exercises",
-                              style: TextStyle(
-                                fontSize: 40,
-                                fontWeight: FontWeight.w800,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 40),
-                      Material(
-                        elevation: 5.0,
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                        child: TextField(
-                          controller: TextEditingController(),
-                          cursorColor: Theme.of(context).primaryColor,
-                          style: TextStyle(color: Colors.black, fontSize: 18),
-                          decoration: InputDecoration(
-                            labelText: 'Search',
-                            suffixIcon: Material(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30)),
-                              child: Icon(Icons.search),
-                            ),
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.symmetric(
-                              horizontal: 25,
-                              vertical: 13,
-                            ),
-                          ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                    if (_selectionMode)
+                      SliverToBoxAdapter(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Expanded(
+                              child: Container(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  'Equipment Selected',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _selectionMode = false;
+                                  _indexOfSelected = -1;
+                                });
+                              },
+                              icon: CircleAvatar(
+                                radius: 30,
+                                backgroundColor: Colors.black.withOpacity(0.3),
+                                child: Icon(
+                                  Icons.close,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    SliverPadding(
+                      padding: const EdgeInsets.all(26.0),
+                      sliver: SliverGrid.count(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 10,
+                        crossAxisSpacing: 10,
+                        childAspectRatio: 0.8,
+                        children: _equipments
+                            .asMap()
+                            .entries
+                            .map((entry) => MySingleChoosingGridViewCard(
+                                  picture: entry.value.picture,
+                                  title: entry.value.name,
+                                  index: entry.key,
+                                  selectionMode: _selectionMode,
+                                  setSelectionMode: setSelectionMode,
+                                  isSelected: isSelected,
+                                  setIndexOfSelected: setIndexOfSelected,
+                                  selectionTime: widget.isSelectionTime,
+                                ))
+                            .toList(),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              SliverPadding(
-                padding: const EdgeInsets.all(26.0),
-                sliver: SliverGrid.count(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
-                  childAspectRatio: 0.8,
-                  children: _equipments
-                      .asMap()
-                      .entries
-                      .map((entry) => MySingleChoosingGridViewCard(
-                            picture: entry.value['picture'],
-                            title: entry.value['name'],
-                            index: entry.key,
-                            selectionMode: _selectionMode,
-                            setSelectionMode: setSelectionMode,
-                            isSelected: isSelected,
-                            setIndexOfSelected: setIndexOfSelected,
-                            selectionTime: widget.isSelectionTime,
-                          ))
-                      .toList(),
-                ),
-              ),
-            ],
-          ),
-          if (_selectionMode)
+          if (_selectionMode && widget.isSelectionTime)
             Align(
               alignment: Alignment.bottomCenter,
               child: ElevatedButton(
@@ -252,13 +285,12 @@ class _MySingleChoosingGridViewCardState
   Widget build(BuildContext context) {
     final double imageBorderRadius = widget.selectionMode ? 0 : 30;
     return GestureDetector(
-      onLongPress: () {
+      onTap: () {
         if (!widget.selectionMode) {
           widget.setSelectionMode(true);
-          widget.setIndexOfSelected(widget.index);
         }
+        widget.setIndexOfSelected(widget.index);
       },
-      onTap: () => widget.setIndexOfSelected(widget.index),
       child: Container(
         height: 200,
         width: 200,
