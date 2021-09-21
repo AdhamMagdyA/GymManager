@@ -55,6 +55,20 @@ class OthersScreen extends StatelessWidget {
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Icon(
+                                  Icons.close,
+                                  color: Colors.amber,
+                                ),
+                              )
+                            ],
+                          ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 primary: Colors.amber,
@@ -169,6 +183,20 @@ class OthersScreen extends StatelessWidget {
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Icon(
+                                  Icons.close,
+                                  color: Colors.amber,
+                                ),
+                              )
+                            ],
+                          ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 primary: Colors.amber,
@@ -255,6 +283,20 @@ class OthersScreen extends StatelessWidget {
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Icon(
+                                  Icons.close,
+                                  color: Colors.amber,
+                                ),
+                              )
+                            ],
+                          ),
                           CrowdMeter(checkedInMembers: 40, totalMembers: 100),
                         ],
                       ),

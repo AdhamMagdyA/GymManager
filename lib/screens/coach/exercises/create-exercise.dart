@@ -132,7 +132,6 @@ class MapScreenState extends State<CreateExerciseForm>
 
   @override
   Widget build(BuildContext context) {
-    print(selectedEquipment);
     return new Scaffold(
       body: SafeArea(
         child: new Container(
@@ -482,34 +481,37 @@ class MapScreenState extends State<CreateExerciseForm>
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 new Flexible(
-                                  child: ElevatedButton(
-                                      child: Text(
-                                        'Choose Equipment',
-                                      ),
-                                      style: ElevatedButton.styleFrom(
-                                          textStyle: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          primary: Colors.amber,
-                                          onPrimary: Colors.black,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(16),
-                                          )),
-                                      onPressed: () async {
-                                        Map result = await Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  EquipmentsList(true),
-                                            ));
-                                        setState(() {
-                                          if (result != null)
-                                            selectedEquipment = result;
-                                          print(selectedEquipment);
-                                        });
-                                      }),
+                                  child: FittedBox(
+                                    fit: BoxFit.fitWidth,
+                                    child: ElevatedButton(
+                                        child: Text(
+                                          'Choose Equipment',
+                                        ),
+                                        style: ElevatedButton.styleFrom(
+                                            textStyle: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            primary: Colors.amber,
+                                            onPrimary: Colors.black,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(16),
+                                            )),
+                                        onPressed: () async {
+                                          Map result = await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    EquipmentsList(true),
+                                              ));
+                                          setState(() {
+                                            if (result != null)
+                                              selectedEquipment = result;
+                                            print(selectedEquipment);
+                                          });
+                                        }),
+                                  ),
                                 ),
                               ],
                             ),
@@ -530,29 +532,33 @@ class MapScreenState extends State<CreateExerciseForm>
                                   child: Padding(
                                     padding: EdgeInsets.only(right: 0),
                                     child: Container(
-                                        child: new ElevatedButton(
-                                      child: new Text("Create"),
-                                      style: ElevatedButton.styleFrom(
-                                        shape: new RoundedRectangleBorder(
-                                          borderRadius:
-                                              new BorderRadius.circular(10.0),
+                                        child: FittedBox(
+                                      fit: BoxFit.fitWidth,
+                                      child: new ElevatedButton(
+                                        child: new Text("Create"),
+                                        style: ElevatedButton.styleFrom(
+                                          shape: new RoundedRectangleBorder(
+                                            borderRadius:
+                                                new BorderRadius.circular(10.0),
+                                          ),
+
+                                          primary: Color(0xFFFFCE2B),
+                                          onPrimary: Colors.black,
+                                          // padding: EdgeInsets.symmetric(
+                                          //     horizontal: 10, vertical: 5),
+                                          textStyle: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
-                                        primary: Color(0xFFFFCE2B),
-                                        onPrimary: Colors.black,
-                                        // padding: EdgeInsets.symmetric(
-                                        //     horizontal: 10, vertical: 5),
-                                        textStyle: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            _status = true;
+                                            FocusScope.of(context)
+                                                .requestFocus(new FocusNode());
+                                          });
+                                        },
                                       ),
-                                      onPressed: () {
-                                        setState(() {
-                                          _status = true;
-                                          FocusScope.of(context)
-                                              .requestFocus(new FocusNode());
-                                        });
-                                      },
                                     )),
                                   ),
                                   flex: 2,

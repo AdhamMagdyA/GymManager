@@ -33,13 +33,20 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
   ];
 
   bool _selectionMode = false;
+  @override
+  void initState() {
+    super.initState();
+    if (widget.isSelectionTime == true) {
+      _selectionMode = true;
+    }
+  }
+
   List<Map<int, int>> _numberOfSelectedInstances = [];
   Map<int, Object> finalSelectedItems = {};
 
   void setSelectionMode(bool value) {
     setState(() {
       _selectionMode = value;
-      widget.isSelectionTime = value;
     });
   }
 
@@ -185,7 +192,8 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: ElevatedButton(
-                    child: Text('Submit'),
+                    child: Text('Submit',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
                     style: ElevatedButton.styleFrom(
                         primary: Colors.amber,
                         onPrimary: Colors.black,
@@ -277,12 +285,13 @@ class _SetsListTileState extends State<SetsListTile> {
               : Colors.transparent,
         ),
         child: ListTile(
-          onLongPress: () {
-            widget.setSelectionMode(true);
-          },
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => SetDetailsScreen()));
+            if (!widget.selectionTime) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SetDetailsScreen()));
+            } else if (widget.selectionTime && !widget.selectionMode) {
+              widget.setSelectionMode(true);
+            }
           },
           leading: CircleAvatar(
             radius: 20,
@@ -302,7 +311,52 @@ class _SetsListTileState extends State<SetsListTile> {
                 style: TextStyle(
                   color: Colors.white,
                 ),
-              )
+              ),
+              if (widget.selectionTime && widget.selectionMode)
+                SizedBox(
+                  height: 15,
+                ),
+              if (widget.selectionTime && widget.selectionMode)
+                Center(
+                  child: SizedBox(
+                    height: 21,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Center(
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(10.0),
+                              ),
+                              primary: Colors.amber,
+                              onPrimary: Colors.black,
+                            ),
+                            child: Text(
+                              'Details',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SetDetailsScreen(),
+                                  ));
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              if (widget.selectionTime && widget.selectionMode)
+                SizedBox(
+                  height: 10,
+                ),
             ],
           ),
           trailing: !widget.selectionTime
@@ -317,7 +371,7 @@ class _SetsListTileState extends State<SetsListTile> {
                     'Edit',
                     style: TextStyle(
                         fontSize: 15,
-                        color: Colors.white,
+                        color: Colors.amber,
                         fontWeight: FontWeight.bold),
                   ),
                 )
@@ -346,7 +400,7 @@ class _SetsListTileState extends State<SetsListTile> {
                           onTap: () => widget.isSelected(widget.index)
                               ? widget.decrementItem(widget.index)
                               : null,
-                        )
+                        ),
                       ],
                       mainAxisSize: MainAxisSize.min,
                     ),

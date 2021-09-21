@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:gym_project/common/my_choosing_screen.dart';
 import 'package:gym_project/common/my_list_tile.dart';
 import 'package:gym_project/screens/common/view-group-details-screen.dart';
+import 'package:gym_project/screens/common/view-set-details-screen.dart';
 
 import 'edit-group.dart';
 
@@ -37,13 +38,20 @@ class _ViewGroupsScreenState extends State<ViewGroupsScreen> {
   ];
 
   bool _selectionMode = false;
+  @override
+  void initState() {
+    super.initState();
+    if (widget.isSelectionTime == true) {
+      _selectionMode = true;
+    }
+  }
+
   List<Map<int, int>> _numberOfSelectedInstances = [];
   Map<int, Object> finalSelectedItems = {};
 
   void setSelectionMode(bool value) {
     setState(() {
       _selectionMode = value;
-      widget.isSelectionTime = value;
     });
   }
 
@@ -282,12 +290,13 @@ class _GroupsListTileState extends State<GroupsListTile> {
               : Colors.transparent,
         ),
         child: ListTile(
-          onLongPress: () {
-            widget.setSelectionMode(true);
-          },
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => GroupDetailsScreen()));
+            if (!widget.selectionTime) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SetDetailsScreen()));
+            } else if (widget.selectionTime && !widget.selectionMode) {
+              widget.setSelectionMode(true);
+            }
           },
           leading: CircleAvatar(
             radius: 20,
@@ -307,7 +316,50 @@ class _GroupsListTileState extends State<GroupsListTile> {
                 style: TextStyle(
                   color: Colors.white,
                 ),
-              )
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              if (widget.selectionTime && widget.selectionMode)
+                Center(
+                  child: SizedBox(
+                    height: 21,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Center(
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(10.0),
+                              ),
+                              primary: Colors.amber,
+                              onPrimary: Colors.black,
+                            ),
+                            child: Text(
+                              'View Details',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SetDetailsScreen(),
+                                  ));
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              SizedBox(
+                height: 10,
+              ),
             ],
           ),
           trailing: !widget.selectionTime
@@ -322,7 +374,7 @@ class _GroupsListTileState extends State<GroupsListTile> {
                     'Edit',
                     style: TextStyle(
                         fontSize: 15,
-                        color: Colors.white,
+                        color: Colors.amber,
                         fontWeight: FontWeight.bold),
                   ),
                 )
