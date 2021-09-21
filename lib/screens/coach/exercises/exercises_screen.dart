@@ -163,10 +163,6 @@ class ExercisesScreenState extends State<ExercisesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // var exerciseListViewModel = Provider.of<ExerciseListViewModel>(context);
-    // _exercises = exerciseListViewModel.exercises;
-    print('Now exercises is');
-    print(_exercises);
     return Scaffold(
         body: SafeArea(
       child: Stack(
@@ -262,13 +258,13 @@ class ExercisesScreenState extends State<ExercisesScreen> {
                               elevation: 5.0,
                               borderRadius:
                                   BorderRadius.all(Radius.circular(30)),
-                              child: TextField(
+                              child: TextFormField(
                                 controller: TextEditingController(),
                                 cursorColor: Theme.of(context).primaryColor,
                                 style: TextStyle(
                                     color: Colors.black, fontSize: 18),
                                 decoration: InputDecoration(
-                                  labelText: 'Search',
+                                  hintText: 'Search..',
                                   suffixIcon: Material(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(30)),

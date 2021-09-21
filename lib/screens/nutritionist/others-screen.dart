@@ -67,6 +67,26 @@ class OthersScreen extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
+                                      builder: (context) =>
+                                          CreateFitnessSummaryForm()));
+                            },
+                            child: Text('Fitness Summary'),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.amber,
+                                onPrimary: Colors.black,
+                                fixedSize: Size.fromWidth(150),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                )),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
                                       builder: (context) => CreateItemForm()));
                             },
                             child: Text('Item'),
@@ -109,26 +129,6 @@ class OthersScreen extends StatelessWidget {
                                       builder: (context) => CreatePlanForm()));
                             },
                             child: Text('Plan'),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                primary: Colors.amber,
-                                onPrimary: Colors.black,
-                                fixedSize: Size.fromWidth(150),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                )),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          CreateFitnessSummaryForm()));
-                            },
-                            child: Text('Fitness Summary'),
                           ),
                         ],
                       ),
@@ -197,6 +197,35 @@ class OthersScreen extends StatelessWidget {
                 'Inventory',
                 style: TextStyle(
                   fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.amber,
+                ),
+              ),
+            ),
+          ),
+        ),
+        Container(
+          decoration: new BoxDecoration(
+            // color: const Color(0xff181818),
+            image: new DecorationImage(
+              image: AssetImage('assets/images/others-schedule.png'),
+              colorFilter: new ColorFilter.mode(
+                Colors.black.withOpacity(0.4),
+                BlendMode.dstATop,
+              ),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: TextButton(
+            onPressed: () {
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => ScheduleScreen()));
+            },
+            child: Center(
+              child: Text(
+                'Schedule',
+                style: TextStyle(
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: Colors.amber,
                 ),
@@ -384,6 +413,35 @@ class OthersScreen extends StatelessWidget {
                 'Branches',
                 style: TextStyle(
                   fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.amber,
+                ),
+              ),
+            ),
+          ),
+        ),
+        Container(
+          decoration: new BoxDecoration(
+            // color: const Color(0xff181818),
+            image: new DecorationImage(
+              image: AssetImage('assets/images/others-aboutus.png'),
+              colorFilter: new ColorFilter.mode(
+                Colors.black.withOpacity(0.4),
+                BlendMode.dstATop,
+              ),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: TextButton(
+            onPressed: () {
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => AboutUsScreen()));
+            },
+            child: Center(
+              child: Text(
+                'About us',
+                style: TextStyle(
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: Colors.amber,
                 ),

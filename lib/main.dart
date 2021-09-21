@@ -14,6 +14,7 @@ import 'package:gym_project/screens/Supplements/supplement-grid-view.dart';
 import 'package:gym_project/screens/admin/memberships/memberships_list.dart';
 import 'package:gym_project/screens/announcements/add-announcement-screen.dart';
 import 'package:gym_project/screens/announcements/announcements-screen.dart';
+import 'package:gym_project/screens/coach/coach-profile.dart';
 import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
 import 'package:gym_project/screens/coach/exercises/create-exercise.dart';
 import 'package:gym_project/screens/coach/exercises/edit-exercise.dart';
@@ -145,6 +146,10 @@ class MyApp extends StatelessWidget {
         //announcements routes
         '/announcements': (context) => AnnouncementsScreen(),
         '/create-announcement': (context) => AddAnnouncementScreen(),
+
+        //coach profile
+        '/coach/profile': (context) => CoachProfile(),
+        // '/coach/schedule': (context) => CoachSchedule(),
         // exercises
         ExercisesScreen.routeName: (context) => ExercisesScreen(false),
         //exercises routes
