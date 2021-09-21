@@ -94,7 +94,7 @@ class MyApp extends StatelessWidget {
         '/create-user': (context) => UserCreate(),
         '/edit-user': (context) => EditUserForm(),
         //branches routes
-        'branches-list': (context) => BranchesList(),
+        '/branches-list': (context) => BranchesList(),
         '/branch-details': (context) => BranchDetails(),
         '/create-branch': (context) => CreateBranchForm(),
         '/edit-branch': (context) => EditBranchForm(),
