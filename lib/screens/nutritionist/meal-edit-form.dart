@@ -322,7 +322,7 @@ class MapScreenState extends State<EditMealForm>
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  ItemsScreen(),
+                                                  ItemsScreen(true),
                                             ));
                                         setState(() {
                                           selectedEquipment = result;
