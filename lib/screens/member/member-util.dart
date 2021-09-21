@@ -18,6 +18,7 @@ import 'package:gym_project/screens/common/grid_view.dart';
 import 'package:gym_project/screens/admin/classes/classes_list.dart';
 import 'package:gym_project/screens/admin/admin_home_page.dart';
 import 'package:gym_project/screens/member/home-screen.dart';
+import 'package:gym_project/screens/member/schedule.dart';
 import 'package:gym_project/screens/questions/add-question-screen.dart';
 import 'package:gym_project/screens/questions/questions-screen.dart';
 import 'package:gym_project/screens/admin/classes/create_class.dart';
@@ -42,8 +43,8 @@ class _MemberUtilState extends State<MemberUtil> with TickerProviderStateMixin {
       'title': 'Homepage',
     },
     {
-      'page': UsersList(),
-      'title': 'Users',
+      'page': MemberSchedule(),
+      'title': 'Schedule',
     },
     {
       'page': ClassesList(),
@@ -92,7 +93,7 @@ class _MemberUtilState extends State<MemberUtil> with TickerProviderStateMixin {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.supervised_user_circle),
-            label: 'Users',
+            label: 'Schedule',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.workspaces),

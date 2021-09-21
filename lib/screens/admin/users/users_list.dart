@@ -42,55 +42,56 @@ class _UsersListState extends State<UsersList>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: new AppBar(
-          backgroundColor: Colors.black,
-          automaticallyImplyLeading: false,
-          bottom: PreferredSize(
-            preferredSize: new Size(0, 0),
-            child: Container(
-              child: TabBar(
-                  unselectedLabelColor: Colors.amber,
-                  labelColor: Colors.amber,
-                  indicatorColor: Colors.amber,
-                  controller: _myTabController,
-                  tabs: [
-                    Tab(
-                      text: 'all',
-                    ),
-                    Tab(
-                      text: 'members',
-                    ),
-                    Tab(
-                      text: 'coaches',
-                    ),
-                    Tab(
-                      text: 'nutritionists',
-                    )
-                  ]),
-            ),
+      appBar: new AppBar(
+        backgroundColor: Colors.black,
+        automaticallyImplyLeading: false,
+        bottom: PreferredSize(
+          preferredSize: new Size(0, 0),
+          child: Container(
+            child: TabBar(
+                unselectedLabelColor: Colors.amber,
+                labelColor: Colors.amber,
+                indicatorColor: Colors.amber,
+                controller: _myTabController,
+                tabs: [
+                  Tab(
+                    text: 'all',
+                  ),
+                  Tab(
+                    text: 'members',
+                  ),
+                  Tab(
+                    text: 'coaches',
+                  ),
+                  Tab(
+                    text: 'nutritionists',
+                  )
+                ]),
           ),
         ),
-        floatingActionButton: Container(
-          child: FloatingActionButton.extended(
-            onPressed: () {
-              Navigator.pushNamed(context, '/create-user');
-            },
-            isExtended: false,
-            label: Icon(Icons.add),
-          ),
-          height: MediaQuery.of(context).size.height * 0.075,
-          width: MediaQuery.of(context).size.width * 0.1,
+      ),
+      floatingActionButton: Container(
+        child: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.pushNamed(context, '/create-user');
+          },
+          isExtended: false,
+          label: Icon(Icons.add),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
-        body: TabBarView(
-          controller: _myTabController,
-          children: [
-            AllScreen(),
-            MembersScreen(),
-            CoachesScreen(),
-            NutritionistsScreen(),
-          ],
-        ));
+        height: MediaQuery.of(context).size.height * 0.075,
+        width: MediaQuery.of(context).size.width * 0.1,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+      body: TabBarView(
+        controller: _myTabController,
+        children: [
+          AllScreen(),
+          MembersScreen(),
+          CoachesScreen(),
+          NutritionistsScreen(),
+        ],
+      ),
+    );
   }
 }
 
@@ -107,21 +108,22 @@ class AllScreen extends StatelessWidget {
       child: ListView(
         children: [
           Material(
-              elevation: 5.0,
-              borderRadius: BorderRadius.all(Radius.circular(30)),
-              child: TextField(
-                controller: TextEditingController(text: 'Search...'),
-                cursorColor: Theme.of(context).primaryColor,
-                style: TextStyle(color: Colors.black, fontSize: 18),
-                decoration: InputDecoration(
-                    suffixIcon: Material(
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                      child: Icon(Icons.search),
-                    ),
-                    border: InputBorder.none,
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
-              )),
+            elevation: 5.0,
+            borderRadius: BorderRadius.all(Radius.circular(30)),
+            child: TextField(
+              controller: TextEditingController(text: 'Search...'),
+              cursorColor: Theme.of(context).primaryColor,
+              style: TextStyle(color: Colors.black, fontSize: 18),
+              decoration: InputDecoration(
+                  suffixIcon: Material(
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    child: Icon(Icons.search),
+                  ),
+                  border: InputBorder.none,
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
+            ),
+          ),
           SizedBox(height: 20),
           ListView.builder(
               shrinkWrap: true,
