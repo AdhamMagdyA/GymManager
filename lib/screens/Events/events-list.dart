@@ -84,65 +84,60 @@ class _EventListViewState extends State<EventListView> with TickerProviderStateM
   @override
   
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: this.role =='admin'? Container(
-        child: FloatingActionButton.extended(
-          onPressed: () {
-            Navigator.pushNamed(context, '/create-event');
-          },
-          isExtended: false,
-          label: Icon(Icons.add),
-        ),
-        height: MediaQuery.of(context).size.height * 0.075,
-        width: MediaQuery.of(context).size.width * 0.1,
-      ):Container(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kTextTabBarHeight -10),
-        child:Align(
-          alignment: Alignment.center,
-          child:Container(
-            padding: EdgeInsets.only(top: 10),
-            width: MediaQuery.of(context).size.width,
-            alignment: Alignment.center,
-            child: TabBar(
-              indicatorSize: TabBarIndicatorSize.label,
-              indicator: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              color: Colors.amberAccent),
-              tabs: tabs,
-              controller: _tabController,
-              labelColor: Colors.black,
-              isScrollable: true,
-              unselectedLabelColor: Colors.grey,
+    return SafeArea(
+      child: Scaffold(
+        floatingActionButton: this.role =='admin'? Container(
+          child: FloatingActionButton.extended(
+            onPressed: () {
+              Navigator.pushNamed(context, '/create-event');
+            },
+            isExtended: false,
+            label: Icon(Icons.add),
           ),
+          height: MediaQuery.of(context).size.height * 0.075,
+          width: MediaQuery.of(context).size.width * 0.1,
+        ):Container(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+        appBar: AppBar(
+          title: Text("Events",style: TextStyle(color: Colors.white,fontFamily: "assets/fonts/Changa-Bold.ttf"),),
+          backgroundColor:Colors.black, //Color(0xff181818),
+          iconTheme: IconThemeData(color: Color(0xFFFFCE2B)),
+          bottom: TabBar(
+            indicatorSize: TabBarIndicatorSize.label,
+            indicator: BoxDecoration(
+            borderRadius: BorderRadius.circular(50),
+            color: Colors.amberAccent),
+            tabs: tabs,
+            controller: _tabController,
+            labelColor: Colors.black,
+            isScrollable: true,
+            unselectedLabelColor: Colors.grey,
+        )),
+          body: TabBarView(
+          controller: _tabController,
+          children: <Widget>[
+            Container(
+              color: Colors.black,
+              height: 200,
+              padding: EdgeInsetsDirectional.all(10),
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: 10,
+                  itemBuilder: (ctx, index) {
+                    return EventListTile(widget.title, widget.price,
+                        widget.date, widget.startTime,widget.endTime,widget.icon);
+                  }),
             ),
+            Center(
+              child: getUpcomingEvents(),
+            ),
+            Center(
+              child: getPreviousEvents(),
+            ),
+          ],
         ),
-      ),
-        body: TabBarView(
-        controller: _tabController,
-        children: <Widget>[
-          Container(
-            color: Colors.black,
-            height: 200,
-            padding: EdgeInsetsDirectional.all(10),
-            child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: 10,
-                itemBuilder: (ctx, index) {
-                  return EventListTile(widget.title, widget.price,
-                      widget.date, widget.startTime,widget.endTime,widget.icon);
-                }),
-          ),
-          Center(
-            child: getUpcomingEvents(),
-          ),
-          Center(
-            child: getPreviousEvents(),
-          ),
-        ],
-      ),
-      );
+        ),
+    );
     // return Container(
     //   color: Colors.black,
     //   padding: EdgeInsetsDirectional.all(10),
