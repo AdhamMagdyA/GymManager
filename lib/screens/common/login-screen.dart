@@ -44,7 +44,7 @@ class _LoginState extends State<Login> {
         physics: NeverScrollableScrollPhysics(),
         child: Column(
           children: [
-            ListView(
+            Stack(
               children: [
                 SizedBox(
                     width: MediaQuery.of(context).size.width,

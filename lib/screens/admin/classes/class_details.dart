@@ -217,7 +217,10 @@ void _showDialog(context) {
     builder: (BuildContext context) {
       // return object of type Dialog
       return AlertDialog(
-        title: new Text("Booking Class"),
+        title: new Text(
+          "Booking Class",
+          style: TextStyle(color: Colors.black),
+        ),
         content: new Text("Are you sure you want to book that class?"),
         actions: <Widget>[
           // usually buttons at the bottom of the dialog
