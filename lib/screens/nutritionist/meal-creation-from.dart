@@ -2,45 +2,34 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:dropdown_search/dropdown_search.dart';
+import 'package:gym_project/screens/nutritionist/items_screen.dart';
 
-class NutrisionistSessionCreate extends StatefulWidget {
+Map selectedEquipment = {};
+
+class CreateMealForm extends StatefulWidget {
   @override
   MapScreenState createState() => MapScreenState();
 }
 
 //you can change the form heading from line 51,93
 //you can change the form fields from lines (119 ,138 , etc ) -> each padding represent a field
-class MapScreenState extends State<NutrisionistSessionCreate>
+class MapScreenState extends State<CreateMealForm>
     with SingleTickerProviderStateMixin {
   bool _status = true;
   final FocusNode myFocusNode = FocusNode();
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+  }
+
+  refresh() {
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    bool value = false;
-    int val = -1;
-    String date = "";
-    DateTime selectedDate = DateTime.now();
-    _selectDate(BuildContext context) async {
-      final DateTime selected = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(2010),
-        lastDate: DateTime(2025),
-      );
-      if (selected != null && selected != selectedDate)
-        setState(() {
-          selectedDate = selected;
-        });
-    }
-
+    print(selectedEquipment);
     return new Scaffold(
       body: new Container(
         color: Color(0xFF181818), //background color
@@ -54,32 +43,32 @@ class MapScreenState extends State<NutrisionistSessionCreate>
                   child: new Column(
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(left: 20.0, top: 40.0),
-                        child: Row(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: new Icon(
-                                Icons.arrow_back_ios,
-                                color: Color(0xFFFFCE2B),
-                                size: 22.0,
+                          padding: EdgeInsets.only(left: 20.0, top: 20.0),
+                          child: new Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              GestureDetector(
+                                child: new Icon(
+                                  Icons.arrow_back_ios,
+                                  color: Color(0xFFFFCE2B),
+                                  size: 22.0,
+                                ),
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
                               ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 25.0),
-                              //-->header
-                              child: new Text('Create Nutritionist Session',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20.0,
-                                      fontFamily: 'sans-serif-light',
-                                      color: Colors.white)),
-                            ),
-                          ],
-                        ),
-                      ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 25.0),
+                                //-->header
+                                child: new Text('Create Meal',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20.0,
+                                        fontFamily: 'sans-serif-light',
+                                        color: Colors.white)),
+                              )
+                            ],
+                          )),
                     ],
                   ),
                 ),
@@ -92,7 +81,7 @@ class MapScreenState extends State<NutrisionistSessionCreate>
                   ),
 
                   //color: Colors.white,
-                  margin: EdgeInsets.fromLTRB(20, 10, 20, 50),
+                  margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
                   child: Padding(
                     //padding: EdgeInsets.only(bottom: 30.0),
                     padding: EdgeInsets.all(30),
@@ -113,7 +102,7 @@ class MapScreenState extends State<NutrisionistSessionCreate>
                                   children: <Widget>[
                                     new Text(
                                       //---> topic
-                                      'Session Information',
+                                      'Meal Information',
                                       style: TextStyle(
                                         fontSize: 18.0,
                                         fontWeight: FontWeight.bold,
@@ -140,7 +129,7 @@ class MapScreenState extends State<NutrisionistSessionCreate>
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
                                     new Text(
-                                      'Price ',
+                                      'Title',
                                       style: TextStyle(
                                         fontSize: 16.0,
                                         fontWeight: FontWeight.bold,
@@ -160,7 +149,7 @@ class MapScreenState extends State<NutrisionistSessionCreate>
                                 new Flexible(
                                   child: new TextField(
                                     decoration: const InputDecoration(
-                                        hintText: "Enter Your Price "),
+                                        hintText: "Enter Title"),
                                   ),
                                 ),
                               ],
@@ -176,7 +165,7 @@ class MapScreenState extends State<NutrisionistSessionCreate>
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
                                     new Text(
-                                      'Date ',
+                                      'Description',
                                       style: TextStyle(
                                         fontSize: 16.0,
                                         fontWeight: FontWeight.bold,
@@ -189,19 +178,17 @@ class MapScreenState extends State<NutrisionistSessionCreate>
                             )),
                         Padding(
                             padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 15.0),
+                                left: 25.0, right: 25.0, top: 2.0),
                             child: new Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
-                                RaisedButton(
-                                  onPressed: () {
-                                    _selectDate(context);
-                                  },
-                                  color: Color(0xFFFFCE2B),
-                                  child: Text("Choose Date"),
+                                new Flexible(
+                                  child: new TextField(
+                                    decoration: const InputDecoration(
+                                      hintText: "Enter Your Description",
+                                    ),
+                                  ),
                                 ),
-                                Text(
-                                    "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}")
                               ],
                             )),
                         Padding(
@@ -215,7 +202,7 @@ class MapScreenState extends State<NutrisionistSessionCreate>
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
                                     new Text(
-                                      'Member ',
+                                      'Calories ',
                                       style: TextStyle(
                                         fontSize: 16.0,
                                         fontWeight: FontWeight.bold,
@@ -228,27 +215,124 @@ class MapScreenState extends State<NutrisionistSessionCreate>
                             )),
                         Padding(
                             padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 15.0),
+                                left: 25.0, right: 25.0, top: 2.0),
                             child: new Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 new Flexible(
-                                  child: new DropdownSearch<String>(
-                                      mode: Mode.MENU,
-                                      showSelectedItems: true,
-                                      items: [
-                                        "Ahmed ALy ",
-                                        "Mohaned mohamed",
-                                        "Bishoy",
-                                        'Alaa Ibrahim'
-                                      ],
-                                      popupItemDisabled: (String s) =>
-                                          s.startsWith('I'),
-                                      onChanged: print,
-                                      selectedItem: "Select a member "),
+                                  child: new TextField(
+                                    decoration: const InputDecoration(
+                                        hintText: "Enter Calories "),
+                                  ),
                                 ),
                               ],
                             )),
+                        Padding(
+                            padding: EdgeInsets.only(
+                                left: 25.0, right: 25.0, top: 25.0),
+                            child: new Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                new Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    new Text(
+                                      'Image',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )),
+                        Padding(
+                            padding: EdgeInsets.only(
+                                left: 25.0, right: 25.0, top: 2.0),
+                            child: new Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                new Flexible(
+                                  child: new TextField(
+                                    decoration: const InputDecoration(
+                                        hintText: "Enter image link"),
+                                  ),
+                                ),
+                              ],
+                            )),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 25.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text(
+                                    'Items',
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 2.0),
+                          child: new Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Flexible(
+                                child: ElevatedButton(
+                                    child: Text(
+                                      'Choose Items',
+                                    ),
+                                    style: ElevatedButton.styleFrom(
+                                        textStyle: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        primary: Colors.amber,
+                                        onPrimary: Colors.black,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                        )),
+                                    onPressed: () async {
+                                      Map result = await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => ItemsScreen(),
+                                          ));
+                                      setState(() {
+                                        selectedEquipment = result;
+                                        print(selectedEquipment);
+                                      });
+                                    }),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
                         Padding(
                           padding: EdgeInsets.only(
                               left: 95.0, bottom: 0, right: 95.0, top: 50.0),
@@ -258,23 +342,24 @@ class MapScreenState extends State<NutrisionistSessionCreate>
                             children: <Widget>[
                               Expanded(
                                 child: Padding(
-                                  padding: EdgeInsets.only(right: 20.0),
+                                  padding: EdgeInsets.only(right: 0),
                                   child: Container(
                                       child: new ElevatedButton(
                                     child: new Text("Create"),
                                     style: ElevatedButton.styleFrom(
-                                        shape: new RoundedRectangleBorder(
-                                          borderRadius:
-                                              new BorderRadius.circular(10.0),
-                                        ),
-                                        primary: Color(0xFFFFCE2B),
-                                        onPrimary: Colors.black,
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 5),
-                                        textStyle: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
-                                        )),
+                                      shape: new RoundedRectangleBorder(
+                                        borderRadius:
+                                            new BorderRadius.circular(10.0),
+                                      ),
+                                      primary: Color(0xFFFFCE2B),
+                                      onPrimary: Colors.black,
+                                      // padding: EdgeInsets.symmetric(
+                                      //     horizontal: 10, vertical: 5),
+                                      textStyle: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
                                     onPressed: () {
                                       setState(() {
                                         _status = true;

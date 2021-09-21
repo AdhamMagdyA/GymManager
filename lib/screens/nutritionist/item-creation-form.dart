@@ -2,45 +2,33 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 
-class EditNutrionistSession extends StatefulWidget {
+Map selectedEquipment = {};
+
+class CreateItemForm extends StatefulWidget {
   @override
   MapScreenState createState() => MapScreenState();
 }
 
 //you can change the form heading from line 51,93
 //you can change the form fields from lines (119 ,138 , etc ) -> each padding represent a field
-class MapScreenState extends State<EditNutrionistSession>
+class MapScreenState extends State<CreateItemForm>
     with SingleTickerProviderStateMixin {
   bool _status = true;
   final FocusNode myFocusNode = FocusNode();
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+  }
+
+  refresh() {
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    bool value = false;
-    int val = -1;
-    String date = "";
-    DateTime selectedDate = DateTime.now();
-    _selectDate(BuildContext context) async {
-      final DateTime selected = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(2010),
-        lastDate: DateTime(2025),
-      );
-      if (selected != null && selected != selectedDate)
-        setState(() {
-          selectedDate = selected;
-        });
-    }
-
+    print(selectedEquipment);
     return new Scaffold(
       body: new Container(
         color: Color(0xFF181818), //background color
@@ -54,32 +42,32 @@ class MapScreenState extends State<EditNutrionistSession>
                   child: new Column(
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(left: 20.0, top: 20.0),
-                        child: Row(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: new Icon(
-                                Icons.arrow_back_ios,
-                                color: Color(0xFFFFCE2B),
-                                size: 22.0,
+                          padding: EdgeInsets.only(left: 20.0, top: 20.0),
+                          child: new Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              GestureDetector(
+                                child: new Icon(
+                                  Icons.arrow_back_ios,
+                                  color: Color(0xFFFFCE2B),
+                                  size: 22.0,
+                                ),
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
                               ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 25.0),
-                              //-->header
-                              child: new Text('Edit Nutritionist Session',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20.0,
-                                      fontFamily: 'sans-serif-light',
-                                      color: Colors.white)),
-                            ),
-                          ],
-                        ),
-                      ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 25.0),
+                                //-->header
+                                child: new Text('Create Item',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20.0,
+                                        fontFamily: 'sans-serif-light',
+                                        color: Colors.white)),
+                              )
+                            ],
+                          )),
                     ],
                   ),
                 ),
@@ -92,7 +80,7 @@ class MapScreenState extends State<EditNutrionistSession>
                   ),
 
                   //color: Colors.white,
-                  margin: EdgeInsets.fromLTRB(20, 0, 20, 10),
+                  margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
                   child: Padding(
                     //padding: EdgeInsets.only(bottom: 30.0),
                     padding: EdgeInsets.all(30),
@@ -113,7 +101,7 @@ class MapScreenState extends State<EditNutrionistSession>
                                   children: <Widget>[
                                     new Text(
                                       //---> topic
-                                      'Session Information',
+                                      'Item Information',
                                       style: TextStyle(
                                         fontSize: 18.0,
                                         fontWeight: FontWeight.bold,
@@ -126,13 +114,6 @@ class MapScreenState extends State<EditNutrionistSession>
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[],
-                                ),
-                                new Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    _status ? _getEditIcon() : new Container(),
-                                  ],
                                 )
                               ],
                             )),
@@ -147,7 +128,7 @@ class MapScreenState extends State<EditNutrionistSession>
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
                                     new Text(
-                                      'Price ',
+                                      'Title',
                                       style: TextStyle(
                                         fontSize: 16.0,
                                         fontWeight: FontWeight.bold,
@@ -166,13 +147,8 @@ class MapScreenState extends State<EditNutrionistSession>
                               children: <Widget>[
                                 new Flexible(
                                   child: new TextField(
-                                    controller: TextEditingController()
-                                      ..text = '354',
-                                    onChanged: (text) => {},
                                     decoration: const InputDecoration(
-                                        hintText: "Enter Your Price "),
-                                    enabled: !_status,
-                                    autofocus: !_status,
+                                        hintText: "Enter Title"),
                                   ),
                                 ),
                               ],
@@ -188,7 +164,7 @@ class MapScreenState extends State<EditNutrionistSession>
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
                                     new Text(
-                                      'Date ',
+                                      'Description',
                                       style: TextStyle(
                                         fontSize: 16.0,
                                         fontWeight: FontWeight.bold,
@@ -201,20 +177,17 @@ class MapScreenState extends State<EditNutrionistSession>
                             )),
                         Padding(
                             padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 15.0),
+                                left: 25.0, right: 25.0, top: 2.0),
                             child: new Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
-                                RaisedButton(
-                                  onPressed: () {
-                                    _selectDate(context);
-                                  },
-                                  color: Color(0xFFFFCE2B),
-                                  child: Text("Choose Date"),
-                                  //focusNode: !_status,
+                                new Flexible(
+                                  child: new TextField(
+                                    decoration: const InputDecoration(
+                                      hintText: "Enter Your Description",
+                                    ),
+                                  ),
                                 ),
-                                Text(
-                                    "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}")
                               ],
                             )),
                         Padding(
@@ -228,7 +201,7 @@ class MapScreenState extends State<EditNutrionistSession>
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
                                     new Text(
-                                      'Member ',
+                                      'Calories ',
                                       style: TextStyle(
                                         fontSize: 16.0,
                                         fontWeight: FontWeight.bold,
@@ -241,32 +214,98 @@ class MapScreenState extends State<EditNutrionistSession>
                             )),
                         Padding(
                             padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 15.0),
+                                left: 25.0, right: 25.0, top: 2.0),
                             child: new Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 new Flexible(
-                                  child: new DropdownSearch<String>(
-                                      mode: Mode.MENU,
-                                      showSelectedItems: true,
-                                      items: [
-                                        "Ahmed ALy ",
-                                        "Mohaned mohamed",
-                                        "Bishoy",
-                                        'Alaa Ibrahim'
-                                      ],
-                                      popupItemDisabled: (String s) =>
-                                          s.startsWith('I'),
-                                      onChanged: print,
-                                      selectedItem: "Ahmed aly "),
+                                  child: new TextField(
+                                    decoration: const InputDecoration(
+                                        hintText: "Enter Calories "),
+                                  ),
                                 ),
                               ],
                             )),
-                        /**
-                             *  enabled: !_status,
-                                    autofocus: !_status,
-                             */
-                        !_status ? _getActionButtons() : new Container(),
+                        Padding(
+                            padding: EdgeInsets.only(
+                                left: 25.0, right: 25.0, top: 25.0),
+                            child: new Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                new Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    new Text(
+                                      'Image',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )),
+                        Padding(
+                            padding: EdgeInsets.only(
+                                left: 25.0, right: 25.0, top: 2.0),
+                            child: new Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                new Flexible(
+                                  child: new TextField(
+                                    decoration: const InputDecoration(
+                                        hintText: "Enter image link"),
+                                  ),
+                                ),
+                              ],
+                            )),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 95.0, bottom: 0, right: 95.0, top: 50.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Expanded(
+                                child: Padding(
+                                  padding: EdgeInsets.only(right: 0),
+                                  child: Container(
+                                      child: new ElevatedButton(
+                                    child: new Text("Create"),
+                                    style: ElevatedButton.styleFrom(
+                                      shape: new RoundedRectangleBorder(
+                                        borderRadius:
+                                            new BorderRadius.circular(10.0),
+                                      ),
+                                      primary: Color(0xFFFFCE2B),
+                                      onPrimary: Colors.black,
+                                      // padding: EdgeInsets.symmetric(
+                                      //     horizontal: 10, vertical: 5),
+                                      textStyle: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        _status = true;
+                                        FocusScope.of(context)
+                                            .requestFocus(new FocusNode());
+                                      });
+                                    },
+                                  )),
+                                ),
+                                flex: 2,
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -284,91 +323,5 @@ class MapScreenState extends State<EditNutrionistSession>
     // Clean up the controller when the Widget is disposed
     myFocusNode.dispose();
     super.dispose();
-  }
-
-  Widget _getActionButtons() {
-    return Padding(
-      padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 80.0),
-      child: new Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(right: 10.0),
-              child: Container(
-                  child: new ElevatedButton(
-                child: new Text("Save"),
-                style: ElevatedButton.styleFrom(
-                    shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(10.0),
-                    ),
-                    primary: Color(0xFFFFCE2B),
-                    onPrimary: Colors.black,
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                    textStyle: TextStyle(
-                        color: Colors.black,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold)),
-                onPressed: () {
-                  setState(() {
-                    _status = true;
-                    FocusScope.of(context).requestFocus(new FocusNode());
-                  });
-                },
-              )),
-            ),
-            flex: 2,
-          ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(left: 10.0),
-              child: Container(
-                  child: new ElevatedButton(
-                child: new Text("Cancel"),
-                style: ElevatedButton.styleFrom(
-                    shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(10.0),
-                    ),
-                    primary: Color(0xFFFFCE2B),
-                    onPrimary: Colors.black,
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                    textStyle: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    )),
-                onPressed: () {
-                  setState(() {
-                    _status = true;
-                    FocusScope.of(context).requestFocus(new FocusNode());
-                  });
-                },
-              )),
-            ),
-            flex: 2,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _getEditIcon() {
-    return new GestureDetector(
-      child: new CircleAvatar(
-        backgroundColor: Color(0xFFFFCE2B),
-        radius: 20.0,
-        child: new Icon(
-          Icons.edit,
-          color: Colors.black,
-          size: 23.0,
-        ),
-      ),
-      onTap: () {
-        setState(() {
-          _status = false;
-        });
-      },
-    );
   }
 }

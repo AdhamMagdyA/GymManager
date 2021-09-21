@@ -28,6 +28,7 @@ dependencies:
     sdk: flutter
   hexcolor: ^2.0.5
   pie_chart: ^5.0.0
+  dropdown_search: ^1.0.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -91,7 +92,7 @@ flutter:
     - assets/images/blank.png
     - assets/images/user_icon.png
     - assets/images/supp.jpg
-    - assets/images/dumbbell.jpg
+    - assets/images/dumbbell.png
     - assets/images/invite.png
     - assets/images/feed1.png
     - assets/images/feed2.png
