@@ -214,36 +214,64 @@ void _showDialog(context) {
   // flutter defined function
   showDialog(
     context: context,
-    builder: (BuildContext context) {
-      // return object of type Dialog
-      return AlertDialog(
-        title: new Text(
-          "Booking Class",
-          style: TextStyle(color: Colors.black),
+    builder: (context) => AlertDialog(
+      backgroundColor: Color(0xff181818),
+      shape: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: BorderSide(color: Color(0xff181818)),
+      ),
+      title: Text(
+        "Book Class",
+        style: TextStyle(
+          color: Colors.amber,
+          fontFamily: 'assets/fonts/Changa-Bold.ttf',
+          fontSize: 25,
+          //fontWeight: FontWeight.bold,
         ),
-        content: new Text("Are you sure you want to book that class?"),
-        actions: <Widget>[
-          // usually buttons at the bottom of the dialog
-          new TextButton(
-            child: new Text(
-              "Cancel",
-              style: TextStyle(color: Colors.amber),
-            ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
+      ),
+      content: Text(
+        "Are you sure you want to book this calss?",
+        style: TextStyle(
+          color: Colors.white,
+          fontFamily: 'assets/fonts/Changa-Bold.ttf',
+          fontSize: 18,
+          //fontWeight: FontWeight.bold,
+        ),
+      ),
+      actions: [
+        MaterialButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Text(
+            "Cancel",
+            style: TextStyle(color: Colors.black),
           ),
-          new TextButton(
-            child: new Text(
-              "Book",
-              style: TextStyle(color: Colors.amber),
+          color: Colors.amber,
+          shape: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: BorderSide(
+              color: Colors.amber,
             ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
           ),
-        ],
-      );
-    },
+        ),
+        MaterialButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Text(
+            "Book",
+            style: TextStyle(color: Colors.black),
+          ),
+          color: Colors.amber,
+          shape: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: BorderSide(
+              color: Colors.amber,
+            ),
+          ),
+        ),
+      ],
+    ),
   );
 }
