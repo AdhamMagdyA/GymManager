@@ -274,7 +274,7 @@ class ItemsScreenState extends State<ItemsScreen> {
                             selectedItemsNumber: selectedItemsNumber,
                             isSelected: isSelected,
                           ))
-                      .toList(),
+                      .toList()
                 ),
               ),
             ],
@@ -356,156 +356,188 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
           widget.incrementItem(widget.index);
         }
       },
-      child: Container(
-        height: 200,
-        width: 200,
-        decoration: BoxDecoration(
+      child: LayoutBuilder(
+        builder: (context, constraints) => ClipRRect(
           borderRadius: BorderRadius.circular(30),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey,
-              blurRadius: 6.0,
-            ),
-          ],
-          color: widget.isSelected(widget.index)
-              ? Colors.blue.withOpacity(0.5)
-              : Colors.white,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            if (widget.selectionMode)
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                      onPressed: () => widget.incrementItem(widget.index),
-                      icon: Icon(Icons.add)),
-                  Text(
-                    '${widget.selectedItemsNumber(widget.index)}',
-                    style: TextStyle(color: Colors.black),
-                  ),
-                  IconButton(
-                      onPressed: !widget.isSelected(widget.index)
-                          ? null
-                          : () => widget.decrementItem(widget.index),
-                      icon: Icon(Icons.remove)),
-                ],
-              ),
-            Container(
-              width: double.infinity,
-              height: widget.selectionMode ? 70 : 110,
-              padding: EdgeInsets.all(0),
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(imageBorderRadius),
-                  topLeft: Radius.circular(imageBorderRadius),
-                ),
-                child: Image.network(
-                  widget.image,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            Expanded(
-              child: Stack(
-                children: [
-                  ClipPath(
-                    clipper: ClipPathClass(),
-                    child: Container(
-                      height: double.infinity,
-                      width: double.infinity,
-                      color: mapLevelToColor(widget.level).withOpacity(0.6),
+          child: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey,
+                      blurRadius: 6.0,
                     ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(3),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(30),
-                        bottomRight: Radius.circular(30),
+                  ],
+                  color: widget.isSelected(widget.index)
+                      ? Colors.blue.withOpacity(0.5)
+                      : Colors.white,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    if (widget.selectionMode)
+                      SizedBox(
+                        height: constraints.maxHeight * 0.2,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                                onPressed: () =>
+                                    widget.incrementItem(widget.index),
+                                icon: Icon(Icons.add)),
+                            Text(
+                              '${widget.selectedItemsNumber(widget.index)}',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            IconButton(
+                                onPressed: !widget.isSelected(widget.index)
+                                    ? null
+                                    : () => widget.decrementItem(widget.index),
+                                icon: Icon(Icons.remove)),
+                          ],
+                        ),
+                      ),
+                    Container(
+                      width: double.infinity,
+                      height: constraints.maxHeight *
+                          (widget.selectionMode ? 0.3 : 0.5),
+                      padding: EdgeInsets.all(0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(imageBorderRadius),
+                          topLeft: Radius.circular(imageBorderRadius),
+                        ),
+                        child: Image.network(
+                          widget.image,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                    width: double.infinity,
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 20,
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text(
-                              widget.title,
-                              softWrap: false,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                                color: Colors.black,
-                              ),
-                            ),
+                    Expanded(
+                      child: Container(
+                        padding: EdgeInsets.all(3),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(30),
+                            bottomRight: Radius.circular(30),
                           ),
                         ),
-                        SizedBox(
-                          height: 20,
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text(
-                              'Calories: ${widget.calories}',
-                              softWrap: false,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                                color: Colors.black,
+                        width: double.infinity,
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: constraints.maxHeight * 0.5 / 3.2,
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  widget.title,
+                                  softWrap: false,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    color: Colors.black,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                        // SizedBox(
-                        //   height: 20,
-                        //   child: FittedBox(
-                        //     fit: BoxFit.scaleDown,
-                        //     child: RichText(
-                        //         softWrap: false,
-                        //         text: TextSpan(
-                        //           text: 'Level: ',
-                        //           style: TextStyle(
-                        //             fontWeight: FontWeight.bold,
-                        //             fontSize: 12,
-                        //             color: Colors.black,
-                        //           ),
-                        //           children: [
-                        //             TextSpan(
-                        //               text: widget.level,
-                        //               style: TextStyle(
-                        //                 color: mapLevelToColor(widget.level),
-                        //               ),
-                        //             )
-                        //           ],
-                        //         )),
-                        //   ),
-                        // ),
-                        SizedBox(
-                          height: 20,
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text(
-                              'Created by:  ${widget.creator}',
-                              softWrap: false,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                                color: Colors.black,
+                            SizedBox(
+                              height: constraints.maxHeight * 0.5 / 4,
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  'Calories: ${widget.calories}',
+                                  softWrap: false,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                    color: Colors.black,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
+                            // SizedBox(
+                            //   height: 20,
+                            //   child: FittedBox(
+                            //     fit: BoxFit.scaleDown,
+                            //     child: RichText(
+                            //         softWrap: false,
+                            //         text: TextSpan(
+                            //           text: 'Level: ',
+                            //           style: TextStyle(
+                            //             fontWeight: FontWeight.bold,
+                            //             fontSize: 12,
+                            //             color: Colors.black,
+                            //           ),
+                            //           children: [
+                            //             TextSpan(
+                            //               text: widget.level,
+                            //               style: TextStyle(
+                            //                 color: mapLevelToColor(widget.level),
+                            //               ),
+                            //             )
+                            //           ],
+                            //         )),
+                            //   ),
+                            // ),
+                            SizedBox(
+                              height: constraints.maxHeight * 0.5 / 4,
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  'Created by:  ${widget.creator}',
+                                  softWrap: false,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              ClipPath(
+                clipper: ClipPathClass(),
+                child: Container(
+                  height: double.infinity,
+                  width: double.infinity,
+                  color: mapLevelToColor(widget.level).withOpacity(0.8),
+                ),
+              ),
+              Positioned(
+                top: constraints.maxHeight * 0.04,
+                right: constraints.maxHeight * 0.04,
+                child: Transform.rotate(
+                  angle: pi / 4,
+                  child: Container(
+                    width: constraints.maxWidth * 0.15,
+                    height: constraints.maxWidth * 0.15,
+                    alignment: Alignment.topCenter,
+                    color: Colors.transparent,
+                    child: SizedBox(
+                      height: constraints.maxWidth * 0.08,
+                      child: FittedBox(
+                        fit: BoxFit.contain,
+                        child: Text(
+                          widget.level[0].toUpperCase() +
+                              widget.level.substring(1),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
                     ),
                   ),
-                ],
-              ),
-            )
-          ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -516,20 +548,21 @@ class ClipPathClass extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     var path = Path();
-    path.moveTo(size.width - 50, size.height);
-    path.lineTo(size.width - 30, size.height);
+    path.moveTo(size.width - size.width * 0.25, 0);
+    path.lineTo(size.width - size.width * 0.15, 0);
 
-    var controlPoint = Offset(size.width - 1, size.height - 1);
-    var point = Offset(size.width, size.height - 30);
-    path.quadraticBezierTo(
-      controlPoint.dx,
-      controlPoint.dy,
-      point.dx,
-      point.dy,
-    );
+    // var controlPoint = Offset(size.width - 1, size.height - 1);
+    // var point = Offset(size.width, size.height - 30);
+    // path.quadraticBezierTo(
+    //   controlPoint.dx,
+    //   controlPoint.dy,
+    //   point.dx,
+    //   point.dy,
+    // );
 
-    path.lineTo(size.width, size.height - 50);
-    path.lineTo(size.width - 50, size.height);
+    path.lineTo(size.width, size.width * 0.15);
+    path.lineTo(size.width, size.width * 0.25);
+    path.lineTo(size.width - size.width * 0.25, 0);
     // path.close();
 
     return path;
