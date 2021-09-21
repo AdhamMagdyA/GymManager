@@ -304,6 +304,7 @@ class _SetsListTileState extends State<SetsListTile> {
           ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
@@ -313,93 +314,98 @@ class _SetsListTileState extends State<SetsListTile> {
                 ),
               ),
               if (widget.selectionTime && widget.selectionMode)
-                SizedBox(
-                  height: 15,
-                ),
-              if (widget.selectionTime && widget.selectionMode)
-                Center(
-                  child: SizedBox(
-                    height: 21,
-                    child: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: Center(
-                        child: FittedBox(
-                          fit: BoxFit.contain,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(10.0),
-                              ),
-                              primary: Colors.amber,
-                              onPrimary: Colors.black,
-                            ),
-                            child: Text(
-                              'Details',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => SetDetailsScreen(),
-                                  ));
-                            },
-                          ),
-                        ),
-                      ),
+                TextButton(
+                  child: Text(
+                    'Details',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.amber,
                     ),
                   ),
-                ),
-              if (widget.selectionTime && widget.selectionMode)
-                SizedBox(
-                  height: 10,
-                ),
-            ],
-          ),
-          trailing: !widget.selectionTime
-              ? TextButton(
                   onPressed: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => EditSetForm(widget.set)));
+                          builder: (context) => SetDetailsScreen(),
+                        ));
                   },
-                  child: Text(
-                    'Edit',
-                    style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.amber,
-                        fontWeight: FontWeight.bold),
-                  ),
+                ),
+            ],
+          ),
+          trailing: !widget.selectionTime
+              ? Column(
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      EditSetForm(widget.set)));
+                        },
+                        child: Text(
+                          'Edit',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.yellow,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 6),
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      EditSetForm(widget.set)));
+                        },
+                        child: Text('Delete',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.red,
+                            )),
+                      ),
+                    ),
+                  ],
                 )
               : !widget.selectionMode
                   ? null
                   : Column(
                       children: [
-                        GestureDetector(
-                          child: Icon(
-                            Icons.add,
-                            size: 15,
-                            color: Colors.white,
+                        Expanded(
+                          child: GestureDetector(
+                            child: Icon(
+                              Icons.add,
+                              size: 15,
+                              color: Colors.white,
+                            ),
+                            onTap: () => widget.incrementItem(widget.index),
                           ),
-                          onTap: () => widget.incrementItem(widget.index),
                         ),
-                        Text(
-                          "${widget.selectedItemsNumber(widget.index)}",
-                          style: TextStyle(fontSize: 12, color: Colors.white),
-                        ),
-                        GestureDetector(
-                          child: Icon(
-                            Icons.remove,
-                            size: 15,
-                            color: Colors.white,
+                        Expanded(
+                          child: Text(
+                            "${widget.selectedItemsNumber(widget.index)}",
+                            style: TextStyle(fontSize: 12, color: Colors.white),
                           ),
-                          onTap: () => widget.isSelected(widget.index)
-                              ? widget.decrementItem(widget.index)
-                              : null,
+                        ),
+                        Expanded(
+                          child: GestureDetector(
+                            child: Icon(
+                              Icons.remove,
+                              size: 15,
+                              color: Colors.white,
+                            ),
+                            onTap: () => widget.isSelected(widget.index)
+                                ? widget.decrementItem(widget.index)
+                                : null,
+                          ),
                         ),
                       ],
                       mainAxisSize: MainAxisSize.min,

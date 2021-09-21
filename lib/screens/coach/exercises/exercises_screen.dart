@@ -155,10 +155,6 @@ class ExercisesScreenState extends State<ExercisesScreen> {
           finalSelectedItems[index] = _exercises[key];
           index++;
         }
-        finalSelectedItems[key] = {
-          ..._exercises[key],
-          'value': value,
-        };
       });
     }
   }

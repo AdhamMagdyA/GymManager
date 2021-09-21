@@ -317,66 +317,67 @@ class _GroupsListTileState extends State<GroupsListTile> {
                   color: Colors.white,
                 ),
               ),
-              SizedBox(
-                height: 5,
-              ),
               if (widget.selectionTime && widget.selectionMode)
-                Center(
-                  child: SizedBox(
-                    height: 21,
-                    child: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: Center(
-                        child: FittedBox(
-                          fit: BoxFit.contain,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(10.0),
-                              ),
-                              primary: Colors.amber,
-                              onPrimary: Colors.black,
-                            ),
-                            child: Text(
-                              'View Details',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => SetDetailsScreen(),
-                                  ));
-                            },
-                          ),
-                        ),
-                      ),
+                TextButton(
+                  child: Text(
+                    'Details',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.amber,
                     ),
                   ),
-                ),
-              SizedBox(
-                height: 10,
-              ),
-            ],
-          ),
-          trailing: !widget.selectionTime
-              ? TextButton(
                   onPressed: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => EditGroupForm(widget.group)));
+                          builder: (context) => SetDetailsScreen(),
+                        ));
                   },
-                  child: Text(
-                    'Edit',
-                    style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.amber,
-                        fontWeight: FontWeight.bold),
-                  ),
+                ),
+            ],
+          ),
+          trailing: !widget.selectionTime
+              ? Column(
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      EditGroupForm(widget.group)));
+                        },
+                        child: Text(
+                          'Edit',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.yellow,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 6),
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      EditGroupForm(widget.group)));
+                        },
+                        child: Text('Delete',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.red,
+                            )),
+                      ),
+                    ),
+                  ],
                 )
               : !widget.selectionMode
                   ? null
