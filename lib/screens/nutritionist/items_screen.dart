@@ -1,9 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:gym_project/screens/common/view-exercises-details-screen.dart';
+import 'package:gym_project/screens/nutritionist/item-creation-form.dart';
 
 class ItemsScreen extends StatefulWidget {
-  const ItemsScreen({Key key}) : super(key: key);
+  ItemsScreen(this.isSelectionTime, {Key key}) : super(key: key);
+
+  final bool isSelectionTime;
 
   @override
   ItemsScreenState createState() => ItemsScreenState();
@@ -59,8 +63,50 @@ class ItemsScreenState extends State<ItemsScreen> {
     },
   ];
 
-  bool _selectionMode = false;
+  bool _selectionMode;
   List<Map<int, int>> _numberOfSelectedInstances = [];
+  Map<int, Object> finalSelectedItems = {};
+  bool _argumentsLoaded = false;
+  List<Map<Object, Object>> oldSelectedExercise = [];
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_argumentsLoaded) {
+      oldSelectedExercise = ModalRoute.of(context).settings.arguments;
+      if (oldSelectedExercise.isNotEmpty) {
+        setState(() {
+          oldSelectedExercise.forEach((exercise) {
+            _numberOfSelectedInstances
+                .add({exercise['index'] as int: exercise['value'] as int});
+            _selectionMode = true;
+          });
+        });
+      }
+      _argumentsLoaded = true;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.isSelectionTime == true) {
+      _selectionMode = true;
+    }
+  }
+
+  void getFinalSelectedItems() {
+    int index = 0;
+    for (Map<int, int> selectedItem in _numberOfSelectedInstances) {
+      selectedItem.forEach((key, value) {
+        // print(sets[key]);
+        for (int i = 0; i < value; i++) {
+          finalSelectedItems[index] = _items[key];
+          index++;
+        }
+      });
+    }
+  }
 
   void setSelectionMode(bool value) {
     setState(() {
@@ -236,6 +282,7 @@ class ItemsScreenState extends State<ItemsScreen> {
                           setState(() {
                             _selectionMode = false;
                             _numberOfSelectedInstances.clear();
+                            finalSelectedItems.clear();
                           });
                         },
                         icon: CircleAvatar(
@@ -273,6 +320,7 @@ class ItemsScreenState extends State<ItemsScreen> {
                             decrementItem: decrementItem,
                             selectedItemsNumber: selectedItemsNumber,
                             isSelected: isSelected,
+                            selectionTime: widget.isSelectionTime,
                           ))
                       .toList()
                 ),
@@ -288,7 +336,9 @@ class ItemsScreenState extends State<ItemsScreen> {
                   style: ElevatedButton.styleFrom(primary: Color(0xFFFFCE2B)),
                   child: Text('Submit'),
                   onPressed: () {
-                    Navigator.pop(context);
+                    getFinalSelectedItems();
+                    // Navigator.pop(context, finalSelectedItems);
+                    print(finalSelectedItems);
                   },
                 ),
               ),
@@ -314,6 +364,7 @@ class MyChoosingGridViewCard extends StatefulWidget {
     @required this.decrementItem,
     @required this.selectedItemsNumber,
     @required this.isSelected,
+    @required this.selectionTime,
   }) : super(key: key);
 
   final image;
@@ -329,6 +380,7 @@ class MyChoosingGridViewCard extends StatefulWidget {
   final Function decrementItem;
   final Function selectedItemsNumber;
   final Function isSelected;
+  final bool selectionTime;
 
   @override
   _MyChoosingGridViewCardState createState() => _MyChoosingGridViewCardState();
@@ -350,8 +402,11 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
   Widget build(BuildContext context) {
     final double imageBorderRadius = widget.selectionMode ? 0 : 30;
     return GestureDetector(
-      onLongPress: () {
-        if (!widget.selectionMode) {
+      onTap: () {
+        if (!widget.selectionTime) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => ExerciseDetailsScreen()));
+        } else if (widget.selectionTime && !widget.selectionMode) {
           widget.setSelectionMode(true);
           widget.incrementItem(widget.index);
         }
@@ -429,7 +484,7 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
                         child: Column(
                           children: [
                             SizedBox(
-                              height: constraints.maxHeight * 0.5 / 3.2,
+                              height: constraints.maxHeight * 0.5 / 5,
                               child: FittedBox(
                                 fit: BoxFit.scaleDown,
                                 child: Text(
@@ -444,7 +499,7 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
                               ),
                             ),
                             SizedBox(
-                              height: constraints.maxHeight * 0.5 / 4,
+                              height: constraints.maxHeight * 0.5 / 5,
                               child: FittedBox(
                                 fit: BoxFit.scaleDown,
                                 child: Text(
@@ -483,7 +538,7 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
                             //   ),
                             // ),
                             SizedBox(
-                              height: constraints.maxHeight * 0.5 / 4,
+                              height: constraints.maxHeight * 0.5 / 5,
                               child: FittedBox(
                                 fit: BoxFit.scaleDown,
                                 child: Text(
@@ -497,6 +552,65 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
                                 ),
                               ),
                             ),
+                            SizedBox(height: constraints.maxHeight * 0.5 / 10),
+                            //add condition for edit button
+                            !widget.selectionTime && !widget.selectionMode
+                                ? SizedBox(
+                                    height: constraints.maxHeight * 0.5 / 5,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        shape: new RoundedRectangleBorder(
+                                          borderRadius:
+                                              new BorderRadius.circular(10.0),
+                                        ),
+                                        primary: Colors.amber,
+                                        onPrimary: Colors.black,
+                                      ),
+                                      child: Text(
+                                        'Edit',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CreateItemForm(),
+                                            ));
+                                      },
+                                    ),
+                                  )
+                                : SizedBox(
+                                    height: constraints.maxHeight * 0.5 / 5,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        shape: new RoundedRectangleBorder(
+                                          borderRadius:
+                                              new BorderRadius.circular(16.0),
+                                        ),
+                                        primary: Colors.amber,
+                                        onPrimary: Colors.black,
+                                      ),
+                                      child: Text(
+                                        'Details',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ExerciseDetailsScreen(),
+                                            ));
+                                      },
+                                    ),
+                                  ),
                           ],
                         ),
                       ),
