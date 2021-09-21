@@ -28,157 +28,160 @@ class _AnnouncementsListTileState extends State<AnnouncementsListTile> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsetsDirectional.only(bottom: 10),
-      decoration: BoxDecoration(
-        color: Color(0xff181818),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: ListTile(
-        isThreeLine: true,
-        //onTap: widget.ontap,
-        //trailing:
-        minVerticalPadding: 10,
-        title: Padding(
-          padding: const EdgeInsets.only(
-              right: 0.0, top: 8.0, bottom: 8.0, left: 10.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.title,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'assets/fonts/Changa-Bold.ttf',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                  ),
-                  Text(
-                    widget.date,
-                    style: TextStyle(
-                      color: Colors.amber,
-                      fontSize: 12,
-                      fontFamily: 'assets/fonts/Changa-Bold.ttf',
-                    ),
-                  ),
-                ],
-              ),
-              widget.role == "admin"
-                  ? Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                backgroundColor: Color(0xFF181818),
-                                shape: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide:
-                                      BorderSide(color: Color(0xFF181818)),
-                                ),
-                                content: Text(
-                                  "Would you like to delete this announcement ?",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'assets/fonts/Changa-Bold.ttf',
-                                    fontSize: 15,
-                                    //fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                actions: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      MaterialButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            is_visible = false;
-                                          });
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text("YES"),
-                                        color: Colors.amber,
-                                        shape: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          borderSide:
-                                              BorderSide(color: Colors.amber),
-                                        ),
-                                      ),
-                                      MaterialButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text("NO"),
-                                        color: Colors.amber,
-                                        shape: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          borderSide:
-                                              BorderSide(color: Colors.amber),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                          icon: Icon(
-                            Icons.delete,
-                            color: Colors.grey,
-                            size: 20,
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => AddAnnouncementScreen(
-                                  body: "This is body",
-                                  title: "This is title",
-                                ),
-                              ),
-                            );
-                          },
-                          icon: Icon(
-                            Icons.edit,
-                            color: Colors.grey,
-                            size: 20,
-                          ),
-                        ),
-                      ],
-                    )
-                  : Container(),
-            ],
-          ),
+    return Visibility(
+      visible: is_visible,
+      child: Container(
+        margin: EdgeInsetsDirectional.only(bottom: 10),
+        decoration: BoxDecoration(
+          color: Color(0xff181818),
+          borderRadius: BorderRadius.circular(16),
         ),
-        subtitle: Padding(
-          padding: const EdgeInsets.only(left: 10, bottom: 8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                widget.body,
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontFamily: 'assets/fonts/Changa-Bold.ttf',
-                  fontSize: 15,
+        child: ListTile(
+          isThreeLine: true,
+          minVerticalPadding: 10,
+          title: Padding(
+            padding: const EdgeInsets.only(
+                right: 0.0, top: 8.0, bottom: 8.0, left: 10.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.title,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'assets/fonts/Changa-Bold.ttf',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                    Text(
+                      widget.date,
+                      style: TextStyle(
+                        color: Color(0xFFFFCE2B),
+                        fontSize: 12,
+                        fontFamily: 'assets/fonts/Changa-Bold.ttf',
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
+                widget.role == "admin"
+                    ? Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  backgroundColor: Color(0xFF181818),
+                                  shape: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide:
+                                        BorderSide(color: Color(0xFF181818)),
+                                  ),
+                                  content: Text(
+                                    "Would you like to delete this announcement ?",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily:
+                                          'assets/fonts/Changa-Bold.ttf',
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  actions: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        MaterialButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              is_visible = false;
+                                            });
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text("YES"),
+                                          color: Color(0xFFFFCE2B),
+                                          shape: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            borderSide: BorderSide(
+                                              color: Color(0xFFFFCE2B),
+                                            ),
+                                          ),
+                                        ),
+                                        MaterialButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text("NO"),
+                                          color: Color(0xFFFFCE2B),
+                                          shape: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            borderSide: BorderSide(
+                                              color: Color(0xFFFFCE2B),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                            icon: Icon(
+                              Icons.delete,
+                              color: Colors.grey,
+                              size: 20,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AddAnnouncementScreen(
+                                    body: "This is body",
+                                    title: "This is title",
+                                  ),
+                                ),
+                              );
+                            },
+                            icon: Icon(
+                              Icons.edit,
+                              color: Colors.grey,
+                              size: 20,
+                            ),
+                          ),
+                        ],
+                      )
+                    : Container(),
+              ],
+            ),
+          ),
+          subtitle: Padding(
+            padding: const EdgeInsets.only(left: 10, bottom: 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  widget.body,
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontFamily: 'assets/fonts/Changa-Bold.ttf',
+                    fontSize: 15,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
