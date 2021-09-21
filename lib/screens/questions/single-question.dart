@@ -75,110 +75,124 @@ class _SingleQuestionScreenState extends State<SingleQuestionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Colors.black,
-        height: MediaQuery.of(context).size.height,
-        padding: EdgeInsets.all(10),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            QuestionsListTile(
-              title: "Youssef Mostafa",
-              body:
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse dapibus efficitur purus, sit amet vulputate leo ultricies vitae. Donec gravida ut erat nec pretium. Sed facilisis nunc et enim finibus malesuada. In ultricies rutrum lectus et fringilla. Integer sed dapibus leo, non?",
-              num_of_answers: 5,
-              date: "12-9-2021 at 10:00 PM",
-              id: 5,
-              //role: ""
-            ),
-            Expanded(
-              child:
-                  /*ListView(
-                children: answers,
-              ),*/
-                  ListView.builder(
-                itemBuilder: (BuildContext context, int index) {
-                  return answers[index];
-                },
-                itemCount: answers.length,
+      appBar: AppBar(
+        title: Text(
+          'Answers',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Color(0xff181818),
+        iconTheme: IconThemeData(color: Color(0xFFFFCE2B)),
+      ),
+      body: SafeArea(
+        child: Container(
+          color: Colors.black,
+          height: MediaQuery.of(context).size.height,
+          padding: EdgeInsets.all(10),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              QuestionsListTile(
+                title: "Youssef Mostafa",
+                body:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse dapibus efficitur purus, sit amet vulputate leo ultricies vitae. Donec gravida ut erat nec pretium. Sed facilisis nunc et enim finibus malesuada. In ultricies rutrum lectus et fringilla. Integer sed dapibus leo, non?",
+                num_of_answers: 5,
+                date: "12-9-2021 at 10:00 PM",
+                id: 5,
+                //role: ""
               ),
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'assets/fonts/Changa-Bold.ttf',
-                      fontSize: 15,
-                    ),
-                    controller: _textController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: Colors.amber),
-                      ),
-                      hintText: 'Write an answer...',
-                      hintStyle: TextStyle(
-                        color: Colors.grey,
+              Expanded(
+                child:
+                    /*ListView(
+                  children: answers,
+                ),*/
+                    ListView.builder(
+                  itemBuilder: (BuildContext context, int index) {
+                    return answers[index];
+                  },
+                  itemCount: answers.length,
+                ),
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      style: TextStyle(
+                        color: Colors.white,
                         fontFamily: 'assets/fonts/Changa-Bold.ttf',
                         fontSize: 15,
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: Colors.yellow),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: Colors.grey),
-                      ),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          Icons.send,
-                          color: iconColor,
+                      controller: _textController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                            color: Color(0xFFFFCE2B),
+                          ),
                         ),
-                        onPressed: _textController.text.isEmpty
-                            ? null
-                            : () {
-                                setState(() {
-                                  answers.insert(
-                                      0,
-                                      AnswersListTile(
-                                        body: _textController.text,
-                                        date: DateTime.now().toString(),
-                                        title: "Me",
-                                      ));
+                        hintText: 'Write an answer...',
+                        hintStyle: TextStyle(
+                          color: Colors.grey,
+                          fontFamily: 'assets/fonts/Changa-Bold.ttf',
+                          fontSize: 15,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                            color: Color(0xFFFFCE2B),
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            Icons.send,
+                            color: iconColor,
+                          ),
+                          onPressed: _textController.text.isEmpty
+                              ? null
+                              : () {
+                                  setState(() {
+                                    answers.insert(
+                                        0,
+                                        AnswersListTile(
+                                          body: _textController.text,
+                                          date: DateTime.now().toString(),
+                                          title: "Me",
+                                        ));
 
-                                  answers.insert(
-                                      1,
-                                      Divider(
-                                        color: Colors.grey,
-                                        thickness: 0.5,
-                                      ));
+                                    answers.insert(
+                                        1,
+                                        Divider(
+                                          color: Colors.grey,
+                                          thickness: 0.5,
+                                        ));
 
-                                  _textController.text = "";
-                                  iconColor = Colors.grey;
-                                });
-                              },
+                                    _textController.text = "";
+                                    iconColor = Colors.grey;
+                                  });
+                                },
+                        ),
                       ),
+                      keyboardType: TextInputType.text,
+                      onChanged: (value) {
+                        if (_textController.text.isEmpty) {
+                          setState(() {
+                            iconColor = Colors.grey;
+                          });
+                        } else {
+                          setState(() {
+                            iconColor = Color(0xFFFFCE2B);
+                          });
+                        }
+                      },
                     ),
-                    keyboardType: TextInputType.text,
-                    onChanged: (value) {
-                      if (_textController.text.isEmpty) {
-                        setState(() {
-                          iconColor = Colors.grey;
-                        });
-                      } else {
-                        setState(() {
-                          iconColor = Colors.amber;
-                        });
-                      }
-                    },
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
