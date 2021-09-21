@@ -15,7 +15,7 @@ class _MemberScheduleState extends State<MemberSchedule>
     super.initState();
     _myTabController = TabController(
       vsync: this,
-      length: 4,
+      length: 5,
     );
   }
 
@@ -51,6 +51,9 @@ class _MemberScheduleState extends State<MemberSchedule>
                     text: 'Events',
                   ),
                   Tab(
+                    text: "Private Sessions",
+                  ),
+                  Tab(
                     text: "Nutritionist's Sessions",
                   )
                 ]),
@@ -75,7 +78,8 @@ class _MemberScheduleState extends State<MemberSchedule>
           AllSchedule(),
           ClassesSchedule(),
           EventsSchedule(),
-          NutritionistsSessionSchedule(),
+          PrivateSessionsSchedule(),
+          NutritionistsSessionsSchedule(),
         ],
       ),
     );
@@ -83,7 +87,7 @@ class _MemberScheduleState extends State<MemberSchedule>
 }
 
 class AllSchedule extends StatelessWidget {
-  final length = 9;
+  final length = 10;
   final List<String> _titles = [
     'Yoga',
     'Zumba',
@@ -94,6 +98,7 @@ class AllSchedule extends StatelessWidget {
     'Zumba',
     'Abs',
     'Power Lifting Contest',
+    'Cardio',
   ];
   final List<String> _types = [
     'Class',
@@ -105,18 +110,9 @@ class AllSchedule extends StatelessWidget {
     'Online Class',
     'Class',
     'Event',
+    'Private Session',
   ];
-  final List<String> _spaces = [
-    ' ',
-    ' ',
-    ' ',
-    ' ',
-    ' ',
-    ' ',
-    ' ',
-    ' ',
-    ' ',
-  ];
+  final String _space = ' ';
   final List<String> _times = [
     '10:30 AM',
     '11:30 PM',
@@ -126,7 +122,8 @@ class AllSchedule extends StatelessWidget {
     '2:00 PM',
     '3:00 PM',
     '3:30 PM',
-    '4:00 PM'
+    '4:00 PM',
+    '4:30 PM',
   ];
   @override
   Widget build(BuildContext context) {
@@ -165,7 +162,7 @@ class AllSchedule extends StatelessWidget {
                       'assets/images/user_icon.png',
                       this._titles[index],
                       'Type:' + this._types[index],
-                      this._spaces[index],
+                      this._space,
                       this._times[index]),
                 );
               }),
@@ -319,13 +316,74 @@ class EventsSchedule extends StatelessWidget {
   }
 }
 
-class NutritionistsSessionSchedule extends StatelessWidget {
+class NutritionistsSessionsSchedule extends StatelessWidget {
   final length = 1;
   final List<String> _titles = [
     'Diet Plan',
   ];
   final List<String> _types = [
     'Nutritionist Session',
+  ];
+  final List<String> _spaces = [
+    ' ',
+  ];
+  final List<String> _times = [
+    '1:30 AM',
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+      child: ListView(
+        children: [
+          Material(
+            elevation: 5.0,
+            borderRadius: BorderRadius.all(Radius.circular(30)),
+            child: TextField(
+              controller: TextEditingController(text: 'Search...'),
+              cursorColor: Theme.of(context).primaryColor,
+              style: TextStyle(color: Colors.black, fontSize: 18),
+              decoration: InputDecoration(
+                  suffixIcon: Material(
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    child: Icon(Icons.search),
+                  ),
+                  border: InputBorder.none,
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
+            ),
+          ),
+          SizedBox(height: 20),
+          ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: length,
+              itemBuilder: (ctx, index) {
+                return InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/user-details');
+                  },
+                  child: CustomListTileWithoutCounter(
+                      'assets/images/user_icon.png',
+                      this._titles[index],
+                      'Type:' + this._types[index],
+                      this._spaces[index],
+                      this._times[index]),
+                );
+              }),
+        ],
+      ),
+    );
+  }
+}
+
+class PrivateSessionsSchedule extends StatelessWidget {
+  final length = 1;
+  final List<String> _titles = [
+    'Cardio',
+  ];
+  final List<String> _types = [
+    'Private Session',
   ];
   final List<String> _spaces = [
     ' ',
