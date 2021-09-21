@@ -93,7 +93,7 @@ class MyApp extends StatelessWidget {
         '': (context) => AdminHomePage(),
         // user routes
         '/user-details': (context) => UserDetails(),
-        '/create-user': (context) => CreateUserForm(),
+        '/create-user': (context) => UserCreate(),
         '/edit-user': (context) => EditUserForm(),
         //branches routes
         'branches-list': (context) => BranchesList(),

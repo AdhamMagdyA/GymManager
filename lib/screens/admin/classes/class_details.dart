@@ -1,23 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/style/styling.dart';
+import 'package:gym_project/widget/providers/user.dart';
+import 'package:provider/provider.dart';
 
 class ClassDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      floatingActionButton: Container(
-        child: FloatingActionButton.extended(
-          onPressed: () {
-            Navigator.pushNamed(context, '/edit-class');
-          },
-          isExtended: false,
-          label: Icon(Icons.edit),
-        ),
-        height: MediaQuery.of(context).size.height * 0.075,
-        width: MediaQuery.of(context).size.width * 0.1,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+      floatingActionButton:
+          Provider.of<User>(context, listen: false).role == "admin"
+              ? Container(
+                  child: FloatingActionButton.extended(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/edit-class');
+                    },
+                    isExtended: false,
+                    label: Icon(Icons.edit),
+                  ),
+                  height: MediaQuery.of(context).size.height * 0.075,
+                  width: MediaQuery.of(context).size.width * 0.1,
+                )
+              : Container(
+                  child: FloatingActionButton.extended(
+                    onPressed: () {
+                      _showDialog(context);
+                    },
+                    isExtended: true,
+                    label: Text(
+                      'Book Now !',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'assets/fonts/Changa-Bold.ttf',
+                      ),
+                    ),
+                  ),
+                  height: MediaQuery.of(context).size.height * 0.075,
+                  width: MediaQuery.of(context).size.width * 0.45,
+                ),
+      floatingActionButtonLocation:
+          Provider.of<User>(context, listen: false).role == "admin"
+              ? FloatingActionButtonLocation.miniEndFloat
+              : FloatingActionButtonLocation.centerFloat,
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
@@ -180,4 +206,39 @@ class ClassDetails extends StatelessWidget {
       ),
     );
   }
+}
+
+void _showDialog(context) {
+  // flutter defined function
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      // return object of type Dialog
+      return AlertDialog(
+        title: new Text("Booking Class"),
+        content: new Text("Are you sure you want to book that class?"),
+        actions: <Widget>[
+          // usually buttons at the bottom of the dialog
+          new TextButton(
+            child: new Text(
+              "Cancel",
+              style: TextStyle(color: Colors.amber),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          new TextButton(
+            child: new Text(
+              "Book",
+              style: TextStyle(color: Colors.amber),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
