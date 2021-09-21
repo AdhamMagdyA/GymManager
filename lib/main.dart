@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:gym_project/experimenting_image_picker.dart';
 import 'package:gym_project/my_image_picker_2.dart';
