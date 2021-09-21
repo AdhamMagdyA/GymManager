@@ -3,6 +3,8 @@ import 'package:gym_project/style/styling.dart';
 
 class EventDetailsScreen extends StatelessWidget {
   final String role = 'member';
+  final String price = '5500\$';
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -21,7 +23,53 @@ class EventDetailsScreen extends StatelessWidget {
         )
         : Container(
           child: FloatingActionButton.extended(
-              onPressed: () {},
+              onPressed: () {
+                showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  backgroundColor: Color(0xff181818),
+                                  shape: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide:
+                                        BorderSide(color: Color(0xff181818)),
+                                  ),
+                                  content: price=="Free"?Text(
+                                    "Booking Done.",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily:
+                                          'assets/fonts/Changa-Bold.ttf',
+                                      fontSize: 18,
+                                      //fontWeight: FontWeight.bold,
+                                    ),
+                                  ):Text(
+                                    "Booking Done\n\nPlease get your ticket from your branch.",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily:
+                                          'assets/fonts/Changa-Bold.ttf',
+                                      fontSize: 18,
+                                      //fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                   actions: [
+                                    MaterialButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text("OK",style: TextStyle(color: Colors.black),),
+                                          color: Colors.amber,
+                                          shape: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            borderSide:
+                                                BorderSide(color: Colors.amber,
+                                          ),
+                                        ),),
+                                   ],
+                                ),
+                              );
+              },
               isExtended: true,
               label: Text('Book Now !' ,style: TextStyle(
                       fontSize: 20.0,
@@ -96,7 +144,7 @@ class EventDetailsScreen extends StatelessWidget {
                           ),),
                         ),
                     Container(
-                      child: Text("\$5500", style: TextStyle(
+                      child: Text(price, style: TextStyle(
                         color: Colors.amber,
                         fontSize: 30.0,
                         fontFamily: 'assets/fonts/Changa-Bold.ttf',
