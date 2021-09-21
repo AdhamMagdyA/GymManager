@@ -7,13 +7,13 @@ class WorkoutSummaries extends StatelessWidget {
   WorkoutSummaries({Key key}) : super(key: key);
 
   final fitSummaries = [
-    {'Calories': '153', 'BMI': '23', 'SMM': '49', 'Protein': '22'},
-    {'Calories': '286', 'BMI': '46', 'SMM': '12', 'Protein': '49'},
-    {'Calories': '555', 'BMI': '17', 'SMM': '63', 'Protein': '13'},
-    {'Calories': '555', 'BMI': '17', 'SMM': '63', 'Protein': '22'},
-    {'Calories': '555', 'BMI': '17', 'SMM': '63', 'Protein': '22'},
-    {'Calories': '555', 'BMI': '17', 'SMM': '63', 'Protein': '22'},
-    {'Calories': '555', 'BMI': '17', 'SMM': '63', 'Protein': '22'},
+    {'Calories': '153'},
+    {'Calories': '286'},
+    {'Calories': '555'},
+    {'Calories': '555'},
+    {'Calories': '555'},
+    {'Calories': '555'},
+    {'Calories': '555'},
   ];
 
   final processes = [
@@ -59,11 +59,11 @@ class WorkoutSummaries extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              'August 2' + index.toString(),
+                              'Week ' + (index + 1).toString(),
                               style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20),
                             ),
                             FitnessSummaryWidget(context, fitSummaries[index]),
                           ],
@@ -91,10 +91,6 @@ class WorkoutSummaries extends StatelessWidget {
 
   Widget FitnessSummaryWidget(BuildContext context, dynamic fitSum) {
     return GestureDetector(
-      onTapUp: (TapUpDetails tapUpDetails) {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => FitnessSummaryScreen()));
-      },
       child: Card(
         child: Container(
           decoration: BoxDecoration(
@@ -111,17 +107,8 @@ class WorkoutSummaries extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    '9:41',
-                    style: TextStyle(color: Theme.of(context).primaryColor),
-                  ),
-                ],
-              ),
-              SizedBox(height: 5),
-              IntrinsicHeight(
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -129,75 +116,124 @@ class WorkoutSummaries extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: [
-                          Text('Calories',
-                              style: TextStyle(
-                                color: Colors.white,
-                              )),
+                          Text(
+                            'Day 1',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
                           Text(
                             fitSum['Calories'],
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Theme.of(context).primaryColor),
+                                color: Theme.of(context).primaryColor,
+                                fontSize: 18),
                           ),
                         ],
                       ),
-                    ),
-                    VerticalDivider(
-                      color: Colors.white24,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Text('BMI',
-                              style: TextStyle(
-                                color: Colors.white,
-                              )),
-                          Text(
-                            fitSum['BMI'],
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).primaryColor),
-                          ),
-                        ],
-                      ),
-                    ),
-                    VerticalDivider(
-                      color: Colors.white24,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Text('SMM',
-                              style: TextStyle(
-                                color: Colors.white,
-                              )),
-                          Text(
-                            fitSum['SMM'],
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).primaryColor),
-                          ),
-                        ],
-                      ),
-                    ),
-                    VerticalDivider(
-                      color: Colors.white24,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: [
                           Text(
-                            'Protein',
-                            style: TextStyle(color: Colors.white),
+                            'Day 2',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
                           ),
                           Text(
-                            fitSum['Protein'],
+                            fitSum['Calories'],
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Theme.of(context).primaryColor),
+                                color: Theme.of(context).primaryColor,
+                                fontSize: 18),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            'Day 3',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                          Text(
+                            fitSum['Calories'],
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColor,
+                                fontSize: 18),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            'Day 4',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                          Text(
+                            fitSum['Calories'],
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColor,
+                                fontSize: 18),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            'Day 5',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                          Text(
+                            fitSum['Calories'],
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColor,
+                                fontSize: 18),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            'Day 6',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                          Text(
+                            fitSum['Calories'],
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColor,
+                                fontSize: 18),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            'Day 7',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                          Text(
+                            fitSum['Calories'],
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColor,
+                                fontSize: 18),
                           ),
                         ],
                       ),
