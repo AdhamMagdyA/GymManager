@@ -7,13 +7,13 @@ class FitnessSummariesScreen extends StatelessWidget {
   FitnessSummariesScreen({Key key}) : super(key: key);
 
   final fitSummaries = [
-    {'Calories': '153', 'BMI': '23', 'SMM': '49'},
-    {'Calories': '286', 'BMI': '46', 'SMM': '12'},
-    {'Calories': '555', 'BMI': '17', 'SMM': '63'},
-    {'Calories': '555', 'BMI': '17', 'SMM': '63'},
-    {'Calories': '555', 'BMI': '17', 'SMM': '63'},
-    {'Calories': '555', 'BMI': '17', 'SMM': '63'},
-    {'Calories': '555', 'BMI': '17', 'SMM': '63'},
+    {'Calories': '153', 'BMI': '23', 'SMM': '49', 'Protein': '22'},
+    {'Calories': '286', 'BMI': '46', 'SMM': '12', 'Protein': '49'},
+    {'Calories': '555', 'BMI': '17', 'SMM': '63', 'Protein': '13'},
+    {'Calories': '555', 'BMI': '17', 'SMM': '63', 'Protein': '22'},
+    {'Calories': '555', 'BMI': '17', 'SMM': '63', 'Protein': '22'},
+    {'Calories': '555', 'BMI': '17', 'SMM': '63', 'Protein': '22'},
+    {'Calories': '555', 'BMI': '17', 'SMM': '63', 'Protein': '22'},
   ];
 
   final processes = [
@@ -24,70 +24,64 @@ class FitnessSummariesScreen extends StatelessWidget {
   Widget Exam(BuildContext context) {
     return Stack(
       children: [
-        Container(
-          alignment: Alignment.topLeft,
-          margin: EdgeInsets.only(right: 100, bottom: 200),
-          decoration:
-              BoxDecoration(shape: BoxShape.circle, color: Colors.orange),
-        ),
-        Container(
-          alignment: Alignment.bottomRight,
-          margin: EdgeInsets.only(left: 100, top: 200),
-          decoration:
-              BoxDecoration(shape: BoxShape.circle, color: Colors.orange),
-        ),
         Padding(
           padding: const EdgeInsets.all(20.0),
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.white,
               shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              color: Color(0xff181818),
             ),
             padding: const EdgeInsets.only(top: 16, left: 5),
-            child: SingleChildScrollView(
-              child: FixedTimeline.tileBuilder(
-                theme: TimelineThemeData(
-                  nodePosition: 0,
-                  color: Color(0xff989898),
-                  indicatorTheme: IndicatorThemeData(
-                    position: 0,
-                    size: 8.0,
+            child: Stack(children: [
+              SingleChildScrollView(
+                child: FixedTimeline.tileBuilder(
+                  theme: TimelineThemeData(
+                    nodePosition: 0,
+                    color: Colors.white24,
+                    indicatorTheme: IndicatorThemeData(
+                      position: 0,
+                      size: 8.0,
+                    ),
+                    connectorTheme: ConnectorThemeData(
+                      thickness: 2.5,
+                    ),
                   ),
-                  connectorTheme: ConnectorThemeData(
-                    thickness: 2.5,
-                  ),
-                ),
-                builder: TimelineTileBuilder.connected(
-                  connectionDirection: ConnectionDirection.before,
-                  itemCount: fitSummaries.length,
-                  contentsBuilder: (_, index) {
-                    return Padding(
-                      padding: EdgeInsets.only(left: 8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            'August 2' + index.toString(),
-                          ),
-                          FitnessSummaryWidget(context, fitSummaries[index]),
-                        ],
-                      ),
-                    );
-                  },
-                  indicatorBuilder: (_, index) {
-                    return OutlinedDotIndicator(
-                      color: Colors.black12,
-                      borderWidth: 2.5,
-                    );
-                  },
-                  connectorBuilder: (_, index, ___) => SolidLineConnector(
-                    color: Colors.black12,
+                  builder: TimelineTileBuilder.connected(
+                    connectionDirection: ConnectionDirection.before,
+                    itemCount: fitSummaries.length,
+                    contentsBuilder: (_, index) {
+                      return Padding(
+                        padding: EdgeInsets.only(left: 8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'August 2' + index.toString(),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            FitnessSummaryWidget(context, fitSummaries[index]),
+                          ],
+                        ),
+                      );
+                    },
+                    indicatorBuilder: (_, index) {
+                      return OutlinedDotIndicator(
+                        color: Colors.white24,
+                        borderWidth: 2.5,
+                      );
+                    },
+                    connectorBuilder: (_, index, ___) => SolidLineConnector(
+                      color: Colors.white24,
+                    ),
                   ),
                 ),
               ),
-            ),
+            ]),
           ),
         ),
       ],
@@ -103,8 +97,9 @@ class FitnessSummariesScreen extends StatelessWidget {
       child: Card(
         child: Container(
           decoration: BoxDecoration(
+            color: Colors.black,
             border: Border.all(color: Colors.black12),
-            borderRadius: BorderRadius.all(Radius.circular(5)),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
           // width: 400,
           // decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
@@ -118,7 +113,10 @@ class FitnessSummariesScreen extends StatelessWidget {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('9:41'),
+                  Text(
+                    '9:41',
+                    style: TextStyle(color: Theme.of(context).primaryColor),
+                  ),
                 ],
               ),
               SizedBox(height: 5),
@@ -130,36 +128,75 @@ class FitnessSummariesScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: [
-                          Text('Calories'),
+                          Text('Calories',
+                              style: TextStyle(
+                                color: Colors.white,
+                              )),
                           Text(
                             fitSum['Calories'],
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColor),
                           ),
                         ],
                       ),
                     ),
-                    VerticalDivider(),
+                    VerticalDivider(
+                      color: Colors.white24,
+                    ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: [
-                          Text('BMI'),
+                          Text('BMI',
+                              style: TextStyle(
+                                color: Colors.white,
+                              )),
                           Text(
                             fitSum['BMI'],
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColor),
                           ),
                         ],
                       ),
                     ),
-                    VerticalDivider(),
+                    VerticalDivider(
+                      color: Colors.white24,
+                    ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: [
-                          Text('SMM'),
+                          Text('SMM',
+                              style: TextStyle(
+                                color: Colors.white,
+                              )),
                           Text(
                             fitSum['SMM'],
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColor),
+                          ),
+                        ],
+                      ),
+                    ),
+                    VerticalDivider(
+                      color: Colors.white24,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            'Protein',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          Text(
+                            fitSum['Protein'],
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColor),
                           ),
                         ],
                       ),

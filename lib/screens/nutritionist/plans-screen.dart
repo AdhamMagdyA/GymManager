@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/screens/nutritionist/plan-schedule.dart';
 import 'package:gym_project/screens/nutritionist/view-plans-details-screen.dart';
 
 class PlansViewScreen extends StatefulWidget {
@@ -70,6 +71,15 @@ class _PlansViewScreenState extends State<PlansViewScreen> {
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
               )),
+          Align(
+            alignment: Alignment.topRight,
+            child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => PlanSchedule()));
+                },
+                child: Text('My Plans')),
+          ),
           Container(
             margin: EdgeInsets.only(top: 80),
             child: ListView(
