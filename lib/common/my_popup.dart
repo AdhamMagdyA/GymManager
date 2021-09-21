@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'my_list_view.dart';
-
 class CreationPopUp extends StatefulWidget {
   const CreationPopUp({Key key}) : super(key: key);
 

@@ -1,24 +1,21 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
-class EditPrivateSessionForm extends StatefulWidget {
-  final Map privateSession;
+Map selectedEquipment = {};
 
-  EditPrivateSessionForm(this.privateSession);
+class CreateItemForm extends StatefulWidget {
   @override
   MapScreenState createState() => MapScreenState();
 }
 
 //you can change the form heading from line 51,93
 //you can change the form fields from lines (119 ,138 , etc ) -> each padding represent a field
-//
-class MapScreenState extends State<EditPrivateSessionForm>
+class MapScreenState extends State<CreateItemForm>
     with SingleTickerProviderStateMixin {
   bool _status = true;
   final FocusNode myFocusNode = FocusNode();
-  DateTime confirmedDateTime;
-  bool dateTimeStatus = false;
 
   @override
   void initState() {
@@ -31,6 +28,7 @@ class MapScreenState extends State<EditPrivateSessionForm>
 
   @override
   Widget build(BuildContext context) {
+    print(selectedEquipment);
     return new Scaffold(
       body: new Container(
         color: Color(0xFF181818), //background color
@@ -61,7 +59,7 @@ class MapScreenState extends State<EditPrivateSessionForm>
                               Padding(
                                 padding: EdgeInsets.only(left: 25.0),
                                 //-->header
-                                child: new Text('Edit Private Session',
+                                child: new Text('Create Item',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20.0,
@@ -103,7 +101,7 @@ class MapScreenState extends State<EditPrivateSessionForm>
                                   children: <Widget>[
                                     new Text(
                                       //---> topic
-                                      'Private Session Info',
+                                      'Item Information',
                                       style: TextStyle(
                                         fontSize: 18.0,
                                         fontWeight: FontWeight.bold,
@@ -148,11 +146,9 @@ class MapScreenState extends State<EditPrivateSessionForm>
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 new Flexible(
-                                  child: new TextFormField(
+                                  child: new TextField(
                                     decoration: const InputDecoration(
-                                        hintText: "Enter Your Title"),
-                                    initialValue:
-                                        widget.privateSession['title'],
+                                        hintText: "Enter Title"),
                                   ),
                                 ),
                               ],
@@ -180,23 +176,20 @@ class MapScreenState extends State<EditPrivateSessionForm>
                               ],
                             )),
                         Padding(
-                          padding: EdgeInsets.only(
-                              left: 25.0, right: 25.0, top: 2.0),
-                          child: new Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: <Widget>[
-                              new Flexible(
-                                child: new TextFormField(
-                                  decoration: const InputDecoration(
-                                    hintText: "Enter Your Description",
+                            padding: EdgeInsets.only(
+                                left: 25.0, right: 25.0, top: 2.0),
+                            child: new Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                new Flexible(
+                                  child: new TextField(
+                                    decoration: const InputDecoration(
+                                      hintText: "Enter Your Description",
+                                    ),
                                   ),
-                                  initialValue:
-                                      widget.privateSession['description'],
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
+                              ],
+                            )),
                         Padding(
                             padding: EdgeInsets.only(
                                 left: 25.0, right: 25.0, top: 25.0),
@@ -208,7 +201,7 @@ class MapScreenState extends State<EditPrivateSessionForm>
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
                                     new Text(
-                                      'Duration',
+                                      'Calories ',
                                       style: TextStyle(
                                         fontSize: 16.0,
                                         fontWeight: FontWeight.bold,
@@ -220,23 +213,19 @@ class MapScreenState extends State<EditPrivateSessionForm>
                               ],
                             )),
                         Padding(
-                          padding: EdgeInsets.only(
-                              left: 25.0, right: 25.0, top: 2.0),
-                          child: new Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: <Widget>[
-                              new Flexible(
-                                child: new TextFormField(
-                                  decoration: const InputDecoration(
-                                    hintText: "Enter Duration",
+                            padding: EdgeInsets.only(
+                                left: 25.0, right: 25.0, top: 2.0),
+                            child: new Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                new Flexible(
+                                  child: new TextField(
+                                    decoration: const InputDecoration(
+                                        hintText: "Enter Calories "),
                                   ),
-                                  initialValue:
-                                      widget.privateSession['duration'],
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
+                              ],
+                            )),
                         Padding(
                             padding: EdgeInsets.only(
                                 left: 25.0, right: 25.0, top: 25.0),
@@ -248,7 +237,7 @@ class MapScreenState extends State<EditPrivateSessionForm>
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
                                     new Text(
-                                      'Price',
+                                      'Image',
                                       style: TextStyle(
                                         fontSize: 16.0,
                                         fontWeight: FontWeight.bold,
@@ -260,83 +249,21 @@ class MapScreenState extends State<EditPrivateSessionForm>
                               ],
                             )),
                         Padding(
-                          padding: EdgeInsets.only(
-                              left: 25.0, right: 25.0, top: 2.0),
-                          child: new Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: <Widget>[
-                              new Flexible(
-                                child: new TextFormField(
-                                  decoration: const InputDecoration(
-                                    hintText: "Enter Price",
+                            padding: EdgeInsets.only(
+                                left: 25.0, right: 25.0, top: 2.0),
+                            child: new Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                new Flexible(
+                                  child: new TextField(
+                                    decoration: const InputDecoration(
+                                        hintText: "Enter image link"),
                                   ),
-                                  initialValue: widget.privateSession['price'],
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: 25.0, right: 25.0, top: 25.0),
-                          child: new Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: <Widget>[
-                              new Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  Row(
-                                    children: [
-                                      new Text(
-                                        'Date & Time',
-                                        style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      GestureDetector(
-                                        child: Icon(
-                                          Icons.calendar_today_outlined,
-                                          color: Colors.black,
-                                        ),
-                                        onTap: () {
-                                          //take to calendar
-                                          print('I was tapped!');
-                                          DatePicker.showDateTimePicker(
-                                            context,
-                                            showTitleActions: true,
-                                            minTime: DateTime(2020, 3, 5),
-                                            maxTime: DateTime(2022, 12, 30),
-                                            onChanged: (dateTime) {
-                                              print('change $dateTime');
-                                            },
-                                            onConfirm: (dateTime) {
-                                              print('confirm $dateTime');
-                                            },
-                                            currentTime: DateTime.now(),
-                                            locale: LocaleType.en,
-                                          ).then((dateTimeFinal) {
-                                            setState(() {
-                                              confirmedDateTime = dateTimeFinal;
-                                              dateTimeStatus = true;
-                                              print(confirmedDateTime);
-                                              print(dateTimeStatus);
-                                              refresh();
-                                            });
-                                          });
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                              ],
+                            )),
+                        SizedBox(
+                          height: 10,
                         ),
                         Padding(
                           padding: EdgeInsets.only(
@@ -347,23 +274,24 @@ class MapScreenState extends State<EditPrivateSessionForm>
                             children: <Widget>[
                               Expanded(
                                 child: Padding(
-                                  padding: EdgeInsets.only(right: 20.0),
+                                  padding: EdgeInsets.only(right: 0),
                                   child: Container(
                                       child: new ElevatedButton(
-                                    child: new Text("Edit"),
+                                    child: new Text("Create"),
                                     style: ElevatedButton.styleFrom(
-                                        shape: new RoundedRectangleBorder(
-                                          borderRadius:
-                                              new BorderRadius.circular(10.0),
-                                        ),
-                                        primary: Color(0xFFFFCE2B),
-                                        onPrimary: Colors.black,
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 5),
-                                        textStyle: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
-                                        )),
+                                      shape: new RoundedRectangleBorder(
+                                        borderRadius:
+                                            new BorderRadius.circular(10.0),
+                                      ),
+                                      primary: Color(0xFFFFCE2B),
+                                      onPrimary: Colors.black,
+                                      // padding: EdgeInsets.symmetric(
+                                      //     horizontal: 10, vertical: 5),
+                                      textStyle: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
                                     onPressed: () {
                                       setState(() {
                                         _status = true;

@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:gym_project/screens/common/login-screen.dart';
-import 'package:gym_project/widget/drawer.dart';
-import 'package:motion_tab_bar/MotionTabController.dart';
 import '../../style/styling.dart';
-import '../../style/text.dart';
-import '../../widget/homeCategory.dart';
 import '../../widget/popularCard.dart';
 
 class CoachHomeScreen extends StatefulWidget {
@@ -16,40 +11,9 @@ class CoachHomeScreen extends StatefulWidget {
 }
 
 class _CoachHomeScreenState extends State<CoachHomeScreen> {
-  MotionTabController _tabController;
-  int _selectedIndex = 0;
-
-  final _pages = [
-    {
-      'page': Login(),
-      'title': 'Categories',
-    },
-    {
-      'page': Login(),
-      'title': 'Your Favorite',
-    },
-    {
-      'page': Material(),
-      'title': 'Your Favorite',
-    },
-    {
-      'page': Material(),
-      'title': 'Your Favorite',
-    },
-    {
-      'page': Material(),
-      'title': 'Your Favorite',
-    },
-  ];
   @override
   void initState() {
     super.initState();
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
   }
 
   @override
@@ -95,16 +59,12 @@ class _CoachHomeScreenState extends State<CoachHomeScreen> {
                                             color: Color(0xFFFFCE2B),
                                             fontWeight: FontWeight.bold)),
                                     TextSpan(
-                                        text: "Member",
+                                        text: "Coach",
                                         style: TextStyle(
                                             fontSize: 25, color: Colors.white))
                                   ]),
                                 ),
                               ],
-                            ),
-                            Container(
-                              child: Text('Crowd Meter'),
-                              margin: EdgeInsets.fromLTRB(4, 4, 4, 4),
                             ),
                           ],
                         ),

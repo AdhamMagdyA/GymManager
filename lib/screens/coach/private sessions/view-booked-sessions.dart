@@ -4,6 +4,7 @@ import 'package:gym_project/common/my_choosing_screen.dart';
 import 'package:gym_project/common/my_list_tile.dart';
 
 import 'package:flutter/material.dart';
+import 'package:gym_project/screens/coach/private%20sessions/edit-private-session.dart';
 import 'package:gym_project/screens/common/view-private-session-details.dart';
 
 class ViewBookedSessionsScreen extends StatefulWidget {
@@ -191,13 +192,7 @@ class _ViewBookedSessionsScreenState extends State<ViewBookedSessionsScreen> {
                 itemCount: privateSessions.length,
                 itemBuilder: (ctx, index) {
                   return myListTile(
-                    privateSessions[index]['title'],
-                    [
-                      privateSessions[index]['coach']['user']['name'],
-                      formatDateTime(privateSessions[index]['datetime']),
-                      formatDuration(privateSessions[index]['duration']),
-                    ],
-                    '\$${privateSessions[index]['price']}',
+                    privateSessions[index],
                     index,
                   );
                 }),
@@ -207,8 +202,7 @@ class _ViewBookedSessionsScreenState extends State<ViewBookedSessionsScreen> {
     );
   }
 
-  Widget myListTile(
-      String title, List<String> subtitles, String trailing, int index) {
+  Widget myListTile(Map privateSession, int index) {
     return Container(
       margin: EdgeInsetsDirectional.only(bottom: 10),
       decoration: BoxDecoration(
@@ -228,25 +222,59 @@ class _ViewBookedSessionsScreenState extends State<ViewBookedSessionsScreen> {
           child: FlutterLogo(),
         ),
         title: Text(
-          title,
+          privateSession['title'],
           style: TextStyle(color: Colors.white),
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            for (String subtitle in subtitles)
-              Text(
-                subtitle,
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              )
+            Text(
+              privateSession['coach']['user']['name'],
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            Text(
+              formatDateTime(privateSession['datetime']),
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            Text(
+              formatDuration(privateSession['duration']),
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            )
           ],
         ),
-        trailing: Text(
-          trailing,
-          style: TextStyle(color: Colors.white),
+        trailing: Column(
+          children: [
+            Text(
+              '\$${privateSession['price']}',
+              style: TextStyle(color: Colors.white),
+            ),
+            SizedBox(
+              width: 4,
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            EditPrivateSessionForm(privateSession)));
+              },
+              child: Text(
+                'Edit',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -4,6 +4,7 @@ import 'package:gym_project/common/my_choosing_screen.dart';
 import 'package:gym_project/common/my_list_tile.dart';
 
 import 'package:flutter/material.dart';
+import 'package:gym_project/screens/coach/private%20sessions/edit-private-session.dart';
 import 'package:gym_project/screens/common/view-private-session-details.dart';
 
 class ViewMyPrivateSessionsScreen extends StatefulWidget {
@@ -14,8 +15,6 @@ class ViewMyPrivateSessionsScreen extends StatefulWidget {
 
 class _ViewMyPrivateSessionsScreenState
     extends State<ViewMyPrivateSessionsScreen> {
-  static int whoIsSelected = -1;
-
   final List<dynamic> privateSessions = [
     {
       'title': 'Private Session 1',
@@ -188,122 +187,95 @@ class _ViewMyPrivateSessionsScreenState
                       contentPadding:
                           EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
                 )),
-            if (whoIsSelected != -1)
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Deselect Items  ',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    GestureDetector(
-                      child: Icon(
-                        Icons.delete,
-                        color: Colors.white,
-                      ),
-                      onTap: () {
-                        setState(() {
-                          whoIsSelected = -1;
-                        });
-                      },
-                    )
-                  ],
-                ),
-              ),
             SizedBox(height: 20),
             ListView.builder(
                 shrinkWrap: true,
                 itemCount: privateSessions.length,
                 itemBuilder: (ctx, index) {
                   return myListTile(
-                    privateSessions[index]['title'],
-                    [
-                      privateSessions[index]['coach']['user']['name'],
-                      formatDateTime(privateSessions[index]['datetime']),
-                      formatDuration(privateSessions[index]['duration']),
-                    ],
-                    '\$${privateSessions[index]['price']}',
+                    privateSessions[index],
                     index,
                   );
                 }),
           ],
         ),
-        if (whoIsSelected != -1)
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: ElevatedButton(
-                child: Text('Submit'),
-                style: ElevatedButton.styleFrom(
-                    primary: Colors.amber,
-                    fixedSize: Size.fromWidth(width),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    )),
-                onPressed: () {
-                  var selectedPrivateSession = privateSessions[whoIsSelected];
-
-                  selectedPrivateSession['datetime'] =
-                      formatDateTime(selectedPrivateSession['datetime']);
-                  selectedPrivateSession['duration'] =
-                      formatDuration(selectedPrivateSession['duration']);
-                  // Navigator.pop(context, selectedPrivateSession);
-                }),
-          ),
       ]),
     );
   }
 
-  Widget myListTile(
-      String title, List<String> subtitles, String trailing, int index) {
+  Widget myListTile(Map privateSession, int index) {
     return Container(
       margin: EdgeInsetsDirectional.only(bottom: 10),
       decoration: BoxDecoration(
-        color: whoIsSelected == index ? Colors.white24 : Color(0xff181818),
+        color: Color(0xff181818),
         borderRadius: BorderRadius.circular(16),
       ),
       child: ListTile(
-        onLongPress: () {
-          setState(() {
-            whoIsSelected = index;
-          });
-        },
         onTap: () {
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => PrivateSessionDetailsScreen()));
         },
-        selected: whoIsSelected == index,
         minVerticalPadding: 10,
         leading: CircleAvatar(
           radius: 20,
           child: FlutterLogo(),
         ),
         title: Text(
-          title,
+          privateSession['title'],
           style: TextStyle(color: Colors.white),
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            for (String subtitle in subtitles)
-              Text(
-                subtitle,
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              )
+            Text(
+              privateSession['coach']['user']['name'],
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            Text(
+              formatDateTime(privateSession['datetime']),
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            Text(
+              formatDuration(privateSession['duration']),
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            )
           ],
         ),
-        trailing: Text(
-          trailing,
-          style: TextStyle(color: Colors.white),
+        trailing: Column(
+          children: [
+            Text(
+              '\$${privateSession['price']}',
+              style: TextStyle(color: Colors.white),
+            ),
+            SizedBox(
+              width: 4,
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            EditPrivateSessionForm(privateSession)));
+              },
+              child: Text(
+                'Edit',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

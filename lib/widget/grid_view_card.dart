@@ -32,7 +32,7 @@ Widget GridViewCard(image, title, subTitle1, subTitle2, subTitle3, subTitle4) {
               ),
               child: Image.network(
                 image,
-                fit: BoxFit.contain,
+                fit: BoxFit.cover,
               ),
             ),
           ),

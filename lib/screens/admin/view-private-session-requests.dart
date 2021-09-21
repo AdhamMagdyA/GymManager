@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:gym_project/common/my_choosing_screen.dart';
-import 'package:gym_project/common/my_list_tile.dart';
 
-import 'package:flutter/material.dart';
 import 'package:gym_project/screens/common/view-private-session-details.dart';
 
 class ViewPrivateSessionRequestsScreen extends StatefulWidget {
@@ -170,7 +166,7 @@ class _ViewPrivateSessionRequestsScreenState
     },
   ];
 
-  String formatDateTime(String DateTime) {
+  String formatDateTime(String dateTime) {
     //2021-09-13 14:13:51
     List<String> months = [
       'Jan',
@@ -186,16 +182,16 @@ class _ViewPrivateSessionRequestsScreenState
       'Nov',
       'Dec'
     ];
-    String year = DateTime.substring(0, 4);
-    String month = DateTime.substring(5, 7);
-    String day = DateTime.substring(8, 10);
-    String time = DateTime.substring(12);
+    String year = dateTime.substring(0, 4);
+    String month = dateTime.substring(5, 7);
+    String day = dateTime.substring(8, 10);
+    String time = dateTime.substring(12);
     return '$day ${months[int.parse(month) - 1]} $year at $time';
   }
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    // double width = MediaQuery.of(context).size.width;
     return Container(
       color: Colors.black,
       padding: EdgeInsetsDirectional.all(10),

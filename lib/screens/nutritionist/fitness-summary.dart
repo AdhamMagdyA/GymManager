@@ -52,7 +52,7 @@ class FitnessSummaryScreen extends StatelessWidget {
                       GridViewCard(
                           Icons.water, 'SMM', 'Range: 0 - 100', 'Value: 24'),
                       GridViewCard(
-                          Icons.water, 'BMM', 'Range: 0 - 100', 'Value: 10'),
+                          Icons.water, 'BMI', 'Range: 0 - 100', 'Value: 10'),
                       GridViewCard(Icons.water, 'Muscle Ratio',
                           'Range: 0 - 100', 'Value: 45'),
                       GridViewCard(Icons.water, 'Height', 'Range: 0 - 250',
