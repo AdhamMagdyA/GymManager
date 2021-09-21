@@ -174,7 +174,7 @@ class MyApp extends StatelessWidget {
         // '/edit-private-session': (context) => EditPrivateSessionForm(),
 
         //items routes
-        '/items': (context) => ItemsScreen(),
+        '/items': (context) => ItemsScreen(false),
         // '/create-item': (context) => CreateItemForm(),
         // '/edit-item': (context) => EditItemForm()
 
