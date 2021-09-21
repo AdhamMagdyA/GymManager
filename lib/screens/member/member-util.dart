@@ -17,14 +17,19 @@ import 'package:gym_project/screens/common/ProfilePage.dart';
 import 'package:gym_project/screens/common/grid_view.dart';
 import 'package:gym_project/screens/admin/classes/classes_list.dart';
 import 'package:gym_project/screens/admin/admin_home_page.dart';
+import 'package:gym_project/screens/common/view-group-details-screen.dart';
 import 'package:gym_project/screens/member/home-screen.dart';
 import 'package:gym_project/screens/member/schedule.dart';
+import 'package:gym_project/screens/nutritionist/view-plans-details-screen.dart';
 import 'package:gym_project/screens/questions/add-question-screen.dart';
 import 'package:gym_project/screens/questions/questions-screen.dart';
 import 'package:gym_project/screens/admin/classes/create_class.dart';
 import 'package:gym_project/screens/admin/equipment/create_equipment.dart';
 import 'package:gym_project/screens/admin/users/edit_user.dart';
 import 'package:gym_project/widget/drawer.dart';
+
+import 'member-drawer.dart';
+import 'member-others.dart';
 
 class MemberUtil extends StatefulWidget {
   const MemberUtil({Key key}) : super(key: key);
@@ -47,15 +52,17 @@ class _MemberUtilState extends State<MemberUtil> with TickerProviderStateMixin {
       'title': 'Schedule',
     },
     {
-      'page': ClassesList(),
-      'title': 'Branches',
+      'page': Container(
+        child: Center(child: Text("Training plan Screen")),
+      ),
+      'title': 'Training Plan',
     },
     {
-      'page': EventListView(),
-      'title': 'Memberships',
+      'page': PlansDetailsScreen(),
+      'title': 'Diet Plan',
     },
     {
-      'page': OthersScreen(),
+      'page': MemberOthers(),
       'title': 'Ohters',
     },
   ];
@@ -81,7 +88,7 @@ class _MemberUtilState extends State<MemberUtil> with TickerProviderStateMixin {
         backgroundColor: Color(0xff181818),
         iconTheme: IconThemeData(color: Color(0xFFFFCE2B)),
       ),
-      drawer: MyDrawer(),
+      drawer: MemberDrawer(),
       body: _pages[_selectedIndex]['page'],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -92,16 +99,16 @@ class _MemberUtilState extends State<MemberUtil> with TickerProviderStateMixin {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.supervised_user_circle),
+            icon: Icon(Icons.schedule),
             label: 'Schedule',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.workspaces),
-            label: 'Branches',
+            icon: Icon(Icons.sports),
+            label: 'Training',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.class_),
-            label: 'Memberships',
+            icon: Icon(Icons.food_bank),
+            label: 'Diet',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.view_list),

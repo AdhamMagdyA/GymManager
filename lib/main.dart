@@ -9,10 +9,12 @@ import 'package:gym_project/screens/Invitations/invitation-form.dart';
 import 'package:gym_project/screens/Invitations/invitation-list.dart';
 import 'package:gym_project/screens/Supplements/supplement-form.dart';
 import 'package:gym_project/screens/Supplements/supplement-grid-view.dart';
+import 'package:gym_project/screens/about_us.dart';
 import 'package:gym_project/screens/admin/memberships/memberships_list.dart';
 import 'package:gym_project/screens/announcements/add-announcement-screen.dart';
 import 'package:gym_project/screens/announcements/announcements-screen.dart';
 import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
+import 'package:gym_project/screens/coach/coach_profile.dart';
 import 'package:gym_project/screens/coach/exercises/create-exercise.dart';
 import 'package:gym_project/screens/coach/exercises/edit-exercise.dart';
 import 'package:gym_project/screens/coach/exercises/exercises_screen.dart';
@@ -51,6 +53,7 @@ import 'package:gym_project/screens/admin/users/edit_user.dart';
 import 'package:gym_project/screens/admin/users/user_details.dart';
 import 'package:gym_project/screens/admin/util-screen.dart';
 import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
+import 'package:gym_project/screens/member/member_profile.dart';
 import 'package:gym_project/screens/member/workout-summery/workout-summeries.dart';
 import 'package:gym_project/screens/nutritionist/items_screen.dart';
 import 'package:gym_project/screens/member/view-private-sessions.dart';
@@ -58,6 +61,7 @@ import 'package:gym_project/screens/my_choosing_gridview_screen.dart';
 import 'package:gym_project/screens/member/training-mode/training_mode_exercise_screen.dart';
 import 'package:gym_project/screens/member/training-mode/training_mode_overview_screen.dart';
 import 'package:gym_project/screens/nutritionist/meals-screen.dart';
+import 'package:gym_project/screens/nutritionist/nutritionist%20_profile.dart';
 import 'package:gym_project/screens/nutritionist/plans-screen.dart';
 import 'package:gym_project/screens/nutritionist/util-screen.dart';
 import 'package:gym_project/screens/questions/add-question-screen.dart';
@@ -120,9 +124,17 @@ class MyApp extends StatelessWidget {
         '/create-equipment': (context) => CreateEquipmentForm(),
         '/edit-equipment': (context) => EditEquipmentForm(),
 
-        //workput summery
+        //workout summery
         '/workout-summeries': (context) => WorkoutSummaries(),
         '/nutritionist-sessions-list': (context) => NutritionistSessionsList(),
+
+        //profiles
+        '/coach-profile': (context) => CoachProfile(),
+        '/nutritionist-profile': (context) => NutritionistProfile(),
+        '/member-profile': (context) => MemberProfile(),
+
+        //about us
+        '/about-us': (context) => AboutUs(),
 
         //Events routes
         '/events': (context) => EventListView(),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/screens/coach/coach_profile.dart';
 
-class MyDrawer extends StatelessWidget {
-  const MyDrawer({Key key}) : super(key: key);
+class MemberDrawer extends StatelessWidget {
+  const MemberDrawer({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +19,9 @@ class MyDrawer extends StatelessWidget {
             Container(
               color: Color(0xff181818),
               child: UserAccountsDrawerHeader(
+                onDetailsPressed: () {
+                  Navigator.pushNamed(context, '/member-profile');
+                },
                 accountEmail: Text(
                   'folan@gmail.com',
                   style: TextStyle(color: Colors.white),
