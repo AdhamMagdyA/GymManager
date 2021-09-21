@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:gym_project/screens/common/view-exercises-details-screen.dart';
 import 'package:gym_project/screens/nutritionist/item-creation-form.dart';
+import 'package:gym_project/screens/nutritionist/view-items-details-screen.dart';
 
 class ItemsScreen extends StatefulWidget {
   ItemsScreen(this.isSelectionTime, {Key key}) : super(key: key);
@@ -92,6 +93,8 @@ class ItemsScreenState extends State<ItemsScreen> {
     super.initState();
     if (widget.isSelectionTime == true) {
       _selectionMode = true;
+    } else {
+      _selectionMode = false;
     }
   }
 
@@ -405,7 +408,7 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
       onTap: () {
         if (!widget.selectionTime) {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => ExerciseDetailsScreen()));
+              MaterialPageRoute(builder: (context) => ItemsDetailsScreen()));
         } else if (widget.selectionTime && !widget.selectionMode) {
           widget.setSelectionMode(true);
           widget.incrementItem(widget.index);
@@ -606,7 +609,7 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  ExerciseDetailsScreen(),
+                                                  ItemsDetailsScreen(),
                                             ));
                                       },
                                     ),
