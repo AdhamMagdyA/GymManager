@@ -251,10 +251,11 @@ class MapScreenState extends State<EditExerciseForm>
                                 mainAxisSize: MainAxisSize.max,
                                 children: <Widget>[
                                   new Flexible(
-                                    child: new TextField(
+                                    child: new TextFormField(
                                       decoration: const InputDecoration(
                                         hintText: "Enter Your Description",
                                       ),
+                                      initialValue: 'Description here aadssdsd',
                                     ),
                                   ),
                                 ],
@@ -288,9 +289,10 @@ class MapScreenState extends State<EditExerciseForm>
                                 mainAxisSize: MainAxisSize.max,
                                 children: <Widget>[
                                   new Flexible(
-                                    child: new TextField(
+                                    child: new TextFormField(
                                       decoration: const InputDecoration(
                                           hintText: "Enter Your Duration "),
+                                      initialValue: '01:22',
                                     ),
                                   ),
                                 ],
@@ -324,9 +326,10 @@ class MapScreenState extends State<EditExerciseForm>
                                 mainAxisSize: MainAxisSize.max,
                                 children: <Widget>[
                                   new Flexible(
-                                    child: new TextField(
+                                    child: new TextFormField(
                                       decoration: const InputDecoration(
                                           hintText: "Enter Your Title"),
+                                      initialValue: 'Exercise 1',
                                     ),
                                   ),
                                 ],
@@ -400,10 +403,11 @@ class MapScreenState extends State<EditExerciseForm>
                                 mainAxisSize: MainAxisSize.max,
                                 children: <Widget>[
                                   new Flexible(
-                                    child: new TextField(
+                                    child: new TextFormField(
                                       decoration: const InputDecoration(
                                           hintText:
                                               "Enter number of repetitions"),
+                                      initialValue: '1',
                                     ),
                                   ),
                                 ],

@@ -532,33 +532,29 @@ class MapScreenState extends State<CreateExerciseForm>
                                   child: Padding(
                                     padding: EdgeInsets.only(right: 0),
                                     child: Container(
-                                        child: FittedBox(
-                                      fit: BoxFit.fitWidth,
-                                      child: new ElevatedButton(
-                                        child: new Text("Create"),
-                                        style: ElevatedButton.styleFrom(
-                                          shape: new RoundedRectangleBorder(
-                                            borderRadius:
-                                                new BorderRadius.circular(10.0),
-                                          ),
-
-                                          primary: Color(0xFFFFCE2B),
-                                          onPrimary: Colors.black,
-                                          // padding: EdgeInsets.symmetric(
-                                          //     horizontal: 10, vertical: 5),
-                                          textStyle: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                        child: new ElevatedButton(
+                                      child: new Text("Create"),
+                                      style: ElevatedButton.styleFrom(
+                                        shape: new RoundedRectangleBorder(
+                                          borderRadius:
+                                              new BorderRadius.circular(10.0),
                                         ),
-                                        onPressed: () {
-                                          setState(() {
-                                            _status = true;
-                                            FocusScope.of(context)
-                                                .requestFocus(new FocusNode());
-                                          });
-                                        },
+                                        primary: Color(0xFFFFCE2B),
+                                        onPrimary: Colors.black,
+                                        // padding: EdgeInsets.symmetric(
+                                        //     horizontal: 10, vertical: 5),
+                                        textStyle: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _status = true;
+                                          FocusScope.of(context)
+                                              .requestFocus(new FocusNode());
+                                        });
+                                      },
                                     )),
                                   ),
                                   flex: 2,
