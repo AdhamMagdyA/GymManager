@@ -20,7 +20,6 @@ import 'package:gym_project/screens/common/grid_view.dart';
 import 'package:gym_project/screens/admin/classes/classes_list.dart';
 import 'package:gym_project/screens/admin/admin_home_page.dart';
 import 'package:gym_project/screens/member/workout-summery/workout-summeries.dart';
-import 'package:gym_project/screens/member/workout-summery/workout-summery.dart';
 import 'package:gym_project/screens/nutritionist/fitness-summary.dart';
 import 'package:gym_project/screens/questions/add-question-screen.dart';
 import 'package:gym_project/screens/questions/questions-screen.dart';
@@ -30,6 +29,7 @@ import 'package:gym_project/screens/admin/users/edit_user.dart';
 import 'package:gym_project/widget/drawer.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
+import '../about_us.dart';
 import 'branches/branch_details.dart';
 import 'branches/branches_list.dart';
 import 'equipment/equipment_details.dart';
@@ -53,11 +53,11 @@ class _AdminUtilState extends State<AdminUtil> with TickerProviderStateMixin {
 
   final _pages = [
     {
-      'page': WorkoutSummaries(),
+      'page': AdminHomePage(),
       'title': 'Homepage',
     },
     {
-      'page': WorkoutSummary(),
+      'page': UsersList(),
       'title': 'Users',
     },
     {
