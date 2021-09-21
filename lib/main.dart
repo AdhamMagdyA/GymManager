@@ -51,6 +51,8 @@ import 'package:gym_project/screens/admin/users/edit_user.dart';
 import 'package:gym_project/screens/admin/users/user_details.dart';
 import 'package:gym_project/screens/admin/util-screen.dart';
 import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
+import 'package:gym_project/screens/member/workout-summery/workout-summeries.dart';
+import 'package:gym_project/screens/member/workout-summery/workout-summery.dart';
 import 'package:gym_project/screens/nutritionist/items_screen.dart';
 import 'package:gym_project/screens/member/view-private-sessions.dart';
 import 'package:gym_project/screens/my_choosing_gridview_screen.dart';
@@ -91,10 +93,10 @@ class MyApp extends StatelessWidget {
         '': (context) => AdminHomePage(),
         // user routes
         '/user-details': (context) => UserDetails(),
-        '/create-user': (context) => CreateUserForm(),
+        '/create-user': (context) => UserCreate(),
         '/edit-user': (context) => EditUserForm(),
         //branches routes
-        'branches-list': (context) => BranchesList(),
+        '/branches-list': (context) => BranchesList(),
         '/branch-details': (context) => BranchDetails(),
         '/create-branch': (context) => CreateBranchForm(),
         '/edit-branch': (context) => EditBranchForm(),
@@ -118,6 +120,10 @@ class MyApp extends StatelessWidget {
         '/equipment-details': (context) => EquipmentDetails(),
         '/create-equipment': (context) => CreateEquipmentForm(),
         '/edit-equipment': (context) => EditEquipmentForm(),
+
+        //workput summery
+        '/workout-summeries': (context) => WorkoutSummaries(),
+        '/workout-summery': (context) => WorkoutSummary(),
 
         '/nutritionist-sessions-list': (context) => NutritionistSessionsList(),
 
