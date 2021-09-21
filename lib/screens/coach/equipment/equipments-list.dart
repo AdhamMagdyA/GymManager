@@ -369,7 +369,7 @@ class _MySingleChoosingGridViewCardState
                               onPrimary: Colors.black,
                             ),
                             child: Text(
-                              'View Details',
+                              'Details',
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,

@@ -2,18 +2,18 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:gym_project/screens/nutritionist/meals-screen.dart';
+import 'package:gym_project/screens/nutritionist/items_screen.dart';
 
 Map selectedEquipment = {};
 
-class CreatePlanForm extends StatefulWidget {
+class EditMealForm extends StatefulWidget {
   @override
   MapScreenState createState() => MapScreenState();
 }
 
 //you can change the form heading from line 51,93
 //you can change the form fields from lines (119 ,138 , etc ) -> each padding represent a field
-class MapScreenState extends State<CreatePlanForm>
+class MapScreenState extends State<EditMealForm>
     with SingleTickerProviderStateMixin {
   bool _status = true;
   final FocusNode myFocusNode = FocusNode();
@@ -61,7 +61,7 @@ class MapScreenState extends State<CreatePlanForm>
                                 Padding(
                                   padding: EdgeInsets.only(left: 25.0),
                                   //-->header
-                                  child: new Text('Create Plan',
+                                  child: new Text('Create Meal',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20.0,
@@ -104,7 +104,7 @@ class MapScreenState extends State<CreatePlanForm>
                                     children: <Widget>[
                                       new Text(
                                         //---> topic
-                                        'Plan Information',
+                                        'Meal Information',
                                         style: TextStyle(
                                           fontSize: 18.0,
                                           fontWeight: FontWeight.bold,
@@ -204,7 +204,7 @@ class MapScreenState extends State<CreatePlanForm>
                                     mainAxisSize: MainAxisSize.min,
                                     children: <Widget>[
                                       new Text(
-                                        'Duration ',
+                                        'Calories ',
                                         style: TextStyle(
                                           fontSize: 16.0,
                                           fontWeight: FontWeight.bold,
@@ -224,7 +224,43 @@ class MapScreenState extends State<CreatePlanForm>
                                   new Flexible(
                                     child: new TextField(
                                       decoration: const InputDecoration(
-                                          hintText: "Enter Duration "),
+                                          hintText: "Enter Calories "),
+                                    ),
+                                  ),
+                                ],
+                              )),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  left: 25.0, right: 25.0, top: 25.0),
+                              child: new Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: <Widget>[
+                                  new Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      new Text(
+                                        'Image',
+                                        style: TextStyle(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              )),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  left: 25.0, right: 25.0, top: 2.0),
+                              child: new Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: <Widget>[
+                                  new Flexible(
+                                    child: new TextField(
+                                      decoration: const InputDecoration(
+                                          hintText: "Enter image link"),
                                     ),
                                   ),
                                 ],
@@ -243,7 +279,7 @@ class MapScreenState extends State<CreatePlanForm>
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
                                     new Text(
-                                      'Meals',
+                                      'Items',
                                       style: TextStyle(
                                         fontSize: 16.0,
                                         fontWeight: FontWeight.bold,
@@ -268,7 +304,7 @@ class MapScreenState extends State<CreatePlanForm>
                                 new Flexible(
                                   child: ElevatedButton(
                                       child: Text(
-                                        'Choose Meals',
+                                        'Choose Items',
                                       ),
                                       style: ElevatedButton.styleFrom(
                                           textStyle: TextStyle(
@@ -286,7 +322,7 @@ class MapScreenState extends State<CreatePlanForm>
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  MealsViewScreen(true),
+                                                  ItemsScreen(),
                                             ));
                                         setState(() {
                                           selectedEquipment = result;

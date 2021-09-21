@@ -138,14 +138,10 @@ class _PlansViewScreenState extends State<PlansViewScreen> {
         borderRadius: BorderRadius.circular(16),
       ),
       child: ListTile(
-        onLongPress: () {
+        onTap: () {
           setState(() {
             PlansViewScreen.whoIsSelected = index;
           });
-        },
-        onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => PlansDetailsScreen()));
         },
         selected: PlansViewScreen.whoIsSelected == index,
         minVerticalPadding: 10,
@@ -169,6 +165,24 @@ class _PlansViewScreenState extends State<PlansViewScreen> {
               duration,
               style: TextStyle(color: Colors.white24),
             ),
+            if (PlansViewScreen.whoIsSelected != -1)
+              TextButton(
+                child: Text(
+                  'Details',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.amber,
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PlansDetailsScreen(),
+                      ));
+                },
+              ),
           ],
         ),
       ),

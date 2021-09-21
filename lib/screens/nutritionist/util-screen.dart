@@ -36,7 +36,7 @@ class _NutritionistUtilState extends State<NutritionistUtil>
       'title': 'Fitness Summaries',
     },
     {
-      'page': MealsViewScreen(),
+      'page': MealsViewScreen(false),
       'title': 'Meals',
     },
     {

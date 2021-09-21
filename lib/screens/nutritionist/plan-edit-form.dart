@@ -6,14 +6,14 @@ import 'package:gym_project/screens/nutritionist/meals-screen.dart';
 
 Map selectedEquipment = {};
 
-class CreatePlanForm extends StatefulWidget {
+class EditPlanForm extends StatefulWidget {
   @override
   MapScreenState createState() => MapScreenState();
 }
 
 //you can change the form heading from line 51,93
 //you can change the form fields from lines (119 ,138 , etc ) -> each padding represent a field
-class MapScreenState extends State<CreatePlanForm>
+class MapScreenState extends State<EditPlanForm>
     with SingleTickerProviderStateMixin {
   bool _status = true;
   final FocusNode myFocusNode = FocusNode();
@@ -149,9 +149,10 @@ class MapScreenState extends State<CreatePlanForm>
                                 mainAxisSize: MainAxisSize.max,
                                 children: <Widget>[
                                   new Flexible(
-                                    child: new TextField(
+                                    child: new TextFormField(
                                       decoration: const InputDecoration(
                                           hintText: "Enter Title"),
+                                      initialValue: 'aa',
                                     ),
                                   ),
                                 ],
@@ -185,10 +186,11 @@ class MapScreenState extends State<CreatePlanForm>
                                 mainAxisSize: MainAxisSize.max,
                                 children: <Widget>[
                                   new Flexible(
-                                    child: new TextField(
+                                    child: new TextFormField(
                                       decoration: const InputDecoration(
                                         hintText: "Enter Your Description",
                                       ),
+                                      initialValue: 'desc',
                                     ),
                                   ),
                                 ],
@@ -222,9 +224,10 @@ class MapScreenState extends State<CreatePlanForm>
                                 mainAxisSize: MainAxisSize.max,
                                 children: <Widget>[
                                   new Flexible(
-                                    child: new TextField(
+                                    child: new TextFormField(
                                       decoration: const InputDecoration(
                                           hintText: "Enter Duration "),
+                                      initialValue: 'dddd',
                                     ),
                                   ),
                                 ],
