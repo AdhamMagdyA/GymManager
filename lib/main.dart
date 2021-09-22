@@ -54,6 +54,7 @@ import 'package:gym_project/screens/admin/users/edit_user.dart';
 import 'package:gym_project/screens/admin/users/user_details.dart';
 import 'package:gym_project/screens/admin/util-screen.dart';
 import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
+import 'package:gym_project/screens/common/view-exercises-details-screen.dart';
 import 'package:gym_project/screens/nutritionist/items_screen.dart';
 import 'package:gym_project/screens/member/view-private-sessions.dart';
 import 'package:gym_project/screens/my_choosing_gridview_screen.dart';
@@ -62,6 +63,8 @@ import 'package:gym_project/screens/member/training-mode/training_mode_overview_
 import 'package:gym_project/screens/nutritionist/meals-screen.dart';
 import 'package:gym_project/screens/nutritionist/plans-screen.dart';
 import 'package:gym_project/screens/nutritionist/util-screen.dart';
+import 'package:gym_project/screens/nutritionist/view-items-details-screen.dart';
+import 'package:gym_project/screens/nutritionist/view-meals-details-screen.dart';
 import 'package:gym_project/screens/questions/add-question-screen.dart';
 import 'package:gym_project/screens/questions/questions-screen.dart';
 import 'package:gym_project/screens/questions/single-question.dart';
@@ -88,7 +91,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Login(),
+      home: ItemsScreen(false),
       routes: {
         // When navigating to the "/" route, build the FirstScreen widget.
         '': (context) => AdminHomePage(),
@@ -174,7 +177,7 @@ class MyApp extends StatelessWidget {
         // '/edit-private-session': (context) => EditPrivateSessionForm(),
 
         //items routes
-        '/items': (context) => ItemsScreen(),
+        '/items': (context) => ItemsScreen(false),
         // '/create-item': (context) => CreateItemForm(),
         // '/edit-item': (context) => EditItemForm()
 

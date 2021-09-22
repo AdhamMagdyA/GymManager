@@ -209,7 +209,7 @@ class OthersScreen extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ItemsScreen(),
+                                  builder: (context) => ItemsScreen(false),
                                 ),
                               );
                             },
