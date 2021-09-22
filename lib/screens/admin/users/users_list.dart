@@ -294,15 +294,108 @@ class NutritionistsScreen extends StatelessWidget {
                   onTap: () {
                     Navigator.pushNamed(context, '/user-details');
                   },
-                  child: CustomListTileWithoutCounter(
-                      'assets/images/user_icon.png',
-                      this.title,
-                      this.subtitle1,
-                      this.subtitle2,
-                      this.subtitle3),
+                  child: UserTile('assets/images/user_icon.png', this.title,
+                      this.subtitle1, this.subtitle2, this.subtitle3),
                 );
               }),
         ],
+      ),
+    );
+  }
+}
+
+class UserTile extends StatefulWidget {
+  final String path;
+  final String title;
+  final String subtitle1;
+  final String subtitle2;
+  final String subtitle3;
+
+  UserTile(
+      this.path, this.title, this.subtitle1, this.subtitle2, this.subtitle3);
+
+  @override
+  _UserTileState createState() => _UserTileState();
+}
+
+class _UserTileState extends State<UserTile> {
+  int number = 0;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsetsDirectional.only(bottom: 10),
+      decoration: BoxDecoration(
+        color: Color(0xff181818),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: ListTile(
+        minVerticalPadding: 10,
+        leading: CircleAvatar(
+          radius: 20,
+          child: Image.asset(widget.path),
+        ),
+        title: Text(
+          widget.title,
+          style: TextStyle(color: Colors.white),
+        ),
+        subtitle: Row(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  widget.subtitle1,
+                  style: TextStyle(color: Colors.white60),
+                ),
+                Text(
+                  widget.subtitle2,
+                  style: TextStyle(color: Colors.white60),
+                ),
+                Text(
+                  widget.subtitle3,
+                  style: TextStyle(color: Colors.white60),
+                ),
+              ],
+            ),
+            BodyWidget()
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+//still working on it
+class BodyWidget extends StatefulWidget {
+  @override
+  ToggleWidget createState() => ToggleWidget();
+}
+
+class ToggleWidget extends State {
+  List<bool> selectionList = [true, false, false];
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: ToggleButtons(
+        children: <Widget>[
+          Icon(Icons.access_alarm_sharp),
+          Icon(Icons.add_location),
+          Icon(Icons.assignment_late),
+        ],
+        onPressed: (int index) {
+          setState(() {
+            for (int i = 0; i < selectionList.length; i++) {
+              if (i == index) {
+                selectionList[i] = true;
+              } else {
+                selectionList[i] = false;
+              }
+            }
+          });
+        },
+        isSelected: selectionList,
       ),
     );
   }
