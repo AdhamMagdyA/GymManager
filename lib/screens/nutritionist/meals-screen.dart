@@ -3,8 +3,12 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:gym_project/screens/nutritionist/view-meals-details-screen.dart';
 
+import 'meal-edit-form.dart';
+
 class MealsViewScreen extends StatefulWidget {
-  const MealsViewScreen({Key key}) : super(key: key);
+  bool isSelectionTime = false;
+
+  MealsViewScreen(this.isSelectionTime);
 
   @override
   MealsViewScreenState createState() => MealsViewScreenState();
@@ -116,6 +120,14 @@ class MealsViewScreenState extends State<MealsViewScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.isSelectionTime == true) {
+      _selectionMode = true;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
@@ -164,12 +176,12 @@ class MealsViewScreenState extends State<MealsViewScreen> {
                       Material(
                         elevation: 5.0,
                         borderRadius: BorderRadius.all(Radius.circular(30)),
-                        child: TextField(
+                        child: TextFormField(
                           controller: TextEditingController(),
                           cursorColor: Theme.of(context).primaryColor,
                           style: TextStyle(color: Colors.black, fontSize: 18),
                           decoration: InputDecoration(
-                            labelText: 'Search',
+                            hintText: 'Search..',
                             suffixIcon: Material(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(30)),
@@ -226,7 +238,7 @@ class MealsViewScreenState extends State<MealsViewScreen> {
                   crossAxisCount: 2,
                   mainAxisSpacing: 10,
                   crossAxisSpacing: 10,
-                  childAspectRatio: 0.8,
+                  childAspectRatio: widget.isSelectionTime ? 0.6 : 0.7,
                   children: _meals
                       .asMap()
                       .entries
@@ -244,6 +256,7 @@ class MealsViewScreenState extends State<MealsViewScreen> {
                             decrementMeal: decrementMeal,
                             selectedMealsNumber: selectedMealsNumber,
                             isSelected: isSelected,
+                            selectionTime: widget.isSelectionTime,
                           ))
                       .toList(),
                 ),
@@ -286,6 +299,7 @@ class MyChoosingGridViewCard extends StatefulWidget {
     @required this.decrementMeal,
     @required this.selectedMealsNumber,
     @required this.isSelected,
+    @required this.selectionTime,
   }) : super(key: key);
 
   final image;
@@ -297,6 +311,7 @@ class MyChoosingGridViewCard extends StatefulWidget {
 
   final int index;
   final bool selectionMode;
+  final bool selectionTime;
   final Function setSelectionMode;
   final Function incrementMeal;
   final Function decrementMeal;
@@ -323,14 +338,20 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
   Widget build(BuildContext context) {
     final double imageBorderRadius = widget.selectionMode ? 0 : 30;
     return GestureDetector(
-      onLongPress: () {
-        if (!widget.selectionMode) {
+      onTap: () {
+        if (!widget.selectionTime) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MealsDetailsScreen(),
+              ));
+        } else if (widget.selectionTime && !widget.selectionMode) {
           widget.setSelectionMode(true);
           widget.incrementMeal(widget.index);
         }
       },
       child: Container(
-        height: 200,
+        height: 900,
         width: 200,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
@@ -366,18 +387,20 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
                       icon: Icon(Icons.remove)),
                 ],
               ),
-            Container(
-              width: double.infinity,
-              height: widget.selectionMode ? 70 : 110,
-              padding: EdgeInsets.all(0),
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(imageBorderRadius),
-                  topLeft: Radius.circular(imageBorderRadius),
-                ),
-                child: Image.network(
-                  widget.image,
-                  fit: BoxFit.cover,
+            Expanded(
+              child: Container(
+                width: double.infinity,
+                height: widget.selectionMode ? 60 : 100,
+                padding: EdgeInsets.all(0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(imageBorderRadius),
+                    topLeft: Radius.circular(imageBorderRadius),
+                  ),
+                  child: Image.network(
+                    widget.image,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
@@ -404,7 +427,7 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
                     child: Column(
                       children: [
                         SizedBox(
-                          height: 20,
+                          height: 23,
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
@@ -419,7 +442,7 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
                           ),
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 23,
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
@@ -433,21 +456,21 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: 20,
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text(
-                              'Items: ${widget.items}',
-                              softWrap: false,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ),
+                        // SizedBox(
+                        //   height: 23,
+                        //   child: FittedBox(
+                        //     fit: BoxFit.scaleDown,
+                        //     child: Text(
+                        //       'Items: ${widget.items}',
+                        //       softWrap: false,
+                        //       style: TextStyle(
+                        //         fontWeight: FontWeight.bold,
+                        //         fontSize: 12,
+                        //         color: Colors.black,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                         // SizedBox(
                         //   height: 20,
                         //   child: FittedBox(
@@ -472,20 +495,99 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
                         //         )),
                         //   ),
                         // ),
-                        SizedBox(
-                          height: 20,
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text(
-                              'Created by:  ${widget.creator}',
-                              softWrap: false,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                                color: Colors.black,
+                        // SizedBox(
+                        //   height: 23,
+                        //   child: FittedBox(
+                        //     fit: BoxFit.scaleDown,
+                        //     child: Text(
+                        //       'Created by:  ${widget.creator}',
+                        //       softWrap: false,
+                        //       style: TextStyle(
+                        //         fontWeight: FontWeight.bold,
+                        //         fontSize: 12,
+                        //         color: Colors.black,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                        // SizedBox(
+                        //   height: 5,
+                        // ),
+                        !widget.selectionTime && !widget.selectionMode
+                            ? SizedBox(
+                                height: 21,
+                                child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Center(
+                                    child: FittedBox(
+                                      fit: BoxFit.contain,
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          shape: new RoundedRectangleBorder(
+                                            borderRadius:
+                                                new BorderRadius.circular(10.0),
+                                          ),
+                                          primary: Colors.amber,
+                                          onPrimary: Colors.black,
+                                        ),
+                                        child: Text(
+                                          'Edit',
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    EditMealForm(),
+                                              ));
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : SizedBox(
+                                height: 21,
+                                child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Center(
+                                    child: FittedBox(
+                                      fit: BoxFit.contain,
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          shape: new RoundedRectangleBorder(
+                                            borderRadius:
+                                                new BorderRadius.circular(16.0),
+                                          ),
+                                          primary: Colors.amber,
+                                          onPrimary: Colors.black,
+                                        ),
+                                        child: Text(
+                                          'Details',
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    MealsDetailsScreen(),
+                                              ));
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
+                        SizedBox(
+                          height: 10,
                         ),
                       ],
                     ),

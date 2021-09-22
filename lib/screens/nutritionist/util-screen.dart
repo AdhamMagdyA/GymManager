@@ -29,7 +29,7 @@ class _NutritionistUtilState extends State<NutritionistUtil>
       'title': 'Homepage',
     },
     {
-      'page': PlansViewScreen(),
+      'page': PlansViewScreen(false),
       'title': 'Plans',
     },
     {
@@ -62,36 +62,40 @@ class _NutritionistUtilState extends State<NutritionistUtil>
       appBar: AppBar(
         title: Text(
           _pages[_selectedIndex]['title'],
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Colors.black,
+        backgroundColor: Color(0xff181818),
         iconTheme: IconThemeData(color: Color(0xFFFFCE2B)),
       ),
       drawer: MyDrawer(),
       body: _pages[_selectedIndex]['page'],
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.black,
+        backgroundColor: Color(0xff181818),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
+            backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.timeline),
             label: 'Plans',
+            backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.book),
             label: 'Fitness Summaries',
+            backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.food_bank),
             label: 'Meals',
+            backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
+            icon: Icon(Icons.view_list),
             label: 'Others',
+            backgroundColor: Colors.black,
           ),
         ],
         currentIndex: _selectedIndex,

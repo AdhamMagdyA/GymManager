@@ -1,9 +1,14 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:gym_project/screens/common/view-exercises-details-screen.dart';
+import 'package:gym_project/screens/nutritionist/item-creation-form.dart';
+import 'package:gym_project/screens/nutritionist/view-items-details-screen.dart';
 
 class ItemsScreen extends StatefulWidget {
-  const ItemsScreen({Key key}) : super(key: key);
+  ItemsScreen(this.isSelectionTime, {Key key}) : super(key: key);
+
+  final bool isSelectionTime;
 
   @override
   ItemsScreenState createState() => ItemsScreenState();
@@ -59,8 +64,52 @@ class ItemsScreenState extends State<ItemsScreen> {
     },
   ];
 
-  bool _selectionMode = false;
+  bool _selectionMode;
   List<Map<int, int>> _numberOfSelectedInstances = [];
+  Map<int, Object> finalSelectedItems = {};
+  bool _argumentsLoaded = false;
+  List<Map<Object, Object>> oldSelectedExercise = [];
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_argumentsLoaded) {
+      oldSelectedExercise = ModalRoute.of(context).settings.arguments;
+      if (oldSelectedExercise.isNotEmpty) {
+        setState(() {
+          oldSelectedExercise.forEach((exercise) {
+            _numberOfSelectedInstances
+                .add({exercise['index'] as int: exercise['value'] as int});
+            _selectionMode = true;
+          });
+        });
+      }
+      _argumentsLoaded = true;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.isSelectionTime == true) {
+      _selectionMode = true;
+    } else {
+      _selectionMode = false;
+    }
+  }
+
+  void getFinalSelectedItems() {
+    int index = 0;
+    for (Map<int, int> selectedItem in _numberOfSelectedInstances) {
+      selectedItem.forEach((key, value) {
+        // print(sets[key]);
+        for (int i = 0; i < value; i++) {
+          finalSelectedItems[index] = _items[key];
+          index++;
+        }
+      });
+    }
+  }
 
   void setSelectionMode(bool value) {
     setState(() {
@@ -193,12 +242,12 @@ class ItemsScreenState extends State<ItemsScreen> {
                         child: Material(
                           elevation: 5.0,
                           borderRadius: BorderRadius.all(Radius.circular(30)),
-                          child: TextField(
+                          child: TextFormField(
                             controller: TextEditingController(),
                             cursorColor: Theme.of(context).primaryColor,
                             style: TextStyle(color: Colors.black, fontSize: 18),
                             decoration: InputDecoration(
-                              labelText: 'Search',
+                              hintText: 'Search..',
                               suffixIcon: Material(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(30)),
@@ -236,6 +285,7 @@ class ItemsScreenState extends State<ItemsScreen> {
                           setState(() {
                             _selectionMode = false;
                             _numberOfSelectedInstances.clear();
+                            finalSelectedItems.clear();
                           });
                         },
                         icon: CircleAvatar(
@@ -273,8 +323,9 @@ class ItemsScreenState extends State<ItemsScreen> {
                             decrementItem: decrementItem,
                             selectedItemsNumber: selectedItemsNumber,
                             isSelected: isSelected,
+                            selectionTime: widget.isSelectionTime,
                           ))
-                      .toList(),
+                      .toList()
                 ),
               ),
             ],
@@ -288,7 +339,9 @@ class ItemsScreenState extends State<ItemsScreen> {
                   style: ElevatedButton.styleFrom(primary: Color(0xFFFFCE2B)),
                   child: Text('Submit'),
                   onPressed: () {
-                    Navigator.pop(context);
+                    getFinalSelectedItems();
+                    // Navigator.pop(context, finalSelectedItems);
+                    print(finalSelectedItems);
                   },
                 ),
               ),
@@ -314,6 +367,7 @@ class MyChoosingGridViewCard extends StatefulWidget {
     @required this.decrementItem,
     @required this.selectedItemsNumber,
     @required this.isSelected,
+    @required this.selectionTime,
   }) : super(key: key);
 
   final image;
@@ -329,6 +383,7 @@ class MyChoosingGridViewCard extends StatefulWidget {
   final Function decrementItem;
   final Function selectedItemsNumber;
   final Function isSelected;
+  final bool selectionTime;
 
   @override
   _MyChoosingGridViewCardState createState() => _MyChoosingGridViewCardState();
@@ -350,162 +405,256 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
   Widget build(BuildContext context) {
     final double imageBorderRadius = widget.selectionMode ? 0 : 30;
     return GestureDetector(
-      onLongPress: () {
-        if (!widget.selectionMode) {
+      onTap: () {
+        if (!widget.selectionTime) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => ItemsDetailsScreen()));
+        } else if (widget.selectionTime && !widget.selectionMode) {
           widget.setSelectionMode(true);
           widget.incrementItem(widget.index);
         }
       },
-      child: Container(
-        height: 200,
-        width: 200,
-        decoration: BoxDecoration(
+      child: LayoutBuilder(
+        builder: (context, constraints) => ClipRRect(
           borderRadius: BorderRadius.circular(30),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey,
-              blurRadius: 6.0,
-            ),
-          ],
-          color: widget.isSelected(widget.index)
-              ? Colors.blue.withOpacity(0.5)
-              : Colors.white,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            if (widget.selectionMode)
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                      onPressed: () => widget.incrementItem(widget.index),
-                      icon: Icon(Icons.add)),
-                  Text(
-                    '${widget.selectedItemsNumber(widget.index)}',
-                    style: TextStyle(color: Colors.black),
-                  ),
-                  IconButton(
-                      onPressed: !widget.isSelected(widget.index)
-                          ? null
-                          : () => widget.decrementItem(widget.index),
-                      icon: Icon(Icons.remove)),
-                ],
-              ),
-            Container(
-              width: double.infinity,
-              height: widget.selectionMode ? 70 : 110,
-              padding: EdgeInsets.all(0),
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(imageBorderRadius),
-                  topLeft: Radius.circular(imageBorderRadius),
-                ),
-                child: Image.network(
-                  widget.image,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            Expanded(
-              child: Stack(
-                children: [
-                  ClipPath(
-                    clipper: ClipPathClass(),
-                    child: Container(
-                      height: double.infinity,
-                      width: double.infinity,
-                      color: mapLevelToColor(widget.level).withOpacity(0.6),
+          child: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey,
+                      blurRadius: 6.0,
                     ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(3),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(30),
-                        bottomRight: Radius.circular(30),
+                  ],
+                  color: widget.isSelected(widget.index)
+                      ? Colors.blue.withOpacity(0.5)
+                      : Colors.white,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    if (widget.selectionMode)
+                      SizedBox(
+                        height: constraints.maxHeight * 0.2,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                                onPressed: () =>
+                                    widget.incrementItem(widget.index),
+                                icon: Icon(Icons.add)),
+                            Text(
+                              '${widget.selectedItemsNumber(widget.index)}',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            IconButton(
+                                onPressed: !widget.isSelected(widget.index)
+                                    ? null
+                                    : () => widget.decrementItem(widget.index),
+                                icon: Icon(Icons.remove)),
+                          ],
+                        ),
+                      ),
+                    Container(
+                      width: double.infinity,
+                      height: constraints.maxHeight *
+                          (widget.selectionMode ? 0.3 : 0.5),
+                      padding: EdgeInsets.all(0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(imageBorderRadius),
+                          topLeft: Radius.circular(imageBorderRadius),
+                        ),
+                        child: Image.network(
+                          widget.image,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                    width: double.infinity,
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 20,
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text(
-                              widget.title,
-                              softWrap: false,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                                color: Colors.black,
-                              ),
-                            ),
+                    Expanded(
+                      child: Container(
+                        padding: EdgeInsets.all(3),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(30),
+                            bottomRight: Radius.circular(30),
                           ),
                         ),
-                        SizedBox(
-                          height: 20,
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text(
-                              'Calories: ${widget.calories}',
-                              softWrap: false,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                                color: Colors.black,
+                        width: double.infinity,
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: constraints.maxHeight * 0.5 / 5,
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  widget.title,
+                                  softWrap: false,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    color: Colors.black,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                        // SizedBox(
-                        //   height: 20,
-                        //   child: FittedBox(
-                        //     fit: BoxFit.scaleDown,
-                        //     child: RichText(
-                        //         softWrap: false,
-                        //         text: TextSpan(
-                        //           text: 'Level: ',
-                        //           style: TextStyle(
-                        //             fontWeight: FontWeight.bold,
-                        //             fontSize: 12,
-                        //             color: Colors.black,
-                        //           ),
-                        //           children: [
-                        //             TextSpan(
-                        //               text: widget.level,
-                        //               style: TextStyle(
-                        //                 color: mapLevelToColor(widget.level),
-                        //               ),
-                        //             )
-                        //           ],
-                        //         )),
-                        //   ),
-                        // ),
-                        SizedBox(
-                          height: 20,
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text(
-                              'Created by:  ${widget.creator}',
-                              softWrap: false,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                                color: Colors.black,
+                            SizedBox(
+                              height: constraints.maxHeight * 0.5 / 5,
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  'Calories: ${widget.calories}',
+                                  softWrap: false,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                    color: Colors.black,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
+                            // SizedBox(
+                            //   height: 20,
+                            //   child: FittedBox(
+                            //     fit: BoxFit.scaleDown,
+                            //     child: RichText(
+                            //         softWrap: false,
+                            //         text: TextSpan(
+                            //           text: 'Level: ',
+                            //           style: TextStyle(
+                            //             fontWeight: FontWeight.bold,
+                            //             fontSize: 12,
+                            //             color: Colors.black,
+                            //           ),
+                            //           children: [
+                            //             TextSpan(
+                            //               text: widget.level,
+                            //               style: TextStyle(
+                            //                 color: mapLevelToColor(widget.level),
+                            //               ),
+                            //             )
+                            //           ],
+                            //         )),
+                            //   ),
+                            // ),
+                            SizedBox(
+                              height: constraints.maxHeight * 0.5 / 5,
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  'Created by:  ${widget.creator}',
+                                  softWrap: false,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: constraints.maxHeight * 0.5 / 10),
+                            //add condition for edit button
+                            !widget.selectionTime && !widget.selectionMode
+                                ? SizedBox(
+                                    height: constraints.maxHeight * 0.5 / 5,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        shape: new RoundedRectangleBorder(
+                                          borderRadius:
+                                              new BorderRadius.circular(10.0),
+                                        ),
+                                        primary: Colors.amber,
+                                        onPrimary: Colors.black,
+                                      ),
+                                      child: Text(
+                                        'Edit',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CreateItemForm(),
+                                            ));
+                                      },
+                                    ),
+                                  )
+                                : SizedBox(
+                                    height: constraints.maxHeight * 0.5 / 5,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        shape: new RoundedRectangleBorder(
+                                          borderRadius:
+                                              new BorderRadius.circular(16.0),
+                                        ),
+                                        primary: Colors.amber,
+                                        onPrimary: Colors.black,
+                                      ),
+                                      child: Text(
+                                        'Details',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ItemsDetailsScreen(),
+                                            ));
+                                      },
+                                    ),
+                                  ),
+                          ],
                         ),
-                      ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              ClipPath(
+                clipper: ClipPathClass(),
+                child: Container(
+                  height: double.infinity,
+                  width: double.infinity,
+                  color: mapLevelToColor(widget.level).withOpacity(0.8),
+                ),
+              ),
+              Positioned(
+                top: constraints.maxHeight * 0.04,
+                right: constraints.maxHeight * 0.04,
+                child: Transform.rotate(
+                  angle: pi / 4,
+                  child: Container(
+                    width: constraints.maxWidth * 0.15,
+                    height: constraints.maxWidth * 0.15,
+                    alignment: Alignment.topCenter,
+                    color: Colors.transparent,
+                    child: SizedBox(
+                      height: constraints.maxWidth * 0.08,
+                      child: FittedBox(
+                        fit: BoxFit.contain,
+                        child: Text(
+                          widget.level[0].toUpperCase() +
+                              widget.level.substring(1),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
                     ),
                   ),
-                ],
-              ),
-            )
-          ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -516,20 +665,21 @@ class ClipPathClass extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     var path = Path();
-    path.moveTo(size.width - 50, size.height);
-    path.lineTo(size.width - 30, size.height);
+    path.moveTo(size.width - size.width * 0.25, 0);
+    path.lineTo(size.width - size.width * 0.15, 0);
 
-    var controlPoint = Offset(size.width - 1, size.height - 1);
-    var point = Offset(size.width, size.height - 30);
-    path.quadraticBezierTo(
-      controlPoint.dx,
-      controlPoint.dy,
-      point.dx,
-      point.dy,
-    );
+    // var controlPoint = Offset(size.width - 1, size.height - 1);
+    // var point = Offset(size.width, size.height - 30);
+    // path.quadraticBezierTo(
+    //   controlPoint.dx,
+    //   controlPoint.dy,
+    //   point.dx,
+    //   point.dy,
+    // );
 
-    path.lineTo(size.width, size.height - 50);
-    path.lineTo(size.width - 50, size.height);
+    path.lineTo(size.width, size.width * 0.15);
+    path.lineTo(size.width, size.width * 0.25);
+    path.lineTo(size.width - size.width * 0.25, 0);
     // path.close();
 
     return path;

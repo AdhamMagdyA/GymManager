@@ -55,6 +55,7 @@ import 'package:gym_project/screens/admin/util-screen.dart';
 import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
 import 'package:gym_project/screens/member/member_profile.dart';
 import 'package:gym_project/screens/member/workout-summery/workout-summeries.dart';
+import 'package:gym_project/screens/common/view-exercises-details-screen.dart';
 import 'package:gym_project/screens/nutritionist/items_screen.dart';
 import 'package:gym_project/screens/member/view-private-sessions.dart';
 import 'package:gym_project/screens/my_choosing_gridview_screen.dart';
@@ -64,6 +65,8 @@ import 'package:gym_project/screens/nutritionist/meals-screen.dart';
 import 'package:gym_project/screens/nutritionist/nutritionist%20_profile.dart';
 import 'package:gym_project/screens/nutritionist/plans-screen.dart';
 import 'package:gym_project/screens/nutritionist/util-screen.dart';
+import 'package:gym_project/screens/nutritionist/view-items-details-screen.dart';
+import 'package:gym_project/screens/nutritionist/view-meals-details-screen.dart';
 import 'package:gym_project/screens/questions/add-question-screen.dart';
 import 'package:gym_project/screens/questions/questions-screen.dart';
 import 'package:gym_project/screens/questions/single-question.dart';
@@ -158,6 +161,10 @@ class MyApp extends StatelessWidget {
         //announcements routes
         '/announcements': (context) => AnnouncementsScreen(),
         '/create-announcement': (context) => AddAnnouncementScreen(),
+
+        //coach profile
+        '/coach/profile': (context) => CoachProfile(),
+        // '/coach/schedule': (context) => CoachSchedule(),
         // exercises
         ExercisesScreen.routeName: (context) => ExercisesScreen(false),
         //exercises routes
@@ -182,17 +189,17 @@ class MyApp extends StatelessWidget {
         // '/edit-private-session': (context) => EditPrivateSessionForm(),
 
         //items routes
-        '/items': (context) => ItemsScreen(),
+        '/items': (context) => ItemsScreen(false),
         // '/create-item': (context) => CreateItemForm(),
         // '/edit-item': (context) => EditItemForm()
 
         //meals routes
-        '/meals': (context) => MealsViewScreen(),
+        '/meals': (context) => MealsViewScreen(false),
         // '/create-meal': (context) => CreateMealForm(),
         // '/edit-meal': (context) => EditMealForm(),
 
         //plans routes
-        '/plans': (context) => PlansViewScreen(),
+        '/plans': (context) => PlansViewScreen(false),
         // '/create-plan': (context) => CreatePlanForm(),
         // '/edit-plan': (context) => EditPlanForm(),
       },
