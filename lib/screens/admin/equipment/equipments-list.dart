@@ -197,7 +197,7 @@ class EquipmentListSelectableState extends State<EquipmentListSelectable> {
                           cursorColor: Theme.of(context).primaryColor,
                           style: TextStyle(color: Colors.black, fontSize: 18),
                           decoration: InputDecoration(
-                            labelText: 'Search',
+                            hintText: "Search...",
                             suffixIcon: Material(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(30)),
