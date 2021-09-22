@@ -48,25 +48,19 @@ class _LoginState extends State<Login> {
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<User>(context, listen: false).setRole(role);
       if (role == 'admin') {
-        Navigator.pushReplacement(
+        Navigator.pushReplacementNamed(
           context,
-          MaterialPageRoute(builder: (context) => AdminUtil()),
+          '/admin/util',
         );
       } else if (role == 'coach') {
-        Navigator.pushReplacement(
+        Navigator.pushReplacementNamed(
           context,
-          MaterialPageRoute(builder: (context) => CoachTabsScreen()),
+          '/coach/util',
         );
       } else if (role == 'nutritionist') {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => NutritionistUtil()),
-        );
+        Navigator.pushReplacementNamed(context, '/nutritionist/util');
       } else if (role == 'member') {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => MemberUtil()),
-        );
+        Navigator.pushReplacementNamed(context, '/member/util');
       }
     });
     super.didChangeDependencies();
