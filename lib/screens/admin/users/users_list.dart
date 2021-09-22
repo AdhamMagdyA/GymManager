@@ -55,16 +55,16 @@ class _UsersListState extends State<UsersList>
                 controller: _myTabController,
                 tabs: [
                   Tab(
-                    text: 'all',
+                    text: 'All',
                   ),
                   Tab(
-                    text: 'members',
+                    text: 'Members',
                   ),
                   Tab(
-                    text: 'coaches',
+                    text: 'Coaches',
                   ),
                   Tab(
-                    text: 'nutritionists',
+                    text: 'Nutritionists',
                   )
                 ]),
           ),
