@@ -56,7 +56,6 @@ class WeekGroups extends StatelessWidget {
           'Week Groups',
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: Color(0xff181818),
         iconTheme: IconThemeData(color: Color(0xFFFFCE2B)),
       ),
       drawer: MyDrawer(),
@@ -130,14 +129,12 @@ class _CustomListTileWithTitleAndTrailingState
     return Container(
       margin: EdgeInsetsDirectional.only(bottom: 10),
       decoration: BoxDecoration(
-        color: Color(0xff181818),
+        color: Color(0xff444444),
         borderRadius: BorderRadius.circular(16),
       ),
       child: ListTile(
-        tileColor: Color(0xff181818),
         minVerticalPadding: 10,
         leading: CircleAvatar(
-          backgroundColor: Color(0xff181818),
           radius: 20,
           child: ClipRRect(
               borderRadius: BorderRadius.circular(100),
@@ -150,11 +147,31 @@ class _CustomListTileWithTitleAndTrailingState
           widget.title,
           style: TextStyle(color: Colors.white),
         ),
+        subtitle: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => GroupDetailsScreen(),
+                    ),
+                  );
+                },
+                child: Text(
+                  'View Group Details',
+                  style: TextStyle(color: Theme.of(context).primaryColor),
+                ),
+              ),
+            ],
+          ),
         trailing: Container(
             height: 200,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                SizedBox(height: 5),
                 Expanded(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -174,21 +191,10 @@ class _CustomListTileWithTitleAndTrailingState
                   ),
                 ),
                 SizedBox(height: 5),
-                Expanded(
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => GroupDetailsScreen(),
-                        ),
-                      );
-                    },
-                    child: Text(
-                      'View Group Details',
-                      style: TextStyle(color: Theme.of(context).primaryColor),
-                    ),
-                  ),
-                ),
+                // Expanded(
+                //   child: Container(),
+                // ),
+                SizedBox(height: 5),
               ],
             ),
           )
