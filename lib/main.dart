@@ -187,7 +187,7 @@ class MyApp extends StatelessWidget {
         // '/edit-meal': (context) => EditMealForm(),
 
         //plans routes
-        '/plans': (context) => PlansViewScreen(),
+        '/plans': (context) => PlansViewScreen(false),
         // '/create-plan': (context) => CreatePlanForm(),
         // '/edit-plan': (context) => EditPlanForm(),
       },

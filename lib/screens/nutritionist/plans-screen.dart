@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/screens/nutritionist/plan-edit-form.dart';
 import 'package:gym_project/screens/nutritionist/view-plans-details-screen.dart';
 
 class PlansViewScreen extends StatefulWidget {
+  bool isSelectionTime = false;
+
+  PlansViewScreen(this.isSelectionTime);
   @override
   _PlansViewScreenState createState() => _PlansViewScreenState();
 
@@ -85,7 +89,8 @@ class _PlansViewScreenState extends State<PlansViewScreen> {
                             'Description: ' +
                                 widget.plans[index]['description'],
                             'Duration: ' + widget.plans[index]['duration'],
-                            index);
+                            index,
+                            widget.isSelectionTime);
                       }),
                 ],
               ),
@@ -127,8 +132,8 @@ class _PlansViewScreenState extends State<PlansViewScreen> {
     );
   }
 
-  Widget myListTile(
-      String title, String description, String duration, int index) {
+  Widget myListTile(String title, String description, String duration,
+      int index, bool selectionTime) {
     return Container(
       margin: EdgeInsetsDirectional.only(bottom: 10),
       decoration: BoxDecoration(
@@ -165,7 +170,7 @@ class _PlansViewScreenState extends State<PlansViewScreen> {
               duration,
               style: TextStyle(color: Colors.white24),
             ),
-            if (PlansViewScreen.whoIsSelected != -1)
+            if (selectionTime)
               TextButton(
                 child: Text(
                   'Details',
@@ -185,6 +190,47 @@ class _PlansViewScreenState extends State<PlansViewScreen> {
               ),
           ],
         ),
+        trailing: !selectionTime
+            ? Column(
+                children: [
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditPlanForm()));
+                      },
+                      child: Text(
+                        'Edit',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.yellow,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 6),
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditPlanForm()));
+                      },
+                      child: Text('Delete',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red,
+                          )),
+                    ),
+                  ),
+                ],
+              )
+            : null,
       ),
     );
   }
