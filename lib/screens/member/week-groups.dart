@@ -51,15 +51,6 @@ class WeekGroups extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Week Groups',
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Color(0xff181818),
-        iconTheme: IconThemeData(color: Color(0xFFFFCE2B)),
-      ),
-      drawer: MyDrawer(),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(10),
         child: Column(
@@ -134,23 +125,23 @@ class _CustomListTileWithTitleAndTrailingState
         borderRadius: BorderRadius.circular(16),
       ),
       child: ListTile(
-        tileColor: Color(0xff181818),
-        minVerticalPadding: 10,
-        leading: CircleAvatar(
-          backgroundColor: Color(0xff181818),
-          radius: 20,
-          child: ClipRRect(
-              borderRadius: BorderRadius.circular(100),
-              child: Image.asset(
-                widget.path,
-                fit: BoxFit.cover,
-              )),
-        ),
-        title: Text(
-          widget.title,
-          style: TextStyle(color: Colors.white),
-        ),
-        trailing: Container(
+          tileColor: Color(0xff181818),
+          minVerticalPadding: 10,
+          leading: CircleAvatar(
+            backgroundColor: Color(0xff181818),
+            radius: 20,
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: Image.asset(
+                  widget.path,
+                  fit: BoxFit.cover,
+                )),
+          ),
+          title: Text(
+            widget.title,
+            style: TextStyle(color: Colors.white),
+          ),
+          trailing: Container(
             height: 200,
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -191,8 +182,7 @@ class _CustomListTileWithTitleAndTrailingState
                 ),
               ],
             ),
-          )
-      ),
+          )),
     );
   }
 }
