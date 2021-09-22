@@ -28,7 +28,7 @@ class _NutritionistUtilState extends State<NutritionistUtil>
       'title': 'Homepage',
     },
     {
-      'page': PlansViewScreen(),
+      'page': PlansViewScreen(false),
       'title': 'Plans',
     },
     {

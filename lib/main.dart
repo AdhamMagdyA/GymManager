@@ -179,12 +179,12 @@ class MyApp extends StatelessWidget {
         // '/edit-item': (context) => EditItemForm()
 
         //meals routes
-        '/meals': (context) => MealsViewScreen(),
+        '/meals': (context) => MealsViewScreen(false),
         // '/create-meal': (context) => CreateMealForm(),
         // '/edit-meal': (context) => EditMealForm(),
 
         //plans routes
-        '/plans': (context) => PlansViewScreen(),
+        '/plans': (context) => PlansViewScreen(false),
         // '/create-plan': (context) => CreatePlanForm(),
         // '/edit-plan': (context) => EditPlanForm(),
       },

@@ -238,7 +238,7 @@ class MealsViewScreenState extends State<MealsViewScreen> {
                   crossAxisCount: 2,
                   mainAxisSpacing: 10,
                   crossAxisSpacing: 10,
-                  childAspectRatio: 1,
+                  childAspectRatio: widget.isSelectionTime ? 0.6 : 0.7,
                   children: _meals
                       .asMap()
                       .entries
@@ -351,7 +351,7 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
         }
       },
       child: Container(
-        height: 700,
+        height: 900,
         width: 200,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
@@ -387,18 +387,20 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
                       icon: Icon(Icons.remove)),
                 ],
               ),
-            Container(
-              width: double.infinity,
-              height: widget.selectionMode ? 70 : 110,
-              padding: EdgeInsets.all(0),
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(imageBorderRadius),
-                  topLeft: Radius.circular(imageBorderRadius),
-                ),
-                child: Image.network(
-                  widget.image,
-                  fit: BoxFit.cover,
+            Expanded(
+              child: Container(
+                width: double.infinity,
+                height: widget.selectionMode ? 60 : 100,
+                padding: EdgeInsets.all(0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(imageBorderRadius),
+                    topLeft: Radius.circular(imageBorderRadius),
+                  ),
+                  child: Image.network(
+                    widget.image,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
@@ -454,21 +456,21 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: 23,
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text(
-                              'Items: ${widget.items}',
-                              softWrap: false,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ),
+                        // SizedBox(
+                        //   height: 23,
+                        //   child: FittedBox(
+                        //     fit: BoxFit.scaleDown,
+                        //     child: Text(
+                        //       'Items: ${widget.items}',
+                        //       softWrap: false,
+                        //       style: TextStyle(
+                        //         fontWeight: FontWeight.bold,
+                        //         fontSize: 12,
+                        //         color: Colors.black,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                         // SizedBox(
                         //   height: 20,
                         //   child: FittedBox(
@@ -493,24 +495,24 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
                         //         )),
                         //   ),
                         // ),
-                        SizedBox(
-                          height: 23,
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text(
-                              'Created by:  ${widget.creator}',
-                              softWrap: false,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
+                        // SizedBox(
+                        //   height: 23,
+                        //   child: FittedBox(
+                        //     fit: BoxFit.scaleDown,
+                        //     child: Text(
+                        //       'Created by:  ${widget.creator}',
+                        //       softWrap: false,
+                        //       style: TextStyle(
+                        //         fontWeight: FontWeight.bold,
+                        //         fontSize: 12,
+                        //         color: Colors.black,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                        // SizedBox(
+                        //   height: 5,
+                        // ),
                         !widget.selectionTime && !widget.selectionMode
                             ? SizedBox(
                                 height: 21,
