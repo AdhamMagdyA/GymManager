@@ -123,11 +123,15 @@ class WorkoutSummaries extends StatelessWidget {
   Widget FitnessSummaryWidget(BuildContext context, dynamic fitSum) {
     return GestureDetector(
       child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        color: Colors.black,
         child: Container(
           decoration: BoxDecoration(
             color: Colors.black,
-            border: Border.all(color: Colors.black12),
-            borderRadius: BorderRadius.all(Radius.circular(10)),
+            border: Border.all(color: Colors.black),
+            borderRadius: BorderRadius.all(Radius.circular(15)),
           ),
           // width: 400,
           // decoration: BoxDecoration(border: Border.all(color: Colors.black26)),

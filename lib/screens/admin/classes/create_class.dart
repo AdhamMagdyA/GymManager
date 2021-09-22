@@ -10,7 +10,7 @@ class CreateClassForm extends StatefulWidget {
 
 class _CreateClassFormState extends State<CreateClassForm>
     with SingleTickerProviderStateMixin {
-  bool _status = true;
+  bool _status = false;
   final FocusNode myFocusNode = FocusNode();
 
   @override
@@ -21,6 +21,21 @@ class _CreateClassFormState extends State<CreateClassForm>
 
   @override
   Widget build(BuildContext context) {
+    DateTime selectedDate = DateTime.now();
+    _selectDate(BuildContext context) async {
+      final DateTime selected = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2010),
+        lastDate: DateTime(2025),
+      );
+      if (selected != null && selected != selectedDate)
+        setState(() {
+          selectedDate = selected;
+          _status = true;
+        });
+    }
+
     return new Scaffold(
       body: SafeArea(
         child: new Container(
@@ -374,49 +389,52 @@ class _CreateClassFormState extends State<CreateClassForm>
                                 ],
                               )),
                           Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 25.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                new Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    new Text(
-                                      'Date',
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
+                              padding: EdgeInsets.only(
+                                  left: 25.0, right: 25.0, top: 25.0),
+                              child: new Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: <Widget>[
+                                  new Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      new Text(
+                                        'Date ',
+                                        style: TextStyle(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
+                                    ],
+                                  ),
+                                ],
+                              )),
                           Padding(
                               padding: EdgeInsets.only(
                                   left: 25.0, right: 25.0, top: 2.0),
                               child: new Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children: <Widget>[
-                                  new Flexible(
-                                    child: Container(
-                                      height: 200,
-                                      child: CupertinoDatePicker(
-                                        mode: CupertinoDatePickerMode.date,
-                                        initialDateTime: DateTime(2021, 1, 1),
-                                        onDateTimeChanged:
-                                            (DateTime newDateTime) {
-                                          // Do something
-                                        },
-                                      ),
-                                    ),
+                                  RaisedButton(
+                                    onPressed: () {
+                                      _selectDate(context);
+                                    },
+                                    color: Color(0xFFFFCE2B),
+                                    child: Text("Choose Date"),
+                                    //focusNode: !_status,
                                   ),
                                 ],
                               )),
+                          Padding(
+                            padding: EdgeInsets.only(left: 25.0),
+                            child: _status
+                                ? Text(
+                                    "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}",
+                                    style: TextStyle(color: Colors.black),
+                                  )
+                                : SizedBox(),
+                          ),
                           Padding(
                             padding: EdgeInsets.only(
                                 left: 95.0, bottom: 0, right: 95.0, top: 50.0),
