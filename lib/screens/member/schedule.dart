@@ -300,7 +300,7 @@ class EventsSchedule extends StatelessWidget {
               itemBuilder: (ctx, index) {
                 return InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, '/events');
+                    Navigator.pushNamed(context, '/event-details');
                   },
                   child: CustomListTileWithoutCounter(
                       'assets/images/user_icon.png',
@@ -360,9 +360,7 @@ class NutritionistsSessionsSchedule extends StatelessWidget {
               itemCount: length,
               itemBuilder: (ctx, index) {
                 return InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/user-details');
-                  },
+                  onTap: () {},
                   child: CustomListTileWithoutCounter(
                       'assets/images/user_icon.png',
                       this._titles[index],
@@ -422,7 +420,7 @@ class PrivateSessionsSchedule extends StatelessWidget {
               itemBuilder: (ctx, index) {
                 return InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, '/user-details');
+                    Navigator.pushNamed(context, '/session-details');
                   },
                   child: CustomListTileWithoutCounter(
                       'assets/images/user_icon.png',

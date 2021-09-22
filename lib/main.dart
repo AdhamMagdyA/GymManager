@@ -53,6 +53,7 @@ import 'package:gym_project/screens/admin/users/edit_user.dart';
 import 'package:gym_project/screens/admin/users/user_details.dart';
 import 'package:gym_project/screens/admin/util-screen.dart';
 import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
+import 'package:gym_project/screens/common/view-private-session-details.dart';
 import 'package:gym_project/screens/member/member_profile.dart';
 import 'package:gym_project/screens/member/workout-summery/workout-summeries.dart';
 import 'package:gym_project/screens/common/view-exercises-details-screen.dart';
@@ -145,6 +146,7 @@ class MyApp extends StatelessWidget {
 
         //Events routes
         '/events': (context) => EventListView(),
+        '/event-details': (context) => EventDetailsScreen(),
         '/create-event': (context) => EventForm(),
         '/edit-event': (context) => EventForm(),
 
@@ -189,6 +191,7 @@ class MyApp extends StatelessWidget {
 
         //private session routes
         '/private-sessions': (context) => ViewPrivateSessionsScreen(),
+        '/session-details': (context) => PrivateSessionDetailsScreen(),
         // '/create-private-session': (context) => CreatePrivateSessionForm(),
         // '/edit-private-session': (context) => EditPrivateSessionForm(),
 
