@@ -1,23 +1,22 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:gym_project/screens/coach/sets/view-sets.dart';
-import 'package:gym_project/screens/coach/exercises/exercises_screen.dart';
+import 'package:gym_project/screens/nutritionist/meals-screen.dart';
 
-class CreateGroupForm extends StatefulWidget {
+Map selectedEquipment = {};
+
+class EditPlanForm extends StatefulWidget {
   @override
   MapScreenState createState() => MapScreenState();
 }
 
-List<Map> selectedSets = [];
-List<Map> selectedExercises = [];
-
 //you can change the form heading from line 51,93
 //you can change the form fields from lines (119 ,138 , etc ) -> each padding represent a field
-class MapScreenState extends State<CreateGroupForm>
+class MapScreenState extends State<EditPlanForm>
     with SingleTickerProviderStateMixin {
   bool _status = true;
   final FocusNode myFocusNode = FocusNode();
-  Map<int, Object> selectedGroups = {};
 
   @override
   void initState() {
@@ -30,6 +29,7 @@ class MapScreenState extends State<CreateGroupForm>
 
   @override
   Widget build(BuildContext context) {
+    print(selectedEquipment);
     return new Scaffold(
       body: SafeArea(
         child: new Container(
@@ -61,7 +61,7 @@ class MapScreenState extends State<CreateGroupForm>
                                 Padding(
                                   padding: EdgeInsets.only(left: 25.0),
                                   //-->header
-                                  child: new Text('Create Group',
+                                  child: new Text('Create Plan',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20.0,
@@ -104,7 +104,7 @@ class MapScreenState extends State<CreateGroupForm>
                                     children: <Widget>[
                                       new Text(
                                         //---> topic
-                                        'Group Information',
+                                        'Plan Information',
                                         style: TextStyle(
                                           fontSize: 18.0,
                                           fontWeight: FontWeight.bold,
@@ -149,9 +149,10 @@ class MapScreenState extends State<CreateGroupForm>
                                 mainAxisSize: MainAxisSize.max,
                                 children: <Widget>[
                                   new Flexible(
-                                    child: new TextField(
+                                    child: new TextFormField(
                                       decoration: const InputDecoration(
-                                          hintText: "Enter Your Title"),
+                                          hintText: "Enter Title"),
+                                      initialValue: 'aa',
                                     ),
                                   ),
                                 ],
@@ -185,10 +186,11 @@ class MapScreenState extends State<CreateGroupForm>
                                 mainAxisSize: MainAxisSize.max,
                                 children: <Widget>[
                                   new Flexible(
-                                    child: new TextField(
+                                    child: new TextFormField(
                                       decoration: const InputDecoration(
                                         hintText: "Enter Your Description",
                                       ),
+                                      initialValue: 'desc',
                                     ),
                                   ),
                                 ],
@@ -204,7 +206,7 @@ class MapScreenState extends State<CreateGroupForm>
                                     mainAxisSize: MainAxisSize.min,
                                     children: <Widget>[
                                       new Text(
-                                        'Exercises',
+                                        'Duration ',
                                         style: TextStyle(
                                           fontSize: 16.0,
                                           fontWeight: FontWeight.bold,
@@ -215,146 +217,43 @@ class MapScreenState extends State<CreateGroupForm>
                                   ),
                                 ],
                               )),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                new Flexible(
-                                  child: Center(
-                                      child: ElevatedButton(
-                                    child: Text('Choose Exercises'),
-                                    style: ElevatedButton.styleFrom(
-                                        primary: Colors.amber,
-                                        onPrimary: Colors.black,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                        )),
-                                    onPressed: () async {
-                                      Map<int, Object> result =
-                                          await Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ExercisesScreen(true),
-                                              ));
-                                      if (result.isNotEmpty) {
-                                        setState(() {
-                                          // selectedSets = result;
-
-                                          for (var value in result.values) {
-                                            var newValue = value as Map;
-                                            selectedExercises.add(newValue);
-                                          }
-
-                                          print('result is');
-                                          print(selectedExercises);
-                                        });
-                                      }
-                                    },
-                                  )),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          if (selectedExercises.isNotEmpty)
-                            ReorderableListView(
-                              shrinkWrap: true,
-                              children: <Widget>[
-                                for (int index = 0;
-                                    index < selectedExercises.length;
-                                    index++)
-                                  CustomExerciseListTile(Key(index.toString()),
-                                      selectedExercises[index], refresh),
-                              ],
-                              onReorder: (int oldIndex, int newIndex) {
-                                setState(() {
-                                  if (oldIndex < newIndex) {
-                                    newIndex -= 1;
-                                  }
-                                  final Map item =
-                                      selectedExercises.removeAt(oldIndex);
-                                  selectedExercises.insert(newIndex, item);
-                                });
-                              },
-                            ),
                           Padding(
                               padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 25.0),
+                                  left: 25.0, right: 25.0, top: 2.0),
                               child: new Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children: <Widget>[
-                                  new Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      new Text(
-                                        'Sets',
-                                        style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ],
+                                  new Flexible(
+                                    child: new TextFormField(
+                                      decoration: const InputDecoration(
+                                          hintText: "Enter Duration "),
+                                      initialValue: 'dddd',
+                                    ),
                                   ),
                                 ],
                               )),
                           SizedBox(
-                            height: 15,
+                            height: 10,
                           ),
-                          //for choosing
                           Padding(
                             padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
+                                left: 25.0, right: 25.0, top: 25.0),
                             child: new Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
-                                new Flexible(
-                                  child: Center(
-                                    child: ElevatedButton(
-                                        child: Text('Choose Sets'),
-                                        style: ElevatedButton.styleFrom(
-                                            primary: Colors.amber,
-                                            onPrimary: Colors.black,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(16),
-                                            )),
-                                        onPressed: () async {
-                                          print('I was pressed!');
-                                          Map<int, Object> result =
-                                              await Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        ViewSetsScreen(true),
-                                                  ));
-                                          if (result.isNotEmpty) {
-                                            setState(() {
-                                              // selectedSets = result;
-
-                                              for (var value in result.values) {
-                                                var newValue = value as Map;
-                                                selectedSets.add(newValue);
-                                              }
-
-                                              print('result is');
-                                              print(selectedSets);
-                                            });
-                                          }
-
-                                          //when we get result, display them under the button
-                                        }),
-                                  ),
+                                new Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    new Text(
+                                      'Meals',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -362,27 +261,48 @@ class MapScreenState extends State<CreateGroupForm>
                           SizedBox(
                             height: 10,
                           ),
-                          if (selectedSets.isNotEmpty)
-                            ReorderableListView(
-                              shrinkWrap: true,
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: 25.0, right: 25.0, top: 2.0),
+                            child: new Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
-                                for (int index = 0;
-                                    index < selectedSets.length;
-                                    index++)
-                                  CustomSetListTile(Key(index.toString()),
-                                      selectedSets[index], refresh),
+                                new Flexible(
+                                  child: ElevatedButton(
+                                      child: Text(
+                                        'Choose Meals',
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                          textStyle: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          primary: Colors.amber,
+                                          onPrimary: Colors.black,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(16),
+                                          )),
+                                      onPressed: () async {
+                                        Map result = await Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MealsViewScreen(true),
+                                            ));
+                                        setState(() {
+                                          selectedEquipment = result;
+                                          print(selectedEquipment);
+                                        });
+                                      }),
+                                ),
                               ],
-                              onReorder: (int oldIndex, int newIndex) {
-                                setState(() {
-                                  if (oldIndex < newIndex) {
-                                    newIndex -= 1;
-                                  }
-                                  final Map item =
-                                      selectedSets.removeAt(oldIndex);
-                                  selectedSets.insert(newIndex, item);
-                                });
-                              },
                             ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Padding(
                             padding: EdgeInsets.only(
                                 left: 95.0, bottom: 0, right: 95.0, top: 50.0),
@@ -442,148 +362,5 @@ class MapScreenState extends State<CreateGroupForm>
     // Clean up the controller when the Widget is disposed
     myFocusNode.dispose();
     super.dispose();
-  }
-}
-
-class CustomSetListTile extends StatefulWidget {
-  final Key key;
-  final Map set;
-  final Function() notifyParent;
-
-  CustomSetListTile(this.key, this.set, this.notifyParent) : super(key: key);
-  @override
-  _CustomSetListTileState createState() => _CustomSetListTileState();
-}
-
-class _CustomSetListTileState extends State<CustomSetListTile> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      key: widget.key,
-      margin: EdgeInsetsDirectional.only(bottom: 10),
-      decoration: BoxDecoration(
-        color: Color(0xff181818),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: ListTile(
-        key: widget.key,
-        minVerticalPadding: 10,
-        leading: CircleAvatar(
-          radius: 20,
-          child: FlutterLogo(),
-        ),
-        title: Text(
-          widget.set['title'],
-          style: TextStyle(color: Colors.white),
-        ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              widget.set['description'],
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            )
-          ],
-        ),
-        trailing: Column(
-          children: [
-            // Text(widget.set['value'].toString()),
-            // SizedBox(height: 4),
-            GestureDetector(
-              child: Icon(
-                Icons.close,
-                color: Colors.white,
-              ),
-              onTap: () {
-                selectedSets.remove(widget.set);
-                print(selectedSets);
-                widget.notifyParent();
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class CustomExerciseListTile extends StatefulWidget {
-  final Map exercise;
-  final Key key;
-  final Function() notifyParent;
-
-  CustomExerciseListTile(this.key, this.exercise, this.notifyParent)
-      : super(key: key);
-  @override
-  _CustomExerciseListTileState createState() => _CustomExerciseListTileState();
-}
-
-class _CustomExerciseListTileState extends State<CustomExerciseListTile> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      key: widget.key,
-      margin: EdgeInsetsDirectional.only(bottom: 10),
-      decoration: BoxDecoration(
-        color: Color(0xff181818),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: ListTile(
-        key: widget.key,
-        minVerticalPadding: 10,
-        leading: CircleAvatar(
-          radius: 20,
-          child: FlutterLogo(),
-        ),
-        title: Text(
-          widget.exercise['title'],
-          style: TextStyle(color: Colors.white),
-        ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Text(
-            //   widget.exercise['duration'],
-            //   style: TextStyle(
-            //     color: Colors.white,
-            //   ),
-            // ),
-            // Text(
-            //   '${widget.exercise['cal_burnt']} cal',
-            //   style: TextStyle(
-            //     color: Colors.white,
-            //   ),
-            // )
-            Text(
-              widget.exercise['coach'],
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            )
-          ],
-        ),
-        trailing: Column(
-          children: [
-            // Text(widget.exercise['value'].toString()),
-            // SizedBox(height: 4),
-            GestureDetector(
-              child: Icon(
-                Icons.close,
-                color: Colors.white,
-              ),
-              onTap: () {
-                selectedExercises.remove(widget.exercise);
-                print(selectedExercises);
-                widget.notifyParent();
-              },
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

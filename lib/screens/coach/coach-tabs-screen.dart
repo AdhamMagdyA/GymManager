@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/screens/admin/classes/classes_list.dart';
+import 'package:gym_project/screens/admin/classes/edit_class.dart';
+import 'package:gym_project/screens/admin/users/users_list.dart';
 import 'package:gym_project/screens/coach/home-screen.dart';
 import 'package:gym_project/screens/coach/others-screen.dart';
 
@@ -16,14 +19,18 @@ class CoachTabsScreen extends StatefulWidget {
 
 class _CoachTabsScreenState extends State<CoachTabsScreen>
     with TickerProviderStateMixin {
-  int _selectedIndex = 2; // 2 => home page
+  int _selectedIndex = 0; // 0 => home page
   TabController _tabController;
   @override
   void initState() {
     _tabController = new TabController(length: 2, vsync: this);
     _pages = [
       {
-        'page': TrainingModeOverviewScreen(),
+        'page': CoachHomeScreen(),
+        'title': 'Home',
+      },
+      {
+        'page': ClassesList(),
         'title': 'My Classes',
       },
       {
@@ -31,11 +38,7 @@ class _CoachTabsScreenState extends State<CoachTabsScreen>
         'title': 'My Sessions',
       },
       {
-        'page': CoachHomeScreen(),
-        'title': 'Home',
-      },
-      {
-        'page': CreatePrivateSessionForm(),
+        'page': MembersScreen(),
         'title': 'My members',
       },
       {
@@ -62,9 +65,9 @@ class _CoachTabsScreenState extends State<CoachTabsScreen>
           _pages[_selectedIndex]['title'],
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Colors.black,
-        iconTheme: IconThemeData(color: Colors.white),
-        bottom: _selectedIndex == 1
+        backgroundColor: Color(0xff181818),
+        iconTheme: IconThemeData(color: Color(0xFFFFCE2B)),
+        bottom: _selectedIndex == 2
             ? TabBar(
                 labelColor: Theme.of(context).primaryColor,
                 indicatorColor: Theme.of(context).primaryColor,
@@ -84,54 +87,39 @@ class _CoachTabsScreenState extends State<CoachTabsScreen>
       drawer: CoachDrawer(),
       body: _pages[_selectedIndex]['page'],
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Color(0xFF040404),
+        backgroundColor: Color(0xff181818),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'My Classes',
+            label: 'Home',
+            backgroundColor: Colors.black,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.class_),
+            label: 'Classes',
+            backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.business),
             label: 'My Sessions',
+            backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.school),
+            icon: Icon(Icons.people),
             label: 'My members',
+            backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
+            icon: Icon(Icons.view_list),
             label: 'Others',
+            backgroundColor: Colors.black,
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber,
-        unselectedItemColor: Colors.white,
+        selectedItemColor: Color(0xFFFFCE2B),
+        unselectedItemColor: Color(0xFFFFCE2B).withAlpha(100),
         onTap: _onItemTapped,
       ),
-      ////navigation bar code begins here
-      //     bottomNavigationBar: MotionTabBar(
-      //         labels: [
-      //           "classes", "sessions","Home","member","invent"
-      //         ],
-      //         initialSelectedTab: "Home",
-      //         tabIconColor: Colors.black,
-      //         tabSelectedColor: Color(0xFFFFCE2B),
-      //         onTabItemSelected: (int value){
-      //              setState(() {
-      //                 _tabController.index = value;
-      //              });
-      //         },
-      //         icons: [
-      //           Icons.account_box,Icons.menu,Icons.home,Icons.menu,Icons.question_answer
-      //         ],
-      //         textStyle: TextStyle(color: Colors.black),
-      // ),
-      /////////////////////////////////////////////////////////
     );
   }
 }

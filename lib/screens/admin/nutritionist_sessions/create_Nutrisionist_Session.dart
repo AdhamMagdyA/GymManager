@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 
 class NutrisionistSessionCreate extends StatefulWidget {
   @override
@@ -53,32 +54,32 @@ class MapScreenState extends State<NutrisionistSessionCreate>
                   child: new Column(
                     children: <Widget>[
                       Padding(
-                          padding: EdgeInsets.only(left: 20.0, top: 40.0),
-                          child: new Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              InkWell(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: new Icon(
-                                  Icons.arrow_back_ios,
-                                  color: Color(0xFFFFCE2B),
-                                  size: 22.0,
-                                ),
+                        padding: EdgeInsets.only(left: 20.0, top: 40.0),
+                        child: Row(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: new Icon(
+                                Icons.arrow_back_ios,
+                                color: Color(0xFFFFCE2B),
+                                size: 22.0,
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 25.0),
-                                //-->header
-                                child: new Text('Create Nutrisionist Session',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20.0,
-                                        fontFamily: 'sans-serif-light',
-                                        color: Colors.white)),
-                              )
-                            ],
-                          )),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 25.0),
+                              //-->header
+                              child: new Text('Create Nutritionist Session',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20.0,
+                                      fontFamily: 'sans-serif-light',
+                                      color: Colors.white)),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -188,7 +189,7 @@ class MapScreenState extends State<NutrisionistSessionCreate>
                             )),
                         Padding(
                             padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
+                                left: 25.0, right: 25.0, top: 15.0),
                             child: new Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
@@ -227,15 +228,24 @@ class MapScreenState extends State<NutrisionistSessionCreate>
                             )),
                         Padding(
                             padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
+                                left: 25.0, right: 25.0, top: 15.0),
                             child: new Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 new Flexible(
-                                  child: new TextField(
-                                    decoration: const InputDecoration(
-                                        hintText: "Enter Member Name "),
-                                  ),
+                                  child: new DropdownSearch<String>(
+                                      mode: Mode.MENU,
+                                      showSelectedItems: true,
+                                      items: [
+                                        "Ahmed ALy ",
+                                        "Mohaned mohamed",
+                                        "Bishoy",
+                                        'Alaa Ibrahim'
+                                      ],
+                                      popupItemDisabled: (String s) =>
+                                          s.startsWith('I'),
+                                      onChanged: print,
+                                      selectedItem: "Select a member "),
                                 ),
                               ],
                             )),

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/screens/nutritionist/plan-edit-form.dart';
 import 'package:gym_project/screens/nutritionist/view-plans-details-screen.dart';
 
 class PlansViewScreen extends StatefulWidget {
+  bool isSelectionTime = false;
+
+  PlansViewScreen(this.isSelectionTime);
   @override
   _PlansViewScreenState createState() => _PlansViewScreenState();
 
@@ -49,82 +53,87 @@ class PlansViewScreen extends StatefulWidget {
 class _PlansViewScreenState extends State<PlansViewScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.black,
-      padding: EdgeInsetsDirectional.all(10),
-      child: Stack(
-        children: [
-          Material(
-              elevation: 5.0,
-              borderRadius: BorderRadius.all(Radius.circular(30)),
-              child: TextField(
-                controller: TextEditingController(text: 'Search...'),
-                cursorColor: Theme.of(context).primaryColor,
-                style: TextStyle(color: Colors.black, fontSize: 18),
-                decoration: InputDecoration(
-                    suffixIcon: Material(
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                      child: Icon(Icons.search),
-                    ),
-                    border: InputBorder.none,
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
-              )),
-          Container(
-            margin: EdgeInsets.only(top: 80),
-            child: ListView(
-              children: [
-                ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: widget.plans.length,
-                    itemBuilder: (ctx, index) {
-                      return myListTile(
-                          widget.plans[index]['title'],
-                          'Description: ' + widget.plans[index]['description'],
-                          'Duration: ' + widget.plans[index]['duration'],
-                          index);
-                    }),
-              ],
-            ),
-          ),
-          if (PlansViewScreen.whoIsSelected != -1)
+    return SafeArea(
+      child: Container(
+        color: Colors.black,
+        padding: EdgeInsetsDirectional.all(10),
+        child: Stack(
+          children: [
+            Material(
+                elevation: 5.0,
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                child: TextFormField(
+                  controller: TextEditingController(),
+                  cursorColor: Theme.of(context).primaryColor,
+                  style: TextStyle(color: Colors.black, fontSize: 18),
+                  decoration: InputDecoration(
+                      hintText: 'Search..',
+                      suffixIcon: Material(
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        child: Icon(Icons.search),
+                      ),
+                      border: InputBorder.none,
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
+                )),
             Container(
-              margin: EdgeInsets.only(bottom: 20),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Row(
-                  children: [
-                    ElevatedButton(
-                      style:
-                          ElevatedButton.styleFrom(primary: Color(0xFFFFCE2B)),
-                      child: Text('Submit'),
-                      onPressed: () {},
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: Color(0xFFFFCE2B), elevation: 10),
-                      child: Text('Cancel'),
-                      onPressed: () {
-                        setState(() {
-                          PlansViewScreen.whoIsSelected = -1;
-                        });
-                      },
-                    ),
-                  ],
-                  mainAxisSize: MainAxisSize.min,
-                ),
+              margin: EdgeInsets.only(top: 80),
+              child: ListView(
+                children: [
+                  ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: widget.plans.length,
+                      itemBuilder: (ctx, index) {
+                        return myListTile(
+                            widget.plans[index]['title'],
+                            'Description: ' +
+                                widget.plans[index]['description'],
+                            'Duration: ' + widget.plans[index]['duration'],
+                            index,
+                            widget.isSelectionTime);
+                      }),
+                ],
               ),
             ),
-        ],
+            if (PlansViewScreen.whoIsSelected != -1)
+              Container(
+                margin: EdgeInsets.only(bottom: 20),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Row(
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: Color(0xFFFFCE2B)),
+                        child: Text('Submit'),
+                        onPressed: () {},
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: Color(0xFFFFCE2B), elevation: 10),
+                        child: Text('Cancel'),
+                        onPressed: () {
+                          setState(() {
+                            PlansViewScreen.whoIsSelected = -1;
+                          });
+                        },
+                      ),
+                    ],
+                    mainAxisSize: MainAxisSize.min,
+                  ),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget myListTile(
-      String title, String description, String duration, int index) {
+  Widget myListTile(String title, String description, String duration,
+      int index, bool selectionTime) {
     return Container(
       margin: EdgeInsetsDirectional.only(bottom: 10),
       decoration: BoxDecoration(
@@ -134,14 +143,10 @@ class _PlansViewScreenState extends State<PlansViewScreen> {
         borderRadius: BorderRadius.circular(16),
       ),
       child: ListTile(
-        onLongPress: () {
+        onTap: () {
           setState(() {
             PlansViewScreen.whoIsSelected = index;
           });
-        },
-        onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => PlansDetailsScreen()));
         },
         selected: PlansViewScreen.whoIsSelected == index,
         minVerticalPadding: 10,
@@ -165,8 +170,67 @@ class _PlansViewScreenState extends State<PlansViewScreen> {
               duration,
               style: TextStyle(color: Colors.white24),
             ),
+            if (selectionTime)
+              TextButton(
+                child: Text(
+                  'Details',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.amber,
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PlansDetailsScreen(),
+                      ));
+                },
+              ),
           ],
         ),
+        trailing: !selectionTime
+            ? Column(
+                children: [
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditPlanForm()));
+                      },
+                      child: Text(
+                        'Edit',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.yellow,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 6),
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditPlanForm()));
+                      },
+                      child: Text('Delete',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red,
+                          )),
+                    ),
+                  ),
+                ],
+              )
+            : null,
       ),
     );
   }

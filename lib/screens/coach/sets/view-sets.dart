@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:gym_project/common/my_choosing_screen.dart';
-import 'package:gym_project/common/my_list_tile.dart';
 import 'package:gym_project/screens/coach/sets/edit-set.dart';
 import 'package:gym_project/screens/common/view-set-details-screen.dart';
 import 'package:gym_project/viewmodels/set-list-view-model.dart';
@@ -18,20 +15,21 @@ class ViewSetsScreen extends StatefulWidget {
 class _ViewSetsScreenState extends State<ViewSetsScreen> {
   List<SetViewModel> _sets = [];
   bool _selectionMode = false;
-  List<Map<int, int>> _numberOfSelectedInstances = [];
-  Map<int, Object> finalSelectedItems = {};
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Provider.of<SetListViewModel>(context, listen: false).fetchListSets();
+    if (widget.isSelectionTime == true) {
+      _selectionMode = true;
+    }
   }
+
+  List<Map<int, int>> _numberOfSelectedInstances = [];
+  Map<int, Object> finalSelectedItems = {};
 
   void setSelectionMode(bool value) {
     setState(() {
       _selectionMode = value;
-      widget.isSelectionTime = value;
     });
   }
 
@@ -97,137 +95,131 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
   Widget build(BuildContext context) {
     var setListViewModel = Provider.of<SetListViewModel>(context);
     _sets = setListViewModel.sets;
-    print('Now sets are');
-    print(_sets);
-    return Container(
-      color: Colors.black,
-      padding: EdgeInsetsDirectional.all(10),
-      child: Stack(
-        children: [
-          Material(
-            color: Colors.black,
-            child: _sets.isEmpty
-                ? Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.white,
-                    ),
-                  )
-                : ListView(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(top: 60),
-                        child: Material(
-                            elevation: 5.0,
-                            borderRadius: BorderRadius.all(Radius.circular(30)),
-                            child: TextField(
-                              controller:
-                                  TextEditingController(text: 'Search...'),
-                              cursorColor: Theme.of(context).primaryColor,
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 18),
-                              decoration: InputDecoration(
-                                  suffixIcon: Material(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(30)),
-                                    child: Icon(Icons.search),
-                                  ),
-                                  border: InputBorder.none,
-                                  contentPadding: EdgeInsets.symmetric(
-                                      horizontal: 25, vertical: 13)),
-                            )),
-                      ),
-                      SizedBox(height: 20),
-                      if (_selectionMode)
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Expanded(
-                              child: Container(
-                                alignment: Alignment.center,
-                                child: Text(
-                                  'Selected ${_numberOfSelectedInstances.length} of ${_sets.length}',
-                                  style: TextStyle(color: Colors.white),
-                                ),
+    return SafeArea(
+      child: Container(
+        color: Colors.black,
+        padding: EdgeInsetsDirectional.all(10),
+        child: Stack(
+          children: [
+            Material(
+              color: Colors.black,
+              child: ListView(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(top: 60),
+                    child: Material(
+                        elevation: 5.0,
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        child: TextFormField(
+                          controller: TextEditingController(),
+                          cursorColor: Theme.of(context).primaryColor,
+                          style: TextStyle(color: Colors.black, fontSize: 18),
+                          decoration: InputDecoration(
+                              hintText: 'Search..',
+                              suffixIcon: Material(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30)),
+                                child: Icon(Icons.search),
                               ),
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 25, vertical: 13)),
+                        )),
+                  ),
+                  SizedBox(height: 20),
+                  if (_selectionMode)
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Selected ${_numberOfSelectedInstances.length} of ${_sets.length}',
+                              style: TextStyle(color: Colors.white),
                             ),
-                            IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  _selectionMode = false;
-                                  _numberOfSelectedInstances.clear();
-                                });
-                              },
-                              icon: Icon(
-                                Icons.close,
-                                color: Colors.white,
-                              ),
-                            )
-                          ],
+                          ),
                         ),
-                      ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: _sets.length,
-                          itemBuilder: (ctx, index) {
-                            return SetsListTile(
-                                _sets[index],
-                                index,
-                                _selectionMode,
-                                setSelectionMode,
-                                incrementItem,
-                                decrementItem,
-                                selectedItemsNumber,
-                                isSelected,
-                                'https://images.app.goo.gl/oSJrrxJh1LGFiope9',
-                                widget.isSelectionTime);
-                          }),
-                    ],
-                  ),
-          ),
-          if (_selectionMode)
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: ElevatedButton(
-                  child: Text('Submit'),
-                  style: ElevatedButton.styleFrom(
-                      primary: Colors.amber,
-                      onPrimary: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      )),
-                  onPressed: () {
-                    getFinalSelectedItems();
-                    Navigator.pop(context, finalSelectedItems);
-                  }),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _selectionMode = false;
+                              _numberOfSelectedInstances.clear();
+                            });
+                          },
+                          icon: Icon(
+                            Icons.close,
+                            color: Colors.white,
+                          ),
+                        )
+                      ],
+                    ),
+                  ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: _sets.length,
+                      itemBuilder: (ctx, index) {
+                        return SetsListTile(
+                            _sets[index],
+                            index,
+                            _selectionMode,
+                            setSelectionMode,
+                            incrementItem,
+                            decrementItem,
+                            selectedItemsNumber,
+                            isSelected,
+                            'https://images.app.goo.gl/oSJrrxJh1LGFiope9',
+                            widget.isSelectionTime);
+                      }),
+                ],
+              ),
             ),
-          Padding(
-            padding: EdgeInsets.only(
-              top: 10,
-              left: 10,
-            ),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Container(
-                  height: 42,
-                  width: 42,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Center(
-                    child: Icon(
-                      Icons.arrow_back,
-                      color: Colors.black,
+            if (_selectionMode)
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: ElevatedButton(
+                    child: Text('Submit',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.amber,
+                        onPrimary: Colors.black,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        )),
+                    onPressed: () {
+                      getFinalSelectedItems();
+                      Navigator.pop(context, finalSelectedItems);
+                    }),
+              ),
+            Padding(
+              padding: EdgeInsets.only(
+                top: 10,
+                left: 10,
+              ),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Container(
+                    height: 42,
+                    width: 42,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -278,21 +270,22 @@ class _SetsListTileState extends State<SetsListTile> {
               : Colors.transparent,
         ),
         child: ListTile(
-          onLongPress: () {
-            widget.setSelectionMode(true);
-          },
           onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => MultiProvider(
-                          providers: [
-                            ChangeNotifierProvider(
-                              create: (_) => SetListViewModel(),
-                            ),
-                          ],
-                          child: SetDetailsScreen(widget.set.id),
-                        )));
+            if (!widget.selectionTime) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MultiProvider(
+                            providers: [
+                              ChangeNotifierProvider(
+                                create: (_) => SetListViewModel(),
+                              ),
+                            ],
+                            child: SetDetailsScreen(widget.set.id),
+                          )));
+            } else if (widget.selectionTime && !widget.selectionMode) {
+              widget.setSelectionMode(true);
+            }
           },
           leading: CircleAvatar(
             radius: 20,
@@ -305,6 +298,7 @@ class _SetsListTileState extends State<SetsListTile> {
           ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
@@ -312,52 +306,107 @@ class _SetsListTileState extends State<SetsListTile> {
                 style: TextStyle(
                   color: Colors.white,
                 ),
-              )
-            ],
-          ),
-          //also want this to only appear in case of coach or admin!
-          trailing: !widget.selectionTime
-              ? TextButton(
+              ),
+              if (widget.selectionTime && widget.selectionMode)
+                TextButton(
+                  child: Text(
+                    'Details',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.amber,
+                    ),
+                  ),
                   onPressed: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => EditSetForm(widget.set)));
+                            builder: (context) => MultiProvider(
+                                  providers: [
+                                    ChangeNotifierProvider(
+                                      create: (_) => SetListViewModel(),
+                                    ),
+                                  ],
+                                  child: SetDetailsScreen(widget.set.id),
+                                )));
                   },
-                  child: Text(
-                    'Edit',
-                    style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
-                  ),
+                ),
+            ],
+          ),
+          trailing: !widget.selectionTime
+              ? Column(
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      EditSetForm(widget.set)));
+                        },
+                        child: Text(
+                          'Edit',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.yellow,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 6),
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      EditSetForm(widget.set)));
+                        },
+                        child: Text('Delete',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.red,
+                            )),
+                      ),
+                    ),
+                  ],
                 )
               : !widget.selectionMode
                   ? null
                   : Column(
                       children: [
-                        GestureDetector(
-                          child: Icon(
-                            Icons.add,
-                            size: 15,
-                            color: Colors.white,
+                        Expanded(
+                          child: GestureDetector(
+                            child: Icon(
+                              Icons.add,
+                              size: 15,
+                              color: Colors.white,
+                            ),
+                            onTap: () => widget.incrementItem(widget.index),
                           ),
-                          onTap: () => widget.incrementItem(widget.index),
                         ),
-                        Text(
-                          "${widget.selectedItemsNumber(widget.index)}",
-                          style: TextStyle(fontSize: 12, color: Colors.white),
-                        ),
-                        GestureDetector(
-                          child: Icon(
-                            Icons.remove,
-                            size: 15,
-                            color: Colors.white,
+                        Expanded(
+                          child: Text(
+                            "${widget.selectedItemsNumber(widget.index)}",
+                            style: TextStyle(fontSize: 12, color: Colors.white),
                           ),
-                          onTap: () => widget.isSelected(widget.index)
-                              ? widget.decrementItem(widget.index)
-                              : null,
-                        )
+                        ),
+                        Expanded(
+                          child: GestureDetector(
+                            child: Icon(
+                              Icons.remove,
+                              size: 15,
+                              color: Colors.white,
+                            ),
+                            onTap: () => widget.isSelected(widget.index)
+                                ? widget.decrementItem(widget.index)
+                                : null,
+                          ),
+                        ),
                       ],
                       mainAxisSize: MainAxisSize.min,
                     ),

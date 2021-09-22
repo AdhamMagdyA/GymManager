@@ -11,6 +11,10 @@ import 'package:gym_project/screens/Invitations/invitation-form.dart';
 import 'package:gym_project/screens/Invitations/invitation-list.dart';
 import 'package:gym_project/screens/Supplements/supplement-form.dart';
 import 'package:gym_project/screens/Supplements/supplement-grid-view.dart';
+import 'package:gym_project/screens/admin/memberships/memberships_list.dart';
+import 'package:gym_project/screens/announcements/add-announcement-screen.dart';
+import 'package:gym_project/screens/announcements/announcements-screen.dart';
+import 'package:gym_project/screens/coach/coach-profile.dart';
 import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
 import 'package:gym_project/screens/coach/exercises/create-exercise.dart';
 import 'package:gym_project/screens/coach/exercises/edit-exercise.dart';
@@ -50,7 +54,8 @@ import 'package:gym_project/screens/admin/users/edit_user.dart';
 import 'package:gym_project/screens/admin/users/user_details.dart';
 import 'package:gym_project/screens/admin/util-screen.dart';
 import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
-import 'package:gym_project/screens/items_screen.dart';
+import 'package:gym_project/screens/common/view-exercises-details-screen.dart';
+import 'package:gym_project/screens/nutritionist/items_screen.dart';
 import 'package:gym_project/screens/member/view-private-sessions.dart';
 import 'package:gym_project/screens/my_choosing_gridview_screen.dart';
 import 'package:gym_project/screens/member/training-mode/training_mode_exercise_screen.dart';
@@ -58,11 +63,14 @@ import 'package:gym_project/screens/member/training-mode/training_mode_overview_
 import 'package:gym_project/screens/nutritionist/meals-screen.dart';
 import 'package:gym_project/screens/nutritionist/plans-screen.dart';
 import 'package:gym_project/screens/nutritionist/util-screen.dart';
+import 'package:gym_project/screens/nutritionist/view-items-details-screen.dart';
+import 'package:gym_project/screens/nutritionist/view-meals-details-screen.dart';
+import 'package:gym_project/screens/questions/add-question-screen.dart';
 import 'package:gym_project/screens/questions/questions-screen.dart';
 import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
+import 'package:gym_project/screens/questions/single-question.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
-import 'package:gym_project/screens/items_screen.dart';
 import 'package:gym_project/screens/my_choosing_gridview_screen.dart';
 
 import 'screens/common/ProfilePage.dart';
@@ -98,6 +106,7 @@ class MyApp extends StatelessWidget {
         '/create-branch': (context) => CreateBranchForm(),
         '/edit-branch': (context) => EditBranchForm(),
         //membership routes
+        '/memberships-list': (context) => MembershipsList(),
         '/membership-details': (context) => MembershipDetails(),
         '/create-membership': (context) => CreateMembership(),
         '/edit-membership': (context) => EditMembership(),
@@ -133,6 +142,20 @@ class MyApp extends StatelessWidget {
         '/feedback': (context) => FeedbackForm(),
         '/invitations': (context) => InvitationList(),
 
+        //questions&answers routes
+        '/questions': (context) => QuestionsScreen(),
+        '/add-question': (context) => AddQuestionScreen(),
+        '/question-answers': (context) => SingleQuestionScreen(),
+
+        //announcements routes
+        '/announcements': (context) => AnnouncementsScreen(),
+        '/create-announcement': (context) => AddAnnouncementScreen(),
+
+        //coach profile
+        '/coach/profile': (context) => CoachProfile(),
+        // '/coach/schedule': (context) => CoachSchedule(),
+        // exercises
+        ExercisesScreen.routeName: (context) => ExercisesScreen(false),
         //exercises routes
         '/exercises': (context) => MultiProvider(
               providers: [
@@ -169,17 +192,17 @@ class MyApp extends StatelessWidget {
         // '/edit-private-session': (context) => EditPrivateSessionForm(),
 
         //items routes
-        '/items': (context) => ItemsScreen(),
+        '/items': (context) => ItemsScreen(false),
         // '/create-item': (context) => CreateItemForm(),
         // '/edit-item': (context) => EditItemForm()
 
         //meals routes
-        '/meals': (context) => MealsViewScreen(),
+        '/meals': (context) => MealsViewScreen(false),
         // '/create-meal': (context) => CreateMealForm(),
         // '/edit-meal': (context) => EditMealForm(),
 
         //plans routes
-        '/plans': (context) => PlansViewScreen(),
+        '/plans': (context) => PlansViewScreen(false),
         // '/create-plan': (context) => CreatePlanForm(),
         // '/edit-plan': (context) => EditPlanForm(),
       },

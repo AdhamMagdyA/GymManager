@@ -18,14 +18,19 @@ class ExercisesScreen extends StatefulWidget {
 class ExercisesScreenState extends State<ExercisesScreen> {
   List<ExerciseViewModel> _exercises = [];
 
+  bool _selectionMode = false;
   @override
   void initState() {
     super.initState();
     Provider.of<ExerciseListViewModel>(context, listen: false)
         .fetchListExercises();
+    // Provider.of<ExerciseListViewModel>(context, listen: false)
+    //     .fetchListExercises();
+    if (widget.isSelectionTime == true) {
+      _selectionMode = true;
+    }
   }
 
-  bool _selectionMode = false;
   List<Map<int, int>> _numberOfSelectedInstances = [];
   Map<int, Object> finalSelectedItems = {};
   bool _argumentsLoaded = false;
@@ -54,7 +59,6 @@ class ExercisesScreenState extends State<ExercisesScreen> {
   void setSelectionMode(bool value) {
     setState(() {
       _selectionMode = value;
-      widget.isSelectionTime = value;
     });
   }
 
@@ -213,13 +217,13 @@ class ExercisesScreenState extends State<ExercisesScreen> {
                               elevation: 5.0,
                               borderRadius:
                                   BorderRadius.all(Radius.circular(30)),
-                              child: TextField(
+                              child: TextFormField(
                                 controller: TextEditingController(),
                                 cursorColor: Theme.of(context).primaryColor,
                                 style: TextStyle(
                                     color: Colors.black, fontSize: 18),
                                 decoration: InputDecoration(
-                                  labelText: 'Search',
+                                  hintText: 'Search..',
                                   suffixIcon: Material(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(30)),
@@ -404,29 +408,45 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
     print('${widget.title} ${widget.id}');
     final double imageBorderRadius = widget.selectionMode ? 0 : 30;
     return GestureDetector(
-      onLongPress: () {
-        if (!widget.selectionMode) {
+      onTap: () {
+        if (!widget.selectionTime) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MultiProvider(
+                providers: [
+                  ChangeNotifierProvider(
+                    create: (_) => ExerciseListViewModel(),
+                  ),
+                ],
+                child: ExerciseDetailsScreen(widget.id),
+              ),
+            ),
+          );
+        } else if (widget.selectionTime && !widget.selectionMode) {
           widget.setSelectionMode(true);
           widget.incrementItem(widget.index);
         }
       },
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MultiProvider(
-              providers: [
-                ChangeNotifierProvider(
-                  create: (_) => ExerciseListViewModel(),
-                ),
-              ],
-              child: ExerciseDetailsScreen(widget.id),
-            ),
-          ),
-        );
-      },
+
+      // onTap: () {
+      //   Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //       // builder: (context) => MultiProvider(
+      //       //   providers: [
+      //       //     ChangeNotifierProvider(
+      //       //       create: (_) => ExerciseListViewModel(),
+      //       //     ),
+      //       //   ],
+      //       //   child: ExerciseDetailsScreen(),
+      //       // ),
+      //       builder: (context) => ExerciseDetailsScreen(),
+      //     ),
+      //   );
+      // },
       child: Container(
-        height: 500,
+        height: 700,
         width: 200,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
@@ -466,7 +486,7 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
             Expanded(
               child: Container(
                 width: double.infinity,
-                height: widget.selectionMode ? 70 : 110,
+                height: widget.selectionMode ? 90 : 110,
                 padding: EdgeInsets.all(0),
                 child: ClipRRect(
                   borderRadius: BorderRadius.only(
@@ -539,32 +559,90 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
                     )),
               ),
             ),
+            SizedBox(
+              height: 5,
+            ),
             //add condition for edit button
-            if (!widget.selectionTime && !widget.selectionMode)
-              SizedBox(
-                height: 20,
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Center(
-                    child: TextButton(
-                      child: Text(
-                        'Edit',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.amber,
+            !widget.selectionTime && !widget.selectionMode
+                ? SizedBox(
+                    height: 21,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Center(
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(10.0),
+                              ),
+                              primary: Colors.amber,
+                              onPrimary: Colors.black,
+                            ),
+                            child: Text(
+                              'Edit',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EditExerciseForm(),
+                                  ));
+                            },
+                          ),
                         ),
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => EditExerciseForm(),
-                            ));
-                      },
+                    ),
+                  )
+                : SizedBox(
+                    height: 21,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Center(
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(16.0),
+                              ),
+                              primary: Colors.amber,
+                              onPrimary: Colors.black,
+                            ),
+                            child: Text(
+                              'Details',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MultiProvider(
+                                    providers: [
+                                      ChangeNotifierProvider(
+                                        create: (_) => ExerciseListViewModel(),
+                                      ),
+                                    ],
+                                    child: ExerciseDetailsScreen(widget.id),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
+            SizedBox(
+              height: 10,
+            ),
           ],
         ),
       ),

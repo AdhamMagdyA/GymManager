@@ -7,7 +7,7 @@ import 'package:gym_project/viewmodels/exercise-view-model.dart';
 import 'package:http/http.dart' as http;
 
 const token =
-    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNjMyMTQ2NDA2LCJleHAiOjE2MzIyMzI4MDYsIm5iZiI6MTYzMjE0NjQwNiwianRpIjoiZ25jRU8yanNZNmR2UnpOVCIsInN1YiI6MywicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.gN6L79WstcVERThM_RxAp1-DhaQ_Je_Fg0L1EaDM0ZM';
+    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNjMyMjk4NzMwLCJleHAiOjE2MzIzODUxMzAsIm5iZiI6MTYzMjI5ODczMCwianRpIjoiWHR3ZUJiVHVLbWNNRWFpTCIsInN1YiI6MywicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.ZClhbQePARoY8meZntOJcy7hfwXJwwXimX0EXwV_KTY';
 
 class ExerciseWebService {
   Future<List<Exercise>> getExercises() async {
@@ -21,6 +21,7 @@ class ExerciseWebService {
     print('response obtained!');
     print(response.statusCode);
     final result = json.decode(response.body);
+    print(result);
     if (response.statusCode == 200) {
       // Iterable list = result['exercises']['data'];
       Iterable list = result['exercises'];
@@ -31,8 +32,9 @@ class ExerciseWebService {
       List<Exercise> newExercises = exercises.cast<Exercise>().toList();
       return newExercises;
     } else {
-      print(result.msg);
-      throw Exception('response failed');
+      // print(result.msg);
+      return [];
+      // throw Exception('response failed');
     }
   }
 
@@ -57,7 +59,7 @@ class ExerciseWebService {
   }
 
   Future<Exercise> postExercise(Exercise exercise) async {
-    print('Am i here??');
+    // print('Am i here??');
     final response =
         await http.post(Uri.parse('http://localhost:8000/api/exercises'),
             headers: {
@@ -83,7 +85,8 @@ class ExerciseWebService {
       final exerciseJson = result['exercise'];
       return Exercise.detailsfromJson(exerciseJson);
     } else {
-      throw Exception('response failed');
+      // throw Exception('response failed');
+      return null;
     }
   }
 }

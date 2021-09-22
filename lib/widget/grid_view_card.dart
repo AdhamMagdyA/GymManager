@@ -18,6 +18,7 @@ Widget GridViewCard(image, title, subTitle1, subTitle2, subTitle3, subTitle4) {
   if (subTitle4 != '') {
     numSubtitles++;
   }
+
   double height = numSubtitles == 1
       ? 100
       : numSubtitles == 2

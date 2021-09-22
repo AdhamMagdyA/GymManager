@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/screens/admin/equipment/equipment_details.dart';
 import 'package:gym_project/screens/coach/exercises/edit-exercise.dart';
 import 'package:gym_project/viewmodels/equipment-list-view-model.dart';
 import 'package:gym_project/viewmodels/equipment-view-model.dart';
@@ -22,6 +23,9 @@ class EquipmentsListState extends State<EquipmentsList> {
     super.initState();
     Provider.of<EquipmentListViewModel>(context, listen: false)
         .fetchListEquipments();
+    if (widget.isSelectionTime == true) {
+      _selectionMode = true;
+    }
   }
 
   void setSelectionMode(bool value) {
@@ -142,22 +146,36 @@ class EquipmentsListState extends State<EquipmentsList> {
                               elevation: 5.0,
                               borderRadius:
                                   BorderRadius.all(Radius.circular(30)),
-                              child: TextField(
+                              child: TextFormField(
                                 controller: TextEditingController(),
                                 cursorColor: Theme.of(context).primaryColor,
                                 style: TextStyle(
                                     color: Colors.black, fontSize: 18),
                                 decoration: InputDecoration(
-                                  labelText: 'Search',
+                                  hintText: 'Search..',
                                   suffixIcon: Material(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(30)),
-                                    child: Icon(Icons.search),
-                                  ),
-                                  border: InputBorder.none,
-                                  contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 25,
-                                    vertical: 13,
+                                    child: TextField(
+                                      controller: TextEditingController(),
+                                      cursorColor:
+                                          Theme.of(context).primaryColor,
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 18),
+                                      decoration: InputDecoration(
+                                        labelText: 'Search',
+                                        suffixIcon: Material(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(30)),
+                                          child: Icon(Icons.search),
+                                        ),
+                                        border: InputBorder.none,
+                                        contentPadding: EdgeInsets.symmetric(
+                                          horizontal: 25,
+                                          vertical: 13,
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -292,7 +310,7 @@ class _MySingleChoosingGridViewCardState
         widget.setIndexOfSelected(widget.index);
       },
       child: Container(
-        height: 200,
+        height: 300,
         width: 200,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
@@ -311,7 +329,7 @@ class _MySingleChoosingGridViewCardState
           children: <Widget>[
             Container(
               width: double.infinity,
-              height: 140,
+              height: 120,
               padding: EdgeInsets.all(0),
               child: ClipRRect(
                 borderRadius: BorderRadius.only(
@@ -328,44 +346,91 @@ class _MySingleChoosingGridViewCardState
               height: 5,
             ),
             SizedBox(
-              height: 20,
+              height: 30,
               child: FittedBox(
                 fit: BoxFit.scaleDown,
                 child: Text(
                   widget.title,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 18,
+                    fontSize: 20,
                     color: Colors.black,
                   ),
                 ),
               ),
             ),
-            if (!widget.selectionTime && !widget.selectionMode)
-              SizedBox(
-                height: 20,
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Center(
-                    child: TextButton(
-                      child: Text(
-                        'Edit',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.amber,
+            !widget.selectionTime && !widget.selectionMode
+                ? SizedBox(
+                    height: 21,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Center(
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(10.0),
+                              ),
+                              primary: Colors.amber,
+                              onPrimary: Colors.black,
+                            ),
+                            child: Text(
+                              'Edit',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EditExerciseForm(),
+                                  ));
+                            },
+                          ),
                         ),
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => EditExerciseForm(),
-                            ));
-                      },
+                    ),
+                  )
+                : SizedBox(
+                    height: 21,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Center(
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(10.0),
+                              ),
+                              primary: Colors.amber,
+                              onPrimary: Colors.black,
+                            ),
+                            child: Text(
+                              'Details',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EquipmentDetails(),
+                                  ));
+                            },
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
+            SizedBox(
+              height: 10,
+            ),
           ],
         ),
       ),

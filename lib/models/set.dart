@@ -4,7 +4,7 @@ class Set {
   int id;
   String title;
   String description;
-  String coachId;
+  int coachId;
   String coachName;
   List<Exercise> exercises;
 

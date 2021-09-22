@@ -51,6 +51,20 @@ class OthersScreen extends StatelessWidget {
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Icon(
+                                  Icons.close,
+                                  color: Colors.amber,
+                                ),
+                              )
+                            ],
+                          ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 primary: Colors.amber,
@@ -163,7 +177,7 @@ class OthersScreen extends StatelessWidget {
               child: Text(
                 'Create',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: Colors.amber,
                 ),
@@ -193,6 +207,20 @@ class OthersScreen extends StatelessWidget {
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Icon(
+                                  Icons.close,
+                                  color: Colors.amber,
+                                ),
+                              )
+                            ],
+                          ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 primary: Colors.amber,
@@ -278,7 +306,36 @@ class OthersScreen extends StatelessWidget {
               child: Text(
                 'Inventory',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.amber,
+                ),
+              ),
+            ),
+          ),
+        ),
+        Container(
+          decoration: new BoxDecoration(
+            // color: const Color(0xff181818),
+            image: new DecorationImage(
+              image: AssetImage('assets/images/others-schedule.png'),
+              colorFilter: new ColorFilter.mode(
+                Colors.black.withOpacity(0.4),
+                BlendMode.dstATop,
+              ),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: TextButton(
+            onPressed: () {
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => ScheduleScreen()));
+            },
+            child: Center(
+              child: Text(
+                'Schedule',
+                style: TextStyle(
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: Colors.amber,
                 ),
@@ -308,6 +365,20 @@ class OthersScreen extends StatelessWidget {
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Icon(
+                                  Icons.close,
+                                  color: Colors.amber,
+                                ),
+                              )
+                            ],
+                          ),
                           CrowdMeter(checkedInMembers: 40, totalMembers: 100),
                         ],
                       ),
@@ -318,7 +389,7 @@ class OthersScreen extends StatelessWidget {
               child: Text(
                 'Crowd Meter',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: Colors.amber,
                 ),
@@ -349,7 +420,7 @@ class OthersScreen extends StatelessWidget {
               child: Text(
                 'Announcements',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: Colors.amber,
                 ),
@@ -378,7 +449,7 @@ class OthersScreen extends StatelessWidget {
               child: Text(
                 'Q&A',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: Colors.amber,
                 ),
@@ -407,7 +478,7 @@ class OthersScreen extends StatelessWidget {
               child: Text(
                 'Supplements',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: Colors.amber,
                 ),
@@ -436,7 +507,7 @@ class OthersScreen extends StatelessWidget {
               child: Text(
                 'Events',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: Colors.amber,
                 ),
@@ -465,7 +536,36 @@ class OthersScreen extends StatelessWidget {
               child: Text(
                 'Branches',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.amber,
+                ),
+              ),
+            ),
+          ),
+        ),
+        Container(
+          decoration: new BoxDecoration(
+            // color: const Color(0xff181818),
+            image: new DecorationImage(
+              image: AssetImage('assets/images/others-aboutus.png'),
+              colorFilter: new ColorFilter.mode(
+                Colors.black.withOpacity(0.4),
+                BlendMode.dstATop,
+              ),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: TextButton(
+            onPressed: () {
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => AboutUsScreen()));
+            },
+            child: Center(
+              child: Text(
+                'About us',
+                style: TextStyle(
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: Colors.amber,
                 ),

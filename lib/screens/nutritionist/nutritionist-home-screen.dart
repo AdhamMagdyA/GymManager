@@ -56,132 +56,132 @@ class _NutritionistHomeScreenState extends State<NutritionistHomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                /*SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height * 0.8,
-                    child: Image.asset(
-                      'assets/images/welcome.png',
-                      fit: BoxFit.fill,
-                    )),
-                Image.asset(
-                  'assets/images/Rectangle.png',
-                  fit: BoxFit.fill,
-                ),*/
-                Column(
-                  children: [
-                    SafeArea(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: PadRadius.horizontal - 15,
-                          vertical: PadRadius.horizontal - 15,
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                RichText(
-                                  text: TextSpan(children: [
-                                    TextSpan(
-                                        text: "Welcome ",
-                                        style: TextStyle(
-                                            fontSize: 25,
-                                            color: Color(0xFFFFCE2B),
-                                            fontWeight: FontWeight.bold)),
-                                    TextSpan(
-                                        text: "Member",
-                                        style: TextStyle(
-                                            fontSize: 25, color: Colors.white))
-                                  ]),
-                                ),
-                              ],
-                            ),
-                            Container(
-                              child: Text('Crowd Meter'),
-                              margin: EdgeInsets.fromLTRB(4, 4, 4, 4),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        //height: MediaQuery.of(context).size.height * 0.4,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Stack(
+                children: [
+                  /*SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * 0.8,
+                      child: Image.asset(
+                        'assets/images/welcome.png',
+                        fit: BoxFit.fill,
+                      )),
+                  Image.asset(
+                    'assets/images/Rectangle.png',
+                    fit: BoxFit.fill,
+                  ),*/
+                  Column(
+                    children: [
+                      SafeArea(
                         child: Padding(
                           padding: EdgeInsets.symmetric(
-                              horizontal: PadRadius.horizontal - 15),
+                            horizontal: PadRadius.horizontal - 15,
+                            vertical: PadRadius.horizontal - 15,
+                          ),
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text("Upcoming Events",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.bold)),
-                                  TextButton(
-                                      onPressed: () {},
-                                      child: Text(
-                                        'See More',
-                                        style: TextStyle(
-                                            color: Color(0xFFFFCE2B),
-                                            fontWeight: FontWeight.bold),
-                                      ))
+                                  RichText(
+                                    text: TextSpan(children: [
+                                      TextSpan(
+                                          text: "Welcome ",
+                                          style: TextStyle(
+                                              fontSize: 25,
+                                              color: Color(0xFFFFCE2B),
+                                              fontWeight: FontWeight.bold)),
+                                      TextSpan(
+                                          text: "Nutritionist",
+                                          style: TextStyle(
+                                              fontSize: 25,
+                                              color: Colors.white))
+                                    ]),
+                                  ),
                                 ],
-                              ),
-                              SizedBox(height: 20),
-                              SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                physics: BouncingScrollPhysics(),
-                                child: Row(children: getEvents()),
-                              ),
-                              SizedBox(height: 20),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text("Classes",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.bold)),
-                                  TextButton(
-                                      onPressed: () {},
-                                      child: Text(
-                                        'See More',
-                                        style: TextStyle(
-                                            color: Color(0xFFFFCE2B),
-                                            fontWeight: FontWeight.bold),
-                                      ))
-                                ],
-                              ),
-                              SizedBox(height: 20),
-                              SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                physics: BouncingScrollPhysics(),
-                                child: Row(children: getClasses()),
                               ),
                             ],
                           ),
                         ),
                       ),
-                    )
-                  ],
-                ),
-              ],
-            ),
-          ],
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          //height: MediaQuery.of(context).size.height * 0.4,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: PadRadius.horizontal - 15),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text("Upcoming Events",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.bold)),
+                                    TextButton(
+                                        onPressed: () {},
+                                        child: Text(
+                                          'See More',
+                                          style: TextStyle(
+                                              color: Color(0xFFFFCE2B),
+                                              fontWeight: FontWeight.bold),
+                                        ))
+                                  ],
+                                ),
+                                SizedBox(height: 20),
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  physics: BouncingScrollPhysics(),
+                                  child: Row(children: getEvents()),
+                                ),
+                                SizedBox(height: 20),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text("Classes",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.bold)),
+                                    TextButton(
+                                        onPressed: () {},
+                                        child: Text(
+                                          'See More',
+                                          style: TextStyle(
+                                              color: Color(0xFFFFCE2B),
+                                              fontWeight: FontWeight.bold),
+                                        ))
+                                  ],
+                                ),
+                                SizedBox(height: 20),
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  physics: BouncingScrollPhysics(),
+                                  child: Row(children: getClasses()),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -11,11 +11,15 @@ import 'package:gym_project/screens/coach/groups/view-groups.dart';
 import 'package:gym_project/screens/coach/private%20sessions/create-private-session.dart';
 import 'package:gym_project/screens/coach/sets/create-set.dart';
 import 'package:gym_project/screens/coach/sets/view-sets.dart';
+import 'package:gym_project/screens/nutritionist/item-creation-form.dart';
+import 'package:gym_project/screens/nutritionist/meal-creation-from.dart';
+import 'package:gym_project/screens/nutritionist/plan-creation-form.dart';
+import 'package:gym_project/screens/nutritionist/fitness-summary-creation-form.dart';
 import 'package:gym_project/screens/nutritionist/meals-screen.dart';
 import 'package:gym_project/screens/nutritionist/plans-screen.dart';
 import 'package:gym_project/screens/questions/questions-screen.dart';
 
-import '../items_screen.dart';
+import 'package:gym_project/screens/nutritionist/items_screen.dart';
 
 class OthersScreen extends StatelessWidget {
   const OthersScreen({Key key}) : super(key: key);
@@ -51,6 +55,20 @@ class OthersScreen extends StatelessWidget {
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Icon(
+                                  Icons.close,
+                                  color: Colors.amber,
+                                ),
+                              )
+                            ],
+                          ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 primary: Colors.amber,
@@ -60,11 +78,30 @@ class OthersScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(16),
                                 )),
                             onPressed: () {
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) =>
-                              //             CreateItemForm()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          CreateFitnessSummaryForm()));
+                            },
+                            child: Text('Fitness Summary'),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.amber,
+                                onPrimary: Colors.black,
+                                fixedSize: Size.fromWidth(150),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                )),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CreateItemForm()));
                             },
                             child: Text('Item'),
                           ),
@@ -81,10 +118,10 @@ class OthersScreen extends StatelessWidget {
                               ),
                             ),
                             onPressed: () {
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) => CreateSetForm()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CreateMealForm()));
                             },
                             child: Text('Meal'),
                           ),
@@ -100,10 +137,10 @@ class OthersScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(16),
                                 )),
                             onPressed: () {
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) => CreateGroupForm()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CreatePlanForm()));
                             },
                             child: Text('Plan'),
                           ),
@@ -146,6 +183,20 @@ class OthersScreen extends StatelessWidget {
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Icon(
+                                  Icons.close,
+                                  color: Colors.amber,
+                                ),
+                              )
+                            ],
+                          ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 primary: Colors.amber,
@@ -158,7 +209,7 @@ class OthersScreen extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ItemsScreen(),
+                                  builder: (context) => ItemsScreen(false),
                                 ),
                               );
                             },
@@ -174,6 +225,35 @@ class OthersScreen extends StatelessWidget {
                 'Inventory',
                 style: TextStyle(
                   fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.amber,
+                ),
+              ),
+            ),
+          ),
+        ),
+        Container(
+          decoration: new BoxDecoration(
+            // color: const Color(0xff181818),
+            image: new DecorationImage(
+              image: AssetImage('assets/images/others-schedule.png'),
+              colorFilter: new ColorFilter.mode(
+                Colors.black.withOpacity(0.4),
+                BlendMode.dstATop,
+              ),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: TextButton(
+            onPressed: () {
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => ScheduleScreen()));
+            },
+            child: Center(
+              child: Text(
+                'Schedule',
+                style: TextStyle(
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: Colors.amber,
                 ),
@@ -203,6 +283,20 @@ class OthersScreen extends StatelessWidget {
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Icon(
+                                  Icons.close,
+                                  color: Colors.amber,
+                                ),
+                              )
+                            ],
+                          ),
                           CrowdMeter(checkedInMembers: 40, totalMembers: 100),
                         ],
                       ),
@@ -361,6 +455,35 @@ class OthersScreen extends StatelessWidget {
                 'Branches',
                 style: TextStyle(
                   fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.amber,
+                ),
+              ),
+            ),
+          ),
+        ),
+        Container(
+          decoration: new BoxDecoration(
+            // color: const Color(0xff181818),
+            image: new DecorationImage(
+              image: AssetImage('assets/images/others-aboutus.png'),
+              colorFilter: new ColorFilter.mode(
+                Colors.black.withOpacity(0.4),
+                BlendMode.dstATop,
+              ),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: TextButton(
+            onPressed: () {
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => AboutUsScreen()));
+            },
+            child: Center(
+              child: Text(
+                'About us',
+                style: TextStyle(
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: Colors.amber,
                 ),

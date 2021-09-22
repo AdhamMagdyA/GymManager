@@ -7,13 +7,13 @@ class FitnessSummariesScreen extends StatelessWidget {
   FitnessSummariesScreen({Key key}) : super(key: key);
 
   final fitSummaries = [
-    {'Calories': '153', 'BMM': '23', 'SMM': '49'},
-    {'Calories': '286', 'BMM': '46', 'SMM': '12'},
-    {'Calories': '555', 'BMM': '17', 'SMM': '63'},
-    {'Calories': '555', 'BMM': '17', 'SMM': '63'},
-    {'Calories': '555', 'BMM': '17', 'SMM': '63'},
-    {'Calories': '555', 'BMM': '17', 'SMM': '63'},
-    {'Calories': '555', 'BMM': '17', 'SMM': '63'},
+    {'Calories': '153', 'BMI': '23', 'SMM': '49'},
+    {'Calories': '286', 'BMI': '46', 'SMM': '12'},
+    {'Calories': '555', 'BMI': '17', 'SMM': '63'},
+    {'Calories': '555', 'BMI': '17', 'SMM': '63'},
+    {'Calories': '555', 'BMI': '17', 'SMM': '63'},
+    {'Calories': '555', 'BMI': '17', 'SMM': '63'},
+    {'Calories': '555', 'BMI': '17', 'SMM': '63'},
   ];
 
   final processes = [
@@ -143,9 +143,9 @@ class FitnessSummariesScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: [
-                          Text('BMM'),
+                          Text('BMI'),
                           Text(
-                            fitSum['BMM'],
+                            fitSum['BMI'],
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ],

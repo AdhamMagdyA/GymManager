@@ -18,7 +18,7 @@ class SetViewModel {
     return set.description;
   }
 
-  String get coachId {
+  int get coachId {
     return set.coachId;
   }
 

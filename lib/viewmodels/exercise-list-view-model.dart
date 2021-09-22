@@ -8,6 +8,7 @@ enum LoadingStatus {
   Completed,
   Searching,
   Empty,
+  Error,
 }
 
 class ExerciseListViewModel with ChangeNotifier {
@@ -57,6 +58,9 @@ class ExerciseListViewModel with ChangeNotifier {
   void postExercise(Exercise exercise) async {
     // print('currently here!');
     Exercise _exercise = await ExerciseWebService().postExercise(exercise);
+    if (_exercise == null) {
+      loadingStatus = LoadingStatus.Error;
+    }
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
     this.exercise = ExerciseViewModel(e: _exercise);
@@ -66,7 +70,6 @@ class ExerciseListViewModel with ChangeNotifier {
     } else {
       loadingStatus = LoadingStatus.Completed;
     }
-
     notifyListeners();
   }
 }

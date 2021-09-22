@@ -1,67 +1,39 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
-class ItemsScreen extends StatefulWidget {
-  const ItemsScreen({Key key}) : super(key: key);
+class EquipmentListSelectable extends StatefulWidget {
+  const EquipmentListSelectable({Key key}) : super(key: key);
 
   @override
-  ItemsScreenState createState() => ItemsScreenState();
+  EquipmentListSelectableState createState() => EquipmentListSelectableState();
 }
 
-class ItemsScreenState extends State<ItemsScreen> {
-  List<Map> _items = [
+class EquipmentListSelectableState extends State<EquipmentListSelectable> {
+  List<Map> _equipment = [
     {
-      'title': 'Apple',
-      'image':
-          'https://arabic.bestapples.com/wp-content/uploads/2015/10/gala-249x300.jpg',
-      'calories': 40,
-      'level': 'green',
-      'creator': 'Amr Fatouh',
+      'name': 'Dumbbell 1',
+      'description': 'description 1',
+      'picture': 'assets/images/dumbbell.png',
     },
     {
-      'title': '250gm Chicken',
-      'image':
-          'https://cdn.shopify.com/s/files/1/0476/0115/6257/products/ChickenPopcorn_530x@2x.jpg?v=1618080367',
-      'calories': 300,
-      'level': 'red',
-      'creator': 'Amr Fatouh',
+      'name': 'Dumbbell 2',
+      'description': 'description 1',
+      'picture': 'assets/images/dumbbell.png',
     },
     {
-      'title': 'Carrot',
-      'image': 'https://www.owimio.com/wp-content/uploads/2021/02/carrot.jpg',
-      'calories': 20,
-      'level': 'green',
-      'creator': 'Amr Fatouh',
+      'name': 'Dumbbell 3',
+      'description': 'description 1',
+      'picture': 'assets/images/dumbbell.png',
     },
     {
-      'title': 'Banana',
-      'image': 'https://thumbs.dreamstime.com/b/ripe-bannana-13802636.jpg',
-      'calories': 60,
-      'level': 'green',
-      'creator': 'Amr Fatouh',
-    },
-    {
-      'title': '250gm of rice',
-      'image':
-          'https://food.fnr.sndimg.com/content/dam/images/food/fullset/2020/06/23/0/FNK_Perfect-Long-Grain-White-Rice-H_s4x3.jpg.rend.hgtvcom.616.462.suffix/1592939598668.jpeg',
-      'calories': 150,
-      'level': 'red',
-      'creator': 'Amr Fatouh',
-    },
-    {
-      'title': '50gm of cheese',
-      'image':
-          'https://www.usdairy.com/optimize/getmedia/6ab03180-cc90-4a03-a339-13b540ecc8a5/american.jpg.jpg.aspx?format=webp',
-      'calories': 80,
-      'level': 'yellow',
-      'creator': 'Amr Fatouh',
+      'name': 'Dumbbell 4',
+      'description': 'description 1',
+      'picture': 'assets/images/dumbbell.png',
     },
   ];
 
   bool _selectionMode = false;
   List<Map<int, int>> _numberOfSelectedInstances = [];
-
+  Map<int, Object> finalSelectedItems = {};
   void setSelectionMode(bool value) {
     setState(() {
       _selectionMode = value;
@@ -104,8 +76,30 @@ class ItemsScreenState extends State<ItemsScreen> {
     }
   }
 
+  int _indexOfSelected;
+  void setIndexOfSelected(int index) {
+    setState(() {
+      _indexOfSelected = index;
+    });
+  }
+
   bool isSelected(int index) {
-    return _numberOfSelectedInstances.any((map) => map.containsKey(index));
+    return index == _indexOfSelected;
+  }
+
+  void getFinalSelectedItems() {
+    for (Map<int, int> selectedItem in _numberOfSelectedInstances) {
+      // print(selectedItem);
+      selectedItem.forEach((key, value) {
+        // print(sets[key]);
+        finalSelectedItems[key] = {
+          ..._equipment[key],
+          'value': value,
+        };
+      });
+    }
+    print(finalSelectedItems);
+    // print(finalSelectedItems);
   }
 
   @override
@@ -175,10 +169,16 @@ class ItemsScreenState extends State<ItemsScreen> {
                               ),
                             ),
                           ),
+                          SizedBox(
+                            width: 10,
+                          ),
                           Padding(
-                            padding: const EdgeInsets.only(top: 10, left: 10),
+                            padding: EdgeInsets.only(
+                              top: 10,
+                              left: 10,
+                            ),
                             child: Text(
-                              "Items",
+                              "Equipment",
                               style: TextStyle(
                                 fontSize: 40,
                                 fontWeight: FontWeight.w800,
@@ -189,26 +189,24 @@ class ItemsScreenState extends State<ItemsScreen> {
                         ],
                       ),
                       SizedBox(height: 40),
-                      Container(
-                        child: Material(
-                          elevation: 5.0,
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                          child: TextField(
-                            controller: TextEditingController(),
-                            cursorColor: Theme.of(context).primaryColor,
-                            style: TextStyle(color: Colors.black, fontSize: 18),
-                            decoration: InputDecoration(
-                              labelText: 'Search',
-                              suffixIcon: Material(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30)),
-                                child: Icon(Icons.search),
-                              ),
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.symmetric(
-                                horizontal: 25,
-                                vertical: 13,
-                              ),
+                      Material(
+                        elevation: 5.0,
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        child: TextField(
+                          controller: TextEditingController(),
+                          cursorColor: Theme.of(context).primaryColor,
+                          style: TextStyle(color: Colors.black, fontSize: 18),
+                          decoration: InputDecoration(
+                            labelText: 'Search',
+                            suffixIcon: Material(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30)),
+                              child: Icon(Icons.search),
+                            ),
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: 25,
+                              vertical: 13,
                             ),
                           ),
                         ),
@@ -226,7 +224,7 @@ class ItemsScreenState extends State<ItemsScreen> {
                         child: Container(
                           alignment: Alignment.center,
                           child: Text(
-                            'Selected ${_numberOfSelectedInstances.length} of ${_items.length}',
+                            'Selected ${_numberOfSelectedInstances.length} of ${_equipment.length}',
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
@@ -257,15 +255,12 @@ class ItemsScreenState extends State<ItemsScreen> {
                   mainAxisSpacing: 10,
                   crossAxisSpacing: 10,
                   childAspectRatio: 0.8,
-                  children: _items
+                  children: _equipment
                       .asMap()
                       .entries
                       .map((entry) => MyChoosingGridViewCard(
-                            image: entry.value['image'],
-                            title: entry.value['title'],
-                            calories: entry.value['calories'],
-                            level: entry.value['level'],
-                            creator: entry.value['creator'],
+                            picture: entry.value['picture'],
+                            title: entry.value['name'],
                             index: entry.key,
                             selectionMode: _selectionMode,
                             setSelectionMode: setSelectionMode,
@@ -279,6 +274,21 @@ class ItemsScreenState extends State<ItemsScreen> {
               ),
             ],
           ),
+          if (_selectionMode)
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: ElevatedButton(
+                  child: Text('Submit'),
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.amber,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      )),
+                  onPressed: () {
+                    getFinalSelectedItems();
+                    Navigator.pop(context, finalSelectedItems);
+                  }),
+            ),
         ],
       ),
     ));
@@ -288,11 +298,8 @@ class ItemsScreenState extends State<ItemsScreen> {
 class MyChoosingGridViewCard extends StatefulWidget {
   MyChoosingGridViewCard({
     Key key,
-    @required this.image,
+    @required this.picture,
     @required this.title,
-    @required this.calories,
-    @required this.level,
-    @required this.creator,
     @required this.index,
     @required this.selectionMode,
     @required this.setSelectionMode,
@@ -302,11 +309,8 @@ class MyChoosingGridViewCard extends StatefulWidget {
     @required this.isSelected,
   }) : super(key: key);
 
-  final image;
+  final picture;
   final title;
-  final calories;
-  final level;
-  final creator;
 
   final int index;
   final bool selectionMode;
@@ -321,15 +325,11 @@ class MyChoosingGridViewCard extends StatefulWidget {
 }
 
 class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
-  Color mapLevelToColor(String level) {
-    if (level == 'red') {
-      return Colors.red.shade800;
-    } else if (level == 'yellow') {
-      return Colors.yellow.shade700;
-    } else if (level == 'green') {
-      return Colors.green.shade800;
-    }
-    return Colors.transparent;
+  String printDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+    return "$twoDigitMinutes:$twoDigitSeconds";
   }
 
   @override
@@ -341,6 +341,10 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
           widget.setSelectionMode(true);
           widget.incrementItem(widget.index);
         }
+      },
+      onTap: () {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => EquipmentListSelectable()));
       },
       child: Container(
         height: 200,
@@ -389,162 +393,46 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
                   topLeft: Radius.circular(imageBorderRadius),
                 ),
                 child: Image.network(
-                  widget.image,
+                  widget.picture,
                   fit: BoxFit.cover,
                 ),
               ),
             ),
-            Expanded(
-              child: Stack(
-                children: [
-                  ClipPath(
-                    clipper: ClipPathClass(),
-                    child: Container(
-                      height: double.infinity,
-                      width: double.infinity,
-                      color: mapLevelToColor(widget.level).withOpacity(0.6),
-                    ),
+            SizedBox(
+              height: 5,
+            ),
+            SizedBox(
+              height: 20,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  widget.title,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: Colors.black,
                   ),
-                  Container(
-                    padding: EdgeInsets.all(3),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(30),
-                        bottomRight: Radius.circular(30),
-                      ),
-                    ),
-                    width: double.infinity,
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 20,
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text(
-                              widget.title,
-                              softWrap: false,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text(
-                              'Calories: ${widget.calories}',
-                              softWrap: false,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ),
-                        // SizedBox(
-                        //   height: 20,
-                        //   child: FittedBox(
-                        //     fit: BoxFit.scaleDown,
-                        //     child: RichText(
-                        //         softWrap: false,
-                        //         text: TextSpan(
-                        //           text: 'Level: ',
-                        //           style: TextStyle(
-                        //             fontWeight: FontWeight.bold,
-                        //             fontSize: 12,
-                        //             color: Colors.black,
-                        //           ),
-                        //           children: [
-                        //             TextSpan(
-                        //               text: widget.level,
-                        //               style: TextStyle(
-                        //                 color: mapLevelToColor(widget.level),
-                        //               ),
-                        //             )
-                        //           ],
-                        //         )),
-                        //   ),
-                        // ),
-                        SizedBox(
-                          height: 20,
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text(
-                              'Created by:  ${widget.creator}',
-                              softWrap: false,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                ),
               ),
-            )
+            ),
+            if (widget.title != null)
+              SizedBox(
+                height: 20,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    'Reps: ${widget.title}',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),
     );
   }
 }
-
-class ClipPathClass extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    var path = Path();
-    path.moveTo(size.width - 50, size.height);
-    path.lineTo(size.width - 30, size.height);
-
-    var controlPoint = Offset(size.width - 1, size.height - 1);
-    var point = Offset(size.width, size.height - 30);
-    path.quadraticBezierTo(
-      controlPoint.dx,
-      controlPoint.dy,
-      point.dx,
-      point.dy,
-    );
-
-    path.lineTo(size.width, size.height - 50);
-    path.lineTo(size.width - 50, size.height);
-    // path.close();
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
-}
-
-// Stack(
-//   clipBehavior: Clip.antiAlias,
-//   children: [
-//     Positioned(
-//       bottom: 0,
-//       right: 0,
-//       child: Transform.rotate(
-//         angle: pi / 4,
-//         child: Container(
-//           width: 40,
-//           height: 60,
-//           decoration: BoxDecoration(
-//             color: Colors.blue,
-//             borderRadius: BorderRadius.only(
-//               topRight: Radius.circular(30),
-//               bottomRight: Radius.circular(30),
-//             ),
-//           ),
-//         ),
-//       ),
-//     ),
-//   ],
-// ),

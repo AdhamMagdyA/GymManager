@@ -10,11 +10,31 @@ class Others extends StatefulWidget {
 }
 
 class _OthersState extends State<Others> {
-  final title = ["Classes", "Equipment", "NutritionistSessions"];
+  final title = [
+    "Classes",
+    "Equipment",
+    "NutritionistSessions",
+    "Memberships",
+    "Private sessions",
+    "Exercise Groups",
+    "Diet Plans",
+    "Q&A",
+    "Supplments",
+    "Invitations",
+    "events",
+  ];
   final paths = [
     "/class-list",
     "/equipment-list",
-    "/nutritionist-session-list"
+    "/nutritionist-session-list",
+    "/memberships-list",
+    "/",
+    "/",
+    "/",
+    "/questions",
+    "/supplements",
+    "/invitations",
+    "/events",
   ];
   int number = 0;
 
