@@ -21,6 +21,7 @@ import 'package:gym_project/screens/common/view-group-details-screen.dart';
 import 'package:gym_project/screens/member/home-screen.dart';
 import 'package:gym_project/screens/member/schedule.dart';
 import 'package:gym_project/screens/member/week-groups.dart';
+import 'package:gym_project/screens/nutritionist/plan-schedule.dart';
 import 'package:gym_project/screens/nutritionist/view-plans-details-screen.dart';
 import 'package:gym_project/screens/questions/add-question-screen.dart';
 import 'package:gym_project/screens/questions/questions-screen.dart';
@@ -57,7 +58,7 @@ class _MemberUtilState extends State<MemberUtil> with TickerProviderStateMixin {
       'title': 'Training Plan',
     },
     {
-      'page': PlansDetailsScreen(),
+      'page': PlanSchedule(),
       'title': 'Diet Plan',
     },
     {

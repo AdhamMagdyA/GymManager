@@ -54,6 +54,7 @@ import 'package:gym_project/screens/admin/users/user_details.dart';
 import 'package:gym_project/screens/admin/util-screen.dart';
 import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
 import 'package:gym_project/screens/common/view-private-session-details.dart';
+import 'package:gym_project/screens/member/member-util.dart';
 import 'package:gym_project/screens/member/member_profile.dart';
 import 'package:gym_project/screens/member/workout-summery/workout-summeries.dart';
 import 'package:gym_project/screens/common/view-exercises-details-screen.dart';
@@ -72,6 +73,7 @@ import 'package:gym_project/screens/nutritionist/view-meals-details-screen.dart'
 import 'package:gym_project/screens/questions/add-question-screen.dart';
 import 'package:gym_project/screens/questions/questions-screen.dart';
 import 'package:gym_project/screens/questions/single-question.dart';
+import 'package:gym_project/viewmodels/login-view-model.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
 import 'package:gym_project/screens/my_choosing_gridview_screen.dart';
@@ -84,6 +86,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => User()),
+        ChangeNotifierProvider(create: (_) => LoginViewModel()),
       ],
       child: MyApp(),
     ),
@@ -99,6 +102,10 @@ class MyApp extends StatelessWidget {
       routes: {
         // When navigating to the "/" route, build the FirstScreen widget.
         '': (context) => AdminHomePage(),
+        '/admin/util': (context) => AdminUtil(),
+        '/coach/util': (context) => CoachTabsScreen(),
+        '/nutritionist/util': (context) => NutritionistUtil(),
+        '/member/util': (context) => MemberUtil(),
         // user routes
         '/user-details': (context) => UserDetails(),
         '/create-user': (context) => UserCreate(),
