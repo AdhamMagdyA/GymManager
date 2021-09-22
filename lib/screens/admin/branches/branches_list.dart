@@ -43,10 +43,11 @@ class _BranchesListState extends State<BranchesList> {
                   elevation: 5.0,
                   borderRadius: BorderRadius.all(Radius.circular(30)),
                   child: TextField(
-                    controller: TextEditingController(text: 'Search...'),
+                    controller: TextEditingController(),
                     cursorColor: Theme.of(context).primaryColor,
                     style: TextStyle(color: Colors.black, fontSize: 18),
                     decoration: InputDecoration(
+                        hintText: "Search...",
                         suffixIcon: Material(
                           borderRadius: BorderRadius.all(Radius.circular(30)),
                           child: Icon(Icons.search),

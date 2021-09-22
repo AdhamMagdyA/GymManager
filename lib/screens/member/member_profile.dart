@@ -126,7 +126,7 @@ class MapScreenState extends State<MemberProfile>
                                   new Text(
                                     'Personal Information',
                                     style: TextStyle(
-                                      fontSize: 18.0,
+                                      fontSize: 15.0,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -156,6 +156,7 @@ class MapScreenState extends State<MemberProfile>
                                     style: TextStyle(
                                       fontSize: 16.0,
                                       fontWeight: FontWeight.bold,
+                                      color: Colors.black,
                                     ),
                                   ),
                                 ],
@@ -194,8 +195,10 @@ class MapScreenState extends State<MemberProfile>
                                   new Text(
                                     'Email ',
                                     style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -233,8 +236,10 @@ class MapScreenState extends State<MemberProfile>
                                   new Text(
                                     'Mobile',
                                     style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -272,8 +277,10 @@ class MapScreenState extends State<MemberProfile>
                                   new Text(
                                     'Password',
                                     style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -311,8 +318,10 @@ class MapScreenState extends State<MemberProfile>
                                   new Text(
                                     'Membership Start Date',
                                     style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -350,8 +359,10 @@ class MapScreenState extends State<MemberProfile>
                                   new Text(
                                     'Membership End Date',
                                     style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -389,8 +400,10 @@ class MapScreenState extends State<MemberProfile>
                                   new Text(
                                     'Medical Physical History ',
                                     style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -429,8 +442,10 @@ class MapScreenState extends State<MemberProfile>
                                   new Text(
                                     'Medical Alergic History',
                                     style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -469,8 +484,10 @@ class MapScreenState extends State<MemberProfile>
                                   new Text(
                                     'Available Frozen Days',
                                     style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -508,8 +525,10 @@ class MapScreenState extends State<MemberProfile>
                                   new Text(
                                     'Available Membership Days',
                                     style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -547,8 +566,10 @@ class MapScreenState extends State<MemberProfile>
                                   new Text(
                                     'Active Days',
                                     style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ],
                               ),

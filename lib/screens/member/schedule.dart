@@ -135,10 +135,11 @@ class AllSchedule extends StatelessWidget {
             elevation: 5.0,
             borderRadius: BorderRadius.all(Radius.circular(30)),
             child: TextField(
-              controller: TextEditingController(text: 'Search...'),
+              controller: TextEditingController(),
               cursorColor: Theme.of(context).primaryColor,
               style: TextStyle(color: Colors.black, fontSize: 18),
               decoration: InputDecoration(
+                  hintText: "Search...",
                   suffixIcon: Material(
                     borderRadius: BorderRadius.all(Radius.circular(30)),
                     child: Icon(Icons.search),
@@ -217,10 +218,11 @@ class ClassesSchedule extends StatelessWidget {
             elevation: 5.0,
             borderRadius: BorderRadius.all(Radius.circular(30)),
             child: TextField(
-              controller: TextEditingController(text: 'Search...'),
+              controller: TextEditingController(),
               cursorColor: Theme.of(context).primaryColor,
               style: TextStyle(color: Colors.black, fontSize: 18),
               decoration: InputDecoration(
+                  hintText: "Search...",
                   suffixIcon: Material(
                     borderRadius: BorderRadius.all(Radius.circular(30)),
                     child: Icon(Icons.search),
@@ -279,10 +281,11 @@ class EventsSchedule extends StatelessWidget {
             elevation: 5.0,
             borderRadius: BorderRadius.all(Radius.circular(30)),
             child: TextField(
-              controller: TextEditingController(text: 'Search...'),
+              controller: TextEditingController(),
               cursorColor: Theme.of(context).primaryColor,
               style: TextStyle(color: Colors.black, fontSize: 18),
               decoration: InputDecoration(
+                  hintText: "Search...",
                   suffixIcon: Material(
                     borderRadius: BorderRadius.all(Radius.circular(30)),
                     child: Icon(Icons.search),
@@ -300,7 +303,7 @@ class EventsSchedule extends StatelessWidget {
               itemBuilder: (ctx, index) {
                 return InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, '/events');
+                    Navigator.pushNamed(context, '/event-details');
                   },
                   child: CustomListTileWithoutCounter(
                       'assets/images/user_icon.png',
@@ -340,10 +343,11 @@ class NutritionistsSessionsSchedule extends StatelessWidget {
             elevation: 5.0,
             borderRadius: BorderRadius.all(Radius.circular(30)),
             child: TextField(
-              controller: TextEditingController(text: 'Search...'),
+              controller: TextEditingController(),
               cursorColor: Theme.of(context).primaryColor,
               style: TextStyle(color: Colors.black, fontSize: 18),
               decoration: InputDecoration(
+                  hintText: "Search...",
                   suffixIcon: Material(
                     borderRadius: BorderRadius.all(Radius.circular(30)),
                     child: Icon(Icons.search),
@@ -360,9 +364,7 @@ class NutritionistsSessionsSchedule extends StatelessWidget {
               itemCount: length,
               itemBuilder: (ctx, index) {
                 return InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/user-details');
-                  },
+                  onTap: () {},
                   child: CustomListTileWithoutCounter(
                       'assets/images/user_icon.png',
                       this._titles[index],
@@ -401,10 +403,11 @@ class PrivateSessionsSchedule extends StatelessWidget {
             elevation: 5.0,
             borderRadius: BorderRadius.all(Radius.circular(30)),
             child: TextField(
-              controller: TextEditingController(text: 'Search...'),
+              controller: TextEditingController(),
               cursorColor: Theme.of(context).primaryColor,
               style: TextStyle(color: Colors.black, fontSize: 18),
               decoration: InputDecoration(
+                  hintText: "Search...",
                   suffixIcon: Material(
                     borderRadius: BorderRadius.all(Radius.circular(30)),
                     child: Icon(Icons.search),
@@ -422,7 +425,7 @@ class PrivateSessionsSchedule extends StatelessWidget {
               itemBuilder: (ctx, index) {
                 return InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, '/user-details');
+                    Navigator.pushNamed(context, '/session-details');
                   },
                   child: CustomListTileWithoutCounter(
                       'assets/images/user_icon.png',

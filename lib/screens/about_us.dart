@@ -45,35 +45,35 @@ class AboutUs extends StatelessWidget {
                   children: <Widget>[
                     Container(
                       child: Image.asset(
-                        'images/gym.jpg',
+                        'assets/images/others-supplements.png',
                         fit: BoxFit.cover,
                       ),
                       height: MediaQuery.of(context).size.height * 0.3,
                     ),
                     Container(
                       child: Image.asset(
-                        'images/gym.jpg',
+                        'assets/images/others-supplements.png',
                         fit: BoxFit.cover,
                       ),
                       height: MediaQuery.of(context).size.height * 0.3,
                     ),
                     Container(
                       child: Image.asset(
-                        'images/gym.jpg',
+                        'assets/images/others-supplements.png',
                         fit: BoxFit.cover,
                       ),
                       height: MediaQuery.of(context).size.height * 0.3,
                     ),
                     Container(
                       child: Image.asset(
-                        'images/gym.jpg',
+                        'assets/images/others-supplements.png',
                         fit: BoxFit.cover,
                       ),
                       height: MediaQuery.of(context).size.height * 0.3,
                     ),
                     Container(
                       child: Image.asset(
-                        'images/gym.jpg',
+                        'assets/images/others-supplements.png',
                         fit: BoxFit.cover,
                       ),
                       height: MediaQuery.of(context).size.height * 0.3,

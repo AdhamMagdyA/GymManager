@@ -53,80 +53,82 @@ class PlansViewScreen extends StatefulWidget {
 class _PlansViewScreenState extends State<PlansViewScreen> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        color: Colors.black,
-        padding: EdgeInsetsDirectional.all(10),
-        child: Stack(
-          children: [
-            Material(
-                elevation: 5.0,
-                borderRadius: BorderRadius.all(Radius.circular(30)),
-                child: TextFormField(
-                  controller: TextEditingController(),
-                  cursorColor: Theme.of(context).primaryColor,
-                  style: TextStyle(color: Colors.black, fontSize: 18),
-                  decoration: InputDecoration(
-                      hintText: 'Search..',
-                      suffixIcon: Material(
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                        child: Icon(Icons.search),
-                      ),
-                      border: InputBorder.none,
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
-                )),
-            Container(
-              margin: EdgeInsets.only(top: 80),
-              child: ListView(
-                children: [
-                  ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: widget.plans.length,
-                      itemBuilder: (ctx, index) {
-                        return myListTile(
-                            widget.plans[index]['title'],
-                            'Description: ' +
-                                widget.plans[index]['description'],
-                            'Duration: ' + widget.plans[index]['duration'],
-                            index,
-                            widget.isSelectionTime);
-                      }),
-                ],
-              ),
-            ),
-            if (PlansViewScreen.whoIsSelected != -1)
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          color: Colors.black,
+          padding: EdgeInsetsDirectional.all(10),
+          child: Stack(
+            children: [
+              Material(
+                  elevation: 5.0,
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                  child: TextFormField(
+                    controller: TextEditingController(),
+                    cursorColor: Theme.of(context).primaryColor,
+                    style: TextStyle(color: Colors.black, fontSize: 18),
+                    decoration: InputDecoration(
+                        hintText: 'Search..',
+                        suffixIcon: Material(
+                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                          child: Icon(Icons.search),
+                        ),
+                        border: InputBorder.none,
+                        contentPadding:
+                            EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
+                  )),
               Container(
-                margin: EdgeInsets.only(bottom: 20),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Row(
-                    children: [
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            primary: Color(0xFFFFCE2B)),
-                        child: Text('Submit'),
-                        onPressed: () {},
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            primary: Color(0xFFFFCE2B), elevation: 10),
-                        child: Text('Cancel'),
-                        onPressed: () {
-                          setState(() {
-                            PlansViewScreen.whoIsSelected = -1;
-                          });
-                        },
-                      ),
-                    ],
-                    mainAxisSize: MainAxisSize.min,
-                  ),
+                margin: EdgeInsets.only(top: 80),
+                child: ListView(
+                  children: [
+                    ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: widget.plans.length,
+                        itemBuilder: (ctx, index) {
+                          return myListTile(
+                              widget.plans[index]['title'],
+                              'Description: ' +
+                                  widget.plans[index]['description'],
+                              'Duration: ' + widget.plans[index]['duration'],
+                              index,
+                              widget.isSelectionTime);
+                        }),
+                  ],
                 ),
               ),
-          ],
+              if (PlansViewScreen.whoIsSelected != -1)
+                Container(
+                  margin: EdgeInsets.only(bottom: 20),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Row(
+                      children: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              primary: Color(0xFFFFCE2B)),
+                          child: Text('Submit'),
+                          onPressed: () {},
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              primary: Color(0xFFFFCE2B), elevation: 10),
+                          child: Text('Cancel'),
+                          onPressed: () {
+                            setState(() {
+                              PlansViewScreen.whoIsSelected = -1;
+                            });
+                          },
+                        ),
+                      ],
+                      mainAxisSize: MainAxisSize.min,
+                    ),
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );
