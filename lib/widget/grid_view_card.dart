@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 
 //if there is no subTitle1,2,3,4 put their values in the call with ''

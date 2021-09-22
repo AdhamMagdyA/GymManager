@@ -19,6 +19,22 @@ class MapScreenState extends State<CreatePrivateSessionForm>
   final FocusNode myFocusNode = FocusNode();
   DateTime confirmedDateTime;
   bool dateTimeStatus = false;
+
+  DateTime selectedDate = DateTime.now();
+  _selectDate(BuildContext context) async {
+    final DateTime selected = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2010),
+      lastDate: DateTime(2025),
+    );
+    if (selected != null && selected != selectedDate)
+      setState(() {
+        selectedDate = selected;
+        _status = true;
+      });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -271,74 +287,51 @@ class MapScreenState extends State<CreatePrivateSessionForm>
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 25.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                new Text(
-                                  'Date & Time',
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    //take to calendar
-                                    print('I was tapped!');
-                                    DatePicker.showDateTimePicker(
-                                      context,
-                                      showTitleActions: true,
-                                      minTime: DateTime(2020, 3, 5),
-                                      maxTime: DateTime(2022, 12, 30),
-                                      onChanged: (dateTime) {
-                                        print('change $dateTime');
-                                      },
-                                      onConfirm: (dateTime) {
-                                        print('confirm $dateTime');
-                                      },
-                                      currentTime: DateTime.now(),
-                                      locale: LocaleType.en,
-                                    ).then((dateTimeFinal) {
-                                      setState(() {
-                                        confirmedDateTime = dateTimeFinal;
-                                        dateTimeStatus = true;
-                                        print(confirmedDateTime);
-                                        print(dateTimeStatus);
-                                        refresh();
-                                      });
-                                    });
-                                  },
-                                  child: Text(
-                                    'Add',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: Theme.of(context).primaryColor),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                dateTimeStatus
-                                    ? new Flexible(
-                                        child: new TextFormField(
-                                            initialValue:
-                                                confirmedDateTime.toString()),
-                                      )
-                                    : SizedBox(
-                                        height: 1,
+                              padding: EdgeInsets.only(
+                                  left: 25.0, right: 25.0, top: 25.0),
+                              child: new Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: <Widget>[
+                                  new Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      new Text(
+                                        'Date ',
+                                        style: TextStyle(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                        ),
                                       ),
-                              ],
-                            ),
+                                    ],
+                                  ),
+                                ],
+                              )),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  left: 25.0, right: 25.0, top: 2.0),
+                              child: new Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: <Widget>[
+                                  RaisedButton(
+                                    onPressed: () {
+                                      _selectDate(context);
+                                    },
+                                    color: Color(0xFFFFCE2B),
+                                    child: Text("Choose Date"),
+                                    //focusNode: !_status,
+                                  ),
+                                ],
+                              )),
+                          Padding(
+                            padding: EdgeInsets.only(left: 25.0),
+                            child: _status
+                                ? Text(
+                                    "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}",
+                                    style: TextStyle(color: Colors.black),
+                                  )
+                                : SizedBox(),
                           ),
                           SizedBox(height: 10),
                           Container(
