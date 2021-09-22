@@ -52,7 +52,7 @@ class Exercise {
       calBurnt: json['cal_burnt'],
       reps: json['reps'],
       image: json['image'],
-      coachId: json['coachId'],
+      coachId: json['coach_id'],
       coachName: json['coach']['user']['name'] ?? '',
     );
   }

@@ -334,7 +334,8 @@ class MapScreenState extends State<CreateSetForm>
                                       print(_set);
 
                                       var setListViewModel =
-                                          Provider.of<SetListViewModel>(context)
+                                          Provider.of<SetListViewModel>(context,
+                                                  listen: false)
                                               .postSet(_set);
                                       print('set saved!');
                                     },

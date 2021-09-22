@@ -21,7 +21,7 @@ class Set {
       id: json['id'],
       title: json['title'],
       description: json['description'],
-      coachId: json['coachId'],
+      coachId: json['coach_id'],
       coachName: json['name'],
     );
   }
@@ -34,7 +34,7 @@ class Set {
       id: json['id'],
       title: json['title'],
       description: json['description'],
-      coachId: json['coachId'],
+      coachId: json['coach_id'],
       coachName: json['name'],
       exercises: newExercises,
     );

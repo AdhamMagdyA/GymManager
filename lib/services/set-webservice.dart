@@ -68,9 +68,9 @@ class SetWebService {
             }));
     print('response obtained!');
     print(response.statusCode);
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       final result = json.decode(response.body);
-      final exerciseJson = result['exercise'];
+      final exerciseJson = result['set'];
       return Set.detailsfromJson(exerciseJson);
     } else {
       throw Exception('response failed');
