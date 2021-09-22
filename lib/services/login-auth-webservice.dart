@@ -28,13 +28,9 @@ class LoginAuthWebService {
     );
 
     if (response.statusCode == 200) {
-      // If the server did return a 201 CREATED response,
-      // then parse the JSON.
       print(response.body);
-      return Login.fromJson(jsonDecode(response.body));
+      return Login.fromJson(jsonDecode(response.body)['data']);
     } else {
-      // If the server did not return a 201 CREATED response,
-      // then throw an exception.
       throw Exception('Failed to login.');
     }
   }

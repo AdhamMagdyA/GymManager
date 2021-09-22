@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:gym_project/common/my_popup.dart';
 import 'package:gym_project/screens/admin/util-screen.dart';
 import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
 import 'package:gym_project/screens/member/member-util.dart';
 import 'package:gym_project/screens/nutritionist/util-screen.dart';
+import 'package:gym_project/viewmodels/login-view-model.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
 import '../../style/styling.dart';
@@ -17,19 +19,57 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final _emailNode = FocusNode();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController emailController =
+      TextEditingController(text: 'parisian.dejon@example.net');
+  final TextEditingController passwordController =
+      TextEditingController(text: 'secret');
   final _passwordNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
+
     _emailNode.addListener(() {
       setState(() {});
     });
     _passwordNode.addListener(() {
       setState(() {});
     });
+  }
+
+  var loginViewModel;
+
+  @override
+  void didChangeDependencies() {
+    loginViewModel = Provider.of<LoginViewModel>(context);
+    token = loginViewModel.token;
+    role = loginViewModel.role;
+
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<User>(context, listen: false).setRole(role);
+      if (role == 'admin') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => AdminUtil()),
+        );
+      } else if (role == 'coach') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => CoachTabsScreen()),
+        );
+      } else if (role == 'nutritionist') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => NutritionistUtil()),
+        );
+      } else if (role == 'member') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => MemberUtil()),
+        );
+      }
+    });
+    super.didChangeDependencies();
   }
 
   @override
@@ -39,8 +79,17 @@ class _LoginState extends State<Login> {
     super.dispose();
   }
 
+  var token;
+  var role;
+
   @override
   Widget build(BuildContext context) {
+    // Future.delayed(Duration(seconds: 5), () {
+    //   if (login) {
+    //     token = Provider.of<LoginViewModel>(context).token;
+    //     role = Provider.of<LoginViewModel>(context).role;
+    //   }
+    // });
     return Scaffold(
       body: SingleChildScrollView(
         physics: NeverScrollableScrollPhysics(),
@@ -109,10 +158,13 @@ class _LoginState extends State<Login> {
                                     border: false,
                                     btnTxt: 'Login',
                                     roundedBorder: true,
-                                    onTap: () async {
-                                      await LoginAuthWebService().postLogin(
-                                          emailController.text,
-                                          passwordController.text);
+                                    onTap: () {
+                                      setState(() {
+                                        Provider.of<LoginViewModel>(context,
+                                                listen: false)
+                                            .fetchLogin(emailController.text,
+                                                passwordController.text);
+                                      });
                                     }),
                               ],
                             ),

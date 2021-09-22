@@ -1,6 +1,6 @@
 class Login {
-  String token;
-  String role;
+  String token = '';
+  String role = '';
 
   Login({this.token, this.role});
 
