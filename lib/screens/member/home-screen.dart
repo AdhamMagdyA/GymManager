@@ -105,10 +105,6 @@ class _MemberHomeScreenState extends State<MemberHomeScreen> {
                                   ),
                                 ],
                               ),
-                              Container(
-                                child: Text('Crowd Meter'),
-                                margin: EdgeInsets.fromLTRB(4, 4, 4, 4),
-                              ),
                             ],
                           ),
                         ),

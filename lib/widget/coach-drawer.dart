@@ -39,6 +39,18 @@ class CoachDrawer extends StatelessWidget {
                 ),
               ),
             ),
+            ListTile(
+              title: const Text(
+                'About us',
+                style: TextStyle(color: Colors.white),
+              ),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pushNamed(context, '/about-us');
+              },
+            ),
             SizedBox(
               height: 20,
             ),
