@@ -525,49 +525,34 @@ class MapScreenState extends State<EditExerciseForm>
                           ),
                           if (selectedEquipment.isNotEmpty)
                             CustomEquipmentListTile(selectedEquipment, refresh),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: 95.0, bottom: 0, right: 95.0, top: 50.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(right: 0),
-                                    child: Container(
-                                        child: FittedBox(
-                                      fit: BoxFit.fitWidth,
-                                      child: new ElevatedButton(
-                                        child: new Text("Create"),
-                                        style: ElevatedButton.styleFrom(
-                                          shape: new RoundedRectangleBorder(
-                                            borderRadius:
-                                                new BorderRadius.circular(10.0),
-                                          ),
-
-                                          primary: Color(0xFFFFCE2B),
-                                          onPrimary: Colors.black,
-                                          // padding: EdgeInsets.symmetric(
-                                          //     horizontal: 10, vertical: 5),
-                                          textStyle: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        onPressed: () {
-                                          setState(() {
-                                            _status = true;
-                                            FocusScope.of(context)
-                                                .requestFocus(new FocusNode());
-                                          });
-                                        },
-                                      ),
-                                    )),
-                                  ),
-                                  flex: 2,
+                          SizedBox(height: 10),
+                          Container(
+                            width: double.infinity,
+                            alignment: Alignment.center,
+                            child: ElevatedButton(
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text("Edit"),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                shape: new RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(10.0),
                                 ),
-                              ],
+                                primary: Color(0xFFFFCE2B),
+                                onPrimary: Colors.black,
+                                textStyle: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                minimumSize: Size(100, 30),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _status = true;
+                                  FocusScope.of(context)
+                                      .requestFocus(new FocusNode());
+                                });
+                              },
                             ),
                           ),
                         ],
