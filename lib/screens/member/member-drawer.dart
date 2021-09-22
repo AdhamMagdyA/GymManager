@@ -40,6 +40,54 @@ class MemberDrawer extends StatelessWidget {
             ),
             ListTile(
               title: const Text(
+                'Workout Summaries',
+                style: TextStyle(color: Colors.white),
+              ),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pushNamed(context, '/workout-summeries');
+              },
+            ),
+            ListTile(
+              title: const Text(
+                'Fitness Summaries',
+                style: TextStyle(color: Colors.white),
+              ),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pushNamed(context, '/fitness-summaries');
+              },
+            ),
+            ListTile(
+              title: const Text(
+                'Feedback',
+                style: TextStyle(color: Colors.white),
+              ),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pushNamed(context, '/feedback');
+              },
+            ),
+            ListTile(
+              title: const Text(
+                'Invite',
+                style: TextStyle(color: Colors.white),
+              ),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pushNamed(context, '/invite');
+              },
+            ),
+            ListTile(
+              title: const Text(
                 'About us',
                 style: TextStyle(color: Colors.white),
               ),

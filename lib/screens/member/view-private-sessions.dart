@@ -172,6 +172,36 @@ class _ViewPrivateSessionsScreenState extends State<ViewPrivateSessionsScreen> {
           child: Stack(children: [
             ListView(
               children: [
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Container(
+                    padding: EdgeInsets.all(20),
+                    child: Row(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: new Icon(
+                            Icons.arrow_back_ios,
+                            color: Color(0xFFFFCE2B),
+                            size: 22.0,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 25.0),
+                          //-->header
+                          child: new Text('Private Sessions',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.0,
+                                  fontFamily: 'sans-serif-light',
+                                  color: Colors.white)),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
                 Material(
                     elevation: 5.0,
                     borderRadius: BorderRadius.all(Radius.circular(30)),

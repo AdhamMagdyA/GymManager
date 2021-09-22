@@ -56,6 +56,7 @@ import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
 import 'package:gym_project/screens/member/member_profile.dart';
 import 'package:gym_project/screens/member/workout-summery/workout-summeries.dart';
 import 'package:gym_project/screens/common/view-exercises-details-screen.dart';
+import 'package:gym_project/screens/nutritionist/fitness-summaries.dart';
 import 'package:gym_project/screens/nutritionist/items_screen.dart';
 import 'package:gym_project/screens/member/view-private-sessions.dart';
 import 'package:gym_project/screens/my_choosing_gridview_screen.dart';
@@ -130,6 +131,9 @@ class MyApp extends StatelessWidget {
         //workout summery
         '/workout-summeries': (context) => WorkoutSummaries(),
         '/nutritionist-sessions-list': (context) => NutritionistSessionsList(),
+
+        //fitness summery
+        '/fitness-summaries': (context) => FitnessSummariesScreen(),
 
         //profiles
         '/coach-profile': (context) => CoachProfile(),

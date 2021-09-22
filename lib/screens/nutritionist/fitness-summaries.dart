@@ -25,7 +25,8 @@ class FitnessSummariesScreen extends StatelessWidget {
     return Stack(
       children: [
         Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding:
+              const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 80),
           child: Container(
             decoration: BoxDecoration(
               shape: BoxShape.rectangle,
@@ -84,6 +85,36 @@ class FitnessSummariesScreen extends StatelessWidget {
             ]),
           ),
         ),
+        Align(
+          alignment: Alignment.topLeft,
+          child: Container(
+            padding: EdgeInsets.all(20),
+            child: Row(
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: new Icon(
+                    Icons.arrow_back_ios,
+                    color: Color(0xFFFFCE2B),
+                    size: 22.0,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 25.0),
+                  //-->header
+                  child: new Text('Fitness Summaries',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.0,
+                          fontFamily: 'sans-serif-light',
+                          color: Colors.white)),
+                ),
+              ],
+            ),
+          ),
+        )
       ],
     );
   }
