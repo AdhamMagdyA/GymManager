@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:gym_project/models/exercise.dart';
 import 'package:gym_project/screens/coach/exercises/edit-exercise.dart';
 import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
 import 'package:gym_project/viewmodels/exercise-view-model.dart';
+import 'package:gym_project/widget/back-button.dart';
+import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
 
 import '../../common/view-exercises-details-screen.dart';
@@ -9,7 +13,7 @@ import '../../common/view-exercises-details-screen.dart';
 class ExercisesScreen extends StatefulWidget {
   bool isSelectionTime = false;
   ExercisesScreen(this.isSelectionTime);
-  static String routeName = '/exercises/index';
+  static String routeName = '/exercises/select';
 
   @override
   ExercisesScreenState createState() => ExercisesScreenState();
@@ -18,12 +22,22 @@ class ExercisesScreen extends StatefulWidget {
 class ExercisesScreenState extends State<ExercisesScreen> {
   List<ExerciseViewModel> _exercises = [];
 
+  bool error = false;
+  bool done = false;
+
   bool _selectionMode = false;
   @override
   void initState() {
     super.initState();
     Provider.of<ExerciseListViewModel>(context, listen: false)
-        .fetchListExercises();
+        .fetchListExercises(Provider.of<User>(context, listen: false).token)
+        .catchError((err) {
+      setState(() {
+        error = true;
+      });
+      print('error occured $err');
+    });
+
     // Provider.of<ExerciseListViewModel>(context, listen: false)
     //     .fetchListExercises();
     if (widget.isSelectionTime == true) {
@@ -31,30 +45,44 @@ class ExercisesScreenState extends State<ExercisesScreen> {
     }
   }
 
+  var exerciseListViewModel;
+  @override
+  void didChangeDependencies() {
+    exerciseListViewModel = Provider.of<ExerciseListViewModel>(context);
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      if (exerciseListViewModel.exercises.isNotEmpty) {
+        setState(() {
+          done = true;
+          _exercises = exerciseListViewModel.exercises;
+        });
+      }
+    });
+  }
+
   List<Map<int, int>> _numberOfSelectedInstances = [];
   Map<int, Object> finalSelectedItems = {};
   bool _argumentsLoaded = false;
   List<Map<Object, Object>> oldSelectedExercise = [];
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (_argumentsLoaded) {
-      oldSelectedExercise = ModalRoute.of(context).settings.arguments;
-      _selectionMode = true;
-      print(oldSelectedExercise);
-      if (oldSelectedExercise.isNotEmpty) {
-        setState(() {
-          oldSelectedExercise.forEach((exercise) {
-            _numberOfSelectedInstances
-                .add({exercise['index'] as int: exercise['value'] as int});
-            _selectionMode = true;
-          });
-        });
-      }
-      _argumentsLoaded = true;
-    }
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   if (_argumentsLoaded) {
+  //     oldSelectedExercise = ModalRoute.of(context).settings.arguments;
+  //     _selectionMode = true;
+  //     print(oldSelectedExercise);
+  //     if (oldSelectedExercise.isNotEmpty) {
+  //       setState(() {
+  //         oldSelectedExercise.forEach((exercise) {
+  //           _numberOfSelectedInstances
+  //               .add({exercise['index'] as int: exercise['value'] as int});
+  //           _selectionMode = true;
+  //         });
+  //       });
+  //     }
+  //     _argumentsLoaded = true;
+  //   }
+  // }
 
   void setSelectionMode(bool value) {
     setState(() {
@@ -120,8 +148,6 @@ class ExercisesScreenState extends State<ExercisesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var exerciseListViewModel = Provider.of<ExerciseListViewModel>(context);
-    _exercises = exerciseListViewModel.exercises;
     return Scaffold(
         body: SafeArea(
       child: Stack(
@@ -148,163 +174,163 @@ class ExercisesScreenState extends State<ExercisesScreen> {
                     bottomRight: Radius.circular(160),
                     topRight: Radius.circular(0))),
           ),
-          _exercises.isEmpty
-              ? Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.white,
-                  ),
+          error
+              ? Stack(
+                  children: [
+                    CustomBackButton(),
+                    Center(
+                        child: Text('An error occurred',
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                            ))),
+                  ],
                 )
-              : CustomScrollView(
-                  slivers: <Widget>[
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.all(26.0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    top: 10,
-                                    left: 10,
-                                  ),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Container(
-                                        height: 42,
-                                        width: 42,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          shape: BoxShape.circle,
+              : (done && _exercises.isEmpty)
+                  ? Stack(
+                      children: [
+                        CustomBackButton(),
+                        Center(
+                            child: Text('No exercises found',
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                ))),
+                      ],
+                    )
+                  : _exercises.isEmpty
+                      ? Stack(
+                          children: [
+                            CustomBackButton(),
+                            Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        )
+                      : CustomScrollView(
+                          slivers: <Widget>[
+                            SliverToBoxAdapter(
+                              child: Padding(
+                                padding: const EdgeInsets.all(26.0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Row(
+                                      children: [
+                                        CustomBackButton(),
+                                        SizedBox(
+                                          width: 10,
                                         ),
-                                        child: Center(
-                                          child: Icon(
-                                            Icons.arrow_back,
-                                            color: Colors.black,
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                            top: 10,
+                                            left: 10,
+                                          ),
+                                          child: Text(
+                                            "Exercises",
+                                            style: TextStyle(
+                                              fontSize: 40,
+                                              fontWeight: FontWeight.w800,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 40),
+                                    Material(
+                                      elevation: 5.0,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(30)),
+                                      child: TextFormField(
+                                        controller: TextEditingController(),
+                                        cursorColor:
+                                            Theme.of(context).primaryColor,
+                                        style: TextStyle(
+                                            color: Colors.black, fontSize: 18),
+                                        decoration: InputDecoration(
+                                          hintText: 'Search..',
+                                          suffixIcon: Material(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(30)),
+                                            child: Icon(Icons.search),
+                                          ),
+                                          border: InputBorder.none,
+                                          contentPadding: EdgeInsets.symmetric(
+                                            horizontal: 25,
+                                            vertical: 13,
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
+                                  ],
                                 ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    top: 10,
-                                    left: 10,
-                                  ),
-                                  child: Text(
-                                    "Exercises",
-                                    style: TextStyle(
-                                      fontSize: 40,
-                                      fontWeight: FontWeight.w800,
-                                      color: Colors.white,
+                              ),
+                            ),
+                            if (_selectionMode)
+                              SliverToBoxAdapter(
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          'Selected ${_numberOfSelectedInstances.length} of ${_exercises.length}',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                    IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _selectionMode = false;
+                                          _numberOfSelectedInstances.clear();
+                                        });
+                                      },
+                                      icon: CircleAvatar(
+                                        radius: 30,
+                                        backgroundColor:
+                                            Colors.black.withOpacity(0.3),
+                                        child: Icon(
+                                          Icons.close,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 ),
-                              ],
-                            ),
-                            SizedBox(height: 40),
-                            Material(
-                              elevation: 5.0,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30)),
-                              child: TextFormField(
-                                controller: TextEditingController(),
-                                cursorColor: Theme.of(context).primaryColor,
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 18),
-                                decoration: InputDecoration(
-                                  hintText: 'Search..',
-                                  suffixIcon: Material(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(30)),
-                                    child: Icon(Icons.search),
-                                  ),
-                                  border: InputBorder.none,
-                                  contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 25,
-                                    vertical: 13,
-                                  ),
-                                ),
+                              ),
+                            SliverPadding(
+                              padding: const EdgeInsets.all(26.0),
+                              sliver: SliverGrid.count(
+                                crossAxisCount: 2,
+                                mainAxisSpacing: 10,
+                                crossAxisSpacing: 10,
+                                childAspectRatio: 0.8,
+                                children: [
+                                  for (int index = 0;
+                                      index < _exercises.length;
+                                      index++)
+                                    MyChoosingGridViewCard(
+                                        exercise: _exercises[index],
+                                        index: index,
+                                        selectionMode: _selectionMode,
+                                        setSelectionMode: setSelectionMode,
+                                        incrementItem: incrementItem,
+                                        decrementItem: decrementItem,
+                                        selectedItemsNumber:
+                                            selectedItemsNumber,
+                                        isSelected: isSelected,
+                                        selectionTime: widget.isSelectionTime)
+                                ],
                               ),
                             ),
                           ],
                         ),
-                      ),
-                    ),
-                    if (_selectionMode)
-                      SliverToBoxAdapter(
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Expanded(
-                              child: Container(
-                                alignment: Alignment.center,
-                                child: Text(
-                                  'Selected ${_numberOfSelectedInstances.length} of ${_exercises.length}',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  _selectionMode = false;
-                                  _numberOfSelectedInstances.clear();
-                                });
-                              },
-                              icon: CircleAvatar(
-                                radius: 30,
-                                backgroundColor: Colors.black.withOpacity(0.3),
-                                child: Icon(
-                                  Icons.close,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    SliverPadding(
-                      padding: const EdgeInsets.all(26.0),
-                      sliver: SliverGrid.count(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 10,
-                        childAspectRatio: 0.8,
-                        children: [
-                          for (int index = 0;
-                              index < _exercises.length;
-                              index++)
-                            MyChoosingGridViewCard(
-                                id: _exercises[index].id,
-                                image: _exercises[index].image,
-                                title: _exercises[index].title,
-                                reps: _exercises[index].reps,
-                                duration: _exercises[index].duration,
-                                coach: _exercises[index].coachName,
-                                index: index,
-                                selectionMode: _selectionMode,
-                                setSelectionMode: setSelectionMode,
-                                incrementItem: incrementItem,
-                                decrementItem: decrementItem,
-                                selectedItemsNumber: selectedItemsNumber,
-                                isSelected: isSelected,
-                                selectionTime: widget.isSelectionTime)
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
           if (_selectionMode)
             Align(
               alignment: Alignment.bottomCenter,
@@ -330,12 +356,7 @@ class ExercisesScreenState extends State<ExercisesScreen> {
 class MyChoosingGridViewCard extends StatefulWidget {
   MyChoosingGridViewCard({
     Key key,
-    @required this.id,
-    @required this.image,
-    @required this.title,
-    @required this.reps,
-    @required this.duration,
-    @required this.coach,
+    @required this.exercise,
     @required this.index,
     @required this.selectionMode,
     @required this.setSelectionMode,
@@ -346,12 +367,7 @@ class MyChoosingGridViewCard extends StatefulWidget {
     @required this.selectionTime,
   }) : super(key: key);
 
-  final image;
-  final title;
-  final reps;
-  final duration;
-  final coach;
-  final id;
+  final ExerciseViewModel exercise;
   final int index;
   final bool selectionMode;
   final Function setSelectionMode;
@@ -405,7 +421,7 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
 
   @override
   Widget build(BuildContext context) {
-    print('${widget.title} ${widget.id}');
+    print('${widget.exercise.title} ${widget.exercise.id}');
     final double imageBorderRadius = widget.selectionMode ? 0 : 30;
     return GestureDetector(
       onTap: () {
@@ -419,7 +435,7 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
                     create: (_) => ExerciseListViewModel(),
                   ),
                 ],
-                child: ExerciseDetailsScreen(widget.id),
+                child: ExerciseDetailsScreen(widget.exercise.id),
               ),
             ),
           );
@@ -494,7 +510,7 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
                     topLeft: Radius.circular(imageBorderRadius),
                   ),
                   child: Image.network(
-                    widget.image,
+                    widget.exercise.image,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -508,7 +524,7 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
               child: FittedBox(
                 fit: BoxFit.scaleDown,
                 child: Text(
-                  widget.title,
+                  widget.exercise.title,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
@@ -517,13 +533,13 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
                 ),
               ),
             ),
-            if (widget.reps != null)
+            if (widget.exercise.reps != null)
               SizedBox(
                 height: 20,
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Text(
-                    'Reps: ${widget.reps}',
+                    'Reps: ${widget.exercise.reps}',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 12,
@@ -532,13 +548,13 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
                   ),
                 ),
               ),
-            if (widget.duration != null)
+            if (widget.exercise.duration != null)
               SizedBox(
                 height: 20,
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Text(
-                    formatDuration(widget.duration),
+                    formatDuration(widget.exercise.duration),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 12,
@@ -551,7 +567,7 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
               height: 20,
               child: FittedBox(
                 fit: BoxFit.scaleDown,
-                child: Text('Created by:  ${widget.coach}',
+                child: Text('Created by:  ${widget.exercise.coachName}',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 12,
@@ -590,7 +606,8 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => EditExerciseForm(),
+                                    builder: (context) => EditExerciseForm(
+                                        id: widget.exercise.id),
                                   ));
                             },
                           ),
@@ -630,7 +647,8 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
                                         create: (_) => ExerciseListViewModel(),
                                       ),
                                     ],
-                                    child: ExerciseDetailsScreen(widget.id),
+                                    child: ExerciseDetailsScreen(
+                                        widget.exercise.id),
                                   ),
                                 ),
                               );

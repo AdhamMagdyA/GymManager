@@ -74,19 +74,7 @@ class OthersScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(16),
                                 )),
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => MultiProvider(
-                                      providers: [
-                                        ChangeNotifierProvider(
-                                          create: (_) =>
-                                              ExerciseListViewModel(),
-                                        ),
-                                      ],
-                                      child: CreateExerciseForm(),
-                                    ),
-                                  ));
+                              Navigator.pushNamed(context, '/exercises/create');
                             },
                             child: Text('Exercise'),
                           ),
@@ -103,10 +91,7 @@ class OthersScreen extends StatelessWidget {
                               ),
                             ),
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => CreateSetForm()));
+                              Navigator.pushNamed(context, '/sets/create');
                             },
                             child: Text('Set'),
                           ),
@@ -122,10 +107,7 @@ class OthersScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(16),
                                 )),
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => CreateGroupForm()));
+                              Navigator.pushNamed(context, '/groups/create');
                             },
                             child: Text('Group'),
                           ),
@@ -160,11 +142,7 @@ class OthersScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(16),
                                 )),
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          CreatePrivateSessionForm()));
+                              Navigator.pushNamed(context, '/sessions/create');
                             },
                             child: Text('Private Session'),
                           ),
@@ -230,19 +208,7 @@ class OthersScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(16),
                                 )),
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => MultiProvider(
-                                      providers: [
-                                        ChangeNotifierProvider(
-                                          create: (_) =>
-                                              ExerciseListViewModel(),
-                                        ),
-                                      ],
-                                      child: ExercisesScreen(false),
-                                    ),
-                                  ));
+                              Navigator.pushNamed(context, '/exercises/view');
                             },
                             child: Text('All Exercises'),
                           ),
@@ -259,18 +225,7 @@ class OthersScreen extends StatelessWidget {
                               ),
                             ),
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => MultiProvider(
-                                            providers: [
-                                              ChangeNotifierProvider(
-                                                create: (_) =>
-                                                    SetListViewModel(),
-                                              ),
-                                            ],
-                                            child: ViewSetsScreen(false),
-                                          )));
+                              Navigator.pushNamed(context, '/sets/view');
                             },
                             child: Text('All Sets'),
                           ),
@@ -286,11 +241,7 @@ class OthersScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(16),
                                 )),
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          ViewGroupsScreen(false)));
+                              Navigator.pushNamed(context, '/groups/view');
                             },
                             child: Text('All Groups'),
                           ),

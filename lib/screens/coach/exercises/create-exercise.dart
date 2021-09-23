@@ -8,6 +8,7 @@ import 'package:gym_project/screens/coach/equipment/equipments-list.dart';
 import 'package:gym_project/viewmodels/equipment-list-view-model.dart';
 import 'package:gym_project/viewmodels/equipment-view-model.dart';
 import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
+import 'package:gym_project/widget/providers/user.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
@@ -47,16 +48,23 @@ class MapScreenState extends State<CreateExerciseForm>
   bool emptyEquipment = false;
 
   @override
+  void didChangeDependencies() {
+    exerciseListViewModel = Provider.of<ExerciseListViewModel>(context);
+    // if (status) {
+    //   // exerciseListViewModel = Provider.of<ExerciseListViewModel>(context);
+    //   // SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    //   //   if (exerciseListViewModel.exercise != null)
+    //   //     showSuccessMessage(context);
+    //   //   else
+    //   //     showErrorMessage(context);
+    //   // });
+    // }
+    super.didChangeDependencies();
+  }
+
+  @override
   void initState() {
     super.initState();
-    if (status == true) {
-      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        if (exerciseListViewModel.exercise != null)
-          showSuccessMessage(context);
-        else
-          showErrorMessage(context);
-      });
-    }
   }
 
   refresh() {
@@ -66,7 +74,14 @@ class MapScreenState extends State<CreateExerciseForm>
   bool saveExercise() {
     setState(() {
       Provider.of<ExerciseListViewModel>(context, listen: false)
-          .postExercise(_exercise);
+          .postExercise(
+              _exercise, Provider.of<User>(context, listen: false).token)
+          .then((value) {
+        showSuccessMessage(context);
+      }).catchError((err) {
+        showErrorMessage(context);
+        print('error occured $err');
+      });
     });
     return true;
   }
@@ -172,9 +187,6 @@ class MapScreenState extends State<CreateExerciseForm>
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    if (status) {
-      exerciseListViewModel = Provider.of<ExerciseListViewModel>(context);
-    }
     return new Scaffold(
       body: SafeArea(
         child: new Container(
@@ -560,15 +572,12 @@ class MapScreenState extends State<CreateExerciseForm>
                                 children: <Widget>[
                                   new Flexible(
                                     child: new TextFormField(
-                                      maxLength: 3,
                                       validator: (value) {
                                         print(value);
                                         if (value.isEmpty || value == null) {
                                           return 'Value cannot be empty!';
                                         }
-                                        if (value.length > 3) {
-                                          return 'length must not exceed 3!';
-                                        }
+
                                         return null;
                                       },
                                       keyboardType:

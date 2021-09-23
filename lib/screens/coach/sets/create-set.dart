@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:gym_project/screens/coach/sets/view-sets.dart';
 import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
 import 'package:gym_project/viewmodels/exercise-view-model.dart';
@@ -26,10 +27,39 @@ class MapScreenState extends State<CreateSetForm>
 
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  TextEditingController breakDurationController = TextEditingController();
+
+  bool status = false;
+
+  SetListViewModel setListViewModel;
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void didChangeDependencies() {
+    if (status) {
+      setListViewModel = Provider.of<SetListViewModel>(context);
+    }
+    super.didChangeDependencies();
+  }
 
   @override
   void initState() {
     super.initState();
+    if (status == true) {
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        if (setListViewModel.set != null)
+          showSuccessMessage(context);
+        else
+          showErrorMessage(context);
+      });
+    }
+  }
+
+  bool saveSet() {
+    setState(() {
+      Provider.of<SetListViewModel>(context, listen: false).postSet(_set);
+    });
+    return true;
   }
 
   refresh() {
@@ -157,7 +187,13 @@ class MapScreenState extends State<CreateSetForm>
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 new Flexible(
-                                  child: new TextField(
+                                  child: new TextFormField(
+                                    validator: (value) {
+                                      if (value.isEmpty || value == null) {
+                                        return 'Value cannot be empty!';
+                                      }
+                                      return null;
+                                    },
                                     controller: titleController,
                                     decoration: const InputDecoration(
                                         hintText: "Enter Your Title"),
@@ -189,20 +225,73 @@ class MapScreenState extends State<CreateSetForm>
                                 ],
                               )),
                           Padding(
+                            padding: EdgeInsets.only(
+                                left: 25.0, right: 25.0, top: 2.0),
+                            child: new Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                new Flexible(
+                                  child: new TextFormField(
+                                    validator: (value) {
+                                      if (value.isEmpty || value == null) {
+                                        return 'Value cannot be empty!';
+                                      }
+                                      return null;
+                                    },
+                                    controller: descriptionController,
+                                    decoration: const InputDecoration(
+                                      hintText: "Enter Your Description",
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
                               padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 2.0),
+                                  left: 25.0, right: 25.0, top: 25.0),
                               child: new Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children: <Widget>[
-                                  new Flexible(
-                                    child: new TextField(
-                                      decoration: const InputDecoration(
-                                        hintText: "Enter Your Description",
+                                  new Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      new Text(
+                                        'Break Duration',
+                                        style: TextStyle(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                        ),
                                       ),
-                                    ),
+                                    ],
                                   ),
                                 ],
                               )),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: 25.0, right: 25.0, top: 2.0),
+                            child: new Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                new Flexible(
+                                  child: new TextFormField(
+                                    validator: (value) {
+                                      if (value.isEmpty || value == null) {
+                                        return 'Value cannot be empty!';
+                                      }
+                                      return null;
+                                    },
+                                    controller: breakDurationController,
+                                    decoration: const InputDecoration(
+                                      hintText: "Enter duration in form h:m:s",
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                           Padding(
                               padding: EdgeInsets.only(
                                   left: 25.0, right: 25.0, top: 25.0),
@@ -222,95 +311,6 @@ class MapScreenState extends State<CreateSetForm>
                                         ),
                                       ),
                                     ],
-                                  ),
-                                ],
-                              )),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                new Flexible(
-                                  child: new TextField(
-                                    controller: descriptionController,
-                                    decoration: const InputDecoration(
-                                      hintText: "Enter Your Description",
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          if (selectedExercises.isNotEmpty)
-                            ReorderableListView(
-                              shrinkWrap: true,
-                              children: <Widget>[
-                                for (int index = 0;
-                                    index < selectedExercises.length;
-                                    index++)
-                                  CustomExerciseListTile(Key(index.toString()),
-                                      selectedExercises[index], refresh),
-                              ],
-                              onReorder: (int oldIndex, int newIndex) {
-                                setState(() {
-                                  if (oldIndex < newIndex) {
-                                    newIndex -= 1;
-                                  }
-                                  final ExerciseViewModel item =
-                                      selectedExercises.removeAt(oldIndex);
-                                  selectedExercises.insert(newIndex, item);
-                                });
-                              },
-                            ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  left: 95.0,
-                                  bottom: 0,
-                                  right: 95.0,
-                                  top: 50.0),
-                              child: new Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Padding(
-                                      padding: EdgeInsets.only(right: 0),
-                                      child: Container(
-                                          child: new ElevatedButton(
-                                        child: new Text("Create"),
-                                        style: ElevatedButton.styleFrom(
-                                          shape: new RoundedRectangleBorder(
-                                            borderRadius:
-                                                new BorderRadius.circular(10.0),
-                                          ),
-                                          primary: Color(0xFFFFCE2B),
-                                          onPrimary: Colors.black,
-                                          // padding: EdgeInsets.symmetric(
-                                          //     horizontal: 10, vertical: 5),
-                                          textStyle: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        onPressed: () {
-                                          setState(() {
-                                            FocusScope.of(context)
-                                                .requestFocus(new FocusNode());
-                                          });
-                                        },
-                                      )),
-                                    ),
-                                    flex: 2,
                                   ),
                                 ],
                               )),
@@ -417,23 +417,19 @@ class MapScreenState extends State<CreateSetForm>
                                         });
 
                                         print('Now set can be created!');
+                                        if (_formKey.currentState.validate() &&
+                                            selectedExercises.isNotEmpty) {
+                                          _set = new Set(
+                                            title: titleController.text,
+                                            description:
+                                                descriptionController.text,
+                                            exercises: selectedExercises
+                                                .map((e) => e.exercise),
+                                          );
 
-                                        _set = new Set(
-                                          title: titleController.text,
-                                          description:
-                                              descriptionController.text,
-                                          exercises: selectedExercises
-                                              .map((e) => e.exercise),
-                                        );
-
-                                        print(_set);
-
-                                        var setListViewModel =
-                                            Provider.of<SetListViewModel>(
-                                                    context,
-                                                    listen: false)
-                                                .postSet(_set);
-                                        print('set saved!');
+                                          print(_set);
+                                          status = saveSet();
+                                        }
                                       },
                                     )),
                                   ),

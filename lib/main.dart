@@ -23,6 +23,8 @@ import 'package:gym_project/screens/coach/groups/edit-group.dart';
 import 'package:gym_project/screens/coach/groups/view-groups.dart';
 import 'package:gym_project/screens/coach/private%20sessions/create-private-session.dart';
 import 'package:gym_project/screens/coach/private%20sessions/edit-private-session.dart';
+import 'package:gym_project/screens/coach/private%20sessions/view-booked-sessions.dart';
+import 'package:gym_project/screens/coach/private%20sessions/view-my-private-sessions.dart';
 import 'package:gym_project/screens/coach/sets/create-set.dart';
 import 'package:gym_project/screens/coach/sets/edit-set.dart';
 import 'package:gym_project/screens/coach/sets/view-sets.dart';
@@ -75,6 +77,7 @@ import 'package:gym_project/screens/questions/questions-screen.dart';
 import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
 import 'package:gym_project/screens/questions/single-question.dart';
 import 'package:gym_project/viewmodels/login-view-model.dart';
+import 'package:gym_project/viewmodels/set-list-view-model.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
 import 'package:gym_project/screens/my_choosing_gridview_screen.dart';
@@ -82,12 +85,26 @@ import 'package:gym_project/screens/my_choosing_gridview_screen.dart';
 import 'screens/common/ProfilePage.dart';
 import 'screens/member/home-screen.dart';
 
+var token;
+
 void main() {
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => User()),
         ChangeNotifierProvider(create: (_) => LoginViewModel()),
+        ChangeNotifierProvider(
+          create: (_) => ExerciseListViewModel(),
+        ),
+        // ChangeNotifierProxyProvider<LoginViewModel, ExerciseListViewModel>(
+        //     create: (context) => ExerciseListViewModel(),
+        //     update: (context, login, exercise) {
+        //       token = login.token;
+        //       return exercise..update(login.token);
+        //     }),
+        ChangeNotifierProvider(
+          create: (_) => SetListViewModel(),
+        ),
       ],
       child: MyApp(),
     ),
@@ -182,39 +199,29 @@ class MyApp extends StatelessWidget {
         // exercises
         ExercisesScreen.routeName: (context) => ExercisesScreen(false),
         //exercises routes
-        '/exercises': (context) => MultiProvider(
-              providers: [
-                ChangeNotifierProvider(
-                  create: (_) => ExerciseListViewModel(),
-                ),
-              ],
-              child: ExercisesScreen(false),
-            ),
-        '/exercises/index': (context) => MultiProvider(
-              providers: [
-                ChangeNotifierProvider(
-                  create: (_) => ExerciseListViewModel(),
-                ),
-              ],
-              child: ExercisesScreen(true),
-            ),
-        // '/create-exercise': (context) => CreateExerciseForm(),
+        '/exercises/view': (context) => ExercisesScreen(false),
+        '/exercises/select': (context) => ExercisesScreen(true),
+        '/exercises/create': (context) => CreateExerciseForm(),
         // '/edit-exercise': (context) => EditExerciseForm(),
 
         //sets routes
-        '/sets': (context) => ViewSetsScreen(false),
-        // '/create-set': (context) => CreateSetForm(),
+        '/sets/view': (context) => ViewSetsScreen(false),
+        '/sets/select': (context) => ViewSetsScreen(true),
+        '/sets/create': (context) => CreateSetForm(),
         // '/edit-set': (context) => EditSetForm(set),
 
         //groups routes
-        '/groups': (context) => ViewGroupsScreen(false),
-        // '/create-group': (context) => CreateGroupForm(),
+        '/groups/view': (context) => ViewGroupsScreen(false),
+        '/groups/select': (context) => ViewGroupsScreen(true),
+        '/groups/create': (context) => CreateGroupForm(),
         // '/edit-group': (context) => EditGroupForm(),
 
         //private session routes
-        '/private-sessions': (context) => ViewPrivateSessionsScreen(),
+        '/sessions/select': (context) => ViewPrivateSessionsScreen(),
+        '/my-sessions/view': (context) => ViewMyPrivateSessionsScreen(),
+        '/booked-sessions/view': (context) => ViewBookedSessionsScreen(),
         '/session-details': (context) => PrivateSessionDetailsScreen(),
-        // '/create-private-session': (context) => CreatePrivateSessionForm(),
+        '/sessions/create': (context) => CreatePrivateSessionForm(),
         // '/edit-private-session': (context) => EditPrivateSessionForm(),
 
         //items routes

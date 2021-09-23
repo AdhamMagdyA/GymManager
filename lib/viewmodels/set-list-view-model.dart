@@ -18,7 +18,7 @@ class SetListViewModel with ChangeNotifier {
   SetViewModel set;
 
   // methods to fetch news
-  void fetchListSets() async {
+  Future<void> fetchListSets() async {
     print('currently here!');
     List<Set> _sets = await SetWebService().getSets();
     loadingStatus = LoadingStatus.Searching;

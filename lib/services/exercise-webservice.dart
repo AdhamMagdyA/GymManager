@@ -4,13 +4,14 @@ import 'package:dio/dio.dart';
 import 'package:gym_project/models/equipment.dart';
 import 'package:gym_project/models/exercise.dart';
 import 'package:gym_project/viewmodels/exercise-view-model.dart';
+import 'package:gym_project/widget/providers/user.dart';
 import 'package:http/http.dart' as http;
-
-const token =
-    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNjMyMjk4NzMwLCJleHAiOjE2MzIzODUxMzAsIm5iZiI6MTYzMjI5ODczMCwianRpIjoiWHR3ZUJiVHVLbWNNRWFpTCIsInN1YiI6MywicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.ZClhbQePARoY8meZntOJcy7hfwXJwwXimX0EXwV_KTY';
+import 'package:provider/provider.dart';
 
 class ExerciseWebService {
-  Future<List<Exercise>> getExercises() async {
+  // String token;
+  // ExerciseWebService({this.token});
+  Future<List<Exercise>> getExercises(String token) async {
     print('Am i here??');
     final response = await http
         .get(Uri.parse('http://localhost:8000/api/exercises'), headers: {
@@ -33,12 +34,11 @@ class ExerciseWebService {
       return newExercises;
     } else {
       // print(result.msg);
-      return [];
-      // throw Exception('response failed');
+      throw Exception('response failed');
     }
   }
 
-  Future<Exercise> getExerciseDetails(int exerciseId) async {
+  Future<Exercise> getExerciseDetails(int exerciseId, String token) async {
     print('Am i here??');
     final response = await http.get(
         Uri.parse('http://localhost:8000/api/exercises/$exerciseId/details'),
@@ -49,16 +49,17 @@ class ExerciseWebService {
         });
     print('response obtained!');
     print(response.statusCode);
+    final result = json.decode(response.body);
     if (response.statusCode == 200) {
-      final result = json.decode(response.body);
       final exerciseJson = result['exercise'];
       return Exercise.detailsfromJson(exerciseJson);
     } else {
+      print(result);
       throw Exception('response failed');
     }
   }
 
-  Future<Exercise> postExercise(Exercise exercise) async {
+  Future<Exercise> postExercise(Exercise exercise, String token) async {
     // print('Am i here??');
     final response =
         await http.post(Uri.parse('http://localhost:8000/api/exercises'),
@@ -85,8 +86,39 @@ class ExerciseWebService {
       final exerciseJson = result['exercise'];
       return Exercise.detailsfromJson(exerciseJson);
     } else {
-      // throw Exception('response failed');
-      return null;
+      throw Exception('response failed');
+    }
+  }
+
+  Future<Exercise> editExercise(
+      ExerciseViewModel exercise, String token) async {
+    // print('Am i here??');
+    final response = await http.put(
+        Uri.parse('http://localhost:8000/api/exercises/${exercise.id}'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({
+          'title': exercise.title,
+          'description': exercise.description,
+          'gif': exercise.gif,
+          'cal_burnt': exercise.calBurnt,
+          'image': exercise.image,
+          'duration': exercise.duration,
+          'equipment_id': exercise.equipment.id,
+          'reps': exercise.reps,
+        }));
+    print('response obtained!');
+    print(response.statusCode);
+    final result = json.decode(response.body);
+    print(result);
+    if (response.statusCode == 200) {
+      final exerciseJson = result['exercise'];
+      return Exercise.detailsfromJson(exerciseJson);
+    } else {
+      throw Exception('response failed');
     }
   }
 }

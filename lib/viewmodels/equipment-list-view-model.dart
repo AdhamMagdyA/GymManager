@@ -19,7 +19,7 @@ class EquipmentListViewModel with ChangeNotifier {
   EquipmentViewModel equipment;
 
   // methods to fetch news
-  void fetchListEquipments() async {
+  Future<void> fetchListEquipments() async {
     List<Equipment> _equipments = await EquipmentWebService().getEquipments();
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();

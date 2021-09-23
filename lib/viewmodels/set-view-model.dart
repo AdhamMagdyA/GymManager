@@ -2,7 +2,7 @@ import 'package:gym_project/models/exercise.dart';
 import 'package:gym_project/models/set.dart';
 
 class SetViewModel {
-  Set set;
+  Set set = Set();
 
   SetViewModel({Set s}) : set = s;
 

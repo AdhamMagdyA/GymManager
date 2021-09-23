@@ -20,7 +20,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final _emailNode = FocusNode();
   final TextEditingController emailController =
-      TextEditingController(text: 'parisian.dejon@example.net');
+      TextEditingController(text: 'mavis55@example.net');
   final TextEditingController passwordController =
       TextEditingController(text: 'secret');
   final _passwordNode = FocusNode();
@@ -43,10 +43,12 @@ class _LoginState extends State<Login> {
   void didChangeDependencies() {
     loginViewModel = Provider.of<LoginViewModel>(context);
     token = loginViewModel.token;
+
     role = loginViewModel.role;
 
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<User>(context, listen: false).setRole(role);
+      Provider.of<User>(context, listen: false).setToken(token);
       if (role == 'admin') {
         Navigator.pushReplacementNamed(
           context,
@@ -157,7 +159,11 @@ class _LoginState extends State<Login> {
                                         Provider.of<LoginViewModel>(context,
                                                 listen: false)
                                             .fetchLogin(emailController.text,
-                                                passwordController.text);
+                                                passwordController.text)
+                                            .catchError((err) {
+                                          print('error found $err');
+                                          showErrorMessage(context);
+                                        });
                                       });
                                     }),
                               ],
@@ -174,6 +180,45 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
+  }
+
+  Future<dynamic> showErrorMessage(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: Colors.black,
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.close,
+                        color: Colors.amber,
+                      ),
+                    )
+                  ],
+                ),
+                Center(
+                  child: Text(
+                    'Failed to login!',
+                    style: TextStyle(
+                      color: Colors.amber,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
   }
 
   TextField _textField(

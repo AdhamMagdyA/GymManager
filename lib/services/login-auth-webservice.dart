@@ -11,7 +11,7 @@ const portNum = '8000';
 
 class LoginAuthWebService {
   Future<Login> postLogin(String email, String password) async {
-    print('currently here');
+    // print('currently here');
     final response = await http.post(
       Uri.parse('http://localhost:$portNum/api/login'),
       headers: <String, String>{
@@ -28,7 +28,7 @@ class LoginAuthWebService {
     );
 
     if (response.statusCode == 200) {
-      print(response.body);
+      // print(response.body);
       return Login.fromJson(jsonDecode(response.body)['data']);
     } else {
       throw Exception('Failed to login.');
