@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/common/my_list_tile_without_counter.dart';
+import 'package:gym_project/widget/providers/user.dart';
+import 'package:provider/provider.dart';
 
 class NutritionistSessionsList extends StatefulWidget {
   final String title = 'Keto Diet Session';
@@ -20,17 +22,20 @@ class _NutritionistSessionsListState extends State<NutritionistSessionsList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Container(
-        child: FloatingActionButton.extended(
-          onPressed: () {
-            Navigator.pushNamed(context, '/create-nutritionist-session');
-          },
-          isExtended: false,
-          label: Icon(Icons.add),
-        ),
-        height: MediaQuery.of(context).size.height * 0.075,
-        width: MediaQuery.of(context).size.width * 0.1,
-      ),
+      floatingActionButton: Provider.of<User>(context, listen: false).role ==
+              "admin"
+          ? Container(
+              child: FloatingActionButton.extended(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/create-nutritionist-session');
+                },
+                isExtended: false,
+                label: Icon(Icons.add),
+              ),
+              height: MediaQuery.of(context).size.height * 0.075,
+              width: MediaQuery.of(context).size.width * 0.1,
+            )
+          : Container(),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       body: SafeArea(
         child: Container(
@@ -161,20 +166,23 @@ class _NutritionistSessionTileState extends State<NutritionistSessionTile> {
             Expanded(
               child: Container(),
             ),
-            Container(
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.amber),
-                  foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.black),
-                ),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/edit-nutritionist-session');
-                },
-                child: Text('Edit'),
-              ),
-            )
+            Provider.of<User>(context, listen: false).role == "admin"
+                ? Container(
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.amber),
+                        foregroundColor:
+                            MaterialStateProperty.all<Color>(Colors.black),
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(
+                            context, '/edit-nutritionist-session');
+                      },
+                      child: Text('Edit'),
+                    ),
+                  )
+                : Container()
           ],
         ),
       ),
