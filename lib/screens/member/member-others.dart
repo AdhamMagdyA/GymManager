@@ -413,7 +413,7 @@ class MemberOthers extends StatelessWidget {
           ),
           child: TextButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/private-sessions');
+              Navigator.pushNamed(context, '/my-private-sessions');
             },
             child: Center(
               child: Text(

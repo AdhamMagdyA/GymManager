@@ -23,6 +23,7 @@ import 'package:gym_project/screens/coach/groups/edit-group.dart';
 import 'package:gym_project/screens/coach/groups/view-groups.dart';
 import 'package:gym_project/screens/coach/private%20sessions/create-private-session.dart';
 import 'package:gym_project/screens/coach/private%20sessions/edit-private-session.dart';
+import 'package:gym_project/screens/coach/private%20sessions/view-my-private-sessions.dart';
 import 'package:gym_project/screens/coach/sets/create-set.dart';
 import 'package:gym_project/screens/coach/sets/edit-set.dart';
 import 'package:gym_project/screens/coach/sets/view-sets.dart';
@@ -199,6 +200,7 @@ class MyApp extends StatelessWidget {
         //private session routes
         '/private-sessions': (context) => ViewPrivateSessionsScreen(),
         '/session-details': (context) => PrivateSessionDetailsScreen(),
+        '/my-private-sessions': (context) => ViewMyPrivateSessionsScreen(),
         // '/create-private-session': (context) => CreatePrivateSessionForm(),
         // '/edit-private-session': (context) => EditPrivateSessionForm(),
 

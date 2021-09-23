@@ -43,21 +43,21 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(
-                    'Add Announcement',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'assets/fonts/Changa-Bold.ttf',
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
+              // Align(
+              //   alignment: Alignment.centerLeft,
+              //   child: Padding(
+              //     padding: const EdgeInsets.all(10.0),
+              //     child: Text(
+              //       'Add Announcement',
+              //       style: TextStyle(
+              //         color: Colors.white,
+              //         fontFamily: 'assets/fonts/Changa-Bold.ttf',
+              //         fontSize: 25,
+              //         fontWeight: FontWeight.bold,
+              //       ),
+              //     ),
+              //   ),
+              // ),
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: TextFormField(

@@ -6,6 +6,8 @@ import 'package:gym_project/common/my_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_project/screens/coach/private%20sessions/edit-private-session.dart';
 import 'package:gym_project/screens/common/view-private-session-details.dart';
+import 'package:gym_project/widget/providers/user.dart';
+import 'package:provider/provider.dart';
 
 class ViewMyPrivateSessionsScreen extends StatefulWidget {
   @override
@@ -165,43 +167,59 @@ class _ViewMyPrivateSessionsScreenState
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    return SafeArea(
-      child: Container(
-        color: Colors.black,
-        padding: EdgeInsetsDirectional.all(10),
-        child: Stack(children: [
-          ListView(
-            children: [
-              Material(
-                  elevation: 5.0,
-                  borderRadius: BorderRadius.all(Radius.circular(30)),
-                  child: TextFormField(
-                    controller: TextEditingController(),
-                    cursorColor: Theme.of(context).primaryColor,
-                    style: TextStyle(color: Colors.black, fontSize: 18),
-                    decoration: InputDecoration(
-                        hintText: 'Search..',
-                        suffixIcon: Material(
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                          child: Icon(Icons.search),
-                        ),
-                        border: InputBorder.none,
-                        contentPadding:
-                            EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
-                  )),
-              SizedBox(height: 20),
-              ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: privateSessions.length,
-                  itemBuilder: (ctx, index) {
-                    return myListTile(
-                      privateSessions[index],
-                      index,
-                    );
-                  }),
-            ],
-          ),
-        ]),
+    return Scaffold(
+      appBar: Provider.of<User>(context, listen: false).role == "member" ||
+              Provider.of<User>(context, listen: false).role == "admin"
+          ? AppBar(
+              title: Text(
+                'Private Sessions',
+                style: TextStyle(color: Colors.white),
+              ),
+              backgroundColor: Color(0xff181818),
+              iconTheme: IconThemeData(color: Color(0xFFFFCE2B)),
+            )
+          : PreferredSize(
+              preferredSize: const Size.fromHeight(0.0),
+              child: Container(),
+            ),
+      body: SafeArea(
+        child: Container(
+          color: Colors.black,
+          padding: EdgeInsetsDirectional.all(10),
+          child: Stack(children: [
+            ListView(
+              children: [
+                Material(
+                    elevation: 5.0,
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    child: TextFormField(
+                      controller: TextEditingController(),
+                      cursorColor: Theme.of(context).primaryColor,
+                      style: TextStyle(color: Colors.black, fontSize: 18),
+                      decoration: InputDecoration(
+                          hintText: 'Search..',
+                          suffixIcon: Material(
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            child: Icon(Icons.search),
+                          ),
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 25, vertical: 13)),
+                    )),
+                SizedBox(height: 20),
+                ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: privateSessions.length,
+                    itemBuilder: (ctx, index) {
+                      return myListTile(
+                        privateSessions[index],
+                        index,
+                      );
+                    }),
+              ],
+            ),
+          ]),
+        ),
       ),
     );
   }
