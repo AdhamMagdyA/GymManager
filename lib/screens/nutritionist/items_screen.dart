@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:gym_project/screens/common/view-exercises-details-screen.dart';
 import 'package:gym_project/screens/nutritionist/item-creation-form.dart';
 import 'package:gym_project/screens/nutritionist/view-items-details-screen.dart';
+import 'package:gym_project/widget/providers/user.dart';
+import 'package:provider/provider.dart';
 
 class ItemsScreen extends StatefulWidget {
   ItemsScreen(this.isSelectionTime, {Key key}) : super(key: key);
@@ -303,30 +305,29 @@ class ItemsScreenState extends State<ItemsScreen> {
               SliverPadding(
                 padding: const EdgeInsets.all(26.0),
                 sliver: SliverGrid.count(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
-                  childAspectRatio: 0.8,
-                  children: _items
-                      .asMap()
-                      .entries
-                      .map((entry) => MyChoosingGridViewCard(
-                            image: entry.value['image'],
-                            title: entry.value['title'],
-                            calories: entry.value['calories'],
-                            level: entry.value['level'],
-                            creator: entry.value['creator'],
-                            index: entry.key,
-                            selectionMode: _selectionMode,
-                            setSelectionMode: setSelectionMode,
-                            incrementItem: incrementItem,
-                            decrementItem: decrementItem,
-                            selectedItemsNumber: selectedItemsNumber,
-                            isSelected: isSelected,
-                            selectionTime: widget.isSelectionTime,
-                          ))
-                      .toList()
-                ),
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10,
+                    childAspectRatio: 0.8,
+                    children: _items
+                        .asMap()
+                        .entries
+                        .map((entry) => MyChoosingGridViewCard(
+                              image: entry.value['image'],
+                              title: entry.value['title'],
+                              calories: entry.value['calories'],
+                              level: entry.value['level'],
+                              creator: entry.value['creator'],
+                              index: entry.key,
+                              selectionMode: _selectionMode,
+                              setSelectionMode: setSelectionMode,
+                              incrementItem: incrementItem,
+                              decrementItem: decrementItem,
+                              selectedItemsNumber: selectedItemsNumber,
+                              isSelected: isSelected,
+                              selectionTime: widget.isSelectionTime,
+                            ))
+                        .toList()),
               ),
             ],
           ),
@@ -558,34 +559,43 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
                             SizedBox(height: constraints.maxHeight * 0.5 / 10),
                             //add condition for edit button
                             !widget.selectionTime && !widget.selectionMode
-                                ? SizedBox(
-                                    height: constraints.maxHeight * 0.5 / 5,
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        shape: new RoundedRectangleBorder(
-                                          borderRadius:
-                                              new BorderRadius.circular(10.0),
+                                ? Provider.of<User>(context, listen: false)
+                                                .role ==
+                                            "admin" ||
+                                        Provider.of<User>(context,
+                                                    listen: false)
+                                                .role ==
+                                            "nutritionist"
+                                    ? SizedBox(
+                                        height: constraints.maxHeight * 0.5 / 5,
+                                        child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            shape: new RoundedRectangleBorder(
+                                              borderRadius:
+                                                  new BorderRadius.circular(
+                                                      10.0),
+                                            ),
+                                            primary: Colors.amber,
+                                            onPrimary: Colors.black,
+                                          ),
+                                          child: Text(
+                                            'Edit',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      CreateItemForm(),
+                                                ));
+                                          },
                                         ),
-                                        primary: Colors.amber,
-                                        onPrimary: Colors.black,
-                                      ),
-                                      child: Text(
-                                        'Edit',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  CreateItemForm(),
-                                            ));
-                                      },
-                                    ),
-                                  )
+                                      )
+                                    : SizedBox()
                                 : SizedBox(
                                     height: constraints.maxHeight * 0.5 / 5,
                                     child: ElevatedButton(

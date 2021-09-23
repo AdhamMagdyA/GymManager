@@ -251,8 +251,10 @@ class FitnessSummariesScreen extends StatelessWidget {
               )),
       child: Scaffold(
         backgroundColor: Colors.black,
-        body: Center(
-          child: Exam(context),
+        body: SafeArea(
+          child: Center(
+            child: Exam(context),
+          ),
         ),
       ),
     );

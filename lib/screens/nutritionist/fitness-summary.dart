@@ -12,8 +12,18 @@ class FitnessSummaryScreen extends StatelessWidget {
                 bodyColor: Colors.black,
               )),
       child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'Details',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Color(0xff181818),
+          iconTheme: IconThemeData(color: Color(0xFFFFCE2B)),
+        ),
         backgroundColor: Colors.black,
-        body: myGridView(context),
+        body: SafeArea(
+          child: myGridView(context),
+        ),
       ),
     );
   }
