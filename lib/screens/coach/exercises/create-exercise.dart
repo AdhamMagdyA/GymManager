@@ -562,6 +562,7 @@ class MapScreenState extends State<CreateExerciseForm>
                                     child: new TextFormField(
                                       maxLength: 3,
                                       validator: (value) {
+                                        print(value);
                                         if (value.isEmpty || value == null) {
                                           return 'Value cannot be empty!';
                                         }
@@ -978,65 +979,6 @@ class MapScreenState extends State<CreateExerciseForm>
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 4,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.amber,
-                          onPrimary: Colors.black,
-                          fixedSize: Size.fromWidth(150),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          )),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MultiProvider(
-                                providers: [
-                                  ChangeNotifierProvider(
-                                    create: (_) => ExerciseListViewModel(),
-                                  ),
-                                ],
-                                child: ExercisesScreen(false),
-                              ),
-                            ));
-                      },
-                      child: Text('Go to exercises page'),
-                    ),
-                    SizedBox(
-                      width: 4,
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.amber,
-                          onPrimary: Colors.black,
-                          fixedSize: Size.fromWidth(150),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          )),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MultiProvider(
-                                providers: [
-                                  ChangeNotifierProvider(
-                                    create: (_) => ExerciseListViewModel(),
-                                  ),
-                                ],
-                                child: CoachTabsScreen(),
-                              ),
-                            ));
-                      },
-                      child: Text('Go to homepage'),
-                    ),
-                  ],
                 ),
               ],
             ),

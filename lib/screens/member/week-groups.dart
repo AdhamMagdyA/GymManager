@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/common/my_list_tile_without_counter.dart';
+import 'package:gym_project/screens/common/view-group-details-screen.dart';
+import 'package:gym_project/screens/member/training-mode/training_mode_overview_screen.dart';
 import 'package:gym_project/widget/drawer.dart';
 
 class WeekGroups extends StatelessWidget {
@@ -54,7 +56,6 @@ class WeekGroups extends StatelessWidget {
           'Week Groups',
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: Color(0xff181818),
         iconTheme: IconThemeData(color: Color(0xFFFFCE2B)),
       ),
       drawer: MyDrawer(),
@@ -91,7 +92,7 @@ class WeekGroups extends StatelessWidget {
                           color: Theme.of(context).primaryColor,
                         ),
                       ),
-                      CustomListTileWithTitleOnly(
+                      CustomListTileWithTitleAndTrailing(
                         'assets/images/branch.png',
                         groups[index]['title'],
                       ),
@@ -106,36 +107,34 @@ class WeekGroups extends StatelessWidget {
   }
 }
 
-class CustomListTileWithTitleOnly extends StatefulWidget {
+class CustomListTileWithTitleAndTrailing extends StatefulWidget {
   final String path;
   final String title;
 
-  CustomListTileWithTitleOnly(
+  CustomListTileWithTitleAndTrailing(
     this.path,
     this.title,
   );
 
   @override
-  _CustomListTileWithTitleOnlyState createState() =>
-      _CustomListTileWithTitleOnlyState();
+  _CustomListTileWithTitleAndTrailingState createState() =>
+      _CustomListTileWithTitleAndTrailingState();
 }
 
-class _CustomListTileWithTitleOnlyState
-    extends State<CustomListTileWithTitleOnly> {
+class _CustomListTileWithTitleAndTrailingState
+    extends State<CustomListTileWithTitleAndTrailing> {
   int number = 0;
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsetsDirectional.only(bottom: 10),
       decoration: BoxDecoration(
-        color: Color(0xff181818),
+        color: Color(0xff444444),
         borderRadius: BorderRadius.circular(16),
       ),
       child: ListTile(
-        tileColor: Color(0xff181818),
         minVerticalPadding: 10,
         leading: CircleAvatar(
-          backgroundColor: Color(0xff181818),
           radius: 20,
           child: ClipRRect(
               borderRadius: BorderRadius.circular(100),
@@ -148,6 +147,57 @@ class _CustomListTileWithTitleOnlyState
           widget.title,
           style: TextStyle(color: Colors.white),
         ),
+        subtitle: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => GroupDetailsScreen(),
+                    ),
+                  );
+                },
+                child: Text(
+                  'View Group Details',
+                  style: TextStyle(color: Theme.of(context).primaryColor),
+                ),
+              ),
+            ],
+          ),
+        trailing: Container(
+            height: 200,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(height: 5),
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).primaryColor,
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => TrainingModeOverviewScreen(),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      'Start Training',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 5),
+                // Expanded(
+                //   child: Container(),
+                // ),
+                SizedBox(height: 5),
+              ],
+            ),
+          )
       ),
     );
   }
