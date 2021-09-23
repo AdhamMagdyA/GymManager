@@ -21,25 +21,27 @@ class ClassDetails extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.075,
                   width: MediaQuery.of(context).size.width * 0.1,
                 )
-              : Container(
-                  child: FloatingActionButton.extended(
-                    onPressed: () {
-                      _showDialog(context);
-                    },
-                    isExtended: true,
-                    label: Text(
-                      'Book Now !',
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'assets/fonts/Changa-Bold.ttf',
+              : Provider.of<User>(context, listen: false).role == "member"
+                  ? Container(
+                      child: FloatingActionButton.extended(
+                        onPressed: () {
+                          _showDialog(context);
+                        },
+                        isExtended: true,
+                        label: Text(
+                          'Book Now !',
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'assets/fonts/Changa-Bold.ttf',
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  height: MediaQuery.of(context).size.height * 0.075,
-                  width: MediaQuery.of(context).size.width * 0.45,
-                ),
+                      height: MediaQuery.of(context).size.height * 0.075,
+                      width: MediaQuery.of(context).size.width * 0.45,
+                    )
+                  : Container(),
       floatingActionButtonLocation:
           Provider.of<User>(context, listen: false).role == "admin"
               ? FloatingActionButtonLocation.miniEndFloat
