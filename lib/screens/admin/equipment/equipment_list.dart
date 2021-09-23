@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/core/presentation/res/assets.dart';
 import 'package:gym_project/widget/grid_view_card.dart';
+import 'package:gym_project/widget/providers/user.dart';
+import 'package:provider/provider.dart';
 
 class EquipmentList extends StatefulWidget {
   const EquipmentList({Key key}) : super(key: key);
@@ -13,17 +15,20 @@ class _EquipmentListState extends State<EquipmentList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: Container(
-          child: FloatingActionButton.extended(
-            onPressed: () {
-              Navigator.pushNamed(context, '/create-equipment');
-            },
-            isExtended: false,
-            label: Icon(Icons.add),
-          ),
-          height: MediaQuery.of(context).size.height * 0.075,
-          width: MediaQuery.of(context).size.width * 0.1,
-        ),
+        floatingActionButton:
+            Provider.of<User>(context, listen: false).role == "admin"
+                ? Container(
+                    child: FloatingActionButton.extended(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/create-equipment');
+                      },
+                      isExtended: false,
+                      label: Icon(Icons.add),
+                    ),
+                    height: MediaQuery.of(context).size.height * 0.075,
+                    width: MediaQuery.of(context).size.width * 0.1,
+                  )
+                : Container(),
         floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
         body: SafeArea(
           child: Stack(
