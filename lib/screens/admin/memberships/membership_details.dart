@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gym_project/style/styling.dart';
+import 'package:gym_project/widget/providers/user.dart';
+import 'package:provider/provider.dart';
 
 class MembershipDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      floatingActionButton: Container(
-        child: FloatingActionButton.extended(
-          onPressed: () {
-            Navigator.pushNamed(context, '/edit-membership');
-          },
-          isExtended: false,
-          label: Icon(Icons.edit),
-        ),
-        height: MediaQuery.of(context).size.height * 0.075,
-        width: MediaQuery.of(context).size.width * 0.1,
-      ),
+      floatingActionButton:
+          Provider.of<User>(context, listen: false).role == "admin"
+              ? Container(
+                  child: FloatingActionButton.extended(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/edit-membership');
+                    },
+                    isExtended: false,
+                    label: Icon(Icons.edit),
+                  ),
+                  height: MediaQuery.of(context).size.height * 0.075,
+                  width: MediaQuery.of(context).size.width * 0.1,
+                )
+              : Container(),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       body: SafeArea(
         child: Stack(
