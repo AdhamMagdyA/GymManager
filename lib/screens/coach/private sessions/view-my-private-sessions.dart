@@ -208,6 +208,7 @@ class _ViewMyPrivateSessionsScreenState
                     )),
                 SizedBox(height: 20),
                 ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: privateSessions.length,
                     itemBuilder: (ctx, index) {
@@ -282,7 +283,8 @@ class _ViewMyPrivateSessionsScreenState
             ),
             Container(
               child: TextButton(
-                onPressed: Provider.of<User>(context).role != "admin"
+                onPressed: Provider.of<User>(context).role == "admin" ||
+                        Provider.of<User>(context).role == "coach"
                     ? () {
                         Navigator.push(
                             context,
@@ -291,7 +293,8 @@ class _ViewMyPrivateSessionsScreenState
                                     EditPrivateSessionForm(privateSession)));
                       }
                     : () {},
-                child: Provider.of<User>(context).role != "admin"
+                child: Provider.of<User>(context).role == "admin" ||
+                        Provider.of<User>(context).role == "coach"
                     ? Text(
                         'Edit',
                         style: TextStyle(
