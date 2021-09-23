@@ -1,6 +1,8 @@
 //import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:gym_project/widget/providers/user.dart';
+import 'package:provider/provider.dart';
 
 class UserDetails extends StatefulWidget {
   const UserDetails({Key key}) : super(key: key);
@@ -117,7 +119,9 @@ class _UserDetailsState extends State<UserDetails> {
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     mainAxisSize: MainAxisSize.min,
                                     children: <Widget>[
-                                      _status
+                                      Provider.of<User>(context, listen: false)
+                                                  .role ==
+                                              "admin"
                                           ? _getEditIcon()
                                           : new Container(),
                                     ],

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/common/my_list_tile_without_counter.dart';
+import 'package:gym_project/widget/providers/user.dart';
+import 'package:provider/provider.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
 class UsersList extends StatefulWidget {
   final String title = 'Youssef Kholy';
@@ -70,17 +73,20 @@ class _UsersListState extends State<UsersList>
           ),
         ),
       ),
-      floatingActionButton: Container(
-        child: FloatingActionButton.extended(
-          onPressed: () {
-            Navigator.pushNamed(context, '/create-user');
-          },
-          isExtended: false,
-          label: Icon(Icons.add),
-        ),
-        height: MediaQuery.of(context).size.height * 0.075,
-        width: MediaQuery.of(context).size.width * 0.1,
-      ),
+      floatingActionButton:
+          Provider.of<User>(context, listen: false).role == "admin"
+              ? Container(
+                  child: FloatingActionButton.extended(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/create-user');
+                    },
+                    isExtended: false,
+                    label: Icon(Icons.add),
+                  ),
+                  height: MediaQuery.of(context).size.height * 0.075,
+                  width: MediaQuery.of(context).size.width * 0.1,
+                )
+              : Container(),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       body: TabBarView(
         controller: _myTabController,
@@ -135,12 +141,8 @@ class AllScreen extends StatelessWidget {
                   onTap: () {
                     Navigator.pushNamed(context, '/user-details');
                   },
-                  child: CustomListTileWithoutCounter(
-                      'assets/images/user_icon.png',
-                      this.title,
-                      this.subtitle1,
-                      this.subtitle2,
-                      this.subtitle3),
+                  child: UserTile('assets/images/user_icon.png', this.title,
+                      this.subtitle1, this.subtitle2, this.subtitle3),
                 );
               }),
         ],
@@ -188,12 +190,8 @@ class MembersScreen extends StatelessWidget {
                   onTap: () {
                     Navigator.pushNamed(context, '/user-details');
                   },
-                  child: CustomListTileWithoutCounter(
-                      'assets/images/user_icon.png',
-                      this.title,
-                      this.subtitle1,
-                      this.subtitle2,
-                      this.subtitle3),
+                  child: UserTile('assets/images/user_icon.png', this.title,
+                      this.subtitle1, this.subtitle2, this.subtitle3),
                 );
               }),
         ],
@@ -241,12 +239,8 @@ class CoachesScreen extends StatelessWidget {
                   onTap: () {
                     Navigator.pushNamed(context, '/user-details');
                   },
-                  child: CustomListTileWithoutCounter(
-                      'assets/images/user_icon.png',
-                      this.title,
-                      this.subtitle1,
-                      this.subtitle2,
-                      this.subtitle3),
+                  child: UserTile('assets/images/user_icon.png', this.title,
+                      this.subtitle1, this.subtitle2, this.subtitle3),
                 );
               }),
         ],
@@ -358,7 +352,10 @@ class _UserTileState extends State<UserTile> {
                 ),
               ],
             ),
-            BodyWidget()
+            Spacer(),
+            Provider.of<User>(context, listen: false).role == "admin"
+                ? ToggleWidget()
+                : Container()
           ],
         ),
       ),
@@ -367,35 +364,36 @@ class _UserTileState extends State<UserTile> {
 }
 
 //still working on it
-class BodyWidget extends StatefulWidget {
+class ToggleWidget extends StatefulWidget {
   @override
-  ToggleWidget createState() => ToggleWidget();
+  _ToggleWidgetState createState() => _ToggleWidgetState();
 }
 
-class ToggleWidget extends State {
-  List<bool> selectionList = [true, false, false];
+class _ToggleWidgetState extends State<ToggleWidget> {
+  List<bool> selectionList = [true, false];
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: ToggleButtons(
-        children: <Widget>[
-          Icon(Icons.access_alarm_sharp),
-          Icon(Icons.add_location),
-          Icon(Icons.assignment_late),
+      child: ToggleSwitch(
+        minWidth: 70.0,
+        minHeight: 40,
+        cornerRadius: 10.0,
+        activeBgColors: [
+          [Colors.green[800]],
+          [Colors.red[800]]
         ],
-        onPressed: (int index) {
-          setState(() {
-            for (int i = 0; i < selectionList.length; i++) {
-              if (i == index) {
-                selectionList[i] = true;
-              } else {
-                selectionList[i] = false;
-              }
-            }
-          });
+        activeFgColor: Colors.white,
+        inactiveBgColor: Colors.black12,
+        inactiveFgColor: Colors.white,
+        initialLabelIndex: 1,
+        totalSwitches: 2,
+        fontSize: 10,
+        labels: ['Check in', 'Check out'],
+        radiusStyle: true,
+        onToggle: (index) {
+          print('switched to: $index');
         },
-        isSelected: selectionList,
       ),
     );
   }
