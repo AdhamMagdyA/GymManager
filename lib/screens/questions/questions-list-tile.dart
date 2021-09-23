@@ -58,10 +58,6 @@ class _QuestionsListTileState extends State<QuestionsListTile> {
             );
           },
           minVerticalPadding: 10,
-          /*leading: CircleAvatar(
-            radius: 20,
-            child: Icon(Icons.account_circle),
-          ),*/
           title: Padding(
             padding: const EdgeInsets.only(right: 8.0, top: 8.0, bottom: 8.0),
             child: Row(
@@ -93,7 +89,7 @@ class _QuestionsListTileState extends State<QuestionsListTile> {
                         Text(
                           widget.date,
                           style: TextStyle(
-                            color: Colors.amber,
+                            color: Color(0xFFFFCE2B),
                             fontSize: 12,
                             fontFamily: 'assets/fonts/Changa-Bold.ttf',
                           ),
@@ -109,9 +105,6 @@ class _QuestionsListTileState extends State<QuestionsListTile> {
                         children: [
                           IconButton(
                             onPressed: () {
-                              /*setState(() {
-                                is_visible = false;
-                              });*/
                               showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(
@@ -144,12 +137,13 @@ class _QuestionsListTileState extends State<QuestionsListTile> {
                                             Navigator.of(context).pop();
                                           },
                                           child: Text("YES"),
-                                          color: Colors.amber,
+                                          color: Color(0xFFFFCE2B),
                                           shape: OutlineInputBorder(
                                             borderRadius:
                                                 BorderRadius.circular(20),
-                                            borderSide:
-                                                BorderSide(color: Colors.amber),
+                                            borderSide: BorderSide(
+                                              color: Color(0xFFFFCE2B),
+                                            ),
                                           ),
                                         ),
                                         MaterialButton(
@@ -157,12 +151,13 @@ class _QuestionsListTileState extends State<QuestionsListTile> {
                                             Navigator.of(context).pop();
                                           },
                                           child: Text("NO"),
-                                          color: Colors.amber,
+                                          color: Color(0xFFFFCE2B),
                                           shape: OutlineInputBorder(
                                             borderRadius:
                                                 BorderRadius.circular(20),
-                                            borderSide:
-                                                BorderSide(color: Colors.amber),
+                                            borderSide: BorderSide(
+                                              color: Color(0xFFFFCE2B),
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -232,7 +227,7 @@ class _QuestionsListTileState extends State<QuestionsListTile> {
                       child: Text(
                         widget.num_of_answers.toString() + " Answers",
                         style: TextStyle(
-                          color: Colors.amber,
+                          color: Color(0xFFFFCE2B),
                           fontFamily: 'assets/fonts/Changa-Bold.ttf',
                           fontWeight: FontWeight.bold,
                         ),

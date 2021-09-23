@@ -23,53 +23,65 @@ class _AnnouncementsScreenState extends State<AnnouncementsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: user_role == "admin"
-          ? FloatingActionButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AddAnnouncementScreen(),
-                  ),
-                );
-              },
-              child: Icon(
-                Icons.add,
-                color: Colors.white,
+      appBar: user_role != "admin"
+          ? AppBar(
+              title: Text(
+                'Announcements',
+                style: TextStyle(color: Colors.white),
               ),
-              backgroundColor: Color(0xFF181818),
+              backgroundColor: Color(0xff181818),
+              iconTheme: IconThemeData(color: Color(0xFFFFCE2B)),
+            )
+          : PreferredSize(child: Container(), preferredSize: Size(0, 0)),
+      floatingActionButton: user_role == "admin"
+          ? Container(
+              height: MediaQuery.of(context).size.height * 0.075,
+              width: MediaQuery.of(context).size.width * 0.1,
+              child: FloatingActionButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddAnnouncementScreen(),
+                    ),
+                  );
+                },
+                child: Icon(
+                  Icons.add,
+                  color: Colors.black,
+                ),
+              ),
             )
           : Container(),
-      body: Container(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: ListView(
-            children: [
-              AnnouncementsListTile(
-                title: "Announcement 1",
-                body:
-                    "Nam id varius sapien. Vestibulum rhoncus viverra ligula eu tempor. Praesent accumsan libero ut venenatis sodales. Donec convallis cursus lectus in egestas. Aenean ullamcorper, libero ac cursus viverra, ante sapien scelerisque nunc",
-                date: "18-9-2021 at 7:00 PM",
-                //role: "admin",
-                id: 1,
-              ),
-              AnnouncementsListTile(
-                title: "Announcement 2",
-                body:
-                    "Nam id varius sapien. Vestibulum rhoncus viverra ligula eu tempor. Praesent accumsan libero ut venenatis sodales. Donec convallis cursus lectus in egestas. Aenean ullamcorper, libero ac cursus viverra, ante sapien scelerisque nunc",
-                date: "18-9-2021 at 6:00 PM",
-                //role: "admin",
-                id: 2,
-              ),
-              AnnouncementsListTile(
-                title: "Announcement 3",
-                body:
-                    "Nam id varius sapien. Vestibulum rhoncus viverra ligula eu tempor. Praesent accumsan libero ut venenatis sodales. Donec convallis cursus lectus in egestas. Aenean ullamcorper, libero ac cursus viverra, ante sapien scelerisque nunc",
-                date: "18-9-2021 at 5:00 PM",
-                //role: "admin",
-                id: 3,
-              ),
-            ],
+      body: SafeArea(
+        child: Container(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: ListView(
+              children: [
+                AnnouncementsListTile(
+                  title: "Announcement 1",
+                  body:
+                      "Nam id varius sapien. Vestibulum rhoncus viverra ligula eu tempor. Praesent accumsan libero ut venenatis sodales. Donec convallis cursus lectus in egestas. Aenean ullamcorper, libero ac cursus viverra, ante sapien scelerisque nunc",
+                  date: "18-9-2021 at 7:00 PM",
+                  id: 1,
+                ),
+                AnnouncementsListTile(
+                  title: "Announcement 2",
+                  body:
+                      "Nam id varius sapien. Vestibulum rhoncus viverra ligula eu tempor. Praesent accumsan libero ut venenatis sodales. Donec convallis cursus lectus in egestas. Aenean ullamcorper, libero ac cursus viverra, ante sapien scelerisque nunc",
+                  date: "18-9-2021 at 6:00 PM",
+                  id: 2,
+                ),
+                AnnouncementsListTile(
+                  title: "Announcement 3",
+                  body:
+                      "Nam id varius sapien. Vestibulum rhoncus viverra ligula eu tempor. Praesent accumsan libero ut venenatis sodales. Donec convallis cursus lectus in egestas. Aenean ullamcorper, libero ac cursus viverra, ante sapien scelerisque nunc",
+                  date: "18-9-2021 at 5:00 PM",
+                  id: 3,
+                ),
+              ],
+            ),
           ),
         ),
       ),

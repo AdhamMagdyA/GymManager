@@ -10,7 +10,7 @@ class Others extends StatefulWidget {
 }
 
 class _OthersState extends State<Others> {
-  final title = [
+  final titles = [
     "Classes",
     "Equipment",
     "NutritionistSessions",
@@ -21,26 +21,85 @@ class _OthersState extends State<Others> {
     "Q&A",
     "Supplments",
     "Invitations",
-    "events",
+    "Events",
   ];
   final paths = [
     "/class-list",
     "/equipment-list",
     "/nutritionist-session-list",
     "/memberships-list",
-    "/",
-    "/",
-    "/",
+    "/private-sessions",
+    "/groups",
+    "/plans",
     "/questions",
     "/supplements",
     "/invitations",
     "/events",
   ];
+  final imgPaths = [
+    "assets/images/class-others.jpg",
+    "assets/images/others-supplements.png",
+    "assets/images/session.jpg",
+    "assets/images/membership-others.jpg",
+    "assets/images/session.jpg",
+    "assets/images/others-inventory.png",
+    "assets/images/others-plans.jpg",
+    "assets/images/others-questions.png",
+    "assets/images/others-supplements.png",
+    "assets/images/others-invite.jpg",
+    "assets/images/others-schedule.png",
+  ];
   int number = 0;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return GridView.count(
+      primary: false,
+      padding: EdgeInsets.all(20),
+      crossAxisSpacing: 10,
+      mainAxisSpacing: 10,
+      crossAxisCount: 2,
+      children: [
+        for (int i = 0; i < paths.length; i++)
+          othersTile(imgPaths[i], paths[i], titles[i]),
+      ],
+    );
+  }
+
+  Container othersTile(String imgPath, String destination, String txt) {
+    return Container(
+      decoration: new BoxDecoration(
+        // color: const Color(0xff181818),
+        image: new DecorationImage(
+          image: AssetImage(imgPath),
+          colorFilter: new ColorFilter.mode(
+            Colors.black.withOpacity(0.4),
+            BlendMode.dstATop,
+          ),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: TextButton(
+        onPressed: () {
+          Navigator.pushNamed(context, destination);
+        },
+        child: Center(
+          child: Text(
+            txt,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.amber,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/**
+ * Scaffold(
       body: Container(
         color: Colors.black,
         padding: EdgeInsetsDirectional.all(10),
@@ -62,5 +121,4 @@ class _OthersState extends State<Others> {
         ),
       ),
     );
-  }
-}
+ */

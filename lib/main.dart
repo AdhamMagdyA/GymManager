@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:gym_project/experimenting_image_picker.dart';
 import 'package:gym_project/my_image_picker_2.dart';
@@ -11,11 +9,12 @@ import 'package:gym_project/screens/Invitations/invitation-form.dart';
 import 'package:gym_project/screens/Invitations/invitation-list.dart';
 import 'package:gym_project/screens/Supplements/supplement-form.dart';
 import 'package:gym_project/screens/Supplements/supplement-grid-view.dart';
+import 'package:gym_project/screens/about_us.dart';
 import 'package:gym_project/screens/admin/memberships/memberships_list.dart';
 import 'package:gym_project/screens/announcements/add-announcement-screen.dart';
 import 'package:gym_project/screens/announcements/announcements-screen.dart';
-import 'package:gym_project/screens/coach/coach-profile.dart';
 import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
+import 'package:gym_project/screens/coach/coach_profile.dart';
 import 'package:gym_project/screens/coach/exercises/create-exercise.dart';
 import 'package:gym_project/screens/coach/exercises/edit-exercise.dart';
 import 'package:gym_project/screens/coach/exercises/exercises_screen.dart';
@@ -54,13 +53,19 @@ import 'package:gym_project/screens/admin/users/edit_user.dart';
 import 'package:gym_project/screens/admin/users/user_details.dart';
 import 'package:gym_project/screens/admin/util-screen.dart';
 import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
+import 'package:gym_project/screens/common/view-private-session-details.dart';
+import 'package:gym_project/screens/member/member-util.dart';
+import 'package:gym_project/screens/member/member_profile.dart';
+import 'package:gym_project/screens/member/workout-summery/workout-summeries.dart';
 import 'package:gym_project/screens/common/view-exercises-details-screen.dart';
+import 'package:gym_project/screens/nutritionist/fitness-summaries.dart';
 import 'package:gym_project/screens/nutritionist/items_screen.dart';
 import 'package:gym_project/screens/member/view-private-sessions.dart';
 import 'package:gym_project/screens/my_choosing_gridview_screen.dart';
 import 'package:gym_project/screens/member/training-mode/training_mode_exercise_screen.dart';
 import 'package:gym_project/screens/member/training-mode/training_mode_overview_screen.dart';
 import 'package:gym_project/screens/nutritionist/meals-screen.dart';
+import 'package:gym_project/screens/nutritionist/nutritionist%20_profile.dart';
 import 'package:gym_project/screens/nutritionist/plans-screen.dart';
 import 'package:gym_project/screens/nutritionist/util-screen.dart';
 import 'package:gym_project/screens/nutritionist/view-items-details-screen.dart';
@@ -69,6 +74,7 @@ import 'package:gym_project/screens/questions/add-question-screen.dart';
 import 'package:gym_project/screens/questions/questions-screen.dart';
 import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
 import 'package:gym_project/screens/questions/single-question.dart';
+import 'package:gym_project/viewmodels/login-view-model.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
 import 'package:gym_project/screens/my_choosing_gridview_screen.dart';
@@ -81,6 +87,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => User()),
+        ChangeNotifierProvider(create: (_) => LoginViewModel()),
       ],
       child: MyApp(),
     ),
@@ -96,12 +103,16 @@ class MyApp extends StatelessWidget {
       routes: {
         // When navigating to the "/" route, build the FirstScreen widget.
         '': (context) => AdminHomePage(),
+        '/admin/util': (context) => AdminUtil(),
+        '/coach/util': (context) => CoachTabsScreen(),
+        '/nutritionist/util': (context) => NutritionistUtil(),
+        '/member/util': (context) => MemberUtil(),
         // user routes
         '/user-details': (context) => UserDetails(),
-        '/create-user': (context) => CreateUserForm(),
+        '/create-user': (context) => UserCreate(),
         '/edit-user': (context) => EditUserForm(),
         //branches routes
-        'branches-list': (context) => BranchesList(),
+        '/branches-list': (context) => BranchesList(),
         '/branch-details': (context) => BranchDetails(),
         '/create-branch': (context) => CreateBranchForm(),
         '/edit-branch': (context) => EditBranchForm(),
@@ -126,10 +137,24 @@ class MyApp extends StatelessWidget {
         '/create-equipment': (context) => CreateEquipmentForm(),
         '/edit-equipment': (context) => EditEquipmentForm(),
 
+        //workout summery
+        '/workout-summeries': (context) => WorkoutSummaries(),
         '/nutritionist-sessions-list': (context) => NutritionistSessionsList(),
+
+        //fitness summery
+        '/fitness-summaries': (context) => FitnessSummariesScreen(),
+
+        //profiles
+        '/coach-profile': (context) => CoachProfile(),
+        '/nutritionist-profile': (context) => NutritionistProfile(),
+        '/member-profile': (context) => MemberProfile(),
+
+        //about us
+        '/about-us': (context) => AboutUs(),
 
         //Events routes
         '/events': (context) => EventListView(),
+        '/event-details': (context) => EventDetailsScreen(),
         '/create-event': (context) => EventForm(),
         '/edit-event': (context) => EventForm(),
 
@@ -188,6 +213,7 @@ class MyApp extends StatelessWidget {
 
         //private session routes
         '/private-sessions': (context) => ViewPrivateSessionsScreen(),
+        '/session-details': (context) => PrivateSessionDetailsScreen(),
         // '/create-private-session': (context) => CreatePrivateSessionForm(),
         // '/edit-private-session': (context) => EditPrivateSessionForm(),
 

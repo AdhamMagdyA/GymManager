@@ -4,6 +4,7 @@ import 'package:gym_project/screens/admin/admin_home_page.dart';
 import 'package:gym_project/screens/nutritionist/fitness-summaries.dart';
 import 'package:gym_project/screens/nutritionist/meals-screen.dart';
 import 'package:gym_project/screens/nutritionist/nutritionist-home-screen.dart';
+import 'package:gym_project/screens/nutritionist/plan-schedule.dart';
 import 'package:gym_project/screens/nutritionist/plans-screen.dart';
 import 'package:gym_project/widget/drawer.dart';
 import 'package:motion_tab_bar/MotionTabController.dart';
@@ -36,7 +37,7 @@ class _NutritionistUtilState extends State<NutritionistUtil>
       'title': 'Fitness Summaries',
     },
     {
-      'page': MealsViewScreen(false),
+      'page': PlanSchedule(),
       'title': 'Meals',
     },
     {

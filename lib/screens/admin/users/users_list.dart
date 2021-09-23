@@ -42,55 +42,56 @@ class _UsersListState extends State<UsersList>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: new AppBar(
-          backgroundColor: Colors.black,
-          automaticallyImplyLeading: false,
-          bottom: PreferredSize(
-            preferredSize: new Size(0, 0),
-            child: Container(
-              child: TabBar(
-                  unselectedLabelColor: Colors.amber,
-                  labelColor: Colors.amber,
-                  indicatorColor: Colors.amber,
-                  controller: _myTabController,
-                  tabs: [
-                    Tab(
-                      text: 'all',
-                    ),
-                    Tab(
-                      text: 'members',
-                    ),
-                    Tab(
-                      text: 'coaches',
-                    ),
-                    Tab(
-                      text: 'nutritionists',
-                    )
-                  ]),
-            ),
+      appBar: new AppBar(
+        backgroundColor: Colors.black,
+        automaticallyImplyLeading: false,
+        bottom: PreferredSize(
+          preferredSize: new Size(0, 0),
+          child: Container(
+            child: TabBar(
+                unselectedLabelColor: Colors.amber,
+                labelColor: Colors.amber,
+                indicatorColor: Colors.amber,
+                controller: _myTabController,
+                tabs: [
+                  Tab(
+                    text: 'All',
+                  ),
+                  Tab(
+                    text: 'Members',
+                  ),
+                  Tab(
+                    text: 'Coaches',
+                  ),
+                  Tab(
+                    text: 'Nutritionists',
+                  )
+                ]),
           ),
         ),
-        floatingActionButton: Container(
-          child: FloatingActionButton.extended(
-            onPressed: () {
-              Navigator.pushNamed(context, '/create-user');
-            },
-            isExtended: false,
-            label: Icon(Icons.add),
-          ),
-          height: MediaQuery.of(context).size.height * 0.075,
-          width: MediaQuery.of(context).size.width * 0.1,
+      ),
+      floatingActionButton: Container(
+        child: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.pushNamed(context, '/create-user');
+          },
+          isExtended: false,
+          label: Icon(Icons.add),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
-        body: TabBarView(
-          controller: _myTabController,
-          children: [
-            AllScreen(),
-            MembersScreen(),
-            CoachesScreen(),
-            NutritionistsScreen(),
-          ],
-        ));
+        height: MediaQuery.of(context).size.height * 0.075,
+        width: MediaQuery.of(context).size.width * 0.1,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+      body: TabBarView(
+        controller: _myTabController,
+        children: [
+          AllScreen(),
+          MembersScreen(),
+          CoachesScreen(),
+          NutritionistsScreen(),
+        ],
+      ),
+    );
   }
 }
 
@@ -107,21 +108,23 @@ class AllScreen extends StatelessWidget {
       child: ListView(
         children: [
           Material(
-              elevation: 5.0,
-              borderRadius: BorderRadius.all(Radius.circular(30)),
-              child: TextField(
-                controller: TextEditingController(text: 'Search...'),
-                cursorColor: Theme.of(context).primaryColor,
-                style: TextStyle(color: Colors.black, fontSize: 18),
-                decoration: InputDecoration(
-                    suffixIcon: Material(
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                      child: Icon(Icons.search),
-                    ),
-                    border: InputBorder.none,
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
-              )),
+            elevation: 5.0,
+            borderRadius: BorderRadius.all(Radius.circular(30)),
+            child: TextField(
+              controller: TextEditingController(),
+              cursorColor: Theme.of(context).primaryColor,
+              style: TextStyle(color: Colors.black, fontSize: 18),
+              decoration: InputDecoration(
+                  hintText: "Search...",
+                  suffixIcon: Material(
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    child: Icon(Icons.search),
+                  ),
+                  border: InputBorder.none,
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
+            ),
+          ),
           SizedBox(height: 20),
           ListView.builder(
               shrinkWrap: true,
@@ -162,10 +165,11 @@ class MembersScreen extends StatelessWidget {
               elevation: 5.0,
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: TextField(
-                controller: TextEditingController(text: 'Search...'),
+                controller: TextEditingController(),
                 cursorColor: Theme.of(context).primaryColor,
                 style: TextStyle(color: Colors.black, fontSize: 18),
                 decoration: InputDecoration(
+                    hintText: "Search...",
                     suffixIcon: Material(
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                       child: Icon(Icons.search),
@@ -214,10 +218,11 @@ class CoachesScreen extends StatelessWidget {
               elevation: 5.0,
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: TextField(
-                controller: TextEditingController(text: 'Search...'),
+                controller: TextEditingController(),
                 cursorColor: Theme.of(context).primaryColor,
                 style: TextStyle(color: Colors.black, fontSize: 18),
                 decoration: InputDecoration(
+                    hintText: "Search...",
                     suffixIcon: Material(
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                       child: Icon(Icons.search),
@@ -266,10 +271,11 @@ class NutritionistsScreen extends StatelessWidget {
               elevation: 5.0,
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: TextField(
-                controller: TextEditingController(text: 'Search...'),
+                controller: TextEditingController(),
                 cursorColor: Theme.of(context).primaryColor,
                 style: TextStyle(color: Colors.black, fontSize: 18),
                 decoration: InputDecoration(
+                    hintText: "Search...",
                     suffixIcon: Material(
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                       child: Icon(Icons.search),
@@ -288,15 +294,108 @@ class NutritionistsScreen extends StatelessWidget {
                   onTap: () {
                     Navigator.pushNamed(context, '/user-details');
                   },
-                  child: CustomListTileWithoutCounter(
-                      'assets/images/user_icon.png',
-                      this.title,
-                      this.subtitle1,
-                      this.subtitle2,
-                      this.subtitle3),
+                  child: UserTile('assets/images/user_icon.png', this.title,
+                      this.subtitle1, this.subtitle2, this.subtitle3),
                 );
               }),
         ],
+      ),
+    );
+  }
+}
+
+class UserTile extends StatefulWidget {
+  final String path;
+  final String title;
+  final String subtitle1;
+  final String subtitle2;
+  final String subtitle3;
+
+  UserTile(
+      this.path, this.title, this.subtitle1, this.subtitle2, this.subtitle3);
+
+  @override
+  _UserTileState createState() => _UserTileState();
+}
+
+class _UserTileState extends State<UserTile> {
+  int number = 0;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsetsDirectional.only(bottom: 10),
+      decoration: BoxDecoration(
+        color: Color(0xff181818),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: ListTile(
+        minVerticalPadding: 10,
+        leading: CircleAvatar(
+          radius: 20,
+          child: Image.asset(widget.path),
+        ),
+        title: Text(
+          widget.title,
+          style: TextStyle(color: Colors.white),
+        ),
+        subtitle: Row(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  widget.subtitle1,
+                  style: TextStyle(color: Colors.white60),
+                ),
+                Text(
+                  widget.subtitle2,
+                  style: TextStyle(color: Colors.white60),
+                ),
+                Text(
+                  widget.subtitle3,
+                  style: TextStyle(color: Colors.white60),
+                ),
+              ],
+            ),
+            BodyWidget()
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+//still working on it
+class BodyWidget extends StatefulWidget {
+  @override
+  ToggleWidget createState() => ToggleWidget();
+}
+
+class ToggleWidget extends State {
+  List<bool> selectionList = [true, false, false];
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: ToggleButtons(
+        children: <Widget>[
+          Icon(Icons.access_alarm_sharp),
+          Icon(Icons.add_location),
+          Icon(Icons.assignment_late),
+        ],
+        onPressed: (int index) {
+          setState(() {
+            for (int i = 0; i < selectionList.length; i++) {
+              if (i == index) {
+                selectionList[i] = true;
+              } else {
+                selectionList[i] = false;
+              }
+            }
+          });
+        },
+        isSelected: selectionList,
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/screens/admin/equipment/equipment_details.dart';
 
 class EquipmentListSelectable extends StatefulWidget {
   const EquipmentListSelectable({Key key}) : super(key: key);
@@ -197,7 +198,7 @@ class EquipmentListSelectableState extends State<EquipmentListSelectable> {
                           cursorColor: Theme.of(context).primaryColor,
                           style: TextStyle(color: Colors.black, fontSize: 18),
                           decoration: InputDecoration(
-                            labelText: 'Search',
+                            hintText: "Search...",
                             suffixIcon: Material(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(30)),
@@ -344,7 +345,7 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
       },
       onTap: () {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => EquipmentListSelectable()));
+            MaterialPageRoute(builder: (context) => EquipmentDetails()));
       },
       child: Container(
         height: 200,

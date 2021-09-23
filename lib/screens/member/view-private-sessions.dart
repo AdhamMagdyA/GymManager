@@ -164,97 +164,130 @@ class _ViewPrivateSessionsScreenState extends State<ViewPrivateSessionsScreen> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    return SafeArea(
-      child: Container(
-        color: Colors.black,
-        padding: EdgeInsetsDirectional.all(10),
-        child: Stack(children: [
-          ListView(
-            children: [
-              Material(
-                  elevation: 5.0,
-                  borderRadius: BorderRadius.all(Radius.circular(30)),
-                  child: TextFormField(
-                    controller: TextEditingController(),
-                    cursorColor: Theme.of(context).primaryColor,
-                    style: TextStyle(color: Colors.black, fontSize: 18),
-                    decoration: InputDecoration(
-                        hintText: 'Search..',
-                        suffixIcon: Material(
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                          child: Icon(Icons.search),
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          color: Colors.black,
+          padding: EdgeInsetsDirectional.all(10),
+          child: Stack(children: [
+            ListView(
+              children: [
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Container(
+                    padding: EdgeInsets.all(20),
+                    child: Row(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: new Icon(
+                            Icons.arrow_back_ios,
+                            color: Color(0xFFFFCE2B),
+                            size: 22.0,
+                          ),
                         ),
-                        border: InputBorder.none,
-                        contentPadding:
-                            EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
-                  )),
-              if (whoIsSelected != -1)
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Deselect Items  ',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      GestureDetector(
-                        child: Icon(
-                          Icons.delete,
-                          color: Colors.white,
+                        Padding(
+                          padding: EdgeInsets.only(left: 25.0),
+                          //-->header
+                          child: new Text('Private Sessions',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.0,
+                                  fontFamily: 'sans-serif-light',
+                                  color: Colors.white)),
                         ),
-                        onTap: () {
-                          setState(() {
-                            whoIsSelected = -1;
-                          });
-                        },
-                      )
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              SizedBox(height: 20),
-              ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: privateSessions.length,
-                  itemBuilder: (ctx, index) {
-                    return myListTile(
-                      privateSessions[index]['title'],
-                      [
-                        privateSessions[index]['coach']['user']['name'],
-                        formatDateTime(privateSessions[index]['datetime']),
-                        formatDuration(privateSessions[index]['duration']),
+                Material(
+                    elevation: 5.0,
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    child: TextFormField(
+                      controller: TextEditingController(),
+                      cursorColor: Theme.of(context).primaryColor,
+                      style: TextStyle(color: Colors.black, fontSize: 18),
+                      decoration: InputDecoration(
+                          hintText: 'Search..',
+                          suffixIcon: Material(
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            child: Icon(Icons.search),
+                          ),
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 25, vertical: 13)),
+                    )),
+                if (whoIsSelected != -1)
+                  Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Deselect Items  ',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        GestureDetector(
+                          child: Icon(
+                            Icons.delete,
+                            color: Colors.white,
+                          ),
+                          onTap: () {
+                            setState(() {
+                              whoIsSelected = -1;
+                            });
+                          },
+                        )
                       ],
-                      '\$${privateSessions[index]['price']}',
-                      index,
-                    );
-                  }),
-            ],
-          ),
-          if (whoIsSelected != -1)
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: ElevatedButton(
-                  child: Text('Submit'),
-                  style: ElevatedButton.styleFrom(
-                      primary: Colors.amber,
-                      fixedSize: Size.fromWidth(width),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      )),
-                  onPressed: () {
-                    var selectedPrivateSession = privateSessions[whoIsSelected];
-
-                    selectedPrivateSession['datetime'] =
-                        formatDateTime(selectedPrivateSession['datetime']);
-                    selectedPrivateSession['duration'] =
-                        formatDuration(selectedPrivateSession['duration']);
-                    // Navigator.pop(context, selectedPrivateSession);
-                  }),
+                    ),
+                  ),
+                SizedBox(height: 20),
+                ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: privateSessions.length,
+                    itemBuilder: (ctx, index) {
+                      return myListTile(
+                        privateSessions[index]['title'],
+                        [
+                          privateSessions[index]['coach']['user']['name'],
+                          formatDateTime(privateSessions[index]['datetime']),
+                          formatDuration(privateSessions[index]['duration']),
+                        ],
+                        '\$${privateSessions[index]['price']}',
+                        index,
+                      );
+                    }),
+              ],
             ),
-        ]),
+            if (whoIsSelected != -1)
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: ElevatedButton(
+                    child: Text('Submit'),
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.amber,
+                        fixedSize: Size.fromWidth(width),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        )),
+                    onPressed: () {
+                      var selectedPrivateSession =
+                          privateSessions[whoIsSelected];
+
+                      selectedPrivateSession['datetime'] =
+                          formatDateTime(selectedPrivateSession['datetime']);
+                      selectedPrivateSession['duration'] =
+                          formatDuration(selectedPrivateSession['duration']);
+                      Navigator.pop(context, selectedPrivateSession);
+                    }),
+              ),
+          ]),
+        ),
       ),
     );
   }

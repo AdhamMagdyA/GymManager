@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:gym_project/common/my_popup.dart';
 import 'package:gym_project/screens/admin/util-screen.dart';
 import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
 import 'package:gym_project/screens/member/member-util.dart';
 import 'package:gym_project/screens/nutritionist/util-screen.dart';
+import 'package:gym_project/viewmodels/login-view-model.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
 import '../../style/styling.dart';
 import '../../widget/button.dart';
+import 'package:gym_project/services/login-auth-webservice.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -16,18 +19,51 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final _emailNode = FocusNode();
-
+  final TextEditingController emailController =
+      TextEditingController(text: 'parisian.dejon@example.net');
+  final TextEditingController passwordController =
+      TextEditingController(text: 'secret');
   final _passwordNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
+
     _emailNode.addListener(() {
       setState(() {});
     });
     _passwordNode.addListener(() {
       setState(() {});
     });
+  }
+
+  var loginViewModel;
+
+  @override
+  void didChangeDependencies() {
+    loginViewModel = Provider.of<LoginViewModel>(context);
+    token = loginViewModel.token;
+    role = loginViewModel.role;
+
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<User>(context, listen: false).setRole(role);
+      if (role == 'admin') {
+        Navigator.pushReplacementNamed(
+          context,
+          '/admin/util',
+        );
+      } else if (role == 'coach') {
+        Navigator.pushReplacementNamed(
+          context,
+          '/coach/util',
+        );
+      } else if (role == 'nutritionist') {
+        Navigator.pushReplacementNamed(context, '/nutritionist/util');
+      } else if (role == 'member') {
+        Navigator.pushReplacementNamed(context, '/member/util');
+      }
+    });
+    super.didChangeDependencies();
   }
 
   @override
@@ -37,8 +73,17 @@ class _LoginState extends State<Login> {
     super.dispose();
   }
 
+  var token;
+  var role;
+
   @override
   Widget build(BuildContext context) {
+    // Future.delayed(Duration(seconds: 5), () {
+    //   if (login) {
+    //     token = Provider.of<LoginViewModel>(context).token;
+    //     role = Provider.of<LoginViewModel>(context).role;
+    //   }
+    // });
     return Scaffold(
       body: SingleChildScrollView(
         physics: NeverScrollableScrollPhysics(),
@@ -80,11 +125,13 @@ class _LoginState extends State<Login> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   _textField(
+                                    controller: emailController,
                                     labelText: 'Email',
                                     node: _emailNode,
                                   ),
                                   SizedBox(height: 10),
                                   _textField(
+                                    controller: passwordController,
                                     labelText: 'Password',
                                     obscure: true,
                                     node: _passwordNode,
@@ -102,141 +149,17 @@ class _LoginState extends State<Login> {
                                   height: 20,
                                 ),
                                 Button(
-                                  border: false,
-                                  btnTxt: 'Login',
-                                  roundedBorder: true,
-                                  onTap: () {
-                                    return showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return AlertDialog(
-                                            content: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                ElevatedButton(
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                          primary: Colors.amber,
-                                                          fixedSize:
-                                                              Size.fromWidth(
-                                                                  150),
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        16),
-                                                          )),
-                                                  onPressed: () {
-                                                    Provider.of<User>(context,
-                                                            listen: false)
-                                                        .setRole('admin');
-                                                    Navigator.pushReplacement(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              AdminUtil()),
-                                                    );
-                                                  },
-                                                  child: Text('Admin'),
-                                                ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                ElevatedButton(
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                          primary: Colors.amber,
-                                                          fixedSize:
-                                                              Size.fromWidth(
-                                                                  150),
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        16),
-                                                          )),
-                                                  onPressed: () {
-                                                    Provider.of<User>(context,
-                                                            listen: false)
-                                                        .setRole('coach');
-                                                    Navigator.pushReplacement(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              CoachTabsScreen()),
-                                                    );
-                                                  },
-                                                  child: Text('Coach'),
-                                                ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                ElevatedButton(
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                          primary: Colors.amber,
-                                                          fixedSize:
-                                                              Size.fromWidth(
-                                                                  150),
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        16),
-                                                          )),
-                                                  onPressed: () {
-                                                    Provider.of<User>(context,
-                                                            listen: false)
-                                                        .setRole('member');
-                                                    Navigator.pushReplacement(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              MemberUtil()),
-                                                    );
-                                                  },
-                                                  child: Text('Member'),
-                                                ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                ElevatedButton(
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                          primary: Colors.amber,
-                                                          fixedSize:
-                                                              Size.fromWidth(
-                                                                  150),
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        16),
-                                                          )),
-                                                  onPressed: () {
-                                                    Provider.of<User>(context,
-                                                            listen: false)
-                                                        .setRole(
-                                                            'nutritionist');
-                                                    Navigator.pushReplacement(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              NutritionistUtil()),
-                                                    );
-                                                  },
-                                                  child: Text('Nutritionist'),
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        });
-                                  },
-                                ),
+                                    border: false,
+                                    btnTxt: 'Login',
+                                    roundedBorder: true,
+                                    onTap: () {
+                                      setState(() {
+                                        Provider.of<LoginViewModel>(context,
+                                                listen: false)
+                                            .fetchLogin(emailController.text,
+                                                passwordController.text);
+                                      });
+                                    }),
                               ],
                             ),
                           )
@@ -253,8 +176,13 @@ class _LoginState extends State<Login> {
     );
   }
 
-  TextField _textField({String labelText, final node, bool obscure = false}) {
+  TextField _textField(
+      {String labelText,
+      final node,
+      bool obscure = false,
+      TextEditingController controller}) {
     return TextField(
+      controller: controller,
       focusNode: node,
       obscureText: obscure,
       style: TextStyle(color: Colors.white),
