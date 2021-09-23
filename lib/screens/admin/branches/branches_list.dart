@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/common/my_list_tile_without_counter.dart';
+import 'package:gym_project/widget/providers/user.dart';
+import 'package:provider/provider.dart';
 
 class BranchesList extends StatefulWidget {
   final String title = 'Elmaadi';
@@ -21,17 +23,20 @@ class _BranchesListState extends State<BranchesList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Container(
-        child: FloatingActionButton.extended(
-          onPressed: () {
-            Navigator.pushNamed(context, '/create-branch');
-          },
-          isExtended: false,
-          label: Icon(Icons.add),
-        ),
-        height: MediaQuery.of(context).size.height * 0.075,
-        width: MediaQuery.of(context).size.width * 0.1,
-      ),
+      floatingActionButton:
+          Provider.of<User>(context, listen: false).role == "admin"
+              ? Container(
+                  child: FloatingActionButton.extended(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/create-branch');
+                    },
+                    isExtended: false,
+                    label: Icon(Icons.add),
+                  ),
+                  height: MediaQuery.of(context).size.height * 0.075,
+                  width: MediaQuery.of(context).size.width * 0.1,
+                )
+              : Container(),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       body: SafeArea(
         child: Container(

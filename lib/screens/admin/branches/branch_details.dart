@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gym_project/core/presentation/res/text_styles.dart';
 import 'package:gym_project/screens/admin/crowd_meter.dart';
 import 'package:gym_project/screens/admin/equipment/equipment_list.dart';
+import 'package:gym_project/widget/providers/user.dart';
+import 'package:provider/provider.dart';
 
 class BranchDetails extends StatefulWidget {
   const BranchDetails({Key key}) : super(key: key);
@@ -14,17 +16,20 @@ class _BranchDetailsState extends State<BranchDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Container(
-        child: FloatingActionButton.extended(
-          onPressed: () {
-            Navigator.pushNamed(context, '/edit-branch');
-          },
-          isExtended: false,
-          label: Icon(Icons.edit),
-        ),
-        height: MediaQuery.of(context).size.height * 0.075,
-        width: MediaQuery.of(context).size.width * 0.1,
-      ),
+      floatingActionButton:
+          Provider.of<User>(context, listen: false).role == "admin"
+              ? Container(
+                  child: FloatingActionButton.extended(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/edit-branch');
+                    },
+                    isExtended: false,
+                    label: Icon(Icons.edit),
+                  ),
+                  height: MediaQuery.of(context).size.height * 0.075,
+                  width: MediaQuery.of(context).size.width * 0.1,
+                )
+              : Container(),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       backgroundColor: Colors.black,
       body: SafeArea(
