@@ -280,20 +280,26 @@ class _ViewMyPrivateSessionsScreenState
             SizedBox(
               width: 4,
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            EditPrivateSessionForm(privateSession)));
-              },
-              child: Text(
-                'Edit',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
+            Container(
+              child: TextButton(
+                onPressed: Provider.of<User>(context).role != "admin"
+                    ? () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    EditPrivateSessionForm(privateSession)));
+                      }
+                    : () {},
+                child: Provider.of<User>(context).role != "admin"
+                    ? Text(
+                        'Edit',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    : Text(''),
               ),
             ),
           ],

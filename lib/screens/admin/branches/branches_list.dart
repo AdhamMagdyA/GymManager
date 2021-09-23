@@ -23,6 +23,16 @@ class _BranchesListState extends State<BranchesList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: Provider.of<User>(context).role != "admin"
+          ? AppBar(
+              title: Text(
+                'Branches',
+                style: TextStyle(color: Colors.white),
+              ),
+              backgroundColor: Color(0xff181818),
+              iconTheme: IconThemeData(color: Color(0xFFFFCE2B)),
+            )
+          : PreferredSize(child: Container(), preferredSize: Size(0, 0)),
       floatingActionButton:
           Provider.of<User>(context, listen: false).role == "admin"
               ? Container(
