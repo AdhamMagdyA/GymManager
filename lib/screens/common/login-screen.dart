@@ -19,10 +19,14 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final _emailNode = FocusNode();
+  /*final TextEditingController emailController =
+      TextEditingController(text: 'parisian.dejon@example.net');*/
   final TextEditingController emailController =
-      TextEditingController(text: 'parisian.dejon@example.net');
+      TextEditingController(text: 'admin@gmail.com');
+  /*final TextEditingController passwordController =
+      TextEditingController(text: 'secret');*/
   final TextEditingController passwordController =
-      TextEditingController(text: 'secret');
+      TextEditingController(text: '123456');
   final _passwordNode = FocusNode();
 
   @override

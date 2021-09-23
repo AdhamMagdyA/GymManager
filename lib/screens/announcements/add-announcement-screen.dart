@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/viewmodels/announcement-list-view-model.dart';
+import 'package:provider/provider.dart';
 
 class AddAnnouncementScreen extends StatefulWidget {
   //const AddAnnouncementScreen({Key key}) : super(key: key);
-  String title;
-  String body;
-
-  AddAnnouncementScreen({this.title, this.body});
+  final String title;
+  final String body;
+  final int id;
+  final String post_type;
+  AddAnnouncementScreen({this.id, this.title, this.body, this.post_type});
 
   @override
   _AddAnnouncementScreenState createState() => _AddAnnouncementScreenState();
@@ -33,7 +36,7 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Add Announcements',
+          '${widget.post_type} Announcements',
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Color(0xff181818),
@@ -48,7 +51,7 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Text(
-                    'Add Announcement',
+                    '${widget.post_type} Announcement',
                     style: TextStyle(
                       color: Colors.white,
                       fontFamily: 'assets/fonts/Changa-Bold.ttf',
@@ -170,8 +173,36 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
                 padding: const EdgeInsets.all(10.0),
                 child: MaterialButton(
                   onPressed: btn_enabled
-                      ? () {
-                          Navigator.pop(context);
+                      ? () async {
+                          if (widget.post_type == 'Add') {
+                            await Provider.of<AnnouncementListViewModel>(
+                                    context,
+                                    listen: false)
+                                .postAnnouncement(
+                                    _titleController.text,
+                                    _bodyController.text,
+                                    DateTime.now().toString());
+                            await Provider.of<AnnouncementListViewModel>(
+                                    context,
+                                    listen: false)
+                                .getAnnouncements();
+                            Navigator.pop(context);
+                          } else {
+                            await Provider.of<AnnouncementListViewModel>(
+                                    context,
+                                    listen: false)
+                                .editAnnouncement(
+                              widget.id,
+                              _titleController.text,
+                              _bodyController.text,
+                              DateTime.now().toString(),
+                            );
+                            await Provider.of<AnnouncementListViewModel>(
+                                    context,
+                                    listen: false)
+                                .getAnnouncements();
+                            Navigator.pop(context);
+                          }
                         }
                       : null,
                   height: 50,
@@ -179,7 +210,7 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
                   disabledColor: Color(0xFF404040),
                   color: btn_enabled ? Colors.amber : Color(0xFF404040),
                   child: Text(
-                    'Post Announcement',
+                    '${widget.post_type} Announcement',
                     style: TextStyle(
                       color: btn_enabled ? Colors.black : Colors.white,
                       fontFamily: 'assets/fonts/Changa-Bold.ttf',

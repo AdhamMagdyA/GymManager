@@ -73,6 +73,7 @@ import 'package:gym_project/screens/nutritionist/view-meals-details-screen.dart'
 import 'package:gym_project/screens/questions/add-question-screen.dart';
 import 'package:gym_project/screens/questions/questions-screen.dart';
 import 'package:gym_project/screens/questions/single-question.dart';
+import 'package:gym_project/viewmodels/announcement-list-view-model.dart';
 import 'package:gym_project/viewmodels/login-view-model.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
@@ -87,6 +88,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => User()),
         ChangeNotifierProvider(create: (_) => LoginViewModel()),
+        ChangeNotifierProvider(create: (_) => AnnouncementListViewModel()),
       ],
       child: MyApp(),
     ),
