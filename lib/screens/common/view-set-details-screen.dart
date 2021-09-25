@@ -4,6 +4,7 @@ import 'package:gym_project/viewmodels/set-list-view-model.dart';
 import 'package:gym_project/viewmodels/set-view-model.dart';
 import 'package:gym_project/widget/grid_view_card.dart';
 import 'package:gym_project/models/set.dart';
+import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
 
 class SetDetailsScreen extends StatefulWidget {
@@ -21,8 +22,9 @@ class _SetDetailsScreenState extends State<SetDetailsScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    String token = Provider.of<User>(context, listen: false).token;
     Provider.of<SetListViewModel>(context, listen: false)
-        .fetchSetDetails(widget.id);
+        .fetchSetDetails(widget.id, token);
   }
 
   String formatDuration(String duration) {

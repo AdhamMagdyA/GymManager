@@ -1,14 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:gym_project/models/exercise.dart';
 import 'package:gym_project/models/set.dart';
 import 'package:gym_project/viewmodels/set-view-model.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-const token =
-    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNjMyMjk4NzMwLCJleHAiOjE2MzIzODUxMzAsIm5iZiI6MTYzMjI5ODczMCwianRpIjoiWHR3ZUJiVHVLbWNNRWFpTCIsInN1YiI6MywicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.ZClhbQePARoY8meZntOJcy7hfwXJwwXimX0EXwV_KTY';
-
 class SetWebService {
-  Future<List<Set>> getSets() async {
+  Future<List<Set>> getSets(String token) async {
     print('Am i here??');
     final response =
         await http.get(Uri.parse('http://localhost:8000/api/sets'), headers: {
@@ -29,7 +27,7 @@ class SetWebService {
     }
   }
 
-  Future<Set> getSetDetails(int setId) async {
+  Future<Set> getSetDetails(int setId, String token) async {
     print('Am i here??');
     final response = await http.get(
         Uri.parse('http://localhost:8000/api/sets/$setId/details'),
@@ -49,7 +47,9 @@ class SetWebService {
     }
   }
 
-  Future<Set> postSet(Set set) async {
+  Future<Set> postSet(Set set, String token) async {
+    print('posted set:');
+    print(set.toJsonForCreation());
     final response =
         await http.post(Uri.parse('http://localhost:8000/api/sets'),
             headers: {
@@ -57,17 +57,10 @@ class SetWebService {
               'Accept': 'application/json',
               'Authorization': 'Bearer $token',
             },
-            body: jsonEncode({
-              'title': set.title,
-              'description': set.description,
-              //parse exercises!
-              // 'exercises': {
-              //   {
-              //     'id':
-              //   }
-            }));
+            body: set.toJsonForCreation(),
+    );
     print('response obtained!');
-    print(response.statusCode);
+    print(response.body);
     if (response.statusCode == 201) {
       final result = json.decode(response.body);
       final exerciseJson = result['set'];

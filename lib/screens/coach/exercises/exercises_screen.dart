@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:gym_project/models/exercise.dart';
@@ -48,6 +50,8 @@ class ExercisesScreenState extends State<ExercisesScreen> {
   var exerciseListViewModel;
   @override
   void didChangeDependencies() {
+    super.didChangeDependencies();
+
     exerciseListViewModel = Provider.of<ExerciseListViewModel>(context);
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       if (exerciseListViewModel.exercises.isNotEmpty) {
@@ -57,32 +61,27 @@ class ExercisesScreenState extends State<ExercisesScreen> {
         });
       }
     });
+
+    if (!_argumentsLoaded) {
+      oldSelectedExercise = ModalRoute.of(context).settings.arguments;
+      _selectionMode = true;
+      if (oldSelectedExercise.isNotEmpty) {
+        setState(() {
+          oldSelectedExercise
+              .forEach((int exerciseId, Map<String, Object> exerciseData) {
+            _numberOfSelectedInstances
+                .add({exerciseId: exerciseData['quantity'] as int});
+            _selectionMode = true;
+          });
+        });
+      }
+      _argumentsLoaded = true;
+    }
   }
 
   List<Map<int, int>> _numberOfSelectedInstances = [];
-  Map<int, Object> finalSelectedItems = {};
   bool _argumentsLoaded = false;
-  List<Map<Object, Object>> oldSelectedExercise = [];
-
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   if (_argumentsLoaded) {
-  //     oldSelectedExercise = ModalRoute.of(context).settings.arguments;
-  //     _selectionMode = true;
-  //     print(oldSelectedExercise);
-  //     if (oldSelectedExercise.isNotEmpty) {
-  //       setState(() {
-  //         oldSelectedExercise.forEach((exercise) {
-  //           _numberOfSelectedInstances
-  //               .add({exercise['index'] as int: exercise['value'] as int});
-  //           _selectionMode = true;
-  //         });
-  //       });
-  //     }
-  //     _argumentsLoaded = true;
-  //   }
-  // }
+  Map<int, Map<String, Object>> oldSelectedExercise = {};
 
   void setSelectionMode(bool value) {
     setState(() {
@@ -90,60 +89,61 @@ class ExercisesScreenState extends State<ExercisesScreen> {
     });
   }
 
-  void incrementItem(int index) {
+  void incrementItem(int exerciseId) {
     setState(() {
       int i = _numberOfSelectedInstances
-          .indexWhere((map) => map.containsKey(index));
+          .indexWhere((map) => map.containsKey(exerciseId));
       if (i != -1) {
-        _numberOfSelectedInstances[i][index] =
-            _numberOfSelectedInstances[i][index] + 1;
+        _numberOfSelectedInstances[i][exerciseId] =
+            _numberOfSelectedInstances[i][exerciseId] + 1;
       } else {
-        _numberOfSelectedInstances.add({index: 1});
+        _numberOfSelectedInstances.add({exerciseId: 1});
       }
     });
+    print(_numberOfSelectedInstances);
   }
 
-  void decrementItem(int index) {
+  void decrementItem(int exerciseId) {
     setState(() {
       int i = _numberOfSelectedInstances
-          .indexWhere((map) => map.containsKey(index));
+          .indexWhere((map) => map.containsKey(exerciseId));
       if (i == -1) return;
-      if (_numberOfSelectedInstances[i][index] == 1) {
-        _numberOfSelectedInstances.removeWhere((map) => map.containsKey(index));
+      if (_numberOfSelectedInstances[i][exerciseId] == 1) {
+        _numberOfSelectedInstances
+            .removeWhere((map) => map.containsKey(exerciseId));
       } else {
-        _numberOfSelectedInstances[i][index] =
-            _numberOfSelectedInstances[i][index] - 1;
+        _numberOfSelectedInstances[i][exerciseId] =
+            _numberOfSelectedInstances[i][exerciseId] - 1;
       }
     });
+    print(_numberOfSelectedInstances);
   }
 
-  int selectedItemsNumber(index) {
-    if (!_numberOfSelectedInstances.any((map) => map.containsKey(index))) {
+  int selectedItemsNumber(int exerciseId) {
+    if (!_numberOfSelectedInstances.any((map) => map.containsKey(exerciseId))) {
       return 0;
     } else {
       return _numberOfSelectedInstances
-          .firstWhere((map) => map.containsKey(index))[index];
+          .firstWhere((map) => map.containsKey(exerciseId))[exerciseId];
     }
   }
 
-  bool isSelected(int index) {
-    return _numberOfSelectedInstances.any((map) => map.containsKey(index));
+  bool isSelected(int exerciseId) {
+    return _numberOfSelectedInstances.any((map) => map.containsKey(exerciseId));
   }
 
-  void getFinalSelectedItems() {
-    int index = 0;
+  Map<int, Map<String, Object>> getFinalSelectedItems() {
+    Map<int, Map<String, Object>> finalSelectedItems = {};
     for (Map<int, int> selectedItem in _numberOfSelectedInstances) {
-      // print(selectedItem);
-      selectedItem.forEach((key, value) {
-        // print(sets[key]);
-        for (int i = 0; i < value; i++) {
-          finalSelectedItems[index] = _exercises[key];
-          index++;
-        }
+      selectedItem.forEach((exerciseId, quantity) {
+        finalSelectedItems[exerciseId] = {
+          'exercise': _exercises.firstWhere(
+              (ExerciseViewModel exercise) => exercise.id == exerciseId),
+          'quantity': quantity
+        };
       });
     }
-    print(finalSelectedItems);
-    // print(finalSelectedItems);
+    return finalSelectedItems;
   }
 
   @override
@@ -317,7 +317,6 @@ class ExercisesScreenState extends State<ExercisesScreen> {
                                       index++)
                                     MyChoosingGridViewCard(
                                         exercise: _exercises[index],
-                                        index: index,
                                         selectionMode: _selectionMode,
                                         setSelectionMode: setSelectionMode,
                                         incrementItem: incrementItem,
@@ -343,8 +342,7 @@ class ExercisesScreenState extends State<ExercisesScreen> {
                         borderRadius: BorderRadius.circular(16),
                       )),
                   onPressed: () {
-                    getFinalSelectedItems();
-                    Navigator.pop(context, finalSelectedItems);
+                    Navigator.pop(context, getFinalSelectedItems());
                   }),
             ),
         ],
@@ -357,7 +355,6 @@ class MyChoosingGridViewCard extends StatefulWidget {
   MyChoosingGridViewCard({
     Key key,
     @required this.exercise,
-    @required this.index,
     @required this.selectionMode,
     @required this.setSelectionMode,
     @required this.incrementItem,
@@ -368,7 +365,6 @@ class MyChoosingGridViewCard extends StatefulWidget {
   }) : super(key: key);
 
   final ExerciseViewModel exercise;
-  final int index;
   final bool selectionMode;
   final Function setSelectionMode;
   final Function incrementItem;
@@ -421,7 +417,6 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
 
   @override
   Widget build(BuildContext context) {
-    print('${widget.exercise.title} ${widget.exercise.id}');
     final double imageBorderRadius = widget.selectionMode ? 0 : 30;
     return GestureDetector(
       onTap: () {
@@ -441,7 +436,7 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
           );
         } else if (widget.selectionTime && !widget.selectionMode) {
           widget.setSelectionMode(true);
-          widget.incrementItem(widget.index);
+          widget.incrementItem(widget.exercise.id);
         }
       },
 
@@ -472,7 +467,7 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
               blurRadius: 6.0,
             ),
           ],
-          color: widget.isSelected(widget.index)
+          color: widget.isSelected(widget.exercise.id)
               ? Colors.blue.withOpacity(0.5)
               : Colors.white,
         ),
@@ -486,16 +481,16 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
-                      onPressed: () => widget.incrementItem(widget.index),
+                      onPressed: () => widget.incrementItem(widget.exercise.id),
                       icon: Icon(Icons.add)),
                   Text(
-                    '${widget.selectedItemsNumber(widget.index)}',
+                    '${widget.selectedItemsNumber(widget.exercise.id)}',
                     style: TextStyle(color: Colors.black),
                   ),
                   IconButton(
-                      onPressed: !widget.isSelected(widget.index)
+                      onPressed: !widget.isSelected(widget.exercise.id)
                           ? null
-                          : () => widget.decrementItem(widget.index),
+                          : () => widget.decrementItem(widget.exercise.id),
                       icon: Icon(Icons.remove)),
                 ],
               ),
@@ -667,10 +662,6 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
     );
   }
 }
-
-
-
-
 
 // import 'package:flutter/material.dart';
 // import 'package:gym_project/screens/coach/exercises/edit-exercise.dart';

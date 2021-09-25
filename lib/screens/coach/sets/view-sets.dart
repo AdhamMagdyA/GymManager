@@ -3,6 +3,7 @@ import 'package:gym_project/screens/coach/sets/edit-set.dart';
 import 'package:gym_project/screens/common/view-set-details-screen.dart';
 import 'package:gym_project/viewmodels/set-list-view-model.dart';
 import 'package:gym_project/viewmodels/set-view-model.dart';
+import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
 
 class ViewSetsScreen extends StatefulWidget {
@@ -18,7 +19,8 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
   @override
   void initState() {
     super.initState();
-    Provider.of<SetListViewModel>(context, listen: false).fetchListSets();
+    String token = Provider.of<User>(context, listen: false).token;
+    Provider.of<SetListViewModel>(context, listen: false).fetchListSets(token);
     if (widget.isSelectionTime == true) {
       _selectionMode = true;
     }

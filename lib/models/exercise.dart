@@ -26,6 +26,23 @@ class Exercise {
     this.equipment,
   });
 
+  Map<String, Object> toMap() {
+    return {
+      //id wouldn't be set if the exercise is still being created (sent in post request)
+      'id': id,
+      'title': title,
+      'description': description,
+      'duration': duration,
+      'gif': gif,
+      'calBurnt': calBurnt,
+      'reps': reps,
+      'image': image,
+      'coachId': coachId,
+      'coachName': coachName,
+      'equipment': equipment,
+    };
+  }
+
   factory Exercise.fromJson(Map<String, dynamic> json) {
     return Exercise(
       id: json['id'],

@@ -12,21 +12,20 @@ class ExerciseWebService {
   // String token;
   // ExerciseWebService({this.token});
   Future<List<Exercise>> getExercises(String token) async {
-    print('Am i here??');
+    // print('Am i here??');
     final response = await http
         .get(Uri.parse('http://localhost:8000/api/exercises'), headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'Bearer $token'
     });
-    print('response obtained!');
-    print(response.statusCode);
+    // print('response obtained!');
+    // print(response.statusCode);
     final result = json.decode(response.body);
-    print(result);
     if (response.statusCode == 200) {
       // Iterable list = result['exercises']['data'];
       Iterable list = result['exercises'];
-      print(list);
+      // print(list);
       List<Exercise> exercises = list
           .map<Exercise>((exercise) => Exercise.fromJson(exercise))
           .toList();

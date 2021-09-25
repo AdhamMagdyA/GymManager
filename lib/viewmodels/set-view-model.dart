@@ -18,6 +18,9 @@ class SetViewModel {
     return set.description;
   }
 
+  String get breakDuration => set.breakDuration;
+  set breakDuration(String breakDuration) => set.breakDuration = breakDuration;
+
   int get coachId {
     return set.coachId;
   }

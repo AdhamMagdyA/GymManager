@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'exercise.dart';
 
 class Set {
   int id;
   String title;
   String description;
+  String breakDuration;
   int coachId;
   String coachName;
   List<Exercise> exercises;
@@ -13,8 +16,40 @@ class Set {
       this.id,
       this.title,
       this.description,
+      this.breakDuration,
       this.coachId,
-      this.exercises});
+      this.exercises,
+  });
+
+  String toString() {
+    return toMap().toString();
+  }
+
+  Map<String, Object> toMap() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'coachId': coachId,
+      'exercises':
+          exercises.map((Exercise exercise) => exercise.toMap()).toList(),
+    };
+  }
+
+  String toJsonForCreation() {
+    Map<String, Object> mappedSet = {
+      'title': title,
+      'description': description,
+      'coachId': coachId,
+      'exercises': exercises
+          .map((Exercise exercise) => {
+                'id': exercise.id,
+                'break_duration': breakDuration,
+              })
+          .toList(),
+    };
+    return json.encode(mappedSet);
+  }
 
   factory Set.fromJson(Map<String, dynamic> json) {
     return Set(
@@ -22,21 +57,21 @@ class Set {
       title: json['title'],
       description: json['description'],
       coachId: json['coach_id'],
-      coachName: json['name'],
+      coachName: json['name'] ?? 'unknown',
     );
   }
   factory Set.detailsfromJson(Map<String, dynamic> json) {
-    List<Exercise> _exercises = json['exercises']
-        .map<Exercise>((exercise) => Exercise.fromJson(exercise))
-        .toList();
-    List<Exercise> newExercises = _exercises.cast<Exercise>().toList();
+    // List<Exercise> _exercises = json['exercises']
+    //     .map<Exercise>((exercise) => Exercise.fromJson(exercise))
+    //     .toList();
+    // List<Exercise> newExercises = _exercises.cast<Exercise>().toList();
     return Set(
       id: json['id'],
       title: json['title'],
       description: json['description'],
       coachId: json['coach_id'],
       coachName: json['name'],
-      exercises: newExercises,
+      // exercises: newExercises,
     );
   }
 }

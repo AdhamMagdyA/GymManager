@@ -30,7 +30,7 @@ class ExerciseListViewModel with ChangeNotifier {
   ExerciseViewModel exercise = ExerciseViewModel();
   // methods to fetch news
   Future<void> fetchListExercises(String tokenn) async {
-    print('welcome token! $tokenn');
+    // print('welcome token! $tokenn');
     // print('currently here!');
     List<Exercise> _exercises = await webService.getExercises(tokenn);
     loadingStatus = LoadingStatus.Searching;
@@ -50,7 +50,7 @@ class ExerciseListViewModel with ChangeNotifier {
   Future<void> fetchExercise(int exerciseId, String tokenn) async {
     print(exerciseId);
     print('currently here!');
-    print('welcome token! $tokenn');
+    // print('welcome token! $tokenn');
     Exercise _exercise =
         await webService.getExerciseDetails(exerciseId, tokenn);
     loadingStatus = LoadingStatus.Searching;

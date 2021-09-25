@@ -6,6 +6,13 @@ class ExerciseViewModel {
 
   ExerciseViewModel({Exercise e}) : exercise = e;
 
+  Map<String, Object> toMap() {
+    return {
+      'id': id,
+      'title': title,
+    };
+  }
+
   String get title {
     return exercise.title;
   }

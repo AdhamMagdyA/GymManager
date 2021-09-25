@@ -18,9 +18,9 @@ class SetListViewModel with ChangeNotifier {
   SetViewModel set;
 
   // methods to fetch news
-  Future<void> fetchListSets() async {
+  Future<void> fetchListSets(String token) async {
     print('currently here!');
-    List<Set> _sets = await SetWebService().getSets();
+    List<Set> _sets = await SetWebService().getSets(token);
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
     this.sets = _sets.map((set) => SetViewModel(s: set)).toList();
@@ -34,11 +34,11 @@ class SetListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void fetchSetDetails(int setId) async {
+  void fetchSetDetails(int setId, String token) async {
     print('id');
     print(setId);
     print('currently here!');
-    Set _set = await SetWebService().getSetDetails(setId);
+    Set _set = await SetWebService().getSetDetails(setId, token);
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
     this.set = SetViewModel(s: _set);
@@ -53,8 +53,8 @@ class SetListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void postSet(Set set) async {
-    Set _set = await SetWebService().postSet(set);
+  void postSet(Set set, String token) async {
+    Set _set = await SetWebService().postSet(set, token);
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
     this.set = SetViewModel(s: _set);
