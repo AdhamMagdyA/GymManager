@@ -162,194 +162,213 @@ class ItemsScreenState extends State<ItemsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButton: Provider.of<User>(context, listen: false).role ==
+                    "admin" ||
+                Provider.of<User>(context, listen: false).role == "nutritionist"
+            ? Container(
+                child: FloatingActionButton.extended(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/create-item');
+                  },
+                  isExtended: false,
+                  label: Icon(Icons.add),
+                ),
+                height: MediaQuery.of(context).size.height * 0.075,
+                width: MediaQuery.of(context).size.width * 0.1,
+              )
+            : Container(),
         body: SafeArea(
-      child: Stack(
-        children: <Widget>[
-          Container(
-            height: 300,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30)),
-              color: Colors.black,
-            ),
-            width: double.infinity,
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 230, bottom: 20),
-            width: 220,
-            height: 190,
-            decoration: BoxDecoration(
-                color: Color(0xFFFFCE2B),
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(190),
-                    bottomLeft: Radius.circular(290),
-                    bottomRight: Radius.circular(160),
-                    topRight: Radius.circular(0))),
-          ),
-          CustomScrollView(
-            slivers: <Widget>[
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.all(26.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(
-                              top: 10,
-                              left: 10,
-                            ),
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Align(
-                                alignment: Alignment.topLeft,
-                                child: Container(
-                                  height: 42,
-                                  width: 42,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Center(
-                                    child: Icon(
-                                      Icons.arrow_back,
-                                      color: Colors.black,
+          child: Stack(
+            children: <Widget>[
+              Container(
+                height: 300,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(30),
+                      bottomRight: Radius.circular(30)),
+                  color: Colors.black,
+                ),
+                width: double.infinity,
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 230, bottom: 20),
+                width: 220,
+                height: 190,
+                decoration: BoxDecoration(
+                    color: Color(0xFFFFCE2B),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(190),
+                        bottomLeft: Radius.circular(290),
+                        bottomRight: Radius.circular(160),
+                        topRight: Radius.circular(0))),
+              ),
+              CustomScrollView(
+                slivers: <Widget>[
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.all(26.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: 10,
+                                  left: 10,
+                                ),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Container(
+                                      height: 42,
+                                      width: 42,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Center(
+                                        child: Icon(
+                                          Icons.arrow_back,
+                                          color: Colors.black,
+                                        ),
+                                      ),
                                     ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 10, left: 10),
+                                child: Text(
+                                  "Items",
+                                  style: TextStyle(
+                                    fontSize: 40,
+                                    fontWeight: FontWeight.w800,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 40),
+                          Container(
+                            child: Material(
+                              elevation: 5.0,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30)),
+                              child: TextFormField(
+                                controller: TextEditingController(),
+                                cursorColor: Theme.of(context).primaryColor,
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 18),
+                                decoration: InputDecoration(
+                                  hintText: 'Search..',
+                                  suffixIcon: Material(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(30)),
+                                    child: Icon(Icons.search),
+                                  ),
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 25,
+                                    vertical: 13,
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10, left: 10),
-                            child: Text(
-                              "Items",
-                              style: TextStyle(
-                                fontSize: 40,
-                                fontWeight: FontWeight.w800,
+                        ],
+                      ),
+                    ),
+                  ),
+                  if (_selectionMode)
+                    SliverToBoxAdapter(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Expanded(
+                            child: Container(
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Selected ${_numberOfSelectedInstances.length} of ${_items.length}',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _selectionMode = false;
+                                _numberOfSelectedInstances.clear();
+                                finalSelectedItems.clear();
+                              });
+                            },
+                            icon: CircleAvatar(
+                              radius: 30,
+                              backgroundColor: Colors.black.withOpacity(0.3),
+                              child: Icon(
+                                Icons.close,
                                 color: Colors.white,
                               ),
                             ),
-                          ),
+                          )
                         ],
                       ),
-                      SizedBox(height: 40),
-                      Container(
-                        child: Material(
-                          elevation: 5.0,
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                          child: TextFormField(
-                            controller: TextEditingController(),
-                            cursorColor: Theme.of(context).primaryColor,
-                            style: TextStyle(color: Colors.black, fontSize: 18),
-                            decoration: InputDecoration(
-                              hintText: 'Search..',
-                              suffixIcon: Material(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30)),
-                                child: Icon(Icons.search),
-                              ),
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.symmetric(
-                                horizontal: 25,
-                                vertical: 13,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
+                  SliverPadding(
+                    padding: const EdgeInsets.all(26.0),
+                    sliver: SliverGrid.count(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 10,
+                        crossAxisSpacing: 10,
+                        childAspectRatio: 0.8,
+                        children: _items
+                            .asMap()
+                            .entries
+                            .map((entry) => MyChoosingGridViewCard(
+                                  image: entry.value['image'],
+                                  title: entry.value['title'],
+                                  calories: entry.value['calories'],
+                                  level: entry.value['level'],
+                                  creator: entry.value['creator'],
+                                  index: entry.key,
+                                  selectionMode: _selectionMode,
+                                  setSelectionMode: setSelectionMode,
+                                  incrementItem: incrementItem,
+                                  decrementItem: decrementItem,
+                                  selectedItemsNumber: selectedItemsNumber,
+                                  isSelected: isSelected,
+                                  selectionTime: widget.isSelectionTime,
+                                ))
+                            .toList()),
+                  ),
+                ],
+              ),
+              if (_numberOfSelectedInstances.length > 0)
+                Container(
+                  margin: EdgeInsets.only(bottom: 20),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: ElevatedButton(
+                      style:
+                          ElevatedButton.styleFrom(primary: Color(0xFFFFCE2B)),
+                      child: Text('Submit'),
+                      onPressed: () {
+                        getFinalSelectedItems();
+                        // Navigator.pop(context, finalSelectedItems);
+                        print(finalSelectedItems);
+                      },
+                    ),
                   ),
                 ),
-              ),
-              if (_selectionMode)
-                SliverToBoxAdapter(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: Text(
-                            'Selected ${_numberOfSelectedInstances.length} of ${_items.length}',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _selectionMode = false;
-                            _numberOfSelectedInstances.clear();
-                            finalSelectedItems.clear();
-                          });
-                        },
-                        icon: CircleAvatar(
-                          radius: 30,
-                          backgroundColor: Colors.black.withOpacity(0.3),
-                          child: Icon(
-                            Icons.close,
-                            color: Colors.white,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              SliverPadding(
-                padding: const EdgeInsets.all(26.0),
-                sliver: SliverGrid.count(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 10,
-                    childAspectRatio: 0.8,
-                    children: _items
-                        .asMap()
-                        .entries
-                        .map((entry) => MyChoosingGridViewCard(
-                              image: entry.value['image'],
-                              title: entry.value['title'],
-                              calories: entry.value['calories'],
-                              level: entry.value['level'],
-                              creator: entry.value['creator'],
-                              index: entry.key,
-                              selectionMode: _selectionMode,
-                              setSelectionMode: setSelectionMode,
-                              incrementItem: incrementItem,
-                              decrementItem: decrementItem,
-                              selectedItemsNumber: selectedItemsNumber,
-                              isSelected: isSelected,
-                              selectionTime: widget.isSelectionTime,
-                            ))
-                        .toList()),
-              ),
             ],
           ),
-          if (_numberOfSelectedInstances.length > 0)
-            Container(
-              margin: EdgeInsets.only(bottom: 20),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(primary: Color(0xFFFFCE2B)),
-                  child: Text('Submit'),
-                  onPressed: () {
-                    getFinalSelectedItems();
-                    // Navigator.pop(context, finalSelectedItems);
-                    print(finalSelectedItems);
-                  },
-                ),
-              ),
-            ),
-        ],
-      ),
-    ));
+        ));
   }
 }
 
