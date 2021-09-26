@@ -120,4 +120,24 @@ class ExerciseWebService {
       throw Exception('response failed');
     }
   }
+
+  Future<bool> deleteExercise(int exerciseId, String token) async {
+    // print('Am i here??');
+    final response = await http.delete(
+      Uri.parse('http://localhost:8000/api/exercises/${exerciseId}'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+    print('response obtained!');
+    print(response.statusCode);
+    print(response.body);
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception('response failed');
+    }
+  }
 }

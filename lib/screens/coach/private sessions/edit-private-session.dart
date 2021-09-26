@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:gym_project/viewmodels/private-session-view-model.dart';
 
 class EditPrivateSessionForm extends StatefulWidget {
-  final Map privateSession;
+  final PrivateSessionViewModel privateSession;
 
   EditPrivateSessionForm(this.privateSession);
   @override
@@ -168,8 +169,7 @@ class MapScreenState extends State<EditPrivateSessionForm>
                                     child: new TextFormField(
                                       decoration: const InputDecoration(
                                           hintText: "Enter Your Title"),
-                                      initialValue:
-                                          widget.privateSession['title'],
+                                      initialValue: widget.privateSession.title,
                                     ),
                                   ),
                                 ],
@@ -208,7 +208,7 @@ class MapScreenState extends State<EditPrivateSessionForm>
                                       hintText: "Enter Your Description",
                                     ),
                                     initialValue:
-                                        widget.privateSession['description'],
+                                        widget.privateSession.description,
                                   ),
                                 ),
                               ],
@@ -248,7 +248,7 @@ class MapScreenState extends State<EditPrivateSessionForm>
                                       hintText: "Enter Duration",
                                     ),
                                     initialValue:
-                                        widget.privateSession['duration'],
+                                        widget.privateSession.duration,
                                   ),
                                 ),
                               ],
@@ -284,12 +284,11 @@ class MapScreenState extends State<EditPrivateSessionForm>
                               children: <Widget>[
                                 new Flexible(
                                   child: new TextFormField(
-                                    decoration: const InputDecoration(
-                                      hintText: "Enter Price",
-                                    ),
-                                    initialValue:
-                                        widget.privateSession['price'],
-                                  ),
+                                      decoration: const InputDecoration(
+                                        hintText: "Enter Price",
+                                      ),
+                                      initialValue: widget.privateSession.price
+                                          .toString()),
                                 ),
                               ],
                             ),

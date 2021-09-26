@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'my_list_tile.dart';
 
+// ignore: must_be_immutable
 class MyListView extends StatefulWidget {
   IconData iconData = Icons.ac_unit;
   String title = 'Title';

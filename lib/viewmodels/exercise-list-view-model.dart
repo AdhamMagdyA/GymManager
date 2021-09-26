@@ -102,4 +102,18 @@ class ExerciseListViewModel with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  Future<void> deleteExercise(int exerciseId, String tokenn) async {
+    // print('currently here!');
+    bool status = await webService.deleteExercise(exerciseId, tokenn);
+    loadingStatus = LoadingStatus.Searching;
+    notifyListeners();
+
+    if (status == false) {
+      loadingStatus = LoadingStatus.Empty;
+    } else {
+      loadingStatus = LoadingStatus.Completed;
+    }
+    notifyListeners();
+  }
 }

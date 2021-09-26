@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:gym_project/screens/coach/sets/view-sets.dart';
-import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
 import 'package:gym_project/viewmodels/exercise-view-model.dart';
 import 'package:gym_project/viewmodels/set-list-view-model.dart';
 import 'package:gym_project/widget/providers/user.dart';
@@ -473,7 +472,7 @@ class MapScreenState extends State<CreateSetForm>
                                               title: titleController.text,
                                               description:
                                                   descriptionController.text,
-                                                  breakDuration:
+                                              breakDuration:
                                                   breakDurationController.text,
                                               exercises: orderedExercises
                                                   .map((e) => e.exercise)

@@ -1,8 +1,4 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:gym_project/models/exercise.dart';
 import 'package:gym_project/screens/coach/exercises/edit-exercise.dart';
 import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
 import 'package:gym_project/viewmodels/exercise-view-model.dart';
@@ -12,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../../common/view-exercises-details-screen.dart';
 
+// ignore: must_be_immutable
 class ExercisesScreen extends StatefulWidget {
   bool isSelectionTime = false;
   ExercisesScreen(this.isSelectionTime);
@@ -21,19 +18,25 @@ class ExercisesScreen extends StatefulWidget {
   ExercisesScreenState createState() => ExercisesScreenState();
 }
 
-class ExercisesScreenState extends State<ExercisesScreen> {
-  List<ExerciseViewModel> _exercises = [];
+List<ExerciseViewModel> exercises = [];
 
+class ExercisesScreenState extends State<ExercisesScreen> {
   bool error = false;
   bool done = false;
-
+  String token;
   bool _selectionMode = false;
   @override
   void initState() {
     super.initState();
+    token = Provider.of<User>(context, listen: false).token;
     Provider.of<ExerciseListViewModel>(context, listen: false)
-        .fetchListExercises(Provider.of<User>(context, listen: false).token)
-        .catchError((err) {
+        .fetchListExercises(token)
+        .then((value) {
+      setState(() {
+        done = true;
+        exercises = exerciseListViewModel.exercises;
+      });
+    }).catchError((err) {
       setState(() {
         error = true;
       });
@@ -48,21 +51,21 @@ class ExercisesScreenState extends State<ExercisesScreen> {
   }
 
   var exerciseListViewModel;
+  List<Map<int, int>> _numberOfSelectedInstances = [];
+  bool _argumentsLoaded = false;
+  Map<int, Map<String, Object>> oldSelectedExercise = {};
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
     exerciseListViewModel = Provider.of<ExerciseListViewModel>(context);
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      if (exerciseListViewModel.exercises.isNotEmpty) {
-        setState(() {
-          done = true;
-          _exercises = exerciseListViewModel.exercises;
-        });
-      }
-    });
+    // SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    //   if (exerciseListViewModel != null) {
 
-    if (!_argumentsLoaded) {
+    //   }
+    // });
+
+    if (_argumentsLoaded) {
       oldSelectedExercise = ModalRoute.of(context).settings.arguments;
       _selectionMode = true;
       if (oldSelectedExercise.isNotEmpty) {
@@ -78,10 +81,6 @@ class ExercisesScreenState extends State<ExercisesScreen> {
       _argumentsLoaded = true;
     }
   }
-
-  List<Map<int, int>> _numberOfSelectedInstances = [];
-  bool _argumentsLoaded = false;
-  Map<int, Map<String, Object>> oldSelectedExercise = {};
 
   void setSelectionMode(bool value) {
     setState(() {
@@ -137,7 +136,7 @@ class ExercisesScreenState extends State<ExercisesScreen> {
     for (Map<int, int> selectedItem in _numberOfSelectedInstances) {
       selectedItem.forEach((exerciseId, quantity) {
         finalSelectedItems[exerciseId] = {
-          'exercise': _exercises.firstWhere(
+          'exercise': exercises.firstWhere(
               (ExerciseViewModel exercise) => exercise.id == exerciseId),
           'quantity': quantity
         };
@@ -186,7 +185,7 @@ class ExercisesScreenState extends State<ExercisesScreen> {
                             ))),
                   ],
                 )
-              : (done && _exercises.isEmpty)
+              : (done && exercises.isEmpty)
                   ? Stack(
                       children: [
                         CustomBackButton(),
@@ -198,7 +197,7 @@ class ExercisesScreenState extends State<ExercisesScreen> {
                                 ))),
                       ],
                     )
-                  : _exercises.isEmpty
+                  : exercises.isEmpty
                       ? Stack(
                           children: [
                             CustomBackButton(),
@@ -279,7 +278,7 @@ class ExercisesScreenState extends State<ExercisesScreen> {
                                       child: Container(
                                         alignment: Alignment.center,
                                         child: Text(
-                                          'Selected ${_numberOfSelectedInstances.length} of ${_exercises.length}',
+                                          'Selected ${_numberOfSelectedInstances.length} of ${exercises.length}',
                                           style: TextStyle(color: Colors.white),
                                         ),
                                       ),
@@ -313,18 +312,19 @@ class ExercisesScreenState extends State<ExercisesScreen> {
                                 childAspectRatio: 0.8,
                                 children: [
                                   for (int index = 0;
-                                      index < _exercises.length;
+                                      index < exercises.length;
                                       index++)
                                     MyChoosingGridViewCard(
-                                        exercise: _exercises[index],
-                                        selectionMode: _selectionMode,
-                                        setSelectionMode: setSelectionMode,
-                                        incrementItem: incrementItem,
-                                        decrementItem: decrementItem,
-                                        selectedItemsNumber:
-                                            selectedItemsNumber,
-                                        isSelected: isSelected,
-                                        selectionTime: widget.isSelectionTime)
+                                      exercise: exercises[index],
+                                      selectionMode: _selectionMode,
+                                      setSelectionMode: setSelectionMode,
+                                      incrementItem: incrementItem,
+                                      decrementItem: decrementItem,
+                                      selectedItemsNumber: selectedItemsNumber,
+                                      isSelected: isSelected,
+                                      selectionTime: widget.isSelectionTime,
+                                      token: token,
+                                    )
                                 ],
                               ),
                             ),
@@ -362,6 +362,7 @@ class MyChoosingGridViewCard extends StatefulWidget {
     @required this.selectedItemsNumber,
     @required this.isSelected,
     @required this.selectionTime,
+    @required this.token,
   }) : super(key: key);
 
   final ExerciseViewModel exercise;
@@ -372,6 +373,7 @@ class MyChoosingGridViewCard extends StatefulWidget {
   final Function selectedItemsNumber;
   final Function isSelected;
   final bool selectionTime;
+  final String token;
 
   @override
   _MyChoosingGridViewCardState createState() => _MyChoosingGridViewCardState();
@@ -558,18 +560,18 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
                   ),
                 ),
               ),
-            SizedBox(
-              height: 20,
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text('Created by:  ${widget.exercise.coachName}',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12,
-                      color: Colors.black,
-                    )),
-              ),
-            ),
+            // SizedBox(
+            //   height: 20,
+            //   child: FittedBox(
+            //     fit: BoxFit.scaleDown,
+            //     child: Text('Created by: \n ${widget.exercise.coachName}',
+            //         style: TextStyle(
+            //           fontWeight: FontWeight.bold,
+            //           fontSize: 12,
+            //           color: Colors.black,
+            //         )),
+            //   ),
+            // ),
             SizedBox(
               height: 5,
             ),
@@ -579,35 +581,79 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
                     height: 21,
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
-                      child: Center(
-                        child: FittedBox(
-                          fit: BoxFit.contain,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(10.0),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            FittedBox(
+                              fit: BoxFit.contain,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(10.0),
+                                  ),
+                                  primary: Colors.amber,
+                                  onPrimary: Colors.black,
+                                ),
+                                child: Text(
+                                  'Edit',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => EditExerciseForm(
+                                            id: widget.exercise.id),
+                                      ));
+                                },
                               ),
-                              primary: Colors.amber,
-                              onPrimary: Colors.black,
                             ),
-                            child: Text(
-                              'Edit',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
+                            SizedBox(width: 4),
+                            FittedBox(
+                              fit: BoxFit.contain,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(10.0),
+                                  ),
+                                  primary: Colors.red,
+                                  onPrimary: Colors.black,
+                                ),
+                                child: Text(
+                                  'Delete',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  // Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //       builder: (context) => EditExerciseForm(
+                                  //           id: widget.exercise.id),
+                                  //     ));
+
+                                  Provider.of<ExerciseListViewModel>(context,
+                                          listen: false)
+                                      .deleteExercise(
+                                          widget.exercise.id, widget.token)
+                                      .then((value) {
+                                    setState(() {
+                                      exercises.remove(widget.exercise);
+                                    });
+                                  }).catchError((err) =>
+                                          {print('Failed to delete exercise')});
+                                },
                               ),
                             ),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => EditExerciseForm(
-                                        id: widget.exercise.id),
-                                  ));
-                            },
-                          ),
-                        ),
-                      ),
+                          ]),
                     ),
                   )
                 : SizedBox(
@@ -681,8 +727,8 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
 // }
 
 // class ExercisesScreenState extends State<ExercisesScreen> {
-//   // List<ExerciseViewModel> _exercises = [];
-//   List<Map> _exercises = [
+//   // List<ExerciseViewModel> exercises = [];
+//   List<Map> exercises = [
 //     {
 //       'title': 'Leg Pushes',
 //       'image':
@@ -816,11 +862,11 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
 //       selectedItem.forEach((key, value) {
 //         // print(sets[key]);
 //         for (int i = 0; i < value; i++) {
-//           finalSelectedItems[index] = _exercises[key];
+//           finalSelectedItems[index] = exercises[key];
 //           index++;
 //         }
 //         finalSelectedItems[key] = {
-//           ..._exercises[key],
+//           ...exercises[key],
 //           'value': value,
 //         };
 //       });
@@ -830,9 +876,9 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
 //   @override
 //   Widget build(BuildContext context) {
 //     // var exerciseListViewModel = Provider.of<ExerciseListViewModel>(context);
-//     // _exercises = exerciseListViewModel.exercises;
+//     // exercises = exerciseListViewModel.exercises;
 //     print('Now exercises is');
-//     print(_exercises);
+//     print(exercises);
 //     return Scaffold(
 //         body: SafeArea(
 //       child: Stack(
@@ -859,7 +905,7 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
 //                     bottomRight: Radius.circular(160),
 //                     topRight: Radius.circular(0))),
 //           ),
-//           _exercises.isEmpty
+//           exercises.isEmpty
 //               ? Center(
 //                   child: CircularProgressIndicator(
 //                     color: Colors.white,
@@ -961,7 +1007,7 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
 //                               child: Container(
 //                                 alignment: Alignment.center,
 //                                 child: Text(
-//                                   'Selected ${_numberOfSelectedInstances.length} of ${_exercises.length}',
+//                                   'Selected ${_numberOfSelectedInstances.length} of ${exercises.length}',
 //                                   style: TextStyle(color: Colors.white),
 //                                 ),
 //                               ),
@@ -994,15 +1040,15 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
 //                         childAspectRatio: 0.8,
 //                         children: [
 //                           for (int index = 0;
-//                               index < _exercises.length;
+//                               index < exercises.length;
 //                               index++)
 //                             MyChoosingGridViewCard(
-//                                 id: _exercises[index]['id'],
-//                                 image: _exercises[index]['image'],
-//                                 title: _exercises[index]['title'],
-//                                 reps: _exercises[index]['reps'],
-//                                 duration: _exercises[index]['duration'],
-//                                 coach: _exercises[index]['coach'],
+//                                 id: exercises[index]['id'],
+//                                 image: exercises[index]['image'],
+//                                 title: exercises[index]['title'],
+//                                 reps: exercises[index]['reps'],
+//                                 duration: exercises[index]['duration'],
+//                                 coach: exercises[index]['coach'],
 //                                 index: index,
 //                                 selectionMode: _selectionMode,
 //                                 setSelectionMode: setSelectionMode,
