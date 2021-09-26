@@ -74,7 +74,9 @@ import 'package:gym_project/screens/questions/add-question-screen.dart';
 import 'package:gym_project/screens/questions/questions-screen.dart';
 import 'package:gym_project/screens/questions/single-question.dart';
 import 'package:gym_project/viewmodels/announcement-list-view-model.dart';
+import 'package:gym_project/viewmodels/answer-list-view-model.dart';
 import 'package:gym_project/viewmodels/login-view-model.dart';
+import 'package:gym_project/viewmodels/question-list-view-model.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
 import 'package:gym_project/screens/my_choosing_gridview_screen.dart';
@@ -89,6 +91,8 @@ void main() {
         ChangeNotifierProvider(create: (_) => User()),
         ChangeNotifierProvider(create: (_) => LoginViewModel()),
         ChangeNotifierProvider(create: (_) => AnnouncementListViewModel()),
+        ChangeNotifierProvider(create: (_) => QuestionListViewModel()),
+        ChangeNotifierProvider(create: (_) => AnswerListViewModel()),
       ],
       child: MyApp(),
     ),

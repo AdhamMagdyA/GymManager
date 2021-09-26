@@ -9,10 +9,10 @@ class AnnouncementsListTile extends StatefulWidget {
   final String title;
   final String body;
   final String date;
-  String role; // member or admin
+  final String role; // member or admin
   final int id;
 
-  AnnouncementsListTile({this.title, this.body, this.date, this.id});
+  AnnouncementsListTile({this.title, this.body, this.date, this.id, this.role});
   @override
   _AnnouncementsListTileState createState() => _AnnouncementsListTileState();
 }
@@ -25,7 +25,7 @@ class _AnnouncementsListTileState extends State<AnnouncementsListTile> {
     // TODO: implement initState
     super.initState();
     is_visible = true;
-    widget.role = Provider.of<User>(context, listen: false).role;
+    //widget.role = Provider.of<LoginViewModel>(context, listen: false).role;
   }
 
   @override
@@ -76,7 +76,7 @@ class _AnnouncementsListTileState extends State<AnnouncementsListTile> {
                     ),
                   ],
                 ),
-                Provider.of<LoginViewModel>(context).role == "admin"
+                widget.role == "admin"
                     ? Container(
                         padding: const EdgeInsets.only(left: 10),
                         child: Row(

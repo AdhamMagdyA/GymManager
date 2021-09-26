@@ -89,7 +89,9 @@ class _QuestionsScreenState extends State<QuestionsScreen>
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => AddQuestionScreen(),
+                  builder: (context) => AddQuestionScreen(
+                    post_type: 'Add',
+                  ),
                 ),
               );
             },

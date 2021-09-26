@@ -13,6 +13,7 @@ enum AnnouncementLoadingStatus {
 class AnnouncementListViewModel with ChangeNotifier {
   AnnouncementLoadingStatus loadingstatus = AnnouncementLoadingStatus.Empty;
   List<AnnouncementViewModel> _announcementsList = <AnnouncementViewModel>[];
+  AnnouncementViewModel _announcementById;
 
   getAnnouncements() async {
     List<Announcement> _announcements =
@@ -28,7 +29,6 @@ class AnnouncementListViewModel with ChangeNotifier {
     } else {
       loadingstatus = AnnouncementLoadingStatus.Completed;
     }
-
     notifyListeners();
   }
 
@@ -37,13 +37,12 @@ class AnnouncementListViewModel with ChangeNotifier {
         await AnnouncementsWebservice().fetchAnnouncementById(id);
     loadingstatus = AnnouncementLoadingStatus.Searching;
     notifyListeners();
-
+    _announcementById = AnnouncementViewModel(announcement: _announcement);
     if (this._announcementsList.isEmpty) {
       loadingstatus = AnnouncementLoadingStatus.Empty;
     } else {
       loadingstatus = AnnouncementLoadingStatus.Completed;
     }
-
     notifyListeners();
   }
 
@@ -61,7 +60,9 @@ class AnnouncementListViewModel with ChangeNotifier {
 
   deleteAnnouncement(int id) async {
     await AnnouncementsWebservice().deleteAnnouncement(id);
+    notifyListeners();
   }
 
-  List<AnnouncementViewModel> get announcementList => _announcementsList;
+  List<AnnouncementViewModel> get announcementsList => _announcementsList;
+  AnnouncementViewModel get announcementById => _announcementById;
 }

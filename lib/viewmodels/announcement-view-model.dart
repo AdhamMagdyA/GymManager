@@ -10,7 +10,7 @@ class AnnouncementViewModel {
   String get title => _announcement.title;
   String get description => _announcement.description;
   String get date =>
-      DateFormat('yyyy-MM-dd').format(DateTime.parse('2021-08-25 09:10:04')) +
+      DateFormat('yyyy-MM-dd').format(DateTime.parse(_announcement.date)) +
       ' at ' +
-      DateFormat('kk:mm a').format(DateTime.parse('2021-08-25 09:10:04'));
+      DateFormat('kk:mm a').format(DateTime.parse(_announcement.date));
 }

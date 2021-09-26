@@ -47,11 +47,6 @@ class _AnnouncementsScreenState extends State<AnnouncementsScreen> {
               width: MediaQuery.of(context).size.width * 0.1,
               child: FloatingActionButton(
                 onPressed: () {
-                  for (AnnouncementViewModel announcement
-                      in announcements.announcementList) {
-                    print(announcement.title);
-                  }
-
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -77,13 +72,15 @@ class _AnnouncementsScreenState extends State<AnnouncementsScreen> {
                 ? ListView.builder(
                     itemBuilder: (context, index) {
                       return AnnouncementsListTile(
-                        id: announcements.announcementList[index].id,
-                        title: announcements.announcementList[index].title,
-                        body: announcements.announcementList[index].description,
-                        date: announcements.announcementList[index].date,
+                        role: user_role,
+                        id: announcements.announcementsList[index].id,
+                        title: announcements.announcementsList[index].title,
+                        body:
+                            announcements.announcementsList[index].description,
+                        date: announcements.announcementsList[index].date,
                       );
                     },
-                    itemCount: announcements.announcementList.length,
+                    itemCount: announcements.announcementsList.length,
                     padding: const EdgeInsets.all(10),
                   )
                 : Center(
