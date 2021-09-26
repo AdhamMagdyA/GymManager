@@ -66,6 +66,7 @@ import 'package:gym_project/screens/member/view-private-sessions.dart';
 import 'package:gym_project/screens/my_choosing_gridview_screen.dart';
 import 'package:gym_project/screens/member/training-mode/training_mode_exercise_screen.dart';
 import 'package:gym_project/screens/member/training-mode/training_mode_overview_screen.dart';
+import 'package:gym_project/screens/nutritionist/meal-creation-from.dart';
 import 'package:gym_project/screens/nutritionist/meals-screen.dart';
 import 'package:gym_project/screens/nutritionist/nutritionist%20_profile.dart';
 import 'package:gym_project/screens/nutritionist/plans-screen.dart';
@@ -212,7 +213,7 @@ class MyApp extends StatelessWidget {
 
         //meals routes
         '/meals': (context) => MealsViewScreen(false),
-        // '/create-meal': (context) => CreateMealForm(),
+        '/create-meal': (context) => CreateMealForm(),
         // '/edit-meal': (context) => EditMealForm(),
 
         //plans routes
