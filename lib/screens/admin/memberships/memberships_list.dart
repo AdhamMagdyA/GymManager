@@ -65,7 +65,7 @@ class _MembershipsListState extends State<MembershipsList> {
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20.0,
-                              fontFamily: 'sans-serif-light',
+                              fontFamily: 'assets/fonts/Changa-Bold.ttf',
                               color: Colors.white)),
                     ),
                   ],
