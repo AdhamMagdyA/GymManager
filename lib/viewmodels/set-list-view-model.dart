@@ -78,4 +78,9 @@ class SetListViewModel with ChangeNotifier {
 
     notifyListeners();
   }
+
+  Future<void> deleteSet(Set set, String token) async {
+    await SetWebService().deleteSet(set, token);
+    notifyListeners();
+  }
 }

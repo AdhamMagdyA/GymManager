@@ -5,6 +5,7 @@ import 'package:gym_project/screens/coach/sets/view-sets.dart';
 import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
 import 'package:gym_project/viewmodels/exercise-view-model.dart';
 import 'package:gym_project/viewmodels/set-list-view-model.dart';
+import 'package:gym_project/viewmodels/set-view-model.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
 import 'package:gym_project/models/set.dart';
@@ -465,7 +466,6 @@ class MapScreenState extends State<CreateSetForm>
                                                 .requestFocus(new FocusNode());
                                           });
 
-                                          print('Now set can be created!');
                                           if (_formKey.currentState
                                                   .validate() &&
                                               selectedExercises.isNotEmpty) {
@@ -481,6 +481,14 @@ class MapScreenState extends State<CreateSetForm>
                                             );
 
                                             status = saveSet();
+
+                                            Navigator.of(context)
+                                                .pushReplacement(
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ViewSetsScreen(false),
+                                              ),
+                                            );
                                           }
                                         },
                                       )),

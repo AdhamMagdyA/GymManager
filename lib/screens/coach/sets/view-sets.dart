@@ -365,12 +365,14 @@ class _SetsListTileState extends State<SetsListTile> {
                     SizedBox(height: 6),
                     Expanded(
                       child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      EditSetForm(widget.set)));
+                        onPressed: () async {
+                          String token =
+                              Provider.of<User>(context, listen: false).token;
+                          await Provider.of<SetListViewModel>(context,
+                                  listen: false)
+                              .deleteSet(widget.set.set, token);
+                          Provider.of<SetListViewModel>(context, listen: false)
+                              .fetchListSets(token);
                         },
                         child: Text('Delete',
                             style: TextStyle(

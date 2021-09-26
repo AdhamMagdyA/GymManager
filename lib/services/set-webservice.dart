@@ -62,7 +62,7 @@ class SetWebService {
     if (response.statusCode == 201) {
       final result = json.decode(response.body);
       final exerciseJson = result['set'];
-      return Set.detailsfromJson(exerciseJson);
+      return Set.fromJson(exerciseJson);
     } else {
       throw Exception('response failed');
     }
@@ -88,6 +88,21 @@ class SetWebService {
       final setJson = result['set'];
       return Set.fromJson(setJson);
     } else {
+      throw Exception('response failed');
+    }
+  }
+
+  Future<void> deleteSet(Set set, String token) async {
+    final response = await http.delete(
+      Uri.parse('http://127.0.0.1:8000/api/sets/${set.id}'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+    print(response.statusCode);
+    if (response.statusCode != 200) {
       throw Exception('response failed');
     }
   }
