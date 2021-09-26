@@ -61,7 +61,7 @@ class MapScreenState extends State<EditPlanForm>
                                 Padding(
                                   padding: EdgeInsets.only(left: 25.0),
                                   //-->header
-                                  child: new Text('Create Plan',
+                                  child: new Text('Edit Plan',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20.0,

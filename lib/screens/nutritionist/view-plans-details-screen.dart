@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gym_project/common/my-list-tile-without-trailing.dart';
 import 'package:gym_project/common/my_list_tile.dart';
 import 'package:gym_project/widget/grid_view_card.dart';
+import 'package:gym_project/widget/providers/user.dart';
+import 'package:provider/provider.dart';
 
 class PlansDetailsScreen extends StatelessWidget {
   var _plan = {
@@ -53,6 +55,21 @@ class PlansDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Provider.of<User>(context, listen: false).role ==
+                  "admin" ||
+              Provider.of<User>(context, listen: false).role == "nutritionist"
+          ? Container(
+              child: FloatingActionButton.extended(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/edit-plan');
+                },
+                isExtended: false,
+                label: Icon(Icons.edit),
+              ),
+              height: MediaQuery.of(context).size.height * 0.075,
+              width: MediaQuery.of(context).size.width * 0.1,
+            )
+          : Container(),
       backgroundColor: Colors.black,
       body: SafeArea(
         child: Stack(

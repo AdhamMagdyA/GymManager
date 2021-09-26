@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/screens/nutritionist/plan-edit-form.dart';
 import 'package:gym_project/screens/nutritionist/view-plans-details-screen.dart';
+import 'package:gym_project/widget/providers/user.dart';
+import 'package:provider/provider.dart';
 
 class PlansViewScreen extends StatefulWidget {
   bool isSelectionTime = false;
@@ -54,6 +56,21 @@ class _PlansViewScreenState extends State<PlansViewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Provider.of<User>(context, listen: false).role ==
+                  "admin" ||
+              Provider.of<User>(context, listen: false).role == "nutritionist"
+          ? Container(
+              child: FloatingActionButton.extended(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/create-plan');
+                },
+                isExtended: false,
+                label: Icon(Icons.add),
+              ),
+              height: MediaQuery.of(context).size.height * 0.075,
+              width: MediaQuery.of(context).size.width * 0.1,
+            )
+          : Container(),
       body: SafeArea(
         child: Container(
           color: Colors.black,
@@ -82,6 +99,7 @@ class _PlansViewScreenState extends State<PlansViewScreen> {
                 child: ListView(
                   children: [
                     ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: widget.plans.length,
                         itemBuilder: (ctx, index) {
@@ -146,9 +164,14 @@ class _PlansViewScreenState extends State<PlansViewScreen> {
       ),
       child: ListTile(
         onTap: () {
-          setState(() {
-            PlansViewScreen.whoIsSelected = index;
-          });
+          if (!selectionTime) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => PlansDetailsScreen()));
+          } else {
+            setState(() {
+              PlansViewScreen.whoIsSelected = index;
+            });
+          }
         },
         selected: PlansViewScreen.whoIsSelected == index,
         minVerticalPadding: 10,
@@ -217,10 +240,12 @@ class _PlansViewScreenState extends State<PlansViewScreen> {
                   Expanded(
                     child: TextButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => EditPlanForm()));
+                        //the delete should not navigate so I commented the code below
+
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => EditPlanForm()));
                       },
                       child: Text('Delete',
                           style: TextStyle(

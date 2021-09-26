@@ -61,7 +61,7 @@ class MapScreenState extends State<EditMealForm>
                                 Padding(
                                   padding: EdgeInsets.only(left: 25.0),
                                   //-->header
-                                  child: new Text('Create Meal',
+                                  child: new Text('Edit Meal',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20.0,

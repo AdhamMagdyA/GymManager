@@ -23,6 +23,7 @@ import 'package:gym_project/screens/coach/groups/edit-group.dart';
 import 'package:gym_project/screens/coach/groups/view-groups.dart';
 import 'package:gym_project/screens/coach/private%20sessions/create-private-session.dart';
 import 'package:gym_project/screens/coach/private%20sessions/edit-private-session.dart';
+import 'package:gym_project/screens/coach/private%20sessions/view-my-private-sessions.dart';
 import 'package:gym_project/screens/coach/sets/create-set.dart';
 import 'package:gym_project/screens/coach/sets/edit-set.dart';
 import 'package:gym_project/screens/coach/sets/view-sets.dart';
@@ -59,17 +60,25 @@ import 'package:gym_project/screens/member/member_profile.dart';
 import 'package:gym_project/screens/member/workout-summery/workout-summeries.dart';
 import 'package:gym_project/screens/common/view-exercises-details-screen.dart';
 import 'package:gym_project/screens/nutritionist/fitness-summaries.dart';
+import 'package:gym_project/screens/nutritionist/item-creation-form.dart';
+import 'package:gym_project/screens/nutritionist/item-edit-form.dart';
 import 'package:gym_project/screens/nutritionist/items_screen.dart';
 import 'package:gym_project/screens/member/view-private-sessions.dart';
 import 'package:gym_project/screens/my_choosing_gridview_screen.dart';
 import 'package:gym_project/screens/member/training-mode/training_mode_exercise_screen.dart';
 import 'package:gym_project/screens/member/training-mode/training_mode_overview_screen.dart';
+import 'package:gym_project/screens/nutritionist/meal-creation-from.dart';
+import 'package:gym_project/screens/nutritionist/meal-edit-form.dart';
 import 'package:gym_project/screens/nutritionist/meals-screen.dart';
 import 'package:gym_project/screens/nutritionist/nutritionist%20_profile.dart';
+import 'package:gym_project/screens/nutritionist/plan-creation-form.dart';
+import 'package:gym_project/screens/nutritionist/plan-edit-form.dart';
+import 'package:gym_project/screens/nutritionist/plan-schedule.dart';
 import 'package:gym_project/screens/nutritionist/plans-screen.dart';
 import 'package:gym_project/screens/nutritionist/util-screen.dart';
 import 'package:gym_project/screens/nutritionist/view-items-details-screen.dart';
 import 'package:gym_project/screens/nutritionist/view-meals-details-screen.dart';
+import 'package:gym_project/screens/nutritionist/view-plans-details-screen.dart';
 import 'package:gym_project/screens/questions/add-question-screen.dart';
 import 'package:gym_project/screens/questions/questions-screen.dart';
 import 'package:gym_project/screens/questions/single-question.dart';
@@ -205,23 +214,28 @@ class MyApp extends StatelessWidget {
         //private session routes
         '/private-sessions': (context) => ViewPrivateSessionsScreen(),
         '/session-details': (context) => PrivateSessionDetailsScreen(),
+        '/my-private-sessions': (context) => ViewMyPrivateSessionsScreen(),
         // '/create-private-session': (context) => CreatePrivateSessionForm(),
         // '/edit-private-session': (context) => EditPrivateSessionForm(),
 
         //items routes
         '/items': (context) => ItemsScreen(false),
-        // '/create-item': (context) => CreateItemForm(),
-        // '/edit-item': (context) => EditItemForm()
+        '/create-item': (context) => CreateItemForm(),
+        '/edit-item': (context) => EditItemForm(),
+        '/item-details': (context) => ItemsDetailsScreen(),
 
         //meals routes
         '/meals': (context) => MealsViewScreen(false),
-        // '/create-meal': (context) => CreateMealForm(),
-        // '/edit-meal': (context) => EditMealForm(),
+        '/create-meal': (context) => CreateMealForm(),
+        '/edit-meal': (context) => EditMealForm(),
+        '/meal-details': (context) => MealsDetailsScreen(),
 
         //plans routes
+        '/plan-schedule': (context) => PlanSchedule(),
         '/plans': (context) => PlansViewScreen(false),
-        // '/create-plan': (context) => CreatePlanForm(),
-        // '/edit-plan': (context) => EditPlanForm(),
+        '/create-plan': (context) => CreatePlanForm(),
+        '/edit-plan': (context) => EditPlanForm(),
+        '/plan-details': (context) => PlansDetailsScreen(),
       },
       debugShowCheckedModeBanner: false,
       title: 'Gym',

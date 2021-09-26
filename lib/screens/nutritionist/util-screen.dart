@@ -3,6 +3,7 @@ import 'package:gym_project/screens/common/grid_view.dart';
 import 'package:gym_project/screens/admin/admin_home_page.dart';
 import 'package:gym_project/screens/nutritionist/fitness-summaries.dart';
 import 'package:gym_project/screens/nutritionist/meals-screen.dart';
+import 'package:gym_project/screens/nutritionist/nutritionist-drawer.dart';
 import 'package:gym_project/screens/nutritionist/nutritionist-home-screen.dart';
 import 'package:gym_project/screens/nutritionist/plan-schedule.dart';
 import 'package:gym_project/screens/nutritionist/plans-screen.dart';
@@ -67,7 +68,7 @@ class _NutritionistUtilState extends State<NutritionistUtil>
         backgroundColor: Color(0xff181818),
         iconTheme: IconThemeData(color: Color(0xFFFFCE2B)),
       ),
-      drawer: MyDrawer(),
+      drawer: NutritionistDrawer(),
       body: _pages[_selectedIndex]['page'],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color(0xff181818),

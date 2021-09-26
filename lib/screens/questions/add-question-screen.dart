@@ -36,6 +36,19 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Add Question',
+          style: TextStyle(
+            color: Colors.white,
+            fontFamily: 'assets/fonts/Changa-Bold.ttf',
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: Color(0xff181818),
+        iconTheme: IconThemeData(color: Color(0xFFFFCE2B)),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(

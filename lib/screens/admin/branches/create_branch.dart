@@ -62,7 +62,8 @@ class _CreateBranchFormState extends State<CreateBranchForm>
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20.0,
-                                          fontFamily: 'sans-serif-light',
+                                          fontFamily:
+                                              'assets/fonts/Changa-Bold.ttf',
                                           color: Colors.white)),
                                 )
                               ],
