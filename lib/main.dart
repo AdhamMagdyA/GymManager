@@ -69,6 +69,9 @@ import 'package:gym_project/screens/member/training-mode/training_mode_overview_
 import 'package:gym_project/screens/nutritionist/meal-creation-from.dart';
 import 'package:gym_project/screens/nutritionist/meals-screen.dart';
 import 'package:gym_project/screens/nutritionist/nutritionist%20_profile.dart';
+import 'package:gym_project/screens/nutritionist/plan-creation-form.dart';
+import 'package:gym_project/screens/nutritionist/plan-edit-form.dart';
+import 'package:gym_project/screens/nutritionist/plan-schedule.dart';
 import 'package:gym_project/screens/nutritionist/plans-screen.dart';
 import 'package:gym_project/screens/nutritionist/util-screen.dart';
 import 'package:gym_project/screens/nutritionist/view-items-details-screen.dart';
@@ -217,9 +220,10 @@ class MyApp extends StatelessWidget {
         // '/edit-meal': (context) => EditMealForm(),
 
         //plans routes
+        '/plan-schedule': (context) => PlanSchedule(),
         '/plans': (context) => PlansViewScreen(false),
-        // '/create-plan': (context) => CreatePlanForm(),
-        // '/edit-plan': (context) => EditPlanForm(),
+        '/create-plan': (context) => CreatePlanForm(),
+        '/edit-plan': (context) => EditPlanForm(),
       },
       debugShowCheckedModeBanner: false,
       title: 'Gym',
