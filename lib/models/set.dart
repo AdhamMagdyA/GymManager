@@ -31,6 +31,7 @@ class Set {
       'title': title,
       'description': description,
       'coachId': coachId,
+      'break_duration': breakDuration,
       'exercises':
           exercises.map((Exercise exercise) => exercise.toMap()).toList(),
     };
@@ -61,9 +62,9 @@ class Set {
     );
   }
   factory Set.detailsfromJson(Map<String, dynamic> json) {
-    // List<Exercise> _exercises = json['exercises']
-    //     .map<Exercise>((exercise) => Exercise.fromJson(exercise))
-    //     .toList();
+    List<Exercise> exercises = json['exercises']
+        .map<Exercise>((exercise) => Exercise.fromJson(exercise))
+        .toList();
     // List<Exercise> newExercises = _exercises.cast<Exercise>().toList();
     return Set(
       id: json['id'],
@@ -71,7 +72,7 @@ class Set {
       description: json['description'],
       coachId: json['coach_id'],
       coachName: json['name'],
-      // exercises: newExercises,
+      exercises: exercises,
     );
   }
 }

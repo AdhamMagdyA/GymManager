@@ -158,6 +158,7 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
                     ),
                   ListView.builder(
                       shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
                       itemCount: _sets.length,
                       itemBuilder: (ctx, index) {
                         return SetsListTile(
@@ -340,12 +341,16 @@ class _SetsListTileState extends State<SetsListTile> {
                   children: [
                     Expanded(
                       child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
+                        onPressed: () async {
+                          await Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
                                       EditSetForm(widget.set)));
+                          String token =
+                              Provider.of<User>(context, listen: false).token;
+                          Provider.of<SetListViewModel>(context, listen: false)
+                              .fetchListSets(token);
                         },
                         child: Text(
                           'Edit',

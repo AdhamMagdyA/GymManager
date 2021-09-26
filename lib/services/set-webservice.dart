@@ -48,8 +48,6 @@ class SetWebService {
   }
 
   Future<Set> postSet(Set set, String token) async {
-    print('posted set:');
-    print(set.toJsonForCreation());
     final response =
         await http.post(Uri.parse('http://localhost:8000/api/sets'),
             headers: {
@@ -65,6 +63,30 @@ class SetWebService {
       final result = json.decode(response.body);
       final exerciseJson = result['set'];
       return Set.detailsfromJson(exerciseJson);
+    } else {
+      throw Exception('response failed');
+    }
+  }
+
+  Future<Set> putSet(Set set, String token) async {
+    // print(set);
+    // print(set.toJsonForCreation());
+    final response = await http.put(
+      Uri.parse('http://localhost:8000/api/sets/${set.id}'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: set.toJsonForCreation(),
+    );
+    print('response obtained!');
+    print(response.statusCode);
+    print(response.body);
+    if (response.statusCode == 200) {
+      final result = json.decode(response.body);
+      final setJson = result['set'];
+      return Set.fromJson(setJson);
     } else {
       throw Exception('response failed');
     }
