@@ -164,9 +164,14 @@ class _PlansViewScreenState extends State<PlansViewScreen> {
       ),
       child: ListTile(
         onTap: () {
-          setState(() {
-            PlansViewScreen.whoIsSelected = index;
-          });
+          if (!selectionTime) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => PlansDetailsScreen()));
+          } else {
+            setState(() {
+              PlansViewScreen.whoIsSelected = index;
+            });
+          }
         },
         selected: PlansViewScreen.whoIsSelected == index,
         minVerticalPadding: 10,
