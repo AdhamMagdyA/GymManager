@@ -1,73 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gym_project/common/my_list_tile.dart';
-import 'package:gym_project/widget/grid_view_card.dart';
+import 'package:gym_project/style/duration.dart';
+import 'package:gym_project/viewmodels/private-session-view-model.dart';
 
 class PrivateSessionDetailsScreen extends StatelessWidget {
-  var _privateSession = {
-    'id': 1,
-    'title': "Session 1",
-    'description':
-        "Explicabo dignissimos repudiandae numquam recusandae et. Quis est repellat molestiae temporibus est numquam. Dolorum velit voluptas enim vero.",
-    'link': "http://www.corkery.com/doloribus-officiis-maiores-ex-ducimus",
-    'duration': "12:59",
-    'datetime': "2021-10-05 16:38:15",
-    'price': 43.65,
-    'coach_id': 2,
-    'created_at': "2021-09-14 08:29:20",
-    'updated_at': "2021-09-14 08:29:20",
-    'coach': {
-      'id': 2,
-      ' is_checked': 0,
-      'created_at': "2021-09-14 08:28:22",
-      'updated_at': "2021-09-14 08:28:22",
-      ' user_id': 8,
-      'user': {
-        'id': 8,
-        'name': "Scotty Becker",
-        'number': "702-858-2594",
-        'email': "graciela45@example.org",
-        'email_verified_at': "2021-09-14 08:28:16",
-        'role': "coach",
-        ' #password': "password",
-        '#remember_token': "Z2DwmAL7ng",
-        'created_at': "2021-09-14 08:28:18",
-        'updated_at': "2021-09-14 08:28:18",
-      },
-    },
-    'members': {
-      'all': [],
-    },
-  };
-  String formatDuration(String duration) {
-    String finalDuration = 'Duration: ';
-    String hours = duration.substring(0, 2);
-    if (hours != '00') {
-      if (hours[0] == '0') {
-        finalDuration += '${hours[1]}h';
-      } else {
-        finalDuration += '${hours}h';
-      }
-    }
-    String minutes = duration.substring(3, 5);
-    if (minutes != '00') {
-      if (minutes[0] == '0') {
-        finalDuration += ' ${minutes[1]}m';
-      } else {
-        finalDuration += ' ${minutes}m';
-      }
-    }
-    if (duration.length == 8) {
-      String seconds = duration.substring(6);
-      if (seconds != '00') {
-        if (seconds[0] == '0') {
-          finalDuration += ' ${seconds[1]}s';
-        } else {
-          finalDuration += ' ${seconds}s';
-        }
-      }
-    }
-    return finalDuration;
-  }
+  final PrivateSessionViewModel _privateSession;
+  PrivateSessionDetailsScreen(this._privateSession);
 
   @override
   Widget build(BuildContext context) {
@@ -92,14 +29,41 @@ class PrivateSessionDetailsScreen extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(
+                          left: 20.0, right: 20.0, top: 10.0, bottom: 10),
+                      child: Text(
+                        _privateSession.title,
+                        style: TextStyle(
+                          fontSize: 30.0,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: 'assets/fonts/Changa-Bold.ttf',
+                        ),
+                      ),
+                    ),
+                    Container(
+                      child: Text("\$${_privateSession.price}",
+                          style: TextStyle(
+                            color: Colors.amber,
+                            fontSize: 15,
+                            fontFamily: 'assets/fonts/Changa-Bold.ttf',
+                          )),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 10.0),
+                    ),
+                  ],
+                ),
                 Container(
-                  padding: EdgeInsets.only(
-                      left: 20.0, right: 20.0, top: 10.0, bottom: 10),
+                  padding: EdgeInsets.only(left: 20),
                   child: Text(
-                    _privateSession['title'],
+                    "${formatDuration(_privateSession.duration)}",
                     style: TextStyle(
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.w700,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.amber,
                       fontFamily: 'assets/fonts/Changa-Bold.ttf',
                     ),
                   ),
@@ -108,7 +72,7 @@ class PrivateSessionDetailsScreen extends StatelessWidget {
                   padding: EdgeInsets.only(
                       left: 20.0, right: 20.0, top: 10.0, bottom: 10),
                   child: Text(
-                    "Coach:",
+                    "Coach: ${_privateSession.coachName}",
                     style: TextStyle(
                       fontSize: 15,
                     ),
@@ -130,7 +94,7 @@ class PrivateSessionDetailsScreen extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.only(left: 20.0, right: 20.0),
                   child: Text(
-                    _privateSession['description'],
+                    _privateSession.description,
                     textAlign: TextAlign.justify,
                     style: TextStyle(
                       color: Colors.grey.shade500,
@@ -159,7 +123,7 @@ class PrivateSessionDetailsScreen extends StatelessWidget {
                   padding:
                       EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                   child: Text(
-                    _privateSession['link'],
+                    _privateSession.link,
                     style: TextStyle(
                       fontSize: 15,
                     ),

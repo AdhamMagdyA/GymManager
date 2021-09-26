@@ -157,10 +157,7 @@ class _ViewBookedSessionsScreenState extends State<ViewBookedSessionsScreen> {
                               itemCount: privateSessions.length,
                               itemBuilder: (ctx, index) {
                                 return myListTile(
-                                    privateSessions[index],
-                                    index,
-                                    token
-                                    );
+                                    privateSessions[index], index, token);
                               }),
             ],
           ),
@@ -169,8 +166,8 @@ class _ViewBookedSessionsScreenState extends State<ViewBookedSessionsScreen> {
     );
   }
 
-  Widget myListTile(PrivateSessionViewModel privateSession, int index,
-      String token) {
+  Widget myListTile(
+      PrivateSessionViewModel privateSession, int index, String token) {
     return Container(
       margin: EdgeInsetsDirectional.only(bottom: 10),
       decoration: BoxDecoration(
@@ -182,7 +179,8 @@ class _ViewBookedSessionsScreenState extends State<ViewBookedSessionsScreen> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => PrivateSessionDetailsScreen()));
+                  builder: (context) =>
+                      PrivateSessionDetailsScreen(privateSession)));
         },
         minVerticalPadding: 10,
         leading: CircleAvatar(
@@ -220,49 +218,49 @@ class _ViewBookedSessionsScreenState extends State<ViewBookedSessionsScreen> {
             SizedBox(
               width: 4,
             ),
-              Expanded(
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                EditPrivateSessionForm(privateSession)));
-                  },
-                  child: Text(
-                    'Edit',
-                    style: TextStyle(
-                      color: Colors.amber,
-                      fontWeight: FontWeight.bold,
-                    ),
+            Expanded(
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              EditPrivateSessionForm(privateSession.id)));
+                },
+                child: Text(
+                  'Edit',
+                  style: TextStyle(
+                    color: Colors.amber,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              Expanded(
-                child: TextButton(
-                  onPressed: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => EditPlanForm()));
+            ),
+            Expanded(
+              child: TextButton(
+                onPressed: () {
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => EditPlanForm()));
 
-                    Provider.of<PrivateSessionListViewModel>(context,
-                            listen: false)
-                        .deletePrivateSession(privateSession.id, token)
-                        .then((value) {
-                      setState(() {
-                        privateSessions.remove(privateSession);
-                      });
-                    }).catchError((err) => {print('Failed to delete session')});
-                  },
-                  child: Text('Delete',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.red,
-                      )),
-                ),
+                  Provider.of<PrivateSessionListViewModel>(context,
+                          listen: false)
+                      .deletePrivateSession(privateSession.id, token)
+                      .then((value) {
+                    setState(() {
+                      privateSessions.remove(privateSession);
+                    });
+                  }).catchError((err) => {print('Failed to delete session')});
+                },
+                child: Text('Delete',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red,
+                    )),
               ),
+            ),
           ],
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/screens/common/view-private-session-details.dart';
+import 'package:gym_project/style/duration.dart';
 import 'package:gym_project/viewmodels/private-session-list-view-model.dart';
 import 'package:gym_project/viewmodels/private-session-view-model.dart';
 import 'package:gym_project/widget/back-button.dart';
@@ -16,18 +17,37 @@ List<PrivateSessionViewModel> privateSessions = [];
 
 class _ViewPrivateSessionsScreenState extends State<ViewPrivateSessionsScreen> {
   String token;
+  int lastPage;
   @override
   void initState() {
     super.initState();
     token = Provider.of<User>(context, listen: false).token;
     Provider.of<PrivateSessionListViewModel>(context, listen: false)
-        .fetchListPrivateSessions(token)
+        .fetchListPrivateSessions(token, 1)
         .then((value) {
       sessionListViewModel =
           Provider.of<PrivateSessionListViewModel>(context, listen: false);
       setState(() {
         done = true;
         privateSessions = sessionListViewModel.privateSessions;
+        lastPage = sessionListViewModel.lastPage;
+      });
+    }).catchError((err) {
+      error = true;
+      print('error occured $err');
+    });
+  }
+
+  getPrivateSessionsList(int page) {
+    Provider.of<PrivateSessionListViewModel>(context, listen: false)
+        .fetchListPrivateSessions(token, page)
+        .then((value) {
+      sessionListViewModel =
+          Provider.of<PrivateSessionListViewModel>(context, listen: false);
+      setState(() {
+        done = true;
+        privateSessions = sessionListViewModel.privateSessions;
+        lastPage = sessionListViewModel.lastPage;
       });
     }).catchError((err) {
       error = true;
@@ -43,60 +63,6 @@ class _ViewPrivateSessionsScreenState extends State<ViewPrivateSessionsScreen> {
     super.didChangeDependencies();
   }
 
-  String formatDuration(String duration) {
-    String finalDuration = 'Duration: ';
-    String hours = duration.substring(0, 2);
-    if (hours != '00') {
-      if (hours[0] == '0') {
-        finalDuration += '${hours[1]}h';
-      } else {
-        finalDuration += '${hours}h';
-      }
-    }
-    String minutes = duration.substring(3, 5);
-    if (minutes != '00') {
-      if (minutes[0] == '0') {
-        finalDuration += ' ${minutes[1]}m';
-      } else {
-        finalDuration += ' ${minutes}m';
-      }
-    }
-    if (duration.length == 8) {
-      String seconds = duration.substring(6);
-      if (seconds != '00') {
-        if (seconds[0] == '0') {
-          finalDuration += ' ${seconds[1]}s';
-        } else {
-          finalDuration += ' ${seconds}s';
-        }
-      }
-    }
-    return finalDuration;
-  }
-
-  String formatDateTime(String dateTime) {
-    //2021-09-13 14:13:51
-    List<String> months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec'
-    ];
-    String year = dateTime.substring(0, 4);
-    String month = dateTime.substring(5, 7);
-    String day = dateTime.substring(8, 10);
-    String time = dateTime.substring(12);
-    return '$day ${months[int.parse(month) - 1]} $year at $time';
-  }
-
   @override
   Widget build(BuildContext context) {
     // double width = MediaQuery.of(context).size.width;
@@ -109,60 +75,57 @@ class _ViewPrivateSessionsScreenState extends State<ViewPrivateSessionsScreen> {
             ListView(
               children: [
                 SizedBox(height: 60),
-                Material(
-                    elevation: 5.0,
-                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                    child: TextFormField(
-                      controller: TextEditingController(),
-                      cursorColor: Theme.of(context).primaryColor,
-                      style: TextStyle(color: Colors.black, fontSize: 18),
-                      decoration: InputDecoration(
-                          hintText: 'Search..',
-                          suffixIcon: Material(
-                            borderRadius: BorderRadius.all(Radius.circular(30)),
-                            child: Icon(Icons.search),
-                          ),
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 25, vertical: 13)),
-                    )),
+                SearchBar(),
                 SizedBox(height: 20),
-                error
-                    ? Center(
-                        child: Text(
-                          'An error occurred',
-                          style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      )
-                    : (done && privateSessions.isEmpty)
-                        ? Center(
-                            child: Text(
-                              'No private sessions found',
-                              style: TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                              ),
+                PageView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: lastPage,
+                    itemBuilder: (ctx, index) {
+                      if (index != 0) {
+                        done = false;
+                        error = false;
+                        privateSessions = [];
+                        getPrivateSessionsList(index + 1);
+                      }
+                      if (error) {
+                        return Center(
+                          child: Text(
+                            'An error occurred',
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
                             ),
-                          )
-                        : privateSessions.isEmpty
-                            ? Center(
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                ),
-                              )
-                            : ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: privateSessions.length,
-                                itemBuilder: (ctx, index) {
-                                  return myListTile(
-                                    privateSessions[index],
-                                    index,
-                                    token,
-                                  );
-                                }),
+                          ),
+                        );
+                      } else if (done && privateSessions.isEmpty) {
+                        return Center(
+                          child: Text(
+                            'No private sessions found',
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        );
+                      } else if (privateSessions.isEmpty) {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        );
+                      } else {
+                        return ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: privateSessions.length,
+                            itemBuilder: (ctx, index) {
+                              return myListTile(
+                                privateSessions[index],
+                                index,
+                                token,
+                              );
+                            });
+                      }
+                    })
               ],
             ),
             CustomBackButton(),
@@ -185,7 +148,8 @@ class _ViewPrivateSessionsScreenState extends State<ViewPrivateSessionsScreen> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => PrivateSessionDetailsScreen()));
+                  builder: (context) =>
+                      PrivateSessionDetailsScreen(privateSession)));
         },
         minVerticalPadding: 10,
         leading: CircleAvatar(
@@ -245,5 +209,32 @@ class _ViewPrivateSessionsScreenState extends State<ViewPrivateSessionsScreen> {
         ),
       ),
     );
+  }
+}
+
+class SearchBar extends StatelessWidget {
+  const SearchBar({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+        elevation: 5.0,
+        borderRadius: BorderRadius.all(Radius.circular(30)),
+        child: TextFormField(
+          controller: TextEditingController(),
+          cursorColor: Theme.of(context).primaryColor,
+          style: TextStyle(color: Colors.black, fontSize: 18),
+          decoration: InputDecoration(
+              hintText: 'Search..',
+              suffixIcon: Material(
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                child: Icon(Icons.search),
+              ),
+              border: InputBorder.none,
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
+        ));
   }
 }

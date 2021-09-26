@@ -320,15 +320,6 @@ class MapScreenState extends State<CreateExerciseForm>
                                         controller: descriptionController,
                                         decoration: InputDecoration(
                                           hintText: "Enter Your Description",
-                                          // errorText: descriptionValidate
-                                          //     ? 'Value cannot be empty!'
-                                          //     : null,
-                                          // errorBorder: new OutlineInputBorder(
-                                          //   borderSide: new BorderSide(
-                                          //     color: Colors.red,
-                                          //     width: 0,
-                                          //   ),
-                                          // ),
                                         ),
                                       ),
                                     ),

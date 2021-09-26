@@ -240,31 +240,7 @@ class ExercisesScreenState extends State<ExercisesScreen> {
                                       ],
                                     ),
                                     SizedBox(height: 40),
-                                    Material(
-                                      elevation: 5.0,
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(30)),
-                                      child: TextFormField(
-                                        controller: TextEditingController(),
-                                        cursorColor:
-                                            Theme.of(context).primaryColor,
-                                        style: TextStyle(
-                                            color: Colors.black, fontSize: 18),
-                                        decoration: InputDecoration(
-                                          hintText: 'Search..',
-                                          suffixIcon: Material(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(30)),
-                                            child: Icon(Icons.search),
-                                          ),
-                                          border: InputBorder.none,
-                                          contentPadding: EdgeInsets.symmetric(
-                                            horizontal: 25,
-                                            vertical: 13,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+                                    SearchBar(),
                                   ],
                                 ),
                               ),
@@ -348,6 +324,37 @@ class ExercisesScreenState extends State<ExercisesScreen> {
         ],
       ),
     ));
+  }
+}
+
+class SearchBar extends StatelessWidget {
+  const SearchBar({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      elevation: 5.0,
+      borderRadius: BorderRadius.all(Radius.circular(30)),
+      child: TextFormField(
+        controller: TextEditingController(),
+        cursorColor: Theme.of(context).primaryColor,
+        style: TextStyle(color: Colors.black, fontSize: 18),
+        decoration: InputDecoration(
+          hintText: 'Search..',
+          suffixIcon: Material(
+            borderRadius: BorderRadius.all(Radius.circular(30)),
+            child: Icon(Icons.search),
+          ),
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 25,
+            vertical: 13,
+          ),
+        ),
+      ),
+    );
   }
 }
 

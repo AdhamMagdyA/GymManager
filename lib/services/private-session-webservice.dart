@@ -1,13 +1,10 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
-import 'package:gym_project/models/equipment.dart';
-import 'package:gym_project/models/exercise.dart';
 import 'package:gym_project/models/privateSession.dart';
-import 'package:gym_project/viewmodels/exercise-view-model.dart';
-import 'package:gym_project/widget/providers/user.dart';
+import 'package:gym_project/models/tuple.dart';
+import 'package:gym_project/viewmodels/private-session-view-model.dart';
+
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 
 class PrivateSessionWebService {
   // String token;
@@ -70,17 +67,21 @@ class PrivateSessionWebService {
     }
   }
 
-  Future<List<PrivateSession>> getPrivateSessions(String token) async {
+  Future<Tuple<int, List<PrivateSession>>> getPrivateSessions(
+      String token, int page) async {
     print('Am i here??');
-    final response = await http
-        .get(Uri.parse('http://localhost:8000/api/sessions'), headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token'
-    });
+    Tuple res = Tuple();
+    final response = await http.get(
+        Uri.parse('http://localhost:8000/api/sessions?page=$page'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token'
+        });
     print('response obtained!');
     print(response.statusCode);
     final result = json.decode(response.body);
+    res.item1 = result['last_page'];
     print(result);
     if (response.statusCode == 200) {
       // Iterable list = result['private_sessions']['data'];
@@ -92,7 +93,8 @@ class PrivateSessionWebService {
           .toList();
       List<PrivateSession> newPrivateSessions =
           privateSessions.cast<PrivateSession>().toList();
-      return newPrivateSessions;
+      res.item2 = newPrivateSessions;
+      return res;
     } else {
       // print(result.msg);
       throw Exception('response failed');
@@ -113,7 +115,7 @@ class PrivateSessionWebService {
     print(response.statusCode);
     final result = json.decode(response.body);
     if (response.statusCode == 200) {
-      final privateSessionJson = result['privateSession'];
+      final privateSessionJson = result['Private Session'];
       return PrivateSession.fromJson(privateSessionJson);
     } else {
       print(result);
@@ -141,66 +143,58 @@ class PrivateSessionWebService {
     }
   }
 
-  // Future<Exercise> postExercise(Exercise exercise, String token) async {
-  //   // print('Am i here??');
-  //   final response =
-  //       await http.post(Uri.parse('http://localhost:8000/api/exercises'),
-  //           headers: {
-  //             'Content-Type': 'application/json',
-  //             'Accept': 'application/json',
-  //             'Authorization': 'Bearer $token',
-  //           },
-  //           body: jsonEncode({
-  //             'title': exercise.title,
-  //             'description': exercise.description,
-  //             'gif': exercise.gif,
-  //             'cal_burnt': exercise.calBurnt,
-  //             'image': exercise.image,
-  //             'duration': exercise.duration,
-  //             'equipment_id': exercise.equipment.id,
-  //             'reps': exercise.reps,
-  //           }));
-  //   print('response obtained!');
-  //   print(response.statusCode);
-  //   final result = json.decode(response.body);
-  //   print(result);
-  //   if (response.statusCode == 201) {
-  //     final exerciseJson = result['exercise'];
-  //     return Exercise.detailsfromJson(exerciseJson);
-  //   } else {
-  //     throw Exception('response failed');
-  //   }
-  // }
+  Future<bool> postPrivateSession(
+      PrivateSession privateSession, String token) async {
+    // print('Am i here??');
+    final response =
+        await http.post(Uri.parse('http://localhost:8000/api/sessions'),
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'Authorization': 'Bearer $token',
+            },
+            body: jsonEncode({
+              'title': privateSession.title,
+              'description': privateSession.description,
+              'duration': privateSession.duration,
+              'price': privateSession.price,
+              'link': privateSession.link,
+            }));
+    print('response obtained!');
+    print(response.statusCode);
+    print(response.body);
+    if (response.statusCode == 201) {
+      return true;
+    } else {
+      throw Exception('response failed');
+    }
+  }
 
-  // Future<Exercise> editExercise(
-  //     ExerciseViewModel exercise, String token) async {
-  //   // print('Am i here??');
-  //   final response = await http.put(
-  //       Uri.parse('http://localhost:8000/api/exercises/${exercise.id}'),
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'Accept': 'application/json',
-  //         'Authorization': 'Bearer $token',
-  //       },
-  //       body: jsonEncode({
-  //         'title': exercise.title,
-  //         'description': exercise.description,
-  //         'gif': exercise.gif,
-  //         'cal_burnt': exercise.calBurnt,
-  //         'image': exercise.image,
-  //         'duration': exercise.duration,
-  //         'equipment_id': exercise.equipment.id,
-  //         'reps': exercise.reps,
-  //       }));
-  //   print('response obtained!');
-  //   print(response.statusCode);
-  //   final result = json.decode(response.body);
-  //   print(result);
-  //   if (response.statusCode == 200) {
-  //     final exerciseJson = result['exercise'];
-  //     return Exercise.detailsfromJson(exerciseJson);
-  //   } else {
-  //     throw Exception('response failed');
-  //   }
-  // }
+  Future<bool> editPrivateSession(
+      PrivateSessionViewModel privateSession, String token) async {
+    // print('Am i here??');
+    final response = await http.put(
+        Uri.parse('http://localhost:8000/api/sessions/${privateSession.id}'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({
+          'title': privateSession.title,
+          'description': privateSession.description,
+          'duration': privateSession.duration,
+          'price': privateSession.price,
+          'link': privateSession.link,
+        }));
+    print('response obtained!');
+    print(response.statusCode);
+    final result = json.decode(response.body);
+    print(result);
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception('response failed');
+    }
+  }
 }

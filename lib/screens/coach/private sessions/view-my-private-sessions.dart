@@ -182,7 +182,8 @@ class _ViewMyPrivateSessionsScreenState
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => PrivateSessionDetailsScreen()));
+                  builder: (context) =>
+                      PrivateSessionDetailsScreen(privateSession)));
         },
         minVerticalPadding: 10,
         leading: CircleAvatar(
@@ -227,7 +228,7 @@ class _ViewMyPrivateSessionsScreenState
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              EditPrivateSessionForm(privateSession)));
+                              EditPrivateSessionForm(privateSession.id)));
                 },
                 child: Text(
                   'Edit',

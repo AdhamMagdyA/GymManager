@@ -213,7 +213,7 @@ class MyApp extends StatelessWidget {
         '/sessions/select': (context) => ViewPrivateSessionsScreen(),
         '/my-sessions/view': (context) => ViewMyPrivateSessionsScreen(),
         '/booked-sessions/view': (context) => ViewBookedSessionsScreen(),
-        '/session-details': (context) => PrivateSessionDetailsScreen(),
+        // '/session-details': (context) => PrivateSessionDetailsScreen(),
         '/sessions/create': (context) => CreatePrivateSessionForm(),
         // '/edit-private-session': (context) => EditPrivateSessionForm(),
 
