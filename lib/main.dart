@@ -69,6 +69,7 @@ import 'package:gym_project/screens/questions/add-question-screen.dart';
 import 'package:gym_project/screens/questions/questions-screen.dart';
 import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
 import 'package:gym_project/screens/questions/single-question.dart';
+import 'package:gym_project/viewmodels/group-list-view-model.dart';
 import 'package:gym_project/viewmodels/login-view-model.dart';
 import 'package:gym_project/viewmodels/private-session-list-view-model.dart';
 import 'package:gym_project/viewmodels/set-list-view-model.dart';
@@ -83,9 +84,8 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => User()),
         ChangeNotifierProvider(create: (_) => LoginViewModel()),
-        ChangeNotifierProvider(
-          create: (_) => ExerciseListViewModel(),
-        ),
+        ChangeNotifierProvider(create: (_) => ExerciseListViewModel()),
+        ChangeNotifierProvider(create: (_) => GroupListViewModel()),
         // ChangeNotifierProxyProvider<LoginViewModel, ExerciseListViewModel>(
         //     create: (context) => ExerciseListViewModel(),
         //     update: (context, login, exercise) {

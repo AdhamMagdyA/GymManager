@@ -1,0 +1,20 @@
+import 'package:flutter/cupertino.dart';
+import 'package:gym_project/helper/constants.dart';
+import 'package:gym_project/models/group.dart';
+import 'package:gym_project/services/group-webservices.dart';
+import 'package:gym_project/viewmodels/groups-view-model.dart';
+
+class GroupListViewModel with ChangeNotifier {
+  List<GroupViewModel> groups = [];
+  LoadingStatus loadingStatus = LoadingStatus.Completed;
+
+  Future<void> fetchGroups(String token) async {
+    loadingStatus = LoadingStatus.Searching;
+    List<Group> groupModels = await GroupWebService().getGroups(token);
+    List<GroupViewModel> groupVMs =
+        groupModels.map((group) => GroupViewModel(group: group)).toList();
+    groups = groupVMs;
+    loadingStatus = LoadingStatus.Completed;
+    notifyListeners();
+  }
+}

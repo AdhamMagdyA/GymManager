@@ -43,6 +43,10 @@ class Exercise {
     };
   }
 
+  String toString() {
+    return toMap().toString();
+  }
+
   factory Exercise.fromJson(Map<String, dynamic> json) {
     return Exercise(
       id: json['id'],

@@ -1,9 +1,19 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gym_project/common/my_choosing_screen.dart';
 import 'package:gym_project/common/my_list_tile.dart';
+import 'package:gym_project/helper/constants.dart';
+import 'package:gym_project/models/group.dart';
 import 'package:gym_project/screens/common/view-group-details-screen.dart';
 import 'package:gym_project/screens/common/view-set-details-screen.dart';
+import 'package:gym_project/services/group-webservices.dart';
+import 'package:gym_project/services/set-webservice.dart';
+import 'package:gym_project/viewmodels/group-list-view-model.dart';
+import 'package:gym_project/viewmodels/groups-view-model.dart';
+import 'package:gym_project/widget/providers/user.dart';
+import 'package:provider/provider.dart';
 
 import 'edit-group.dart';
 
@@ -44,6 +54,8 @@ class _ViewGroupsScreenState extends State<ViewGroupsScreen> {
     if (widget.isSelectionTime == true) {
       _selectionMode = true;
     }
+    String token = Provider.of<User>(context, listen: false).token;
+    Provider.of<GroupListViewModel>(context, listen: false).fetchGroups(token);
   }
 
   List<Map<int, int>> _numberOfSelectedInstances = [];
@@ -113,7 +125,10 @@ class _ViewGroupsScreenState extends State<ViewGroupsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    GroupListViewModel groupListVM = Provider.of<GroupListViewModel>(context);
+    List<GroupViewModel> groupVMs = groupListVM.groups;
     double width = MediaQuery.of(context).size.width;
+    
     return SafeArea(
       child: Container(
         color: Colors.black,
@@ -173,12 +188,25 @@ class _ViewGroupsScreenState extends State<ViewGroupsScreen> {
                         )
                       ],
                     ),
-                  ListView.builder(
+
+                  if (groupListVM.loadingStatus == LoadingStatus.Searching)
+                    SizedBox(
+                      width: double.infinity,
+                      height: MediaQuery.of(context).size.height * 0.5,
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                    ),
+                  if (groupListVM.loadingStatus == LoadingStatus.Completed)
+                    ListView.builder(
                       shrinkWrap: true,
-                      itemCount: groups.length,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: groupVMs.length,
                       itemBuilder: (ctx, index) {
                         return GroupsListTile(
-                          groups[index],
+                          groupVMs[index],
                           index,
                           _selectionMode,
                           setSelectionMode,
@@ -189,7 +217,8 @@ class _ViewGroupsScreenState extends State<ViewGroupsScreen> {
                           'https://images.app.goo.gl/oSJrrxJh1LGFiope9',
                           widget.isSelectionTime,
                         );
-                      }),
+                      },
+                    ),
                 ],
               ),
             ),
@@ -246,7 +275,7 @@ class _ViewGroupsScreenState extends State<ViewGroupsScreen> {
 }
 
 class GroupsListTile extends StatefulWidget {
-  final Map group;
+  final GroupViewModel groupVM;
   final int index;
   final bool selectionMode;
   final Function setSelectionMode;
@@ -257,7 +286,7 @@ class GroupsListTile extends StatefulWidget {
   final String iconData;
   final bool selectionTime;
   GroupsListTile(
-    this.group,
+    this.groupVM,
     this.index,
     this.selectionMode,
     this.setSelectionMode,
@@ -306,7 +335,7 @@ class _GroupsListTileState extends State<GroupsListTile> {
             child: FlutterLogo(),
           ),
           title: Text(
-            widget.group['title'],
+            widget.groupVM.title,
             style: TextStyle(color: Colors.white),
           ),
           subtitle: Column(
@@ -314,7 +343,7 @@ class _GroupsListTileState extends State<GroupsListTile> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                widget.group['description'],
+                widget.groupVM.description,
                 style: TextStyle(
                   color: Colors.white,
                 ),
@@ -345,11 +374,11 @@ class _GroupsListTileState extends State<GroupsListTile> {
                     Expanded(
                       child: TextButton(
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      EditGroupForm(widget.group)));
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) =>
+                          //             EditGroupForm(widget.groupVM)));
                         },
                         child: Text(
                           'Edit',
@@ -365,11 +394,11 @@ class _GroupsListTileState extends State<GroupsListTile> {
                     Expanded(
                       child: TextButton(
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      EditGroupForm(widget.group)));
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) =>
+                          //             EditGroupForm(widget.groupVM)));
                         },
                         child: Text('Delete',
                             style: TextStyle(
