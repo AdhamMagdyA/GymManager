@@ -28,6 +28,7 @@ class _UserDetailsState extends State<UserDetails> {
           color: Color(0xFF181818), //background color
           child: new ListView(
             children: <Widget>[
+              //Screen Header
               Container(
                 padding: EdgeInsets.only(left: 20, top: 10),
                 child: Row(

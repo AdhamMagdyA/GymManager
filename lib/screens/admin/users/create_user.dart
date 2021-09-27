@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:gym_project/screens/admin/helping-widgets/create-form-widgets.dart';
 
 class UserCreate extends StatefulWidget {
   @override
@@ -34,6 +35,7 @@ class MapScreenState extends State<UserCreate>
                   color: Color(0xFF181818), //background color
                   child: new Column(
                     children: <Widget>[
+                      //Header
                       Padding(
                           padding: EdgeInsets.only(left: 20.0, top: 20.0),
                           child: new Row(
@@ -51,7 +53,7 @@ class MapScreenState extends State<UserCreate>
                               ),
                               Padding(
                                 padding: EdgeInsets.only(left: 25.0),
-                                child: new Text('PROFILE',
+                                child: new Text('Create User',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20.0,
@@ -61,6 +63,7 @@ class MapScreenState extends State<UserCreate>
                               )
                             ],
                           )),
+                      //profile picture
                       Padding(
                         padding: EdgeInsets.only(top: 20.0),
                         child:
@@ -117,6 +120,7 @@ class MapScreenState extends State<UserCreate>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
+                        //Form Header
                         Padding(
                             padding: EdgeInsets.only(
                                 left: 25.0, right: 25.0, top: 25.0),
@@ -139,154 +143,12 @@ class MapScreenState extends State<UserCreate>
                                 ),
                               ],
                             )),
-                        Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 25.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                new Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    new Text(
-                                      'Name',
-                                      style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )),
-                        Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                new Flexible(
-                                  child: new TextField(
-                                    decoration: const InputDecoration(
-                                      hintText: "Enter Name",
-                                    ),
-                                    //enabled: !_status,
-                                    autofocus: !_status,
-                                  ),
-                                ),
-                              ],
-                            )),
-                        Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 25.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                new Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    new Text(
-                                      'Email ',
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )),
-                        Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                new Flexible(
-                                  child: new TextField(
-                                    decoration: const InputDecoration(
-                                        hintText: "Enter Email "),
-                                    //enabled: !_status,
-                                  ),
-                                ),
-                              ],
-                            )),
-                        Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 25.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                new Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    new Text(
-                                      'Password',
-                                      style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )),
-                        Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                new Flexible(
-                                  child: new TextField(
-                                    decoration: const InputDecoration(
-                                        hintText: "Enter Password"),
-                                    //enabled: !_status,
-                                  ),
-                                ),
-                              ],
-                            )),
-                        Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 25.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                new Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    new Text(
-                                      'Mobile',
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )),
-                        Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                new Flexible(
-                                  child: new TextField(
-                                    decoration: const InputDecoration(
-                                        hintText: "Enter Mobile Number"),
-                                    //enabled: !_status,
-                                  ),
-                                ),
-                              ],
-                            )),
+                        field("Name", "Enter the user name"),
+                        field("Email", "Enter the user email"),
+
+                        field("Password", "Enter the password"),
+                        field("Number", "Enter the user phone number"),
+                        //gender picker
                         Padding(
                             padding: EdgeInsets.only(
                                 left: 25.0, right: 25.0, top: 25.0),
@@ -336,6 +198,7 @@ class MapScreenState extends State<UserCreate>
                               ],
                             )),
                         //!_status ? _getActionButtons() : new Container(),
+                        //role picker
                         Padding(
                             padding: EdgeInsets.only(
                                 left: 25.0, right: 25.0, top: 25.0),
@@ -402,44 +265,7 @@ class MapScreenState extends State<UserCreate>
                                 ),
                               ],
                             )),
-                        Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 25.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                new Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    new Text(
-                                      'Bio',
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )),
-
-                        Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                new Flexible(
-                                  child: new TextField(
-                                    decoration: const InputDecoration(
-                                        hintText: "Enter Bio"),
-                                    //enabled: !_status,
-                                  ),
-                                ),
-                              ],
-                            )),
+                        field("Bio", "Enter a description about the user"),
                         Padding(
                             padding: EdgeInsets.only(
                                 left: 25.0, right: 25.0, top: 25.0),
