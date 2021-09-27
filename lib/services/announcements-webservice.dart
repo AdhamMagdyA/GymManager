@@ -1,10 +1,14 @@
 import 'dart:convert';
+import 'dart:js';
+import 'package:flutter/cupertino.dart';
 import 'package:gym_project/models/announcement.dart';
 import 'package:gym_project/models/announcements.dart';
+import 'package:gym_project/viewmodels/login-view-model.dart';
+import 'package:gym_project/widget/global.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
-const token =
-    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vZ3ltcHJvamVjdC50ZXN0L2FwaS9sb2dpbiIsImlhdCI6MTYzMjY0MjYzNywiZXhwIjoxNjMyNzI5MDM3LCJuYmYiOjE2MzI2NDI2MzcsImp0aSI6IlBIRTh6cThadGZQNVpXdXYiLCJzdWIiOjIzLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.bPYsQmnYY4xZsLzpp2QouAkFWu4a5hdxMeiaii6ClE4';
+String token = Global.token;
 
 class AnnouncementsWebservice {
   //get all announcements

@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:gym_project/models/question.dart';
 import 'package:gym_project/models/questions.dart';
+import 'package:gym_project/widget/global.dart';
 import 'package:http/http.dart' as http;
 
-const token =
-    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vZ3ltcHJvamVjdC50ZXN0L2FwaS9sb2dpbiIsImlhdCI6MTYzMjY0MjYzNywiZXhwIjoxNjMyNzI5MDM3LCJuYmYiOjE2MzI2NDI2MzcsImp0aSI6IlBIRTh6cThadGZQNVpXdXYiLCJzdWIiOjIzLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.bPYsQmnYY4xZsLzpp2QouAkFWu4a5hdxMeiaii6ClE4';
+String token = Global.token;
 
 class QuestionsWebservice {
   //get all questions
@@ -38,7 +38,8 @@ class QuestionsWebservice {
 
     if (response.statusCode == 200) {
       var jsonData = jsonDecode(response.body);
-      return jsonData['question'];
+      Question question = Question.fromJson(jsonData['question']);
+      return question;
     } else {
       throw Exception('Failed to download question');
     }

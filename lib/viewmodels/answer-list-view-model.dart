@@ -15,11 +15,11 @@ class AnswerListViewModel with ChangeNotifier {
   AnswerViewModel _answerById;
 
   getAllAnswers() async {
-    List<Answer> _questions = await AnswersWebservice().fetchAllAnswers();
+    List<Answer> _answers = await AnswersWebservice().fetchAllAnswers();
     loadingstatus = AnswerLoadingStatus.Searching;
     notifyListeners();
     this._answersList =
-        _questions.map((e) => AnswerViewModel(answer: e)).toList();
+        _answers.map((e) => AnswerViewModel(answer: e)).toList();
 
     if (this._answersList.isEmpty) {
       loadingstatus = AnswerLoadingStatus.Empty;
@@ -30,12 +30,11 @@ class AnswerListViewModel with ChangeNotifier {
   }
 
   getAnswers(int question_id) async {
-    List<Answer> _questions =
-        await AnswersWebservice().fetchAnswers(question_id);
+    List<Answer> _answers = await AnswersWebservice().fetchAnswers(question_id);
     loadingstatus = AnswerLoadingStatus.Searching;
     notifyListeners();
     this._answersList =
-        _questions.map((e) => AnswerViewModel(answer: e)).toList();
+        _answers.map((e) => AnswerViewModel(answer: e)).toList();
 
     if (this._answersList.isEmpty) {
       loadingstatus = AnswerLoadingStatus.Empty;
@@ -50,21 +49,31 @@ class AnswerListViewModel with ChangeNotifier {
     loadingstatus = AnswerLoadingStatus.Searching;
     notifyListeners();
     this._answerById = AnswerViewModel(answer: _answer);
+    loadingstatus = AnswerLoadingStatus.Completed;
     notifyListeners();
   }
 
   postAnswer(int question_id, String body) async {
+    loadingstatus = AnswerLoadingStatus.Searching;
+    notifyListeners();
     await AnswersWebservice().postAnswer(question_id, body);
+    loadingstatus = AnswerLoadingStatus.Completed;
     notifyListeners();
   }
 
   editAnswer(int id, String body) async {
+    loadingstatus = AnswerLoadingStatus.Searching;
+    notifyListeners();
     await AnswersWebservice().editAnswer(id, body);
+    loadingstatus = AnswerLoadingStatus.Completed;
     notifyListeners();
   }
 
   deletAnswer(int id) async {
+    loadingstatus = AnswerLoadingStatus.Searching;
+    notifyListeners();
     await AnswersWebservice().deleteAnswer(id);
+    loadingstatus = AnswerLoadingStatus.Completed;
     notifyListeners();
   }
 

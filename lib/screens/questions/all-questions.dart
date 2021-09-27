@@ -23,7 +23,6 @@ class _AllQuestionsState extends State<AllQuestions> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Provider.of<QuestionListViewModel>(context, listen: false).getQuestions();
     user_role = Provider.of<LoginViewModel>(context, listen: false).role;
   }
 
@@ -38,24 +37,15 @@ class _AllQuestionsState extends State<AllQuestions> {
             child: questions.loadingstatus == QuestionLoadingStatus.Completed
                 ? ListView.builder(
                     itemBuilder: (context, index) {
-                      return true
-                          ? QuestionsListTile(
-                              role: user_role,
-                              user_name: 'User',
-                              id: questions.questionsList[index].id,
-                              body: questions.questionsList[index].body,
-                              date: questions.questionsList[index].date,
-                              num_of_answers: 3,
-                              title: questions.questionsList[index].title,
-                            )
-                          : Container(
-                              child: Center(
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 3,
-                                  color: Color(0xFFFFCE2B),
-                                ),
-                              ),
-                            );
+                      return QuestionsListTile(
+                        role: user_role,
+                        user_name: 'User',
+                        id: questions.questionsList[index].id,
+                        body: questions.questionsList[index].body,
+                        date: questions.questionsList[index].date,
+                        num_of_answers: 3,
+                        title: questions.questionsList[index].title,
+                      );
                     },
                     itemCount: questions.questionsList.length,
                     padding: const EdgeInsets.all(10),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/screens/questions/add-question-screen.dart';
 import 'package:gym_project/screens/questions/single-question.dart';
+import 'package:gym_project/viewmodels/answer-list-view-model.dart';
 import 'package:gym_project/viewmodels/login-view-model.dart';
 import 'package:gym_project/viewmodels/question-list-view-model.dart';
 import 'package:gym_project/widget/providers/user.dart';
@@ -51,12 +52,17 @@ class _QuestionsListTileState extends State<QuestionsListTile> {
         ),
         child: ListTile(
           isThreeLine: true,
-          onTap: () {
+          onTap: () async {
+            await Provider.of<QuestionListViewModel>(context, listen: false)
+                .getQuestionById(widget.id);
+            await Provider.of<AnswerListViewModel>(context, listen: false)
+                .getAnswers(widget.id);
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => SingleQuestionScreen(
                   question_id: widget.id,
+                  role: widget.role,
                 ),
               ),
             );
@@ -140,10 +146,15 @@ class _QuestionsListTileState extends State<QuestionsListTile> {
                                                     context,
                                                     listen: false)
                                                 .deletQuestion(widget.id);
-                                            setState(() {
-                                              is_visible = false;
-                                            });
+                                            await Provider.of<
+                                                        QuestionListViewModel>(
+                                                    context,
+                                                    listen: false)
+                                                .getQuestions();
                                             Navigator.of(context).pop();
+                                            /*setState(() {
+                                              is_visible = false;
+                                            });*/
                                           },
                                           child: Text("YES"),
                                           color: Color(0xFFFFCE2B),

@@ -6,6 +6,7 @@ import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
 import 'package:gym_project/screens/member/member-util.dart';
 import 'package:gym_project/screens/nutritionist/util-screen.dart';
 import 'package:gym_project/viewmodels/login-view-model.dart';
+import 'package:gym_project/widget/global.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
 import '../../style/styling.dart';
@@ -51,6 +52,7 @@ class _LoginState extends State<Login> {
 
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<User>(context, listen: false).setRole(role);
+      Global.set(token);
       if (role == 'admin') {
         Navigator.pushReplacementNamed(
           context,

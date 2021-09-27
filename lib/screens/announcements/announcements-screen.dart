@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:gym_project/models/announcement.dart';
 import 'package:gym_project/screens/announcements/add-announcement-screen.dart';
@@ -17,6 +19,7 @@ class AnnouncementsScreen extends StatefulWidget {
 
 class _AnnouncementsScreenState extends State<AnnouncementsScreen> {
   String user_role;
+  StreamController _streamController;
 
   @override
   void initState() {
@@ -83,6 +86,26 @@ class _AnnouncementsScreenState extends State<AnnouncementsScreen> {
                     itemCount: announcements.announcementsList.length,
                     padding: const EdgeInsets.all(10),
                   )
+                /*StreamBuilder(
+                    stream: Provider.of<AnnouncementListViewModel>(context)
+                        .getAnnouncements(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      List<Announcement> announcements_list = snapshot.data;
+                      return ListView.builder(
+                        itemBuilder: (context, index) {
+                          return AnnouncementsListTile(
+                            role: user_role,
+                            id: announcements_list[index].id,
+                            title: announcements_list[index].title,
+                            body: announcements_list[index].description,
+                            date: announcements_list[index].date,
+                          );
+                        },
+                        itemCount: announcements_list.length,
+                        padding: const EdgeInsets.all(10),
+                      );
+                    },
+                  )*/
                 : Center(
                     child: CircularProgressIndicator(
                       strokeWidth: 3,

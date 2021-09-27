@@ -34,21 +34,31 @@ class QuestionListViewModel with ChangeNotifier {
     loadingstatus = QuestionLoadingStatus.Searching;
     notifyListeners();
     this._questionById = QuestionViewModel(question: _question);
+    loadingstatus = QuestionLoadingStatus.Completed;
     notifyListeners();
   }
 
   postQuestion(String title, String body) async {
+    loadingstatus = QuestionLoadingStatus.Searching;
+    notifyListeners();
     await QuestionsWebservice().postQuestion(title, body);
+    loadingstatus = QuestionLoadingStatus.Completed;
     notifyListeners();
   }
 
   editQuestion(int id, String title, String body) async {
+    loadingstatus = QuestionLoadingStatus.Searching;
+    notifyListeners();
     await QuestionsWebservice().editQuestion(id, title, body);
+    loadingstatus = QuestionLoadingStatus.Completed;
     notifyListeners();
   }
 
   deletQuestion(int id) async {
+    loadingstatus = QuestionLoadingStatus.Searching;
+    notifyListeners();
     await QuestionsWebservice().deleteQuestion(id);
+    loadingstatus = QuestionLoadingStatus.Completed;
     notifyListeners();
   }
 

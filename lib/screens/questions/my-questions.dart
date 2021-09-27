@@ -18,7 +18,6 @@ class _MyQuestionsState extends State<MyQuestions> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Provider.of<QuestionListViewModel>(context, listen: false).getQuestions();
   }
 
   @override
@@ -29,7 +28,7 @@ class _MyQuestionsState extends State<MyQuestions> {
       child: questions.loadingstatus == QuestionLoadingStatus.Completed
           ? ListView.builder(
               itemBuilder: (context, index) {
-                return questions.questionsList[index].user_id == 22
+                return questions.questionsList[index].user_id == 23
                     ? QuestionsListTile(
                         role: 'question_owner',
                         user_name: 'User',

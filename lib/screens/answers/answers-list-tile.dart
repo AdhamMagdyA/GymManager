@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/screens/questions/add-question-screen.dart';
+import 'package:gym_project/viewmodels/answer-list-view-model.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
 
 class AnswersListTile extends StatefulWidget {
-  final String title;
+  final String username;
   final String body;
   final String date;
-  String role;
+  final String role;
+  final int id;
+  final int question_id;
 
   AnswersListTile({
-    this.title,
+    this.username,
     this.body,
-    this.date, //this.role
+    this.date,
+    this.role,
+    this.id,
+    this.question_id,
   });
   @override
   _AnswersListTileState createState() => _AnswersListTileState();
@@ -32,7 +38,7 @@ class _AnswersListTileState extends State<AnswersListTile> {
     edit = false;
     _textController.text = widget.body;
     iconColor = Colors.amber;
-    widget.role = Provider.of<User>(context, listen: false).role;
+    //widget.role = Provider.of<User>(context, listen: false).role;
   }
 
   @override
@@ -66,7 +72,7 @@ class _AnswersListTileState extends State<AnswersListTile> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                widget.title,
+                                widget.username,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontFamily: 'assets/fonts/Changa-Bold.ttf',
@@ -119,10 +125,21 @@ class _AnswersListTileState extends State<AnswersListTile> {
                                                 MainAxisAlignment.spaceEvenly,
                                             children: [
                                               MaterialButton(
-                                                onPressed: () {
-                                                  setState(() {
+                                                onPressed: () async {
+                                                  await Provider.of<
+                                                              AnswerListViewModel>(
+                                                          context,
+                                                          listen: false)
+                                                      .deletAnswer(widget.id);
+                                                  await Provider.of<
+                                                              AnswerListViewModel>(
+                                                          context,
+                                                          listen: false)
+                                                      .getAnswers(
+                                                          widget.question_id);
+                                                  /*setState(() {
                                                     is_visible = false;
-                                                  });
+                                                  });*/
                                                   Navigator.of(context).pop();
                                                 },
                                                 child: Text("YES"),
@@ -229,7 +246,16 @@ class _AnswersListTileState extends State<AnswersListTile> {
                           ),
                           onPressed: _textController.text.isEmpty
                               ? null
-                              : () {
+                              : () async {
+                                  await Provider.of<AnswerListViewModel>(
+                                          context,
+                                          listen: false)
+                                      .editAnswer(
+                                          widget.id, _textController.text);
+                                  await Provider.of<AnswerListViewModel>(
+                                          context,
+                                          listen: false)
+                                      .getAnswers(widget.question_id);
                                   setState(() {
                                     edit = false;
                                   });

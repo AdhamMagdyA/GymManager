@@ -12,7 +12,7 @@ class Question {
       user_id: jsonData['user_id'],
       title: jsonData['title'],
       body: jsonData['body'],
-      date: jsonData['created_at'],
+      date: jsonData['updated_at'],
     );
   }
 }

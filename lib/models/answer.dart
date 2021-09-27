@@ -3,7 +3,8 @@ class Answer {
   final int question_id;
   final int user_id;
   final String body;
-  Answer({this.id, this.user_id, this.question_id, this.body});
+  final String date;
+  Answer({this.id, this.user_id, this.question_id, this.body, this.date});
 
   factory Answer.fromJson(Map<String, dynamic> jsonData) {
     return Answer(
@@ -11,6 +12,7 @@ class Answer {
       user_id: jsonData['user_id'],
       question_id: jsonData['question_id'],
       body: jsonData['body'],
+      date: jsonData['updated_at'],
     );
   }
 }
