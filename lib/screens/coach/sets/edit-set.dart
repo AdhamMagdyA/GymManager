@@ -40,6 +40,19 @@ void setSelectedExercises({
   });
 }
 
+void setOrderedExercises({
+  @required Map<int, Map<String, Object>> selectedExercises,
+}) {
+  orderedExercises.clear();
+  selectedExercises.values.forEach((Map<String, Object> exerciseData) {
+    int quantity = exerciseData['quantity'] as int;
+    ExerciseViewModel exercise = exerciseData['exercise'] as ExerciseViewModel;
+    for (int i = 0; i < quantity; i++) {
+      orderedExercises.add(exercise);
+    }
+  });
+}
+
 class EditSetForm extends StatefulWidget {
   final SetViewModel setVM;
   EditSetForm(this.setVM);
@@ -220,33 +233,26 @@ class MapScreenState extends State<EditSetForm>
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   )),
-              onPressed: () async {
-                var result = await Navigator.pushNamed(
-                  context,
-                  ExercisesScreen.routeName,
-                  arguments: selectedExercises,
-                ) as Map<int, Map<String, Object>>;
-                if (result != null && result.isNotEmpty) {
-                  setState(() {
-                    selectedExercises = result;
-                    orderedExercises.clear();
-                    selectedExercises.values
-                        .forEach((Map<String, Object> exerciseData) {
-                      int quantity = exerciseData['quantity'] as int;
-                      ExerciseViewModel exercise =
-                          exerciseData['exercise'] as ExerciseViewModel;
-                      for (int i = 0; i < quantity; i++) {
-                        orderedExercises.add(exercise);
-                      }
-                    });
-                  });
-                }
-              },
+              onPressed: chooseExercises,
             )),
           ),
         ],
       ),
     );
+  }
+
+  Future<void> chooseExercises() async {
+    var result = await Navigator.pushNamed(
+      context,
+      ExercisesScreen.routeName,
+      arguments: selectedExercises,
+    ) as Map<int, Map<String, Object>>;
+    if (result != null && result.isNotEmpty) {
+      setState(() {
+        selectedExercises = result;
+        setOrderedExercises(selectedExercises: selectedExercises);
+      });
+    }
   }
 
   Widget buildForm({GlobalKey<FormState> key, @required Function submitForm}) {
