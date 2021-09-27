@@ -356,7 +356,7 @@ class _TrainingModeOverviewScreenState
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        GroupDetailsScreen()));
+                                        GroupDetailsScreen(1)));
                           },
                           child: Text(
                             'View Group Details',

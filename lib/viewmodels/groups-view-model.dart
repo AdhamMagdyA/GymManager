@@ -18,11 +18,11 @@ class GroupViewModel {
   List<Set> get sets => group.sets;
 
   List<ExerciseViewModel> get exercisesViewModels {
-    return group.exercises.map((e) => ExerciseViewModel(e: e));
+    return group.exercises.map((e) => ExerciseViewModel(e: e)).toList();
   }
 
   List<SetViewModel> get setsViewModels {
-    return group.sets.map((s) => SetViewModel(set: s));
+    return group.sets.map((s) => SetViewModel(set: s)).toList();
   }
 
   set id(int id) => this.id = id;

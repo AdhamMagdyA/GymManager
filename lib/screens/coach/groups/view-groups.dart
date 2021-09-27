@@ -324,7 +324,9 @@ class _GroupsListTileState extends State<GroupsListTile> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => GroupDetailsScreen()));
+                      builder: (context) => GroupDetailsScreen(widget.groupVM.id),
+                ),
+              );
             } else if (widget.selectionTime && !widget.selectionMode) {
               widget.setSelectionMode(true);
             }
@@ -362,7 +364,8 @@ class _GroupsListTileState extends State<GroupsListTile> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => GroupDetailsScreen(),
+                          builder: (context) =>
+                              GroupDetailsScreen(widget.groupVM.id),
                         ));
                   },
                 ),

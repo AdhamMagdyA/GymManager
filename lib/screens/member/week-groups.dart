@@ -147,7 +147,7 @@ class _CustomListTileWithTitleAndTrailingState
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (_) => GroupDetailsScreen(),
+                      builder: (_) => GroupDetailsScreen(1),
                     ),
                   );
                 },

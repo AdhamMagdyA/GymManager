@@ -1,72 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/common/my-list-tile-without-trailing.dart';
 import 'package:gym_project/common/my_list_tile.dart';
+import 'package:gym_project/helper/constants.dart';
+import 'package:gym_project/models/exercise.dart';
+import 'package:gym_project/viewmodels/exercise-view-model.dart';
+import 'package:gym_project/viewmodels/group-list-view-model.dart';
+import 'package:gym_project/viewmodels/groups-view-model.dart';
+import 'package:gym_project/viewmodels/set-view-model.dart';
 import 'package:gym_project/widget/grid_view_card.dart';
+import 'package:gym_project/widget/providers/user.dart';
+import 'package:provider/provider.dart';
 
-class GroupDetailsScreen extends StatelessWidget {
-  var _group = {
-    'id': 3,
-    'description':
-        "Numquam consequatur doloribus dolores impedit aut. Corrupti dolores et ut debitis. Unde doloremque quos ullam fuga. Et et soluta hic error quae esse qui.",
-    'title': "Group 1",
-    'coach_id': 3,
-    'created_at': "2021-09-14 08:29:18",
-    'updated_at': "2021-09-14 08:29:18",
-    'sets': [
-      {
-        'id': 2,
-        'title': "Set 1",
-        'description':
-            "Quod quia sint tempora ut et aut qui. Architecto exercitationem qui autem ducimus ducimus ea.",
-        ' coach_id': 3,
-        'created_at': "2021-09-14 08:29:15",
-        'updated_at': "2021-09-14 08:29:15",
-        'pivot': {
-          'group_id': 3,
-          'set_id': 2,
-          'created_at': "2021-09-14 08:29:27",
-          'updated_at': "2021-09-14 08:29:27",
-        },
-      },
-      {
-        'id': 7,
-        'title': "Set 2",
-        'description': "description",
-        'coach_id': 3,
-        'created_at': "2021-09-14 08:29:16",
-        'updated_at': "2021-09-14 08:29:16",
-        'pivot': {
-          'group_id': 3,
-          'set_id': 7,
-          'created_at': "2021-09-14 08:29:28",
-          'updated_at': "2021-09-14 08:29:28",
-        },
-      },
-    ],
-    'exercises': [
-      {
-        'id': 15,
-        'description':
-            "Doloremque nemo ut labore. Perferendis vel ipsum laborum facere sit saepe corporis et. Non perspiciatis iste quia voluptatem. Qui a dolorum qui eius aspernatur.",
-        'duration': "12:38",
-        'gif': "https://www.connelly.org/maiores-vitae-enim-omnis-et-cumque",
-        'cal_burnt': 21.82,
-        'title': "Exercise 1",
-        'reps': 5,
-        'image':
-            "https://media.istockphoto.com/photos/kettlebell-and-medicine-ball-in-the-gym-equipment-for-functional-picture-id1153479113?k=20&m=1153479113&s=612x612&w=0&h=wLZnQE2GPjXJFYVpygKlNK5iyD8THMyPOGG4qFGr3xE=",
-        'coach_id': 3,
-        'created_at': "2021-09-14 08:29:13",
-        'updated_at': "2021-09-14 08:29:13",
-        'pivot': {
-          'group_id': 3,
-          'exercise_id': 15,
-          'created_at': "2021-09-14 08:29:26",
-          'updated_at': "2021-09-14 08:29:26",
-        },
-      },
-    ],
-  };
+class GroupDetailsScreen extends StatefulWidget {
+  final int groupId;
+
+  GroupDetailsScreen(this.groupId);
+
+  @override
+  _GroupDetailsScreenState createState() => _GroupDetailsScreenState();
+}
+
+class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    String token = Provider.of<User>(context, listen: false).token;
+    Provider.of<GroupListViewModel>(context, listen: false)
+        .fetchGroupDetails(widget.groupId, token);
+  }
+
   String formatDuration(String duration) {
     String finalDuration = 'Duration: ';
     String hours = duration.substring(0, 2);
@@ -100,16 +62,25 @@ class GroupDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    for (Map<String, Object> set in _group['sets']) {
-      print(set['title']);
-      print(set['description']);
-    }
+    GroupListViewModel groupListVM = Provider.of<GroupListViewModel>(context);
+    GroupViewModel groupVM = groupListVM.group;
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
+            if (groupListVM.loadingStatus == LoadingStatus.Searching)
+              Container(
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height * 0.5,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+              ),
+            if (groupListVM.loadingStatus == LoadingStatus.Completed)
             ListView(
               shrinkWrap: true,
               children: <Widget>[
@@ -127,7 +98,7 @@ class GroupDetailsScreen extends StatelessWidget {
                   padding: EdgeInsets.only(
                       left: 20.0, right: 20.0, top: 10.0, bottom: 10),
                   child: Text(
-                    _group['title'],
+                    groupVM.title,
                     style: TextStyle(
                       fontSize: 30.0,
                       fontWeight: FontWeight.w700,
@@ -138,7 +109,7 @@ class GroupDetailsScreen extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.only(left: 20.0, right: 20.0),
                   child: Text(
-                    _group['description'],
+                    groupVM.description,
                     textAlign: TextAlign.justify,
                     style: TextStyle(
                       color: Colors.grey.shade500,
@@ -162,14 +133,15 @@ class GroupDetailsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                for (Map<String, Object> exercise in _group['exercises'])
+                for (ExerciseViewModel exercise
+                      in groupVM.exercisesViewModels)
                   Padding(
                     padding: EdgeInsets.only(left: 10, right: 10),
                     child: CustomListTileNoTrailing(
-                      exercise['title'],
+                      exercise.title,
                       [
-                        formatDuration(exercise['duration']),
-                        '${exercise['cal_burnt']} cal'
+                        formatDuration(exercise.duration),
+                          '${exercise.calBurnt} cal'
                       ],
                     ),
                   ),
@@ -188,12 +160,12 @@ class GroupDetailsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                for (Map<String, Object> set in _group['sets'])
+                for (SetViewModel set in groupVM.setsViewModels)
                   Padding(
                     padding: EdgeInsets.only(left: 10, right: 10),
                     child: CustomListTileNoTrailing(
-                      set['title'],
-                      [set['description']],
+                      set.title,
+                        [set.description],
                     ),
                   ),
               ],
