@@ -16,6 +16,30 @@ import 'package:provider/provider.dart';
 Map<int, Map<String, Object>> selectedExercises = {};
 List<ExerciseViewModel> orderedExercises = [];
 
+int getExerciseQuantity(ExerciseViewModel exercise) {
+  List<ExerciseViewModel> sameExercisesList =
+      orderedExercises.where((ex) => ex.id == exercise.id).toList();
+  return sameExercisesList.length;
+}
+
+void setSelectedExercises({
+  @required List<ExerciseViewModel> orderedExercises,
+}) {
+  List<int> uniqueIds =
+      orderedExercises.map((exercise) => exercise.id).toSet().toList();
+  uniqueIds.forEach((id) {
+    ExerciseViewModel exercise =
+        orderedExercises.firstWhere((exercise) => exercise.id == id);
+    Map<String, Object> exerciseData = {
+      'exercise': exercise,
+      'quantity': getExerciseQuantity(exercise),
+    };
+    MapEntry<int, Map<String, Object>> selectedExercise =
+        MapEntry(exercise.id, exerciseData);
+    selectedExercises.addEntries([selectedExercise]);
+  });
+}
+
 class EditSetForm extends StatefulWidget {
   final SetViewModel setVM;
   EditSetForm(this.setVM);
@@ -43,6 +67,8 @@ class MapScreenState extends State<EditSetForm>
     setListVM.fetchSetDetails(widget.setVM.id, token).then((_) {
       orderedExercises =
           setListVM.set.exercises.map((e) => ExerciseViewModel(e: e)).toList();
+      setSelectedExercises(orderedExercises: orderedExercises);
+      print(selectedExercises);
     });
   }
 
@@ -78,26 +104,29 @@ class MapScreenState extends State<EditSetForm>
   }
 
   Widget buildReorderableList() {
-    return ReorderableListView(
-      shrinkWrap: true,
-      children: <Widget>[
-        for (int index = 0; index < orderedExercises.length; index++)
-          CustomExerciseListTile(
-              Key(index.toString()), orderedExercises[index], refresh),
-      ],
-      onReorder: (int oldIndex, int newIndex) {
-        setState(() {
-          if (oldIndex < newIndex) {
-            newIndex -= 1;
-          }
-          print('old index: $oldIndex');
-          print('new index: $newIndex');
-          final ExerciseViewModel exerciseVM =
-              orderedExercises.removeAt(oldIndex);
-          orderedExercises.insert(newIndex, exerciseVM);
-          print(orderedExercises.map((e) => e.title));
-        });
-      },
+    return Theme(
+      data: ThemeData(
+        iconTheme: IconThemeData(color: Colors.white),
+        canvasColor: Color(0xff181818),
+      ),
+      child: ReorderableListView(
+        shrinkWrap: true,
+        children: <Widget>[
+          for (int index = 0; index < orderedExercises.length; index++)
+            CustomExerciseListTile(
+                Key(index.toString()), orderedExercises[index], refresh),
+        ],
+        onReorder: (int oldIndex, int newIndex) {
+          setState(() {
+            if (oldIndex < newIndex) {
+              newIndex -= 1;
+            }
+            final ExerciseViewModel exerciseVM =
+                orderedExercises.removeAt(oldIndex);
+            orderedExercises.insert(newIndex, exerciseVM);
+          });
+        },
+      ),
     );
   }
 
@@ -175,6 +204,51 @@ class MapScreenState extends State<EditSetForm>
     );
   }
 
+  Widget buildChooseExercisesButton() {
+    return Padding(
+      padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 2.0),
+      child: new Row(
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          new Flexible(
+            child: Center(
+                child: ElevatedButton(
+              child: Text('Choose Exercises'),
+              style: ElevatedButton.styleFrom(
+                  onPrimary: Colors.black,
+                  primary: Colors.amber,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  )),
+              onPressed: () async {
+                var result = await Navigator.pushNamed(
+                  context,
+                  ExercisesScreen.routeName,
+                  arguments: selectedExercises,
+                ) as Map<int, Map<String, Object>>;
+                if (result != null && result.isNotEmpty) {
+                  setState(() {
+                    selectedExercises = result;
+                    orderedExercises.clear();
+                    selectedExercises.values
+                        .forEach((Map<String, Object> exerciseData) {
+                      int quantity = exerciseData['quantity'] as int;
+                      ExerciseViewModel exercise =
+                          exerciseData['exercise'] as ExerciseViewModel;
+                      for (int i = 0; i < quantity; i++) {
+                        orderedExercises.add(exercise);
+                      }
+                    });
+                  });
+                }
+              },
+            )),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget buildForm({GlobalKey<FormState> key, @required Function submitForm}) {
     return Form(
       key: formKey,
@@ -221,7 +295,11 @@ class MapScreenState extends State<EditSetForm>
             },
           ),
           SizedBox(
-            height: 10,
+            height: 10),
+          buildTextFormFieldLabel('Exercises'),
+          SizedBox(height: 10),
+          buildChooseExercisesButton(),
+          SizedBox(height: 10
           ),
           if (orderedExercises.isNotEmpty) buildReorderableList(),
           SizedBox(height: 10),
@@ -269,6 +347,8 @@ class MapScreenState extends State<EditSetForm>
       ),
     );
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -346,7 +426,7 @@ class _CustomExerciseListTileState extends State<CustomExerciseListTile> {
   Widget build(BuildContext context) {
     return Container(
       key: widget.key,
-      margin: EdgeInsetsDirectional.only(bottom: 10),
+      margin: EdgeInsets.all(3),
       decoration: BoxDecoration(
         color: Color(0xff181818),
         borderRadius: BorderRadius.circular(16),
@@ -384,24 +464,6 @@ class _CustomExerciseListTileState extends State<CustomExerciseListTile> {
                 color: Colors.white,
               ),
             )
-          ],
-        ),
-        trailing: Column(
-          children: [
-            // Text(widget.exercise['value'].toString()),
-            // SizedBox(height: 4),
-            GestureDetector(
-              child: Icon(
-                Icons.close,
-                color: Colors.white,
-              ),
-              onTap: () {
-                // selectedExercises.remove(widget.exercise);
-                // print(selectedExercises);
-                print('close button clicked');
-                widget.notifyParent();
-              },
-            ),
           ],
         ),
       ),

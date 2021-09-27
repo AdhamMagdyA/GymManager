@@ -28,7 +28,7 @@ class _CoachTabsScreenState extends State<CoachTabsScreen>
     _tabController = new TabController(length: 2, vsync: this);
     _pages = [
       {
-        'page': CreateSetForm(),
+        'page': ViewSetsScreen(false),
         'title': 'Home',
       },
       {
