@@ -142,22 +142,29 @@ class MapScreenState extends State<CreateSetForm>
   }
 
   Widget buildReorderableList() {
-    return ReorderableListView(
-      shrinkWrap: true,
-      children: <Widget>[
-        for (int index = 0; index < orderedExercises.length; index++)
-          CustomExerciseListTile(
-              Key(index.toString()), orderedExercises[index], refresh),
-      ],
-      onReorder: (int oldIndex, int newIndex) {
-        setState(() {
-          if (oldIndex < newIndex) {
-            newIndex -= 1;
-          }
-          final ExerciseViewModel item = orderedExercises.removeAt(oldIndex);
-          orderedExercises.insert(newIndex, item);
-        });
-      },
+    return Theme(
+      data: ThemeData(
+        canvasColor: Color(0xff181818),
+        iconTheme: IconThemeData(color: Colors.white),
+      ),
+      child: ReorderableListView(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        children: <Widget>[
+          for (int index = 0; index < orderedExercises.length; index++)
+            CustomExerciseListTile(
+                Key(index.toString()), orderedExercises[index], refresh),
+        ],
+        onReorder: (int oldIndex, int newIndex) {
+          setState(() {
+            if (oldIndex < newIndex) {
+              newIndex -= 1;
+            }
+            final ExerciseViewModel item = orderedExercises.removeAt(oldIndex);
+            orderedExercises.insert(newIndex, item);
+          });
+        },
+      ),
     );
   }
 
@@ -597,8 +604,8 @@ class _CustomExerciseListTileState extends State<CustomExerciseListTile> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.all(3),
       key: widget.key,
-      margin: EdgeInsetsDirectional.only(bottom: 10),
       decoration: BoxDecoration(
         color: Color(0xff181818),
         borderRadius: BorderRadius.circular(16),
@@ -636,22 +643,6 @@ class _CustomExerciseListTileState extends State<CustomExerciseListTile> {
                 color: Colors.white,
               ),
             )
-          ],
-        ),
-        trailing: Column(
-          children: [
-            // Text(widget.exercise['value'].toString()),
-            // SizedBox(height: 4),
-            GestureDetector(
-              child: Icon(
-                Icons.close,
-                color: Colors.white,
-              ),
-              onTap: () {
-                selectedExercises.remove(widget.exercise);
-                widget.notifyParent();
-              },
-            ),
           ],
         ),
       ),
