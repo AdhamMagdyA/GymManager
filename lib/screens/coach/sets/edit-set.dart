@@ -53,6 +53,30 @@ void setOrderedExercises({
   });
 }
 
+Future viewErrorDialogBox(BuildContext context, String message) {
+  return showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      backgroundColor: Colors.black,
+      content: Text(
+        message,
+        style: TextStyle(color: Colors.white),
+      ),
+      actions: [
+        TextButton(
+          child: Text(
+            'Ok',
+            style: TextStyle(color: Theme.of(context).primaryColor),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        )
+      ],
+    ),
+  );
+}
+
 class EditSetForm extends StatefulWidget {
   final SetViewModel setVM;
   EditSetForm(this.setVM);
@@ -81,7 +105,10 @@ class MapScreenState extends State<EditSetForm>
       orderedExercises =
           setListVM.set.exercises.map((e) => ExerciseViewModel(e: e)).toList();
       setSelectedExercises(orderedExercises: orderedExercises);
-      print(selectedExercises);
+    }).catchError((error) {
+      viewErrorDialogBox(context, error.toString()).then((_) {
+        Navigator.of(context).pop();
+      });
     });
   }
 
@@ -100,7 +127,8 @@ class MapScreenState extends State<EditSetForm>
     // setState(() {
     //   FocusScope.of(context).requestFocus(new FocusNode());
     // });
-    if (formKey.currentState.validate()) {
+    try {
+      if (formKey.currentState.validate()) {
       await setListVM.putSet(
         Set(
           id: setVM.id,
@@ -113,6 +141,9 @@ class MapScreenState extends State<EditSetForm>
         Provider.of<User>(context, listen: false).token,
       );
       Navigator.of(context).pop();
+    }
+    } catch (error) {
+      viewErrorDialogBox(context, error.toString());
     }
   }
 

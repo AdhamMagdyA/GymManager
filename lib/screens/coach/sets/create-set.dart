@@ -84,15 +84,6 @@ class MapScreenState extends State<CreateSetForm>
     breakDurationController.text = initialValues['break_duration'];
   }
 
-  bool saveSet() {
-    setState(() {
-      String token = Provider.of<User>(context, listen: false).token;
-      Provider.of<SetListViewModel>(context, listen: false)
-          .postSet(_set, token);
-    });
-    return true;
-  }
-
   refresh() {
     setState(() {});
   }
@@ -136,13 +127,7 @@ class MapScreenState extends State<CreateSetForm>
                           orderedExercises.map((e) => e.exercise).toList(),
                     );
 
-                    status = saveSet();
-
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => ViewSetsScreen(false),
-                      ),
-                    );
+                    createSet();
                   }
                 },
               )),
@@ -153,6 +138,47 @@ class MapScreenState extends State<CreateSetForm>
       ),
     );
   }
+
+  void createSet() async {
+    try {
+      String token = Provider.of<User>(context, listen: false).token;
+      await Provider.of<SetListViewModel>(context, listen: false)
+          .postSet(_set, token);
+      setState(() => status = true);
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => ViewSetsScreen(false),
+        ),
+      );
+    } catch (error) {
+      viewErrorDialogBox(error.toString());
+    }
+  }
+
+  Future viewErrorDialogBox(String message) {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: Colors.black,
+        content: Text(
+          message,
+          style: TextStyle(color: Colors.white),
+        ),
+          actions: [
+          TextButton(
+            child: Text(
+              'Ok',
+              style: TextStyle(color: Theme.of(context).primaryColor),
+            ),
+              onPressed: () {
+              Navigator.of(context).pop();
+            },
+          )
+          ],
+      ),
+    );
+  }
+
 
   Widget buildReorderableList() {
     return Theme(

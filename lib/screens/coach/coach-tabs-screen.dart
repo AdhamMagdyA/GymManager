@@ -32,7 +32,7 @@ class _CoachTabsScreenState extends State<CoachTabsScreen>
         'title': 'Home',
       },
       {
-        'page': ClassesList(),
+        'page': CreateSetForm(),
         'title': 'My Classes',
       },
       {

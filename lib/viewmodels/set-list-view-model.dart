@@ -19,7 +19,6 @@ class SetListViewModel with ChangeNotifier {
 
   // methods to fetch news
   Future<void> fetchListSets(String token) async {
-    print('currently here!');
     List<Set> _sets = await SetWebService().getSets(token);
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
@@ -39,29 +38,21 @@ class SetListViewModel with ChangeNotifier {
     // not notifying listeners as it causes an error
     // since fetchSetDetails is called in initState, so the value of loadingStatus is set before widgets depending on that value are built
     // notifyListeners();
-    print('id');
-    print(setId);
-    print('currently here!');
     Set setModel = await SetWebService().getSetDetails(setId, token);
     this.set = SetViewModel(set: setModel);
-    print(set.id);
 
     loadingStatus = LoadingStatus.Completed;
     notifyListeners();
   }
 
-  void postSet(Set set, String token) async {
-    Set setModel = await SetWebService().postSet(set, token);
+  Future<void> postSet(Set set, String token) async {
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
-    this.set = SetViewModel(set: setModel);
+    Set setModel = await SetWebService().postSet(set, token);
 
-    if (this.set == null) {
-      loadingStatus = LoadingStatus.Empty;
-    } else {
-      loadingStatus = LoadingStatus.Completed;
-    }
-
+    // adding the set to the sets list in the provider
+    sets.add(SetViewModel(set: setModel));
+    loadingStatus = LoadingStatus.Completed;
     notifyListeners();
   }
 
@@ -70,17 +61,25 @@ class SetListViewModel with ChangeNotifier {
     // notifyListeners();
     // Set setModel =
     await SetWebService().putSet(set, token);
-    // this.set = SetViewModel(set: setModel);
 
+    editSetInProvider(set);
     loadingStatus = LoadingStatus.Completed;
-
-    print('this line runs #1');
-
     notifyListeners();
   }
 
+  void editSetInProvider(Set set) {
+    int updatedSetIndex = sets.indexWhere((s) => s.id == set.id);
+    sets.removeAt(updatedSetIndex);
+    sets.insert(updatedSetIndex, SetViewModel(set: set));
+  } 
+
   Future<void> deleteSet(Set set, String token) async {
     await SetWebService().deleteSet(set, token);
+    _removeSetFromProvider(set);
     notifyListeners();
+  }
+
+  void _removeSetFromProvider(Set set) {
+    sets.removeWhere((s) => s.id == set.id);
   }
 }

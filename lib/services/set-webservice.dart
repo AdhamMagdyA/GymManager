@@ -7,15 +7,12 @@ import 'package:http/http.dart' as http;
 
 class SetWebService {
   Future<List<Set>> getSets(String token) async {
-    print('Am i here??');
     final response =
         await http.get(Uri.parse('http://localhost:8000/api/sets'), headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'Bearer $token'
     });
-    print('response obtained!');
-    print(response.statusCode);
     if (response.statusCode == 200) {
       final result = json.decode(response.body);
       Iterable list = result['sets'];
@@ -28,7 +25,6 @@ class SetWebService {
   }
 
   Future<Set> getSetDetails(int setId, String token) async {
-    print('Am i here??');
     final response = await http.get(
         Uri.parse('http://localhost:8000/api/sets/$setId/details'),
         headers: {
@@ -36,8 +32,6 @@ class SetWebService {
           'Accept': 'application/json',
           'Authorization': 'Bearer $token'
         });
-    print('response obtained!');
-    print(response.statusCode);
     if (response.statusCode == 200) {
       final result = json.decode(response.body);
       final setJson = result['set'];
@@ -49,7 +43,8 @@ class SetWebService {
 
   Future<Set> postSet(Set set, String token) async {
     final response =
-        await http.post(Uri.parse('http://localhost:8000/api/sets'),
+        await http.post(
+      Uri.parse('http://localhost:8000/api/sets'),
             headers: {
               'Content-Type': 'application/json',
               'Accept': 'application/json',
@@ -69,8 +64,6 @@ class SetWebService {
   }
 
   Future<Set> putSet(Set set, String token) async {
-    // print(set);
-    // print(set.toJsonForCreation());
     final response = await http.put(
       Uri.parse('http://localhost:8000/api/sets/${set.id}'),
       headers: {
@@ -80,9 +73,6 @@ class SetWebService {
       },
       body: set.toJsonForCreation(),
     );
-    print('response obtained!');
-    print(response.statusCode);
-    print(response.body);
     if (response.statusCode == 200) {
       final result = json.decode(response.body);
       final setJson = result['set'];

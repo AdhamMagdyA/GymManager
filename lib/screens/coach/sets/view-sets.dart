@@ -1,10 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/models/set.dart';
 import 'package:gym_project/screens/coach/sets/edit-set.dart';
 import 'package:gym_project/screens/common/view-set-details-screen.dart';
 import 'package:gym_project/viewmodels/set-list-view-model.dart';
 import 'package:gym_project/viewmodels/set-view-model.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
+
+Future viewErrorDialogBox(BuildContext context, String message) {
+  return showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      backgroundColor: Colors.black,
+      content: Text(
+        message,
+        style: TextStyle(color: Colors.white),
+      ),
+      actions: [
+        TextButton(
+          child: Text(
+            'Ok',
+            style: TextStyle(color: Theme.of(context).primaryColor),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        )
+      ],
+    ),
+  );
+}
 
 class ViewSetsScreen extends StatefulWidget {
   bool isSelectionTime = false;
@@ -20,7 +45,11 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
   void initState() {
     super.initState();
     String token = Provider.of<User>(context, listen: false).token;
-    Provider.of<SetListViewModel>(context, listen: false).fetchListSets(token);
+    Provider.of<SetListViewModel>(context, listen: false)
+        .fetchListSets(token)
+        .catchError((error) {
+      viewErrorDialogBox(context, error.toString());
+    });
     if (widget.isSelectionTime == true) {
       _selectionMode = true;
     }
@@ -257,6 +286,18 @@ class SetsListTile extends StatefulWidget {
 
 class _SetsListTileState extends State<SetsListTile> {
   int number = 0;
+
+  Future<void> deleteSet(Set set) async {
+    String token = Provider.of<User>(context, listen: false).token;
+    try {
+      await Provider.of<SetListViewModel>(context, listen: false)
+          .deleteSet(set, token);
+    } catch (error) {
+      viewErrorDialogBox(context, error.toString());
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -341,16 +382,14 @@ class _SetsListTileState extends State<SetsListTile> {
                   children: [
                     Expanded(
                       child: TextButton(
-                        onPressed: () async {
-                          await Navigator.push(
+                        onPressed: () {
+                          Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      EditSetForm(widget.set)));
-                          String token =
-                              Provider.of<User>(context, listen: false).token;
-                          Provider.of<SetListViewModel>(context, listen: false)
-                              .fetchListSets(token);
+                                      EditSetForm(widget.set),
+                            ),
+                          );
                         },
                         child: Text(
                           'Edit',
@@ -365,15 +404,7 @@ class _SetsListTileState extends State<SetsListTile> {
                     SizedBox(height: 6),
                     Expanded(
                       child: TextButton(
-                        onPressed: () async {
-                          String token =
-                              Provider.of<User>(context, listen: false).token;
-                          await Provider.of<SetListViewModel>(context,
-                                  listen: false)
-                              .deleteSet(widget.set.set, token);
-                          Provider.of<SetListViewModel>(context, listen: false)
-                              .fetchListSets(token);
-                        },
+                        onPressed: () => deleteSet(widget.set.set),
                         child: Text('Delete',
                             style: TextStyle(
                               fontSize: 15,
