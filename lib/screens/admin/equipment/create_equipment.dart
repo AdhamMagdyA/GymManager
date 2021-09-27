@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:gym_project/screens/admin/helping-widgets/create-form-widgets.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CreateEquipmentForm extends StatefulWidget {
@@ -36,6 +37,7 @@ class _CreateEquipmentFormState extends State<CreateEquipmentForm>
             children: <Widget>[
               Column(
                 children: <Widget>[
+                  //Screen header
                   new Container(
                     height: 100.0,
                     color: Color(0xFF181818), //background color
@@ -73,22 +75,19 @@ class _CreateEquipmentFormState extends State<CreateEquipmentForm>
                     ),
                   ),
                   new Container(
-                    //height: 1000.0,
                     constraints: new BoxConstraints(minHeight: 500),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                       color: Colors.white,
                     ),
-
-                    //color: Colors.white,
                     margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
                     child: Padding(
-                      //padding: EdgeInsets.only(bottom: 30.0),
                       padding: EdgeInsets.all(30),
                       child: new Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
+                          //Form Header
                           Padding(
                             padding: EdgeInsets.only(
                                 left: 25.0, right: 25.0, top: 25.0),
@@ -119,6 +118,7 @@ class _CreateEquipmentFormState extends State<CreateEquipmentForm>
                               ],
                             ),
                           ),
+                          //Image picker
                           Padding(
                             padding: EdgeInsets.only(
                                 left: 25.0, right: 25.0, top: 25.0),
@@ -135,83 +135,10 @@ class _CreateEquipmentFormState extends State<CreateEquipmentForm>
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 25.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                new Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    new Text(
-                                      'Name',
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                new Flexible(
-                                  child: new TextField(
-                                    decoration: const InputDecoration(
-                                      hintText: "Enter equipment name",
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 25.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                new Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    new Text(
-                                      'Information',
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 2.0),
-                              child: new Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  new Flexible(
-                                    child: new TextField(
-                                      decoration: const InputDecoration(
-                                          hintText:
-                                              "Enter equipment's extra information"),
-                                    ),
-                                  ),
-                                ],
-                              )),
+                          //form fields
+                          field("Name", "Enter the equipment name"),
+                          field("Information", "Enter a simple descriptiopn"),
+                          //submit button
                           Padding(
                             padding: EdgeInsets.only(
                                 left: 95.0, bottom: 0, right: 95.0, top: 50.0),

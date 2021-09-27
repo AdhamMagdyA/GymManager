@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:gym_project/screens/admin/helping-widgets/create-form-widgets.dart';
 
 class NutrisionistSessionCreate extends StatefulWidget {
   @override
@@ -49,6 +50,7 @@ class MapScreenState extends State<NutrisionistSessionCreate>
             children: <Widget>[
               Column(
                 children: <Widget>[
+                  //screen header
                   new Container(
                     height: 100.0,
                     color: Color(0xFF181818), //background color
@@ -86,22 +88,19 @@ class MapScreenState extends State<NutrisionistSessionCreate>
                     ),
                   ),
                   new Container(
-                    //height: 1000.0,
                     constraints: new BoxConstraints(minHeight: 500),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                       color: Colors.white,
                     ),
-
-                    //color: Colors.white,
                     margin: EdgeInsets.fromLTRB(20, 10, 20, 50),
                     child: Padding(
-                      //padding: EdgeInsets.only(bottom: 30.0),
                       padding: EdgeInsets.all(30),
                       child: new Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
+                          //Form header
                           Padding(
                               padding: EdgeInsets.only(
                                   left: 25.0, right: 25.0, top: 25.0),
@@ -116,7 +115,7 @@ class MapScreenState extends State<NutrisionistSessionCreate>
                                     children: <Widget>[
                                       new Text(
                                         //---> topic
-                                        'Session Information',
+                                        'Nutritionist Session Information',
                                         style: TextStyle(
                                           fontSize: 18.0,
                                           fontWeight: FontWeight.bold,
@@ -132,42 +131,9 @@ class MapScreenState extends State<NutrisionistSessionCreate>
                                   )
                                 ],
                               )),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 25.0),
-                              child: new Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  new Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      new Text(
-                                        'Price ',
-                                        style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              )),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 2.0),
-                              child: new Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  new Flexible(
-                                    child: new TextField(
-                                      decoration: const InputDecoration(
-                                          hintText: "Enter Your Price "),
-                                    ),
-                                  ),
-                                ],
-                              )),
+                          //price field
+                          field("Price", "Enter the session price"),
+                          //date picker
                           Padding(
                               padding: EdgeInsets.only(
                                   left: 25.0, right: 25.0, top: 25.0),
@@ -207,6 +173,7 @@ class MapScreenState extends State<NutrisionistSessionCreate>
                                       "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}")
                                 ],
                               )),
+                          //Member picker
                           Padding(
                               padding: EdgeInsets.only(
                                   left: 25.0, right: 25.0, top: 25.0),
@@ -252,6 +219,7 @@ class MapScreenState extends State<NutrisionistSessionCreate>
                                   ),
                                 ],
                               )),
+                          //submit button
                           Padding(
                             padding: EdgeInsets.only(
                                 left: 95.0, bottom: 0, right: 95.0, top: 50.0),

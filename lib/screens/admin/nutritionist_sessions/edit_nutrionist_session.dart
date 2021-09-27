@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:gym_project/screens/admin/helping-widgets/edit-form-widgets.dart';
 
 class EditNutrionistSession extends StatefulWidget {
   @override
@@ -49,6 +50,7 @@ class MapScreenState extends State<EditNutrionistSession>
             children: <Widget>[
               Column(
                 children: <Widget>[
+                  //Screen Header
                   new Container(
                     height: 100.0,
                     color: Color(0xFF181818), //background color
@@ -102,6 +104,7 @@ class MapScreenState extends State<EditNutrionistSession>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
+                          //form header
                           Padding(
                               padding: EdgeInsets.only(
                                   left: 25.0, right: 25.0, top: 25.0),
@@ -116,7 +119,7 @@ class MapScreenState extends State<EditNutrionistSession>
                                     children: <Widget>[
                                       new Text(
                                         //---> topic
-                                        'Session Information',
+                                        'Nutritionist Session Information',
                                         style: TextStyle(
                                           fontSize: 18.0,
                                           fontWeight: FontWeight.bold,
@@ -141,47 +144,8 @@ class MapScreenState extends State<EditNutrionistSession>
                                   )
                                 ],
                               )),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 25.0),
-                              child: new Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  new Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      new Text(
-                                        'Price ',
-                                        style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              )),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 2.0),
-                              child: new Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  new Flexible(
-                                    child: new TextField(
-                                      controller: TextEditingController()
-                                        ..text = '354',
-                                      onChanged: (text) => {},
-                                      decoration: const InputDecoration(
-                                          hintText: "Enter Your Price "),
-                                      enabled: !_status,
-                                      autofocus: !_status,
-                                    ),
-                                  ),
-                                ],
-                              )),
+                          field("price", "5"),
+                          //date picker
                           Padding(
                               padding: EdgeInsets.only(
                                   left: 25.0, right: 25.0, top: 25.0),
@@ -222,6 +186,7 @@ class MapScreenState extends State<EditNutrionistSession>
                                       "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}")
                                 ],
                               )),
+                          //member picker
                           Padding(
                               padding: EdgeInsets.only(
                                   left: 25.0, right: 25.0, top: 25.0),
