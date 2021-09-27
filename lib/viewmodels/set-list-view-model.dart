@@ -34,7 +34,7 @@ class SetListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void fetchSetDetails(int setId, String token) async {
+  Future<void> fetchSetDetails(int setId, String token) async {
     loadingStatus = LoadingStatus.Searching;
     // not notifying listeners as it causes an error
     // since fetchSetDetails is called in initState, so the value of loadingStatus is set before widgets depending on that value are built

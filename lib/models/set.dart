@@ -70,9 +70,21 @@ class Set {
       id: json['id'],
       title: json['title'],
       description: json['description'],
+      breakDuration: Set._getBreakDurationFromJsonSet(json),
       coachId: json['coach_id'],
       coachName: json['name'],
       exercises: exercises,
     );
+  }
+
+  static String _getBreakDurationFromJsonSet(Map<String, dynamic> jsonSet) {
+    List exercises = jsonSet['exercises'];
+    if (exercises.isNotEmpty) {
+      Map pivot = exercises.first['pivot'];
+      String breakDuration = pivot['break_duration'];
+      return breakDuration;
+    } else {
+      return '00:00';
+    }
   }
 }
