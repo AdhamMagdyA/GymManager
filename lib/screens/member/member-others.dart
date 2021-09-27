@@ -3,17 +3,15 @@ import 'package:gym_project/common/crowd-meter.dart';
 import 'package:gym_project/screens/Events/events-list.dart';
 import 'package:gym_project/screens/Supplements/supplement-grid-view.dart';
 import 'package:gym_project/screens/admin/branches/branches_list.dart';
-import 'package:gym_project/screens/admin/classes/create_class.dart';
+
 import 'package:gym_project/screens/announcements/announcements-screen.dart';
-import 'package:gym_project/screens/coach/exercises/create-exercise.dart';
+
 import 'package:gym_project/screens/coach/exercises/exercises_screen.dart';
-import 'package:gym_project/screens/coach/groups/create-group.dart';
+
 import 'package:gym_project/screens/coach/groups/view-groups.dart';
-import 'package:gym_project/screens/coach/private%20sessions/create-private-session.dart';
-import 'package:gym_project/screens/coach/sets/create-set.dart';
+
 import 'package:gym_project/screens/coach/sets/view-sets.dart';
 import 'package:gym_project/screens/questions/questions-screen.dart';
-import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
 import 'package:gym_project/viewmodels/set-list-view-model.dart';
 import 'package:provider/provider.dart';
 
@@ -413,11 +411,11 @@ class MemberOthers extends StatelessWidget {
           ),
           child: TextButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/private-sessions');
+              Navigator.pushNamed(context, '/sessions/select');
             },
             child: Center(
               child: Text(
-                'Private sessions',
+                'Private Sessions',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,

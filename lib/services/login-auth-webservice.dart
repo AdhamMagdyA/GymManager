@@ -1,10 +1,7 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
-import 'package:gym_project/models/equipment.dart';
-import 'package:gym_project/models/exercise.dart';
 import 'package:gym_project/models/login.dart';
-import 'package:gym_project/models/set.dart';
+
 import 'package:http/http.dart' as http;
 
 const portNum = '8000';

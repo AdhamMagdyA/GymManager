@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:gym_project/common/my_choosing_screen.dart';
-import 'package:gym_project/common/my_list_tile.dart';
-
-import 'package:flutter/material.dart';
+import 'package:gym_project/screens/common/view-private-session-details.dart';
+import 'package:gym_project/style/duration.dart';
+import 'package:gym_project/viewmodels/private-session-list-view-model.dart';
+import 'package:gym_project/viewmodels/private-session-view-model.dart';
+import 'package:gym_project/widget/back-button.dart';
+import 'package:gym_project/widget/providers/user.dart';
+import 'package:provider/provider.dart';
 
 class ViewPrivateSessionsScreen extends StatefulWidget {
   @override
@@ -11,159 +13,59 @@ class ViewPrivateSessionsScreen extends StatefulWidget {
       _ViewPrivateSessionsScreenState();
 }
 
+List<PrivateSessionViewModel> privateSessions = [];
+
 class _ViewPrivateSessionsScreenState extends State<ViewPrivateSessionsScreen> {
-  static int whoIsSelected = -1;
-
-  final List<dynamic> privateSessions = [
-    {
-      'title': 'Private Session 1',
-      "description": 'Good Private Session',
-      'duration': '10:45:22',
-      'datetime': '2021-09-13 14:13:51',
-      'price': '15.99',
-      'coach': {
-        'user': {'name': 'Coach name!'}
-      },
-    },
-    {
-      'title': 'Private Session 2',
-      "description": 'Good Private Session',
-      'duration': '06:45',
-      'datetime': '2021-09-13 14:13:51',
-      'price': '15.99',
-      'coach': {
-        'user': {'name': 'Coach name!'}
-      },
-    },
-    {
-      'title': 'Private Session 3',
-      "description": 'Good Private Session',
-      'duration': '05:45',
-      'datetime': '2021-09-13 14:13:51',
-      'price': '15.88',
-      'coach': {
-        'user': {'name': 'Coach name!'}
-      },
-    },
-    {
-      'title': 'Private Session 4',
-      "description": 'Good Private Session',
-      'duration': '02:34',
-      'datetime': '2021-09-13 14:13:51',
-      'price': '12.99',
-      'coach': {
-        'user': {'name': 'Coach name!'}
-      },
-    },
-    {
-      'title': 'Private Session 5',
-      "description": 'Good Private Session',
-      'duration': '02:34',
-      'datetime': '2021-09-13 14:13:51',
-      'price': '10.99',
-      'coach': {
-        'user': {'name': 'Coach name!'}
-      },
-    },
-    {
-      'title': 'Private Session 5',
-      "description": 'Good Private Session',
-      'duration': '02:34',
-      'datetime': '2021-09-13 14:13:51',
-      'price': '10.99',
-      'coach': {
-        'user': {'name': 'Coach name!'}
-      },
-    },
-    {
-      'title': 'Private Session 5',
-      "description": 'Good Private Session',
-      'duration': '02:34',
-      'datetime': '2021-09-13 14:13:51',
-      'price': '10.99',
-      'coach': {
-        'user': {'name': 'Coach name!'}
-      },
-    },
-    {
-      'title': 'Private Session 5',
-      "description": 'Good Private Session',
-      'duration': '02:34',
-      'datetime': '2021-09-13 14:13:51',
-      'price': '10.99',
-      'coach': {
-        'user': {'name': 'Coach name!'}
-      },
-    },
-    {
-      'title': 'Private Session 5',
-      "description": 'Good Private Session',
-      'duration': '02:34',
-      'datetime': '2021-09-13 14:13:51',
-      'price': '10.99',
-      'coach': {
-        'user': {'name': 'Coach name!'}
-      },
-    },
-  ];
-
-  String formatDuration(String duration) {
-    String finalDuration = 'Duration: ';
-    String hours = duration.substring(0, 2);
-    if (hours != '00') {
-      if (hours[0] == '0') {
-        finalDuration += '${hours[1]}h';
-      } else {
-        finalDuration += '${hours}h';
-      }
-    }
-    String minutes = duration.substring(3, 5);
-    if (minutes != '00') {
-      if (minutes[0] == '0') {
-        finalDuration += ' ${minutes[1]}m';
-      } else {
-        finalDuration += ' ${minutes}m';
-      }
-    }
-    if (duration.length == 8) {
-      String seconds = duration.substring(6);
-      if (seconds != '00') {
-        if (seconds[0] == '0') {
-          finalDuration += ' ${seconds[1]}s';
-        } else {
-          finalDuration += ' ${seconds}s';
-        }
-      }
-    }
-    return finalDuration;
+  String token;
+  int lastPage;
+  @override
+  void initState() {
+    super.initState();
+    token = Provider.of<User>(context, listen: false).token;
+    Provider.of<PrivateSessionListViewModel>(context, listen: false)
+        .fetchListPrivateSessions(token, 1)
+        .then((value) {
+      sessionListViewModel =
+          Provider.of<PrivateSessionListViewModel>(context, listen: false);
+      setState(() {
+        done = true;
+        privateSessions = sessionListViewModel.privateSessions;
+        lastPage = sessionListViewModel.lastPage;
+      });
+    }).catchError((err) {
+      error = true;
+      print('error occured $err');
+    });
   }
 
-  String formatDateTime(String DateTime) {
-    //2021-09-13 14:13:51
-    List<String> months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec'
-    ];
-    String year = DateTime.substring(0, 4);
-    String month = DateTime.substring(5, 7);
-    String day = DateTime.substring(8, 10);
-    String time = DateTime.substring(12);
-    return '$day ${months[int.parse(month) - 1]} $year at $time';
+  getPrivateSessionsList(int page) {
+    Provider.of<PrivateSessionListViewModel>(context, listen: false)
+        .fetchListPrivateSessions(token, page)
+        .then((value) {
+      sessionListViewModel =
+          Provider.of<PrivateSessionListViewModel>(context, listen: false);
+      setState(() {
+        done = true;
+        privateSessions = sessionListViewModel.privateSessions;
+        lastPage = sessionListViewModel.lastPage;
+      });
+    }).catchError((err) {
+      error = true;
+      print('error occured $err');
+    });
+  }
+
+  var sessionListViewModel;
+  bool done = false;
+  bool error = false;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    // double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -172,120 +74,61 @@ class _ViewPrivateSessionsScreenState extends State<ViewPrivateSessionsScreen> {
           child: Stack(children: [
             ListView(
               children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Container(
-                    padding: EdgeInsets.all(20),
-                    child: Row(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: new Icon(
-                            Icons.arrow_back_ios,
-                            color: Color(0xFFFFCE2B),
-                            size: 22.0,
+                SizedBox(height: 60),
+                SearchBar(),
+                SizedBox(height: 20),
+                PageView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: lastPage,
+                    itemBuilder: (ctx, index) {
+                      if (index != 0) {
+                        done = false;
+                        error = false;
+                        privateSessions = [];
+                        getPrivateSessionsList(index + 1);
+                      }
+                      if (error) {
+                        return Center(
+                          child: Text(
+                            'An error occurred',
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 25.0),
-                          //-->header
-                          child: new Text('Private Sessions',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20.0,
-                                  fontFamily: 'sans-serif-light',
-                                  color: Colors.white)),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Material(
-                    elevation: 5.0,
-                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                    child: TextFormField(
-                      controller: TextEditingController(),
-                      cursorColor: Theme.of(context).primaryColor,
-                      style: TextStyle(color: Colors.black, fontSize: 18),
-                      decoration: InputDecoration(
-                          hintText: 'Search..',
-                          suffixIcon: Material(
-                            borderRadius: BorderRadius.all(Radius.circular(30)),
-                            child: Icon(Icons.search),
+                        );
+                      } else if (done && privateSessions.isEmpty) {
+                        return Center(
+                          child: Text(
+                            'No private sessions found',
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 25, vertical: 13)),
-                    )),
-                if (whoIsSelected != -1)
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'Deselect Items  ',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        GestureDetector(
-                          child: Icon(
-                            Icons.delete,
+                        );
+                      } else if (privateSessions.isEmpty) {
+                        return Center(
+                          child: CircularProgressIndicator(
                             color: Colors.white,
                           ),
-                          onTap: () {
-                            setState(() {
-                              whoIsSelected = -1;
+                        );
+                      } else {
+                        return ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: privateSessions.length,
+                            itemBuilder: (ctx, index) {
+                              return myListTile(
+                                privateSessions[index],
+                                index,
+                                token,
+                              );
                             });
-                          },
-                        )
-                      ],
-                    ),
-                  ),
-                SizedBox(height: 20),
-                ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: privateSessions.length,
-                    itemBuilder: (ctx, index) {
-                      return myListTile(
-                        privateSessions[index]['title'],
-                        [
-                          privateSessions[index]['coach']['user']['name'],
-                          formatDateTime(privateSessions[index]['datetime']),
-                          formatDuration(privateSessions[index]['duration']),
-                        ],
-                        '\$${privateSessions[index]['price']}',
-                        index,
-                      );
-                    }),
+                      }
+                    })
               ],
             ),
-            if (whoIsSelected != -1)
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: ElevatedButton(
-                    child: Text('Submit'),
-                    style: ElevatedButton.styleFrom(
-                        primary: Colors.amber,
-                        fixedSize: Size.fromWidth(width),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        )),
-                    onPressed: () {
-                      var selectedPrivateSession =
-                          privateSessions[whoIsSelected];
-
-                      selectedPrivateSession['datetime'] =
-                          formatDateTime(selectedPrivateSession['datetime']);
-                      selectedPrivateSession['duration'] =
-                          formatDuration(selectedPrivateSession['duration']);
-                      Navigator.pop(context, selectedPrivateSession);
-                    }),
-              ),
+            CustomBackButton(),
           ]),
         ),
       ),
@@ -293,47 +136,105 @@ class _ViewPrivateSessionsScreenState extends State<ViewPrivateSessionsScreen> {
   }
 
   Widget myListTile(
-      String title, List<String> subtitles, String trailing, int index) {
+      PrivateSessionViewModel privateSession, int index, String token) {
     return Container(
       margin: EdgeInsetsDirectional.only(bottom: 10),
       decoration: BoxDecoration(
-        color: whoIsSelected == index ? Colors.white24 : Color(0xff181818),
+        color: Color(0xff181818),
         borderRadius: BorderRadius.circular(16),
       ),
       child: ListTile(
         onTap: () {
-          setState(() {
-            whoIsSelected = index;
-          });
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      PrivateSessionDetailsScreen(privateSession)));
         },
-        selected: whoIsSelected == index,
         minVerticalPadding: 10,
         leading: CircleAvatar(
           radius: 20,
           child: FlutterLogo(),
         ),
         title: Text(
-          title,
+          privateSession.title,
           style: TextStyle(color: Colors.white),
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            for (String subtitle in subtitles)
-              Text(
-                subtitle,
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              )
+            Text(
+              privateSession.coachName,
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            Text(
+              formatDuration(privateSession.duration),
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            )
           ],
         ),
-        trailing: Text(
-          trailing,
-          style: TextStyle(color: Colors.white),
+        trailing: Column(
+          children: [
+            Text(
+              '\$${privateSession.price}',
+              style: TextStyle(color: Colors.white),
+            ),
+            SizedBox(
+              width: 4,
+            ),
+            Expanded(
+              child: TextButton(
+                onPressed: () {
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) =>
+                  //             EditPrivateSessionForm(privateSession)));
+                },
+                child: Text(
+                  'Book',
+                  style: TextStyle(
+                    color: Colors.amber,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
+  }
+}
+
+class SearchBar extends StatelessWidget {
+  const SearchBar({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+        elevation: 5.0,
+        borderRadius: BorderRadius.all(Radius.circular(30)),
+        child: TextFormField(
+          controller: TextEditingController(),
+          cursorColor: Theme.of(context).primaryColor,
+          style: TextStyle(color: Colors.black, fontSize: 18),
+          decoration: InputDecoration(
+              hintText: 'Search..',
+              suffixIcon: Material(
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                child: Icon(Icons.search),
+              ),
+              border: InputBorder.none,
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
+        ));
   }
 }

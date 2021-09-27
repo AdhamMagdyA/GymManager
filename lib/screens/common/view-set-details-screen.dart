@@ -3,7 +3,6 @@ import 'package:gym_project/models/exercise.dart';
 import 'package:gym_project/viewmodels/set-list-view-model.dart';
 import 'package:gym_project/viewmodels/set-view-model.dart';
 import 'package:gym_project/widget/grid_view_card.dart';
-import 'package:gym_project/models/set.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
 

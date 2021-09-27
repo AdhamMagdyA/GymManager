@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gym_project/experimenting_image_picker.dart';
-import 'package:gym_project/my_image_picker_2.dart';
+
 import 'package:gym_project/screens/Events/event-details.dart';
 import 'package:gym_project/screens/Events/event-form.dart';
 import 'package:gym_project/screens/Events/events-list.dart';
@@ -16,21 +15,18 @@ import 'package:gym_project/screens/announcements/announcements-screen.dart';
 import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
 import 'package:gym_project/screens/coach/coach_profile.dart';
 import 'package:gym_project/screens/coach/exercises/create-exercise.dart';
-import 'package:gym_project/screens/coach/exercises/edit-exercise.dart';
 import 'package:gym_project/screens/coach/exercises/exercises_screen.dart';
 import 'package:gym_project/screens/coach/groups/create-group.dart';
-import 'package:gym_project/screens/coach/groups/edit-group.dart';
 import 'package:gym_project/screens/coach/groups/view-groups.dart';
 import 'package:gym_project/screens/coach/private%20sessions/create-private-session.dart';
-import 'package:gym_project/screens/coach/private%20sessions/edit-private-session.dart';
 import 'package:gym_project/screens/coach/private%20sessions/view-booked-sessions.dart';
 import 'package:gym_project/screens/coach/private%20sessions/view-my-private-sessions.dart';
 import 'package:gym_project/screens/coach/sets/create-set.dart';
-import 'package:gym_project/screens/coach/sets/edit-set.dart';
+
 import 'package:gym_project/screens/coach/sets/view-sets.dart';
-import 'package:gym_project/screens/common/grid_view.dart';
+
 import 'package:gym_project/screens/common/login-screen.dart';
-import 'package:gym_project/screens/common/tabs-screen.dart';
+
 import 'package:gym_project/screens/admin/admin_home_page.dart';
 import 'package:gym_project/screens/admin/branches/branch_details.dart';
 import 'package:gym_project/screens/admin/branches/branches_list.dart';
@@ -54,36 +50,30 @@ import 'package:gym_project/screens/admin/users/create_user.dart';
 import 'package:gym_project/screens/admin/users/edit_user.dart';
 import 'package:gym_project/screens/admin/users/user_details.dart';
 import 'package:gym_project/screens/admin/util-screen.dart';
-import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
+
 import 'package:gym_project/screens/common/view-private-session-details.dart';
 import 'package:gym_project/screens/member/member-util.dart';
 import 'package:gym_project/screens/member/member_profile.dart';
 import 'package:gym_project/screens/member/workout-summery/workout-summeries.dart';
-import 'package:gym_project/screens/common/view-exercises-details-screen.dart';
+
 import 'package:gym_project/screens/nutritionist/fitness-summaries.dart';
 import 'package:gym_project/screens/nutritionist/items_screen.dart';
 import 'package:gym_project/screens/member/view-private-sessions.dart';
-import 'package:gym_project/screens/my_choosing_gridview_screen.dart';
-import 'package:gym_project/screens/member/training-mode/training_mode_exercise_screen.dart';
-import 'package:gym_project/screens/member/training-mode/training_mode_overview_screen.dart';
+
 import 'package:gym_project/screens/nutritionist/meals-screen.dart';
 import 'package:gym_project/screens/nutritionist/nutritionist%20_profile.dart';
 import 'package:gym_project/screens/nutritionist/plans-screen.dart';
 import 'package:gym_project/screens/nutritionist/util-screen.dart';
-import 'package:gym_project/screens/nutritionist/view-items-details-screen.dart';
-import 'package:gym_project/screens/nutritionist/view-meals-details-screen.dart';
+
 import 'package:gym_project/screens/questions/add-question-screen.dart';
 import 'package:gym_project/screens/questions/questions-screen.dart';
 import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
 import 'package:gym_project/screens/questions/single-question.dart';
 import 'package:gym_project/viewmodels/login-view-model.dart';
+import 'package:gym_project/viewmodels/private-session-list-view-model.dart';
 import 'package:gym_project/viewmodels/set-list-view-model.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
-import 'package:gym_project/screens/my_choosing_gridview_screen.dart';
-
-import 'screens/common/ProfilePage.dart';
-import 'screens/member/home-screen.dart';
 
 var token;
 
@@ -104,6 +94,9 @@ void main() {
         //     }),
         ChangeNotifierProvider(
           create: (_) => SetListViewModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => PrivateSessionListViewModel(),
         ),
       ],
       child: MyApp(),
@@ -220,7 +213,7 @@ class MyApp extends StatelessWidget {
         '/sessions/select': (context) => ViewPrivateSessionsScreen(),
         '/my-sessions/view': (context) => ViewMyPrivateSessionsScreen(),
         '/booked-sessions/view': (context) => ViewBookedSessionsScreen(),
-        '/session-details': (context) => PrivateSessionDetailsScreen(),
+        // '/session-details': (context) => PrivateSessionDetailsScreen(),
         '/sessions/create': (context) => CreatePrivateSessionForm(),
         // '/edit-private-session': (context) => EditPrivateSessionForm(),
 

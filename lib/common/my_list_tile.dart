@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class CustomListTile extends StatefulWidget {
   final IconData iconData;
   final String title;

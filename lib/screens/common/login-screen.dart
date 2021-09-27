@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:gym_project/common/my_popup.dart';
-import 'package:gym_project/screens/admin/util-screen.dart';
-import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
-import 'package:gym_project/screens/member/member-util.dart';
-import 'package:gym_project/screens/nutritionist/util-screen.dart';
 import 'package:gym_project/viewmodels/login-view-model.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
 import '../../style/styling.dart';
 import '../../widget/button.dart';
-import 'package:gym_project/services/login-auth-webservice.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -20,7 +14,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final _emailNode = FocusNode();
   final TextEditingController emailController =
-      TextEditingController(text: 'alvis98@example.net');
+      TextEditingController(text: 'dnolan@example.com');
   final TextEditingController passwordController =
       TextEditingController(text: 'secret');
   final _passwordNode = FocusNode();

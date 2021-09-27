@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:gym_project/common/my_choosing_screen.dart';
-import 'package:gym_project/common/my_list_tile.dart';
-
-import 'package:flutter/material.dart';
 import 'package:gym_project/screens/coach/private%20sessions/edit-private-session.dart';
 import 'package:gym_project/screens/common/view-private-session-details.dart';
+import 'package:gym_project/viewmodels/private-session-list-view-model.dart';
+import 'package:gym_project/viewmodels/private-session-view-model.dart';
+import 'package:gym_project/widget/providers/user.dart';
+import 'package:provider/provider.dart';
 
 class ViewMyPrivateSessionsScreen extends StatefulWidget {
   @override
@@ -13,100 +12,37 @@ class ViewMyPrivateSessionsScreen extends StatefulWidget {
       _ViewMyPrivateSessionsScreenState();
 }
 
+List<PrivateSessionViewModel> privateSessions = [];
+
 class _ViewMyPrivateSessionsScreenState
     extends State<ViewMyPrivateSessionsScreen> {
-  final List<dynamic> privateSessions = [
-    {
-      'title': 'Private Session 1',
-      "description": 'Good Private Session',
-      'duration': '10:45:22',
-      'datetime': '2021-09-13 14:13:51',
-      'price': '15.99',
-      'coach': {
-        'user': {'name': 'Coach name!'}
-      },
-    },
-    {
-      'title': 'Private Session 2',
-      "description": 'Good Private Session',
-      'duration': '06:45',
-      'datetime': '2021-09-13 14:13:51',
-      'price': '15.99',
-      'coach': {
-        'user': {'name': 'Coach name!'}
-      },
-    },
-    {
-      'title': 'Private Session 3',
-      "description": 'Good Private Session',
-      'duration': '05:45',
-      'datetime': '2021-09-13 14:13:51',
-      'price': '15.88',
-      'coach': {
-        'user': {'name': 'Coach name!'}
-      },
-    },
-    {
-      'title': 'Private Session 4',
-      "description": 'Good Private Session',
-      'duration': '02:34',
-      'datetime': '2021-09-13 14:13:51',
-      'price': '12.99',
-      'coach': {
-        'user': {'name': 'Coach name!'}
-      },
-    },
-    {
-      'title': 'Private Session 5',
-      "description": 'Good Private Session',
-      'duration': '02:34',
-      'datetime': '2021-09-13 14:13:51',
-      'price': '10.99',
-      'coach': {
-        'user': {'name': 'Coach name!'}
-      },
-    },
-    {
-      'title': 'Private Session 5',
-      "description": 'Good Private Session',
-      'duration': '02:34',
-      'datetime': '2021-09-13 14:13:51',
-      'price': '10.99',
-      'coach': {
-        'user': {'name': 'Coach name!'}
-      },
-    },
-    {
-      'title': 'Private Session 5',
-      "description": 'Good Private Session',
-      'duration': '02:34',
-      'datetime': '2021-09-13 14:13:51',
-      'price': '10.99',
-      'coach': {
-        'user': {'name': 'Coach name!'}
-      },
-    },
-    {
-      'title': 'Private Session 5',
-      "description": 'Good Private Session',
-      'duration': '02:34',
-      'datetime': '2021-09-13 14:13:51',
-      'price': '10.99',
-      'coach': {
-        'user': {'name': 'Coach name!'}
-      },
-    },
-    {
-      'title': 'Private Session 5',
-      "description": 'Good Private Session',
-      'duration': '02:34',
-      'datetime': '2021-09-13 14:13:51',
-      'price': '10.99',
-      'coach': {
-        'user': {'name': 'Coach name!'}
-      },
-    },
-  ];
+  String token;
+  @override
+  void initState() {
+    super.initState();
+    token = Provider.of<User>(context, listen: false).token;
+    Provider.of<PrivateSessionListViewModel>(context, listen: false)
+        .fetchListMyPrivateSessions(token)
+        .then((value) {
+      sessionListViewModel =
+          Provider.of<PrivateSessionListViewModel>(context, listen: false);
+      setState(() {
+        done = true;
+        privateSessions = sessionListViewModel.privateSessions;
+      });
+    }).catchError((err) {
+      error = true;
+      print('error occured $err');
+    });
+  }
+
+  var sessionListViewModel;
+  bool done = false;
+  bool error = false;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
 
   String formatDuration(String duration) {
     String finalDuration = 'Duration: ';
@@ -139,7 +75,7 @@ class _ViewMyPrivateSessionsScreenState
     return finalDuration;
   }
 
-  String formatDateTime(String DateTime) {
+  String formatDateTime(String dateTime) {
     //2021-09-13 14:13:51
     List<String> months = [
       'Jan',
@@ -155,16 +91,16 @@ class _ViewMyPrivateSessionsScreenState
       'Nov',
       'Dec'
     ];
-    String year = DateTime.substring(0, 4);
-    String month = DateTime.substring(5, 7);
-    String day = DateTime.substring(8, 10);
-    String time = DateTime.substring(12);
+    String year = dateTime.substring(0, 4);
+    String month = dateTime.substring(5, 7);
+    String day = dateTime.substring(8, 10);
+    String time = dateTime.substring(12);
     return '$day ${months[int.parse(month) - 1]} $year at $time';
   }
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    // double width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Container(
         color: Colors.black,
@@ -190,15 +126,42 @@ class _ViewMyPrivateSessionsScreenState
                             EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
                   )),
               SizedBox(height: 20),
-              ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: privateSessions.length,
-                  itemBuilder: (ctx, index) {
-                    return myListTile(
-                      privateSessions[index],
-                      index,
-                    );
-                  }),
+              error
+                  ? Center(
+                      child: Text(
+                        'An error occurred',
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    )
+                  : (done && privateSessions.isEmpty)
+                      ? Center(
+                          child: Text(
+                            'No private sessions found',
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        )
+                      : privateSessions.isEmpty
+                          ? Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            )
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: privateSessions.length,
+                              itemBuilder: (ctx, index) {
+                                return myListTile(
+                                  privateSessions[index],
+                                  index,
+                                  token,
+                                );
+                              }),
             ],
           ),
         ]),
@@ -206,7 +169,8 @@ class _ViewMyPrivateSessionsScreenState
     );
   }
 
-  Widget myListTile(Map privateSession, int index) {
+  Widget myListTile(
+      PrivateSessionViewModel privateSession, int index, String token) {
     return Container(
       margin: EdgeInsetsDirectional.only(bottom: 10),
       decoration: BoxDecoration(
@@ -218,7 +182,8 @@ class _ViewMyPrivateSessionsScreenState
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => PrivateSessionDetailsScreen()));
+                  builder: (context) =>
+                      PrivateSessionDetailsScreen(privateSession)));
         },
         minVerticalPadding: 10,
         leading: CircleAvatar(
@@ -226,7 +191,7 @@ class _ViewMyPrivateSessionsScreenState
           child: FlutterLogo(),
         ),
         title: Text(
-          privateSession['title'],
+          privateSession.title,
           style: TextStyle(color: Colors.white),
         ),
         subtitle: Column(
@@ -234,19 +199,13 @@ class _ViewMyPrivateSessionsScreenState
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              privateSession['coach']['user']['name'],
+              privateSession.coachName,
               style: TextStyle(
                 color: Colors.white,
               ),
             ),
             Text(
-              formatDateTime(privateSession['datetime']),
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-            Text(
-              formatDuration(privateSession['duration']),
+              formatDuration(privateSession.duration),
               style: TextStyle(
                 color: Colors.white,
               ),
@@ -256,26 +215,53 @@ class _ViewMyPrivateSessionsScreenState
         trailing: Column(
           children: [
             Text(
-              '\$${privateSession['price']}',
+              '\$${privateSession.price}',
               style: TextStyle(color: Colors.white),
             ),
             SizedBox(
               width: 4,
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            EditPrivateSessionForm(privateSession)));
-              },
-              child: Text(
-                'Edit',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
+            Expanded(
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              EditPrivateSessionForm(privateSession.id)));
+                },
+                child: Text(
+                  'Edit',
+                  style: TextStyle(
+                    color: Colors.amber,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
+              ),
+            ),
+            Expanded(
+              child: TextButton(
+                onPressed: () {
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => EditPlanForm()));
+
+                  Provider.of<PrivateSessionListViewModel>(context,
+                          listen: false)
+                      .deletePrivateSession(privateSession.id, token)
+                      .then((value) {
+                    setState(() {
+                      privateSessions.remove(privateSession);
+                    });
+                  }).catchError((err) => {print('Failed to delete session')});
+                },
+                child: Text('Delete',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red,
+                    )),
               ),
             ),
           ],

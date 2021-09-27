@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+// ignore: must_be_immutable
 class MyTimeline extends StatefulWidget {
   List<dynamic> data;
   String stackBy;

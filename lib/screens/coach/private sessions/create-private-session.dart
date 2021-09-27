@@ -1,9 +1,13 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:gym_project/screens/coach/sets/view-sets.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:gym_project/models/privateSession.dart';
+import 'package:gym_project/screens/coach/private%20sessions/view-my-private-sessions.dart';
+import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
+import 'package:gym_project/viewmodels/private-session-list-view-model.dart';
+import 'package:gym_project/widget/providers/user.dart';
+import 'package:provider/provider.dart';
+
+import '../coach-tabs-screen.dart';
 
 class CreatePrivateSessionForm extends StatefulWidget {
   @override
@@ -17,23 +21,15 @@ class MapScreenState extends State<CreatePrivateSessionForm>
     with SingleTickerProviderStateMixin {
   bool _status = true;
   final FocusNode myFocusNode = FocusNode();
-  DateTime confirmedDateTime;
-  bool dateTimeStatus = false;
 
-  DateTime selectedDate = DateTime.now();
-  _selectDate(BuildContext context) async {
-    final DateTime selected = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(2010),
-      lastDate: DateTime(2025),
-    );
-    if (selected != null && selected != selectedDate)
-      setState(() {
-        selectedDate = selected;
-        _status = true;
-      });
-  }
+  PrivateSession _privateSession;
+  bool status = false;
+
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController durationController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
+  TextEditingController linkController = TextEditingController();
 
   @override
   void initState() {
@@ -44,6 +40,22 @@ class MapScreenState extends State<CreatePrivateSessionForm>
     setState(() {});
   }
 
+  bool savePrivateSession() {
+    setState(() {
+      Provider.of<PrivateSessionListViewModel>(context, listen: false)
+          .postPrivateSession(
+              _privateSession, Provider.of<User>(context, listen: false).token)
+          .then((value) {
+        showSuccessMessage(context);
+      }).catchError((err) {
+        showErrorMessage(context);
+        print('error occured $err');
+      });
+    });
+    return true;
+  }
+
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -102,268 +114,321 @@ class MapScreenState extends State<CreatePrivateSessionForm>
                     child: Padding(
                       //padding: EdgeInsets.only(bottom: 30.0),
                       padding: EdgeInsets.all(30),
-                      child: new Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 25.0),
-                              child: new Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  new Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      new Text(
-                                        //---> topic
-                                        'Private Session Info',
-                                        style: TextStyle(
-                                          fontSize: 18.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
+                      child: Form(
+                        key: _formKey,
+                        child: new Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    left: 25.0, right: 25.0, top: 25.0),
+                                child: new Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    new Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        new Text(
+                                          //---> topic
+                                          'Private Session Info',
+                                          style: TextStyle(
+                                            fontSize: 18.0,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  new Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[],
-                                  )
-                                ],
-                              )),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 25.0),
-                              child: new Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  new Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      new Text(
-                                        'Title',
-                                        style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
+                                      ],
+                                    ),
+                                    new Column(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[],
+                                    )
+                                  ],
+                                )),
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    left: 25.0, right: 25.0, top: 25.0),
+                                child: new Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    new Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        new Text(
+                                          'Title',
+                                          style: TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                          ),
                                         ),
+                                      ],
+                                    ),
+                                  ],
+                                )),
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    left: 25.0, right: 25.0, top: 2.0),
+                                child: new Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    new Flexible(
+                                      child: new TextFormField(
+                                        validator: (value) {
+                                          if (value.isEmpty || value == null) {
+                                            return 'Value cannot be empty!';
+                                          }
+                                          if (value.length > 255) {
+                                            return 'Length must not exceed 255 characters!';
+                                          }
+                                          return null;
+                                        },
+                                        controller: titleController,
+                                        decoration: const InputDecoration(
+                                            hintText: "Enter Your Title"),
                                       ),
-                                    ],
-                                  ),
-                                ],
-                              )),
-                          Padding(
+                                    ),
+                                  ],
+                                )),
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    left: 25.0, right: 25.0, top: 25.0),
+                                child: new Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    new Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        new Text(
+                                          'Description',
+                                          style: TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                )),
+                            Padding(
                               padding: EdgeInsets.only(
                                   left: 25.0, right: 25.0, top: 2.0),
                               child: new Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children: <Widget>[
                                   new Flexible(
-                                    child: new TextField(
-                                      decoration: const InputDecoration(
-                                          hintText: "Enter Your Title"),
-                                    ),
-                                  ),
-                                ],
-                              )),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 25.0),
-                              child: new Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  new Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      new Text(
-                                        'Description',
-                                        style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                        ),
+                                    child: new TextFormField(
+                                      validator: (value) {
+                                        if (value.isEmpty || value == null) {
+                                          return 'Value cannot be empty!';
+                                        }
+                                        return null;
+                                      },
+                                      controller: descriptionController,
+                                      decoration: InputDecoration(
+                                        hintText: "Enter Your Description",
                                       ),
-                                    ],
-                                  ),
-                                ],
-                              )),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                new Flexible(
-                                  child: new TextField(
-                                    decoration: const InputDecoration(
-                                      hintText: "Enter Your Description",
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 25.0),
-                              child: new Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  new Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      new Text(
-                                        'Duration',
-                                        style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    left: 25.0, right: 25.0, top: 25.0),
+                                child: new Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    new Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        new Text(
+                                          'Duration',
+                                          style: TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              )),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                new Flexible(
-                                  child: new TextField(
-                                    decoration: const InputDecoration(
-                                      hintText: "Enter Duration",
+                                      ],
                                     ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 25.0),
-                              child: new Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  new Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      new Text(
-                                        'Price',
-                                        style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              )),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                new Flexible(
-                                  child: new TextField(
-                                    decoration: const InputDecoration(
-                                      hintText: "Enter Price",
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 25.0),
-                              child: new Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  new Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      new Text(
-                                        'Date ',
-                                        style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              )),
-                          Padding(
+                                  ],
+                                )),
+                            Padding(
                               padding: EdgeInsets.only(
                                   left: 25.0, right: 25.0, top: 2.0),
                               child: new Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children: <Widget>[
-                                  RaisedButton(
-                                    onPressed: () {
-                                      _selectDate(context);
-                                    },
-                                    color: Color(0xFFFFCE2B),
-                                    child: Text("Choose Date"),
-                                    //focusNode: !_status,
+                                  new Flexible(
+                                    child: new TextFormField(
+                                      validator: (value) {
+                                        if (value.isEmpty || value == null) {
+                                          return 'Value cannot be empty!';
+                                        }
+                                        return null;
+                                      },
+                                      controller: durationController,
+                                      decoration: const InputDecoration(
+                                          hintText: "Enter duration h:m:s"),
+                                    ),
                                   ),
                                 ],
-                              )),
-                          Padding(
-                            padding: EdgeInsets.only(left: 25.0),
-                            child: _status
-                                ? Text(
-                                    "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}",
-                                    style: TextStyle(color: Colors.black),
-                                  )
-                                : SizedBox(),
-                          ),
-                          SizedBox(height: 10),
-                          Container(
-                            width: double.infinity,
-                            alignment: Alignment.center,
-                            child: ElevatedButton(
-                              child: FittedBox(
-                                fit: BoxFit.scaleDown,
-                                child: Text("Create"),
                               ),
-                              style: ElevatedButton.styleFrom(
-                                shape: new RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(10.0),
-                                ),
-                                primary: Color(0xFFFFCE2B),
-                                onPrimary: Colors.black,
-                                textStyle: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                minimumSize: Size(100, 30),
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  _status = true;
-                                  FocusScope.of(context)
-                                      .requestFocus(new FocusNode());
-                                });
-                              },
                             ),
-                          ),
-                        ],
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    left: 25.0, right: 25.0, top: 25.0),
+                                child: new Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    new Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        new Text(
+                                          'Price',
+                                          style: TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                )),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left: 25.0, right: 25.0, top: 2.0),
+                              child: new Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: <Widget>[
+                                  new Flexible(
+                                    child: new TextFormField(
+                                      validator: (value) {
+                                        if (value.isEmpty || value == null) {
+                                          return 'Value cannot be empty!';
+                                        }
+                                        if (value.length > 3) {
+                                          return 'length must not exceed 3!';
+                                        }
+                                        return null;
+                                      },
+                                      keyboardType: TextInputType.number,
+                                      controller: priceController,
+                                      decoration: const InputDecoration(
+                                          hintText: "Enter price"),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    left: 25.0, right: 25.0, top: 25.0),
+                                child: new Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    new Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        new Text(
+                                          'link',
+                                          style: TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                )),
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    left: 25.0, right: 25.0, top: 2.0),
+                                child: new Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    new Flexible(
+                                      child: new TextFormField(
+                                        validator: (value) {
+                                          if (value.isEmpty || value == null) {
+                                            return 'Value cannot be empty!';
+                                          }
+                                          return null;
+                                        },
+                                        controller: linkController,
+                                        decoration: const InputDecoration(
+                                            hintText: "Enter link"),
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                            SizedBox(height: 10),
+                            Container(
+                              width: double.infinity,
+                              alignment: Alignment.center,
+                              child: ElevatedButton(
+                                child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Text("Create"),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(10.0),
+                                  ),
+                                  primary: Color(0xFFFFCE2B),
+                                  onPrimary: Colors.black,
+                                  textStyle: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  minimumSize: Size(100, 30),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _status = true;
+                                    FocusScope.of(context)
+                                        .requestFocus(new FocusNode());
+                                  });
+
+                                  if (_formKey.currentState.validate()) {
+                                    _privateSession = new PrivateSession(
+                                      title: titleController.text,
+                                      description: descriptionController.text,
+                                      duration: durationController.text,
+                                      link: linkController.text,
+                                      price: double.parse(priceController.text),
+                                    );
+
+                                    status = savePrivateSession();
+
+                                    print("Back!");
+                                  }
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   )
@@ -374,6 +439,135 @@ class MapScreenState extends State<CreatePrivateSessionForm>
         ),
       ),
     );
+  }
+
+  Future<dynamic> showSuccessMessage(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: Colors.black,
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.close,
+                        color: Colors.amber,
+                      ),
+                    )
+                  ],
+                ),
+                Center(
+                  child: Text(
+                    'Success!',
+                    style: TextStyle(
+                      color: Colors.amber,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 2,
+                ),
+                Center(
+                  child: Text(
+                    'Sessions created successfully!',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 4,
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.amber,
+                      onPrimary: Colors.black,
+                      fixedSize: Size.fromWidth(150),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      )),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MultiProvider(
+                            providers: [
+                              ChangeNotifierProvider(
+                                create: (_) => ExerciseListViewModel(),
+                              ),
+                            ],
+                            child: CoachTabsScreen(),
+                          ),
+                        ));
+                  },
+                  child: Text('Go to homepage'),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  Future<dynamic> showErrorMessage(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: Colors.black,
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.close,
+                        color: Colors.amber,
+                      ),
+                    )
+                  ],
+                ),
+                Text(
+                  'Failure',
+                  style: TextStyle(
+                    color: Colors.amber,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  height: 2,
+                ),
+                Center(
+                  child: Text(
+                    'Failed to create private session!',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
   }
 
   @override

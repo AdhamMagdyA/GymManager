@@ -242,10 +242,10 @@ class _ViewPrivateSessionRequestsScreenState
       ),
       child: ListTile(
         onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => PrivateSessionDetailsScreen()));
+          // Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //         builder: (context) => PrivateSessionDetailsScreen()));
         },
         minVerticalPadding: 10,
         leading: CircleAvatar(

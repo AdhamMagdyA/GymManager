@@ -833,9 +833,7 @@ class MapScreenState extends State<EditExerciseForm>
                                         // print(_imageFile.path);
                                         // print('Now exercise can be created!');
 
-                                        if (_formKey.currentState.validate() &&
-                                            _gifFile != null &&
-                                            _imageFile != null) {
+                                        if (_formKey.currentState.validate()) {
                                           exercise.title = titleController.text;
                                           exercise.description =
                                               descriptionController.text;
@@ -843,10 +841,12 @@ class MapScreenState extends State<EditExerciseForm>
                                               durationController.text;
                                           exercise.reps = int.parse(
                                               repetitionsController.text);
-                                          exercise.image =
-                                              _imageFile.path.substring(5);
-                                          exercise.gif =
-                                              _gifFile.path.substring(5);
+                                          exercise.image = _imageFile != null
+                                              ? _imageFile.path.substring(5)
+                                              : exercise.image;
+                                          exercise.gif = _gifFile != null
+                                              ? _gifFile.path.substring(5)
+                                              : exercise.gif;
                                           exercise.calBurnt = double.parse(
                                               caloriesController.text);
                                           exercise.equipment =
@@ -856,16 +856,16 @@ class MapScreenState extends State<EditExerciseForm>
 
                                           print("Back!");
                                         }
-                                        if (_gifFile == null) {
-                                          setState(() {
-                                            emptyGIF = true;
-                                          });
-                                        }
-                                        if (_imageFile == null) {
-                                          setState(() {
-                                            emptyImage = true;
-                                          });
-                                        }
+                                        // if (_gifFile == null) {
+                                        //   setState(() {
+                                        //     emptyGIF = true;
+                                        //   });
+                                        // }
+                                        // if (_imageFile == null) {
+                                        //   setState(() {
+                                        //     emptyImage = true;
+                                        //   });
+                                        // }
                                         if (selectedEquipment == null) {
                                           setState(() {
                                             emptyEquipment = true;

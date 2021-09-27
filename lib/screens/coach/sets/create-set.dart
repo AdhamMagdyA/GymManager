@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:gym_project/screens/coach/sets/view-sets.dart';
-import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
 import 'package:gym_project/viewmodels/exercise-view-model.dart';
 import 'package:gym_project/viewmodels/set-list-view-model.dart';
 import 'package:gym_project/viewmodels/set-view-model.dart';
@@ -164,21 +163,20 @@ class MapScreenState extends State<CreateSetForm>
           message,
           style: TextStyle(color: Colors.white),
         ),
-          actions: [
+        actions: [
           TextButton(
             child: Text(
               'Ok',
               style: TextStyle(color: Theme.of(context).primaryColor),
             ),
-              onPressed: () {
+            onPressed: () {
               Navigator.of(context).pop();
             },
           )
-          ],
+        ],
       ),
     );
   }
-
 
   Widget buildReorderableList() {
     return Theme(
