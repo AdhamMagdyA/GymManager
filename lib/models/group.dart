@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:gym_project/models/exercise.dart';
 import 'package:gym_project/models/set.dart';
 import 'package:gym_project/screens/coach/exercises/exercises_screen.dart';
+import 'package:gym_project/viewmodels/exercise-view-model.dart';
 
 class Group {
   int id;
@@ -35,19 +36,22 @@ class Group {
     };
   }
 
-  Map<String, Object> toMapForCreation() {
-    List<Map<String, Object>> exercisesForCreation = exercises.map((exercise) {
-      return {
-        'id': exercise.id,
+  Map<String, Object> toMapForCreation(List<dynamic> orderedObjects) {
+    List<Map<String, Object>> exercisesForCreation = [];
+    List<Map<String, Object>> setsForCreation = [];
+    orderedObjects.asMap().entries.forEach((MapEntry mapEntry) {
+      int index = mapEntry.key;
+      var object = mapEntry.value;
+      Map<String, Object> objectForCreation = {
+        'id': object.id,
         'break_duration': breakDuration,
+        'order': index,
       };
-    }).toList();
-    List<Map<String, Object>> setsForCreation = sets.map((set) {
-      return {
-        'id': set.id,
-        'break_duration': breakDuration,
-      };
-    }).toList();
+      if (object.runtimeType == ExerciseViewModel)
+        exercisesForCreation.add(objectForCreation);
+      else
+        setsForCreation.add(objectForCreation);
+    });
     return {
       'title': title,
       'description': description,

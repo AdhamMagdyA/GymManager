@@ -27,9 +27,11 @@ class GroupListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> postGroup(Group group, String token) async {
+  Future<void> postGroup(
+      Group group, List<dynamic> orderedObjects, String token) async {
     loadingStatus = LoadingStatus.Searching;
-    Group groupModel = await GroupWebService().postGroup(group, token);
+    Group groupModel =
+        await GroupWebService().postGroup(group, orderedObjects, token);
     groups.add(GroupViewModel(group: groupModel));
     loadingStatus = LoadingStatus.Completed;
     notifyListeners();

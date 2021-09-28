@@ -15,35 +15,38 @@ import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
 
 Map<int, Map<String, Object>> selectedExercises = {};
-List<ExerciseViewModel> orderedExercises = [];
-
-void setOrderedExercises({
-  @required Map<int, Map<String, Object>> selectedExercises,
-}) {
-  orderedExercises.clear();
-  selectedExercises.values.forEach((Map<String, Object> exerciseData) {
-    int quantity = exerciseData['quantity'] as int;
-    ExerciseViewModel exercise = exerciseData['exercise'] as ExerciseViewModel;
-    for (int i = 0; i < quantity; i++) {
-      orderedExercises.add(exercise);
-    }
-  });
-}
-
 Map<int, Map<String, Object>> selectedSets = {};
-List<SetViewModel> orderedSets = [];
+List<dynamic> orderedObjects = [];
 
-void setOrderedSets({
-  @required Map<int, Map<String, Object>> selectedSets,
+void setOrderedObjects({
+  @required Map<int, Map<String, Object>> selectedObjects,
 }) {
-  orderedSets.clear();
-  selectedSets.values.forEach((Map<String, Object> setData) {
-    int quantity = setData['quantity'] as int;
-    SetViewModel set = setData['set'] as SetViewModel;
+  // figuring out incoming objects are exercises or sets
+  Map<String, Object> firstObjectData = selectedObjects.values.first;
+  bool objectsAreExercises = firstObjectData.containsKey('exercise');
+  if (objectsAreExercises) {
+    // removing old exercises
+    orderedObjects
+        .removeWhere((object) => object.runtimeType == ExerciseViewModel);
+    selectedObjects.values.forEach((Map<String, Object> exerciseData) {
+      int quantity = exerciseData['quantity'] as int;
+      ExerciseViewModel exercise =
+          exerciseData['exercise'] as ExerciseViewModel;
+      for (int i = 0; i < quantity; i++) {
+        orderedObjects.add(exercise);
+      }
+    });
+  } else {
+    // removing old sets
+    orderedObjects.removeWhere((object) => object.runtimeType == SetViewModel);
+    selectedObjects.values.forEach((Map<String, Object> setData) {
+      int quantity = setData['quantity'] as int;
+      SetViewModel set = setData['set'] as SetViewModel;
     for (int i = 0; i < quantity; i++) {
-      orderedSets.add(set);
+      orderedObjects.add(set);
     }
   });
+  }
 }
 
 
@@ -57,7 +60,6 @@ class CreateGroupForm extends StatefulWidget {
 //you can change the form fields from lines (119 ,138 , etc ) -> each padding represent a field
 class MapScreenState extends State<CreateGroupForm>
     with SingleTickerProviderStateMixin {
-  bool _status = true;
   final FocusNode myFocusNode = FocusNode();
   Map<int, Object> selectedGroups = {};
 
@@ -272,7 +274,7 @@ class MapScreenState extends State<CreateGroupForm>
                                     mainAxisSize: MainAxisSize.min,
                                     children: <Widget>[
                                       new Text(
-                                        'Exercises',
+                                        'Exercises & Sets',
                                         style: TextStyle(
                                           fontSize: 16.0,
                                           fontWeight: FontWeight.bold,
@@ -286,8 +288,10 @@ class MapScreenState extends State<CreateGroupForm>
                           SizedBox(
                             height: 10,
                           ),
-                          Center(
-                              child: ElevatedButton(
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              ElevatedButton(
                             child: Text('Choose Exercises'),
                             style: ElevatedButton.styleFrom(
                               primary: Theme.of(context).primaryColor,
@@ -297,7 +301,7 @@ class MapScreenState extends State<CreateGroupForm>
                               ),
                             ),
                             onPressed: () async {
-                              var receivedSelectedExercises =
+                            var receivedSelectedExercises =
                                   await Navigator.pushNamed(
                                 context,
                                 ExercisesScreen.choosingRouteName,
@@ -307,30 +311,60 @@ class MapScreenState extends State<CreateGroupForm>
                                   receivedSelectedExercises.isNotEmpty) {
                                 setState(() {
                                   selectedExercises = receivedSelectedExercises;
-                                  setOrderedExercises(
-                                      selectedExercises: selectedExercises);
+                              setOrderedObjects(
+                                          selectedObjects: selectedExercises);
                                 });
                               }
                             },
-                          )),
+                          ),
+                          ElevatedButton(
+                                child: Text('Choose Sets'),
+                                style: ElevatedButton.styleFrom(
+                              primary: Theme.of(context).primaryColor,
+                                  onPrimary: Colors.black,
+                                  shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                                  ),
+                                ),
+                                onPressed: () async {
+                                  var receivedSelectedSets =
+                                      await Navigator.pushNamed(
+                                    context,
+                                    ViewSetsScreen.choosingRouteName,
+                                    arguments: selectedSets,
+                                  ) as Map<int, Map<String, Object>>;
+                                  if (receivedSelectedSets != null &&
+                                      receivedSelectedSets.isNotEmpty) {
+                                    setState(() {
+                                      selectedSets = receivedSelectedSets;
+                                      setOrderedObjects(
+                                          selectedObjects: selectedSets);
+                                    });
+                                  }
+                            },
+                          ),
+                            ],
+                          ),
                           SizedBox(
                             height: 10,
                           ),
-                          if (selectedExercises.isNotEmpty)
+                          if (orderedObjects.isNotEmpty)
                             Theme(
                               data: ThemeData(
+                                primaryColor: Theme.of(context).primaryColor,
                                 canvasColor: Color(0xff181818),
                                 iconTheme: IconThemeData(color: Colors.white),
                               ),
                               child: ReorderableListView(
+                                physics: NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 children: <Widget>[
                                   for (int index = 0;
-                                      index < orderedExercises.length;
+                                      index < orderedObjects.length;
                                       index++)
                                     CustomExerciseListTile(
                                         Key(index.toString()),
-                                        orderedExercises[index],
+                                        orderedObjects[index],
                                         refresh),
                                 ],
                                 onReorder: (int oldIndex, int newIndex) {
@@ -338,105 +372,9 @@ class MapScreenState extends State<CreateGroupForm>
                                     if (oldIndex < newIndex) {
                                       newIndex -= 1;
                                     }
-                                    final ExerciseViewModel exercise =
-                                        orderedExercises.removeAt(oldIndex);
-                                    orderedExercises.insert(newIndex, exercise);
-                                  });
-                                },
-                              ),
-                            ),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 25.0),
-                              child: new Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  new Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      new Text(
-                                        'Sets',
-                                        style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              )),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          //for choosing
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                new Flexible(
-                                  child: Center(
-                                    child: ElevatedButton(
-                                        child: Text('Choose Sets'),
-                                        style: ElevatedButton.styleFrom(
-                                            primary:
-                                              Theme.of(context).primaryColor,
-                                            onPrimary: Colors.black,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(16),
-                                            )),
-                                        onPressed: () async {
-                                          var receivedSelectedSets =
-                                            await Navigator.pushNamed(
-                                          context,
-                                          ViewSetsScreen.choosingRouteName,
-                                          arguments: selectedSets,
-                                        ) as Map<int, Map<String, Object>>;
-                                        if (receivedSelectedSets != null &&
-                                            receivedSelectedSets.isNotEmpty) {
-                                          setState(() {
-                                            selectedSets = receivedSelectedSets;
-                                            setOrderedSets(
-                                                selectedSets: selectedSets);
-                                          });
-                                        }
-                            },
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          if (orderedSets.isNotEmpty)
-                            Theme(
-                              data: ThemeData(
-                                canvasColor: Color(0xff181818),
-                                iconTheme: IconThemeData(color: Colors.white),
-                              ),
-                              child: ReorderableListView(
-                                shrinkWrap: true,
-                                children: <Widget>[
-                                  for (int index = 0;
-                                      index < orderedSets.length;
-                                      index++)
-                                    CustomSetListTile(Key(index.toString()),
-                                        orderedSets[index], refresh),
-                                ],
-                                onReorder: (int oldIndex, int newIndex) {
-                                  setState(() {
-                                    if (oldIndex < newIndex) {
-                                      newIndex -= 1;
-                                    }
-                                    final SetViewModel set =
-                                        orderedSets.removeAt(oldIndex);
-                                    orderedSets.insert(newIndex, set);
+                                    var object =
+                                        orderedObjects.removeAt(oldIndex);
+                                    orderedObjects.insert(newIndex, object);
                                   });
                                 },
                               ),
@@ -464,26 +402,20 @@ class MapScreenState extends State<CreateGroupForm>
                               ),
                               onPressed: () {
                                 setState(() {
-                                  List<Exercise> exercises = orderedExercises
-                                      .map((e) => e.exercise)
-                                      .toList();
-                                  List<Set> sets =
-                                      orderedSets.map((s) => s.set).toList();
                                   Group inputGroup = Group(
                                     title: titleController.text,
                                     description: descriptionController.text,
                                     breakDuration: breakDurationController.text,
                                     coachId:
                                         9999, //TODO: connect coach with created group
-                                    exercises: exercises,
-                                    sets: sets,
                                   );
                                   String token =
                                       Provider.of<User>(context, listen: false)
                                           .token;
                                   Provider.of<GroupListViewModel>(context,
                                           listen: false)
-                                      .postGroup(inputGroup, token);
+                                      .postGroup(
+                                          inputGroup, orderedObjects, token);
                                   // Navigator.of(context).pop();
                                 });
                               },
@@ -565,19 +497,27 @@ class _CustomSetListTileState extends State<CustomSetListTile> {
 }
 
 class CustomExerciseListTile extends StatefulWidget {
-  final ExerciseViewModel exerciseVM;
+  final objectVM; //ExerciseViewModel or SetViewModel
   final Key key;
   final Function() notifyParent;
 
-  CustomExerciseListTile(this.key, this.exerciseVM, this.notifyParent)
+  CustomExerciseListTile(this.key, this.objectVM, this.notifyParent)
       : super(key: key);
   @override
   _CustomExerciseListTileState createState() => _CustomExerciseListTileState();
 }
 
 class _CustomExerciseListTileState extends State<CustomExerciseListTile> {
+
   @override
   Widget build(BuildContext context) {
+    String type =
+        widget.objectVM.runtimeType == ExerciseViewModel ? 'exercise' : 'set';
+    String titlePrefix = type == 'exercise' ? 'Exercise: ' : 'Set: ';
+    IconData icon = type == 'exercise'
+        ? Icons.run_circle_outlined
+        : Icons.grid_view_outlined;
+    double iconSize = type == 'exercise' ? 40 : 30;
     return Container(
       key: widget.key,
       margin: EdgeInsetsDirectional.all(3),
@@ -589,35 +529,24 @@ class _CustomExerciseListTileState extends State<CustomExerciseListTile> {
         key: widget.key,
         minVerticalPadding: 10,
         leading: CircleAvatar(
+          backgroundColor: Theme.of(context).primaryColor,
           radius: 20,
-          child: FlutterLogo(),
+          child: Icon(icon, color: Colors.black, size: iconSize),
         ),
         title: Text(
-          widget.exerciseVM.title,
+          titlePrefix + widget.objectVM.title,
           style: TextStyle(color: Colors.white),
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Text(
-            //   widget.exercise['duration'],
-            //   style: TextStyle(
-            //     color: Colors.white,
-            //   ),
-            // ),
-            // Text(
-            //   '${widget.exercise['cal_burnt']} cal',
-            //   style: TextStyle(
-            //     color: Colors.white,
-            //   ),
-            // )
             Text(
-              widget.exerciseVM.coachId.toString(),
+              'Id: ${widget.objectVM.id}',
               style: TextStyle(
                 color: Colors.white,
               ),
-            )
+            ),
           ],
         ),
       ),

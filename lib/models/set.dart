@@ -10,6 +10,7 @@ class Set {
   int coachId;
   String coachName;
   List<Exercise> exercises;
+  int order;
 
   Set(
       {this.coachName,
@@ -19,6 +20,7 @@ class Set {
       this.breakDuration,
       this.coachId,
       this.exercises,
+      this.order
   });
 
   String toString() {
@@ -32,6 +34,7 @@ class Set {
       'description': description,
       'coachId': coachId,
       'break_duration': breakDuration,
+      'order': order,
       'exercises':
           exercises?.map((Exercise exercise) => exercise.toMap())?.toList(),
     };

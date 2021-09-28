@@ -64,7 +64,6 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
   Widget build(BuildContext context) {
     GroupListViewModel groupListVM = Provider.of<GroupListViewModel>(context);
     GroupViewModel groupVM = groupListVM.group;
-    if (groupVM != null) print(groupVM.group.toMapForCreation());
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(

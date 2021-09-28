@@ -12,6 +12,7 @@ class Exercise {
   Equipment equipment;
   String coachName;
   int coachId;
+  int order;
   Exercise({
     this.id,
     this.title,
@@ -24,6 +25,7 @@ class Exercise {
     this.coachId,
     this.coachName,
     this.equipment,
+    this.order,
   });
 
   Map<String, Object> toMap() {
@@ -40,6 +42,7 @@ class Exercise {
       'coachId': coachId,
       'coachName': coachName,
       'equipment': equipment,
+      'order': order,
     };
   }
 
