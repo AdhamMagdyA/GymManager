@@ -11,6 +11,9 @@ import 'package:gym_project/screens/questions/all-questions.dart';
 import 'package:gym_project/screens/questions/coach-questions.dart';
 import 'package:gym_project/screens/questions/my-questions.dart';
 import 'package:gym_project/screens/questions/nutritionist-questions.dart';
+import 'package:gym_project/viewmodels/answer-list-view-model.dart';
+import 'package:gym_project/viewmodels/question-list-view-model.dart';
+import 'package:provider/provider.dart';
 
 class QuestionsScreen extends StatefulWidget {
   const QuestionsScreen({Key key}) : super(key: key);
@@ -33,33 +36,9 @@ class _QuestionsScreenState extends State<QuestionsScreen>
     ),
   ];
 
-  final _pages = [
-    {
-      'page': AdminHomePage(),
-      'title': 'Homepage',
-    },
-    {
-      'page': UsersList(),
-      'title': 'Users',
-    },
-    {
-      'page': BranchesList(),
-      'title': 'Branches',
-    },
-    {
-      'page': AnnouncementsScreen(),
-      'title': 'Anouncements',
-    },
-    {
-      'page': Others(),
-      'title': 'Ohters',
-    },
-  ];
-
   void onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      page = _pages[_selectedIndex]['page'];
     });
   }
 
@@ -74,6 +53,8 @@ class _QuestionsScreenState extends State<QuestionsScreen>
         ],
       ),
     );
+    Provider.of<QuestionListViewModel>(context, listen: false).getQuestions();
+    Provider.of<AnswerListViewModel>(context, listen: false).getAllAnswers();
   }
 
   @override
@@ -89,7 +70,9 @@ class _QuestionsScreenState extends State<QuestionsScreen>
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => AddQuestionScreen(),
+                  builder: (context) => AddQuestionScreen(
+                    post_type: 'Add',
+                  ),
                 ),
               );
             },
@@ -133,37 +116,14 @@ class _QuestionsScreenState extends State<QuestionsScreen>
             ],
           ),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: Color(0xff181818),
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.supervised_user_circle),
-              label: 'Users',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.workspaces),
-              label: 'Branches',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.announcement),
-              label: 'Announcements',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.view_list),
-              label: 'Others',
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Color(0xFFFFCE2B),
-          unselectedItemColor: Color(0xFFFFCE2B).withAlpha(100),
-          onTap: onItemTapped,
+        body: SafeArea(
+          child: TabBarView(
+            children: [
+              AllQuestions(),
+              MyQuestions(),
+            ],
+          ),
         ),
-        body: page,
       ),
     );
   }

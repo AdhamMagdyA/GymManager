@@ -10,6 +10,7 @@ import 'package:gym_project/screens/Supplements/supplement-form.dart';
 import 'package:gym_project/screens/Supplements/supplement-grid-view.dart';
 import 'package:gym_project/screens/about_us.dart';
 import 'package:gym_project/screens/admin/memberships/memberships_list.dart';
+import 'package:gym_project/screens/admin/view-private-session-requests.dart';
 import 'package:gym_project/screens/announcements/add-announcement-screen.dart';
 import 'package:gym_project/screens/announcements/announcements-screen.dart';
 import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
@@ -51,27 +52,38 @@ import 'package:gym_project/screens/admin/users/edit_user.dart';
 import 'package:gym_project/screens/admin/users/user_details.dart';
 import 'package:gym_project/screens/admin/util-screen.dart';
 
-import 'package:gym_project/screens/common/view-private-session-details.dart';
 import 'package:gym_project/screens/member/member-util.dart';
 import 'package:gym_project/screens/member/member_profile.dart';
+import 'package:gym_project/screens/member/sessions-tab-bar.dart';
 import 'package:gym_project/screens/member/workout-summery/workout-summeries.dart';
 
 import 'package:gym_project/screens/nutritionist/fitness-summaries.dart';
+import 'package:gym_project/screens/nutritionist/item-creation-form.dart';
+import 'package:gym_project/screens/nutritionist/item-edit-form.dart';
 import 'package:gym_project/screens/nutritionist/items_screen.dart';
 import 'package:gym_project/screens/member/view-private-sessions.dart';
-
+import 'package:gym_project/screens/nutritionist/meal-creation-from.dart';
+import 'package:gym_project/screens/nutritionist/meal-edit-form.dart';
 import 'package:gym_project/screens/nutritionist/meals-screen.dart';
 import 'package:gym_project/screens/nutritionist/nutritionist%20_profile.dart';
+import 'package:gym_project/screens/nutritionist/plan-creation-form.dart';
+import 'package:gym_project/screens/nutritionist/plan-edit-form.dart';
+import 'package:gym_project/screens/nutritionist/plan-schedule.dart';
 import 'package:gym_project/screens/nutritionist/plans-screen.dart';
 import 'package:gym_project/screens/nutritionist/util-screen.dart';
-
+import 'package:gym_project/screens/nutritionist/view-items-details-screen.dart';
+import 'package:gym_project/screens/nutritionist/view-meals-details-screen.dart';
+import 'package:gym_project/screens/nutritionist/view-plans-details-screen.dart';
 import 'package:gym_project/screens/questions/add-question-screen.dart';
 import 'package:gym_project/screens/questions/questions-screen.dart';
 import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
 import 'package:gym_project/screens/questions/single-question.dart';
+import 'package:gym_project/viewmodels/announcement-list-view-model.dart';
+import 'package:gym_project/viewmodels/answer-list-view-model.dart';
 import 'package:gym_project/viewmodels/login-view-model.dart';
 import 'package:gym_project/viewmodels/private-session-list-view-model.dart';
 import 'package:gym_project/viewmodels/set-list-view-model.dart';
+import 'package:gym_project/viewmodels/question-list-view-model.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
 
@@ -98,6 +110,9 @@ void main() {
         ChangeNotifierProvider(
           create: (_) => PrivateSessionListViewModel(),
         ),
+        ChangeNotifierProvider(create: (_) => AnnouncementListViewModel()),
+        ChangeNotifierProvider(create: (_) => QuestionListViewModel()),
+        ChangeNotifierProvider(create: (_) => AnswerListViewModel()),
       ],
       child: MyApp(),
     ),
@@ -210,7 +225,9 @@ class MyApp extends StatelessWidget {
         // '/edit-group': (context) => EditGroupForm(),
 
         //private session routes
+        '/sessions': (context) => MemberSessionsScreen(),
         '/sessions/select': (context) => ViewPrivateSessionsScreen(),
+        '/sessions/requests': (context) => ViewPrivateSessionRequestsScreen(),
         '/my-sessions/view': (context) => ViewMyPrivateSessionsScreen(),
         '/booked-sessions/view': (context) => ViewBookedSessionsScreen(),
         // '/session-details': (context) => PrivateSessionDetailsScreen(),
@@ -219,18 +236,22 @@ class MyApp extends StatelessWidget {
 
         //items routes
         '/items': (context) => ItemsScreen(false),
-        // '/create-item': (context) => CreateItemForm(),
-        // '/edit-item': (context) => EditItemForm()
+        '/create-item': (context) => CreateItemForm(),
+        '/edit-item': (context) => EditItemForm(),
+        '/item-details': (context) => ItemsDetailsScreen(),
 
         //meals routes
         '/meals': (context) => MealsViewScreen(false),
-        // '/create-meal': (context) => CreateMealForm(),
-        // '/edit-meal': (context) => EditMealForm(),
+        '/create-meal': (context) => CreateMealForm(),
+        '/edit-meal': (context) => EditMealForm(),
+        '/meal-details': (context) => MealsDetailsScreen(),
 
         //plans routes
+        '/plan-schedule': (context) => PlanSchedule(),
         '/plans': (context) => PlansViewScreen(false),
-        // '/create-plan': (context) => CreatePlanForm(),
-        // '/edit-plan': (context) => EditPlanForm(),
+        '/create-plan': (context) => CreatePlanForm(),
+        '/edit-plan': (context) => EditPlanForm(),
+        '/plan-details': (context) => PlansDetailsScreen(),
       },
       debugShowCheckedModeBanner: false,
       title: 'Gym',

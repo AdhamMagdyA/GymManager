@@ -1,6 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:gym_project/models/announcement.dart';
 import 'package:gym_project/screens/announcements/add-announcement-screen.dart';
 import 'package:gym_project/screens/announcements/announcements-list-tile.dart';
+import 'package:gym_project/viewmodels/announcement-list-view-model.dart';
+import 'package:gym_project/viewmodels/announcement-view-model.dart';
+import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
 
@@ -13,15 +19,20 @@ class AnnouncementsScreen extends StatefulWidget {
 
 class _AnnouncementsScreenState extends State<AnnouncementsScreen> {
   String user_role;
+  StreamController _streamController;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     user_role = Provider.of<User>(context, listen: false).role;
+    Provider.of<AnnouncementListViewModel>(context, listen: false)
+        .getAnnouncements();
   }
 
   @override
   Widget build(BuildContext context) {
+    var announcements = Provider.of<AnnouncementListViewModel>(context);
     return Scaffold(
       appBar: user_role != "admin"
           ? AppBar(
@@ -42,7 +53,9 @@ class _AnnouncementsScreenState extends State<AnnouncementsScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => AddAnnouncementScreen(),
+                      builder: (context) => AddAnnouncementScreen(
+                        post_type: 'Add',
+                      ),
                     ),
                   );
                 },
@@ -57,31 +70,48 @@ class _AnnouncementsScreenState extends State<AnnouncementsScreen> {
         child: Container(
           child: Padding(
             padding: const EdgeInsets.all(10.0),
-            child: ListView(
-              children: [
-                AnnouncementsListTile(
-                  title: "Announcement 1",
-                  body:
-                      "Nam id varius sapien. Vestibulum rhoncus viverra ligula eu tempor. Praesent accumsan libero ut venenatis sodales. Donec convallis cursus lectus in egestas. Aenean ullamcorper, libero ac cursus viverra, ante sapien scelerisque nunc",
-                  date: "18-9-2021 at 7:00 PM",
-                  id: 1,
-                ),
-                AnnouncementsListTile(
-                  title: "Announcement 2",
-                  body:
-                      "Nam id varius sapien. Vestibulum rhoncus viverra ligula eu tempor. Praesent accumsan libero ut venenatis sodales. Donec convallis cursus lectus in egestas. Aenean ullamcorper, libero ac cursus viverra, ante sapien scelerisque nunc",
-                  date: "18-9-2021 at 6:00 PM",
-                  id: 2,
-                ),
-                AnnouncementsListTile(
-                  title: "Announcement 3",
-                  body:
-                      "Nam id varius sapien. Vestibulum rhoncus viverra ligula eu tempor. Praesent accumsan libero ut venenatis sodales. Donec convallis cursus lectus in egestas. Aenean ullamcorper, libero ac cursus viverra, ante sapien scelerisque nunc",
-                  date: "18-9-2021 at 5:00 PM",
-                  id: 3,
-                ),
-              ],
-            ),
+            child: announcements.loadingstatus ==
+                    AnnouncementLoadingStatus.Completed
+                ? ListView.builder(
+                    itemBuilder: (context, index) {
+                      return AnnouncementsListTile(
+                        role: user_role,
+                        id: announcements.announcementsList[index].id,
+                        title: announcements.announcementsList[index].title,
+                        body:
+                            announcements.announcementsList[index].description,
+                        date: announcements.announcementsList[index].date,
+                      );
+                    },
+                    itemCount: announcements.announcementsList.length,
+                    padding: const EdgeInsets.all(10),
+                  )
+                /*StreamBuilder(
+                    stream: Provider.of<AnnouncementListViewModel>(context)
+                        .getAnnouncements(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      List<Announcement> announcements_list = snapshot.data;
+                      return ListView.builder(
+                        itemBuilder: (context, index) {
+                          return AnnouncementsListTile(
+                            role: user_role,
+                            id: announcements_list[index].id,
+                            title: announcements_list[index].title,
+                            body: announcements_list[index].description,
+                            date: announcements_list[index].date,
+                          );
+                        },
+                        itemCount: announcements_list.length,
+                        padding: const EdgeInsets.all(10),
+                      );
+                    },
+                  )*/
+                : Center(
+                    child: CircularProgressIndicator(
+                      strokeWidth: 3,
+                      color: Color(0xFFFFCE2B),
+                    ),
+                  ),
           ),
         ),
       ),

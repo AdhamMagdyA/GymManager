@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:gym_project/models/privateSession.dart';
-import 'package:gym_project/screens/coach/private%20sessions/view-my-private-sessions.dart';
-import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
+import 'package:gym_project/models/privatesession.dart';
+import 'package:gym_project/style/error-pop-up.dart';
+import 'package:gym_project/style/success-pop-up.dart';
 import 'package:gym_project/viewmodels/private-session-list-view-model.dart';
-import 'package:gym_project/widget/providers/user.dart';
+import 'package:gym_project/widget/custom-back-button-2.dart';
 import 'package:provider/provider.dart';
-
-import '../coach-tabs-screen.dart';
 
 class CreatePrivateSessionForm extends StatefulWidget {
   @override
@@ -30,7 +28,7 @@ class MapScreenState extends State<CreatePrivateSessionForm>
   TextEditingController durationController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController linkController = TextEditingController();
-
+  String role;
   @override
   void initState() {
     super.initState();
@@ -43,12 +41,11 @@ class MapScreenState extends State<CreatePrivateSessionForm>
   bool savePrivateSession() {
     setState(() {
       Provider.of<PrivateSessionListViewModel>(context, listen: false)
-          .postPrivateSession(
-              _privateSession, Provider.of<User>(context, listen: false).token)
+          .postPrivateSession(_privateSession)
           .then((value) {
-        showSuccessMessage(context);
+        showSuccessMessage(context, 'Created private session');
       }).catchError((err) {
-        showErrorMessage(context);
+        showErrorMessage(context, 'Failed to create');
         print('error occured $err');
       });
     });
@@ -76,16 +73,7 @@ class MapScreenState extends State<CreatePrivateSessionForm>
                             child: new Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                GestureDetector(
-                                  child: new Icon(
-                                    Icons.arrow_back_ios,
-                                    color: Color(0xFFFFCE2B),
-                                    size: 22.0,
-                                  ),
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
+                                CustomBackButton2(),
                                 Padding(
                                   padding: EdgeInsets.only(left: 25.0),
                                   //-->header
@@ -439,135 +427,6 @@ class MapScreenState extends State<CreatePrivateSessionForm>
         ),
       ),
     );
-  }
-
-  Future<dynamic> showSuccessMessage(BuildContext context) {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            backgroundColor: Colors.black,
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Icon(
-                        Icons.close,
-                        color: Colors.amber,
-                      ),
-                    )
-                  ],
-                ),
-                Center(
-                  child: Text(
-                    'Success!',
-                    style: TextStyle(
-                      color: Colors.amber,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 2,
-                ),
-                Center(
-                  child: Text(
-                    'Sessions created successfully!',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 4,
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      primary: Colors.amber,
-                      onPrimary: Colors.black,
-                      fixedSize: Size.fromWidth(150),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      )),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MultiProvider(
-                            providers: [
-                              ChangeNotifierProvider(
-                                create: (_) => ExerciseListViewModel(),
-                              ),
-                            ],
-                            child: CoachTabsScreen(),
-                          ),
-                        ));
-                  },
-                  child: Text('Go to homepage'),
-                ),
-              ],
-            ),
-          );
-        });
-  }
-
-  Future<dynamic> showErrorMessage(BuildContext context) {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            backgroundColor: Colors.black,
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Icon(
-                        Icons.close,
-                        color: Colors.amber,
-                      ),
-                    )
-                  ],
-                ),
-                Text(
-                  'Failure',
-                  style: TextStyle(
-                    color: Colors.amber,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(
-                  height: 2,
-                ),
-                Center(
-                  child: Text(
-                    'Failed to create private session!',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        });
   }
 
   @override

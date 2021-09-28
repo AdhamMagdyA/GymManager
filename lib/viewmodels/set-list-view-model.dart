@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/models/set.dart';
-import 'package:gym_project/services/exercise-webservice.dart';
 import 'package:gym_project/services/set-webservice.dart';
 import 'package:gym_project/viewmodels/set-view-model.dart';
 
@@ -18,9 +17,9 @@ class SetListViewModel with ChangeNotifier {
   SetViewModel set;
 
   // methods to fetch news
-  Future<void> fetchListSets(String token) async {
+  Future<void> fetchListSets() async {
     print('currently here!');
-    List<Set> _sets = await SetWebService().getSets(token);
+    List<Set> _sets = await SetWebService().getSets();
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
     this.sets = _sets.map((set) => SetViewModel(s: set)).toList();
@@ -34,11 +33,11 @@ class SetListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void fetchSetDetails(int setId, String token) async {
+  Future<void> fetchSetDetails(int setId) async {
     print('id');
     print(setId);
     print('currently here!');
-    Set _set = await SetWebService().getSetDetails(setId, token);
+    Set _set = await SetWebService().getSetDetails(setId);
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
     this.set = SetViewModel(s: _set);
@@ -53,8 +52,8 @@ class SetListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void postSet(Set set, String token) async {
-    Set _set = await SetWebService().postSet(set, token);
+  void postSet(Set set) async {
+    Set _set = await SetWebService().postSet(set);
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
     this.set = SetViewModel(s: _set);

@@ -3,6 +3,8 @@ import 'package:gym_project/screens/coach/sets/edit-set.dart';
 import 'package:gym_project/screens/common/view-set-details-screen.dart';
 import 'package:gym_project/viewmodels/set-list-view-model.dart';
 import 'package:gym_project/viewmodels/set-view-model.dart';
+import 'package:gym_project/widget/back-button.dart';
+import 'package:gym_project/widget/custom-back-button-2.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
 
@@ -19,8 +21,21 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
   @override
   void initState() {
     super.initState();
-    String token = Provider.of<User>(context, listen: false).token;
-    Provider.of<SetListViewModel>(context, listen: false).fetchListSets(token);
+    Provider.of<SetListViewModel>(context, listen: false)
+        .fetchListSets()
+        .then((value) {
+      setState(() {
+        var setListViewModel =
+            Provider.of<SetListViewModel>(context, listen: false);
+        _sets = setListViewModel.sets;
+        done = true;
+      });
+    }).catchError((err) {
+      setState(() {
+        error = true;
+      });
+      print('$err');
+    });
     if (widget.isSelectionTime == true) {
       _selectionMode = true;
     }
@@ -92,11 +107,10 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
   }
 
   int number = 0;
-
+  bool done = false;
+  bool error = false;
   @override
   Widget build(BuildContext context) {
-    var setListViewModel = Provider.of<SetListViewModel>(context);
-    _sets = setListViewModel.sets;
     return SafeArea(
       child: Container(
         color: Colors.black,
@@ -156,22 +170,42 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
                         )
                       ],
                     ),
-                  ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: _sets.length,
-                      itemBuilder: (ctx, index) {
-                        return SetsListTile(
-                            _sets[index],
-                            index,
-                            _selectionMode,
-                            setSelectionMode,
-                            incrementItem,
-                            decrementItem,
-                            selectedItemsNumber,
-                            isSelected,
-                            'https://images.app.goo.gl/oSJrrxJh1LGFiope9',
-                            widget.isSelectionTime);
-                      }),
+                  error
+                      ? Center(
+                          child: Text('An error occurred',
+                              style: TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                              )))
+                      : (done && _sets.isEmpty)
+                          ? Center(
+                              child: Text('No exercises found',
+                                  style: TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                  )))
+                          : _sets.isEmpty
+                              ? Center(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: _sets.length,
+                                  itemBuilder: (ctx, index) {
+                                    return SetsListTile(
+                                        _sets[index],
+                                        index,
+                                        _selectionMode,
+                                        setSelectionMode,
+                                        incrementItem,
+                                        decrementItem,
+                                        selectedItemsNumber,
+                                        isSelected,
+                                        'https://images.app.goo.gl/oSJrrxJh1LGFiope9',
+                                        widget.isSelectionTime);
+                                  }),
                 ],
               ),
             ),
@@ -197,29 +231,8 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
                 top: 10,
                 left: 10,
               ),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Container(
-                    height: 42,
-                    width: 42,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
             ),
+            CustomBackButton(),
           ],
         ),
       ),

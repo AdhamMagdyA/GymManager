@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/viewmodels/question-list-view-model.dart';
 import 'package:gym_project/widget/button.dart';
+import 'package:provider/provider.dart';
 
 class AddQuestionScreen extends StatefulWidget {
   //const AddQuestionScreen({Key key}) : super(key: key);
-  String title;
-  String body;
+  final int id;
+  final String title;
+  final String body;
+  final String post_type;
 
-  AddQuestionScreen({this.title, this.body});
+  AddQuestionScreen({this.title, this.body, this.post_type, this.id});
 
   @override
   _AddQuestionScreenState createState() => _AddQuestionScreenState();
@@ -32,6 +36,19 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Add Question',
+          style: TextStyle(
+            color: Colors.white,
+            fontFamily: 'assets/fonts/Changa-Bold.ttf',
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: Color(0xff181818),
+        iconTheme: IconThemeData(color: Color(0xFFFFCE2B)),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -41,7 +58,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Text(
-                    'Add Question',
+                    '${widget.post_type} Question',
                     style: TextStyle(
                       color: Colors.white,
                       fontFamily: 'assets/fonts/Changa-Bold.ttf',
@@ -163,7 +180,29 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                 padding: const EdgeInsets.all(10.0),
                 child: MaterialButton(
                   onPressed: btn_enabled
-                      ? () {
+                      ? () async {
+                          if (widget.post_type == 'Add') {
+                            await Provider.of<QuestionListViewModel>(context,
+                                    listen: false)
+                                .postQuestion(
+                              _titleController.text,
+                              _bodyController.text,
+                            );
+                            await Provider.of<QuestionListViewModel>(context,
+                                    listen: false)
+                                .getQuestions();
+                          } else {
+                            await Provider.of<QuestionListViewModel>(context,
+                                    listen: false)
+                                .editQuestion(
+                              widget.id,
+                              _titleController.text,
+                              _bodyController.text,
+                            );
+                            await Provider.of<QuestionListViewModel>(context,
+                                    listen: false)
+                                .getQuestions();
+                          }
                           Navigator.pop(context);
                         }
                       : null,
@@ -172,7 +211,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                   disabledColor: Color(0xFF404040),
                   color: btn_enabled ? Colors.amber : Color(0xFF404040),
                   child: Text(
-                    'Post Question',
+                    '${widget.post_type} Question',
                     style: TextStyle(
                       color: btn_enabled ? Colors.black : Colors.white,
                       fontFamily: 'assets/fonts/Changa-Bold.ttf',

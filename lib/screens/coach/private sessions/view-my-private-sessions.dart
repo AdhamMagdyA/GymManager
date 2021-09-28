@@ -22,7 +22,7 @@ class _ViewMyPrivateSessionsScreenState
     super.initState();
     token = Provider.of<User>(context, listen: false).token;
     Provider.of<PrivateSessionListViewModel>(context, listen: false)
-        .fetchListMyPrivateSessions(token)
+        .fetchListMyPrivateSessions()
         .then((value) {
       sessionListViewModel =
           Provider.of<PrivateSessionListViewModel>(context, listen: false);
@@ -100,71 +100,87 @@ class _ViewMyPrivateSessionsScreenState
 
   @override
   Widget build(BuildContext context) {
-    // double width = MediaQuery.of(context).size.width;
-    return SafeArea(
-      child: Container(
-        color: Colors.black,
-        padding: EdgeInsetsDirectional.all(10),
-        child: Stack(children: [
-          ListView(
-            children: [
-              Material(
-                  elevation: 5.0,
-                  borderRadius: BorderRadius.all(Radius.circular(30)),
-                  child: TextFormField(
-                    controller: TextEditingController(),
-                    cursorColor: Theme.of(context).primaryColor,
-                    style: TextStyle(color: Colors.black, fontSize: 18),
-                    decoration: InputDecoration(
-                        hintText: 'Search..',
-                        suffixIcon: Material(
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                          child: Icon(Icons.search),
-                        ),
-                        border: InputBorder.none,
-                        contentPadding:
-                            EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
-                  )),
-              SizedBox(height: 20),
-              error
-                  ? Center(
-                      child: Text(
-                        'An error occurred',
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    )
-                  : (done && privateSessions.isEmpty)
-                      ? Center(
-                          child: Text(
-                            'No private sessions found',
-                            style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                            ),
+    double width = MediaQuery.of(context).size.width;
+    return Scaffold(
+      appBar: Provider.of<User>(context, listen: false).role == "member" ||
+              Provider.of<User>(context, listen: false).role == "admin"
+          ? AppBar(
+              title: Text(
+                'Private Sessions',
+                style: TextStyle(color: Colors.white),
+              ),
+              backgroundColor: Color(0xff181818),
+              iconTheme: IconThemeData(color: Color(0xFFFFCE2B)),
+            )
+          : PreferredSize(
+              preferredSize: const Size.fromHeight(0.0),
+              child: Container(),
+            ),
+      body: SafeArea(
+        child: Container(
+          color: Colors.black,
+          padding: EdgeInsetsDirectional.all(10),
+          child: Stack(children: [
+            ListView(
+              children: [
+                Material(
+                    elevation: 5.0,
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    child: TextFormField(
+                      controller: TextEditingController(),
+                      cursorColor: Theme.of(context).primaryColor,
+                      style: TextStyle(color: Colors.black, fontSize: 18),
+                      decoration: InputDecoration(
+                          hintText: 'Search..',
+                          suffixIcon: Material(
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            child: Icon(Icons.search),
                           ),
-                        )
-                      : privateSessions.isEmpty
-                          ? Center(
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 25, vertical: 13)),
+                    )),
+                SizedBox(height: 20),
+                error
+                    ? Center(
+                        child: Text(
+                          'An error occurred',
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      )
+                    : (done && privateSessions.isEmpty)
+                        ? Center(
+                            child: Text(
+                              'No private sessions found',
+                              style: TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
                               ),
-                            )
-                          : ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: privateSessions.length,
-                              itemBuilder: (ctx, index) {
-                                return myListTile(
-                                  privateSessions[index],
-                                  index,
-                                  token,
-                                );
-                              }),
-            ],
-          ),
-        ]),
+                            ),
+                          )
+                        : privateSessions.isEmpty
+                            ? Center(
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
+                              )
+                            : ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: privateSessions.length,
+                                itemBuilder: (ctx, index) {
+                                  return myListTile(
+                                    privateSessions[index],
+                                    index,
+                                    token,
+                                  );
+                                }),
+              ],
+            ),
+          ]),
+        ),
       ),
     );
   }
@@ -221,22 +237,28 @@ class _ViewMyPrivateSessionsScreenState
             SizedBox(
               width: 4,
             ),
-            Expanded(
+            Container(
               child: TextButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              EditPrivateSessionForm(privateSession.id)));
-                },
-                child: Text(
-                  'Edit',
-                  style: TextStyle(
-                    color: Colors.amber,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                onPressed: Provider.of<User>(context).role == "admin" ||
+                        Provider.of<User>(context).role == "coach"
+                    ? () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    EditPrivateSessionForm(privateSession.id)));
+                      }
+                    : () {},
+                child: Provider.of<User>(context).role == "admin" ||
+                        Provider.of<User>(context).role == "coach"
+                    ? Text(
+                        'Edit',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    : Text(''),
               ),
             ),
             Expanded(
@@ -249,7 +271,7 @@ class _ViewMyPrivateSessionsScreenState
 
                   Provider.of<PrivateSessionListViewModel>(context,
                           listen: false)
-                      .deletePrivateSession(privateSession.id, token)
+                      .deletePrivateSession(privateSession.id)
                       .then((value) {
                     setState(() {
                       privateSessions.remove(privateSession);

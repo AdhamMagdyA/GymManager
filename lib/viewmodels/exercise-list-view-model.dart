@@ -16,23 +16,15 @@ class ExerciseListViewModel with ChangeNotifier {
   LoadingStatus loadingStatus = LoadingStatus.Empty;
 
   ExerciseWebService webService = ExerciseWebService();
-  String token =
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNjMyMzk1ODIwLCJleHAiOjE2MzI0ODIyMjAsIm5iZiI6MTYzMjM5NTgyMCwianRpIjoiNFk0VTJPTmtFV29vUFU1MCIsInN1YiI6MywicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.GVP5rxrQOcXilWAaISwj-dsPh0a9hWDsQIO_L1L50lI';
-  // ExerciseListViewModel({this.token});
-  // void update(token) {
-  //   token = token;
-  //   webService.token = token;
-  //   notifyListeners();
-  // }
 
   // ignore: deprecated_member_use
   List<ExerciseViewModel> exercises = List<ExerciseViewModel>();
   ExerciseViewModel exercise = ExerciseViewModel();
   // methods to fetch news
-  Future<void> fetchListExercises(String tokenn) async {
-    // print('welcome token! $tokenn');
+  Future<void> fetchListExercises() async {
+    // print('welcome token! $');
     // print('currently here!');
-    List<Exercise> _exercises = await webService.getExercises(tokenn);
+    List<Exercise> _exercises = await webService.getExercises();
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
     this.exercises =
@@ -47,12 +39,15 @@ class ExerciseListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchExercise(int exerciseId, String tokenn) async {
+  Future<void> fetchExercise(
+    int exerciseId,
+  ) async {
     print(exerciseId);
     print('currently here!');
-    // print('welcome token! $tokenn');
-    Exercise _exercise =
-        await webService.getExerciseDetails(exerciseId, tokenn);
+    // print('welcome token! $');
+    Exercise _exercise = await webService.getExerciseDetails(
+      exerciseId,
+    );
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
     this.exercise = ExerciseViewModel(e: _exercise);
@@ -67,9 +62,13 @@ class ExerciseListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> postExercise(Exercise exercise, String tokenn) async {
+  Future<void> postExercise(
+    Exercise exercise,
+  ) async {
     // print('currently here!');
-    Exercise _exercise = await webService.postExercise(exercise, tokenn);
+    Exercise _exercise = await webService.postExercise(
+      exercise,
+    );
     if (_exercise == null) {
       loadingStatus = LoadingStatus.Error;
     }
@@ -85,9 +84,13 @@ class ExerciseListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> editExercise(ExerciseViewModel exercise, String tokenn) async {
+  Future<void> editExercise(
+    ExerciseViewModel exercise,
+  ) async {
     // print('currently here!');
-    Exercise _exercise = await webService.editExercise(exercise, tokenn);
+    Exercise _exercise = await webService.editExercise(
+      exercise,
+    );
     if (_exercise == null) {
       loadingStatus = LoadingStatus.Error;
     }
@@ -103,9 +106,13 @@ class ExerciseListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> deleteExercise(int exerciseId, String tokenn) async {
+  Future<void> deleteExercise(
+    int exerciseId,
+  ) async {
     // print('currently here!');
-    bool status = await webService.deleteExercise(exerciseId, tokenn);
+    bool status = await webService.deleteExercise(
+      exerciseId,
+    );
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
 

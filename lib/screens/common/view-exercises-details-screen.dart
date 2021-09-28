@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:gym_project/common/my_list_tile.dart';
 import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
 import 'package:gym_project/viewmodels/exercise-view-model.dart';
-import 'package:gym_project/screens/admin/equipment/equipment_details.dart';
 import 'package:gym_project/widget/back-button.dart';
 import 'package:gym_project/widget/grid_view_card.dart';
-import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
 
 class ExerciseDetailsScreen extends StatefulWidget {
@@ -58,8 +54,7 @@ class _ExerciseDetailsScreenState extends State<ExerciseDetailsScreen> {
   void initState() {
     super.initState();
     Provider.of<ExerciseListViewModel>(context, listen: false)
-        .fetchExercise(
-            widget.id, Provider.of<User>(context, listen: false).token)
+        .fetchExercise(widget.id)
         .then((value) {
       exerciseListViewModel =
           Provider.of<ExerciseListViewModel>(context, listen: false);

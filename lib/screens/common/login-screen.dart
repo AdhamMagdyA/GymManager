@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:gym_project/style/error-pop-up.dart';
 import 'package:gym_project/viewmodels/login-view-model.dart';
+import 'package:gym_project/widget/global.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
 import '../../style/styling.dart';
@@ -13,8 +15,12 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final _emailNode = FocusNode();
+  /*final TextEditingController emailController =
+      TextEditingController(text: 'parisian.dejon@example.net');*/
   final TextEditingController emailController =
-      TextEditingController(text: 'dnolan@example.com');
+      TextEditingController(text: 'antone13@example.org');
+  /*final TextEditingController passwordController =
+      TextEditingController(text: 'secret');*/
   final TextEditingController passwordController =
       TextEditingController(text: 'secret');
   final _passwordNode = FocusNode();
@@ -42,7 +48,7 @@ class _LoginState extends State<Login> {
 
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<User>(context, listen: false).setRole(role);
-      Provider.of<User>(context, listen: false).setToken(token);
+      Global.set(token);
       if (role == 'admin') {
         Navigator.pushReplacementNamed(
           context,
@@ -156,7 +162,8 @@ class _LoginState extends State<Login> {
                                                 passwordController.text)
                                             .catchError((err) {
                                           print('error found $err');
-                                          showErrorMessage(context);
+                                          showErrorMessage(
+                                              context, 'Failed to login');
                                         });
                                       });
                                     }),
@@ -174,45 +181,6 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
-  }
-
-  Future<dynamic> showErrorMessage(BuildContext context) {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            backgroundColor: Colors.black,
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Icon(
-                        Icons.close,
-                        color: Colors.amber,
-                      ),
-                    )
-                  ],
-                ),
-                Center(
-                  child: Text(
-                    'Failed to login!',
-                    style: TextStyle(
-                      color: Colors.amber,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        });
   }
 
   TextField _textField(

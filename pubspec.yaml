@@ -45,6 +45,8 @@ dependencies:
   video_player: ^2.2.3
   path_provider: ^2.0.4
   xfile: ^1.1.0
+  toggle_switch: ^1.2.0
+  dots_indicator: ^2.0.0
 
 dev_dependencies:
   flutter_test:

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gym_project/models/privateSession.dart';
+import 'package:gym_project/models/privatesession.dart';
 import 'package:gym_project/models/tuple.dart';
-import 'package:gym_project/services/private-session-webservice.dart';
 import 'package:gym_project/services/private-session-webservice.dart';
 import 'package:gym_project/viewmodels/private-session-view-model.dart';
 
@@ -29,14 +28,15 @@ class PrivateSessionListViewModel with ChangeNotifier {
 
   // ignore: deprecated_member_use
   List<PrivateSessionViewModel> privateSessions =
+      // ignore: deprecated_member_use
       List<PrivateSessionViewModel>();
   PrivateSessionViewModel privateSession = PrivateSessionViewModel();
   // methods to fetch news
-  Future<void> fetchListMyPrivateSessions(String tokenn) async {
+  Future<void> fetchListMyPrivateSessions() async {
     // print('welcome token! $tokenn');
     // print('currently here!');
     List<PrivateSession> _privateSessions =
-        await webService.getMyPrivateSessions(tokenn);
+        await webService.getMyPrivateSessions();
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
     this.privateSessions = _privateSessions
@@ -53,11 +53,11 @@ class PrivateSessionListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchListBookedPrivateSessions(String tokenn) async {
+  Future<void> fetchListBookedPrivateSessions(String role) async {
     // print('welcome token! $tokenn');
     // print('currently here!');
     List<PrivateSession> _privateSessions =
-        await webService.getBookedPrivateSessions(tokenn);
+        await webService.getBookedPrivateSessions(role);
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
     this.privateSessions = _privateSessions
@@ -74,11 +74,11 @@ class PrivateSessionListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchListPrivateSessions(String tokenn, int page) async {
+  Future<void> fetchListPrivateSessions(int page) async {
     // print('welcome token! $tokenn');
     // print('currently here!');
     Tuple<int, List<PrivateSession>> result =
-        await webService.getPrivateSessions(tokenn, page);
+        await webService.getPrivateSessions(page);
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
     this.privateSessions = result.item2
@@ -95,12 +95,36 @@ class PrivateSessionListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchPrivateSession(int privateSessionId, String tokenn) async {
+  Future<void> fetchListRequestedPrivateSessions(int page) async {
+    // print('welcome token! $tokenn');
+    // print('currently here!');
+    Tuple<int, List<PrivateSession>> result =
+        await webService.getRequestedPrivateSessions(page);
+    loadingStatus = LoadingStatus.Searching;
+    notifyListeners();
+    this.privateSessions = result.item2
+        .map((privateSession) =>
+            PrivateSessionViewModel(privateS: privateSession))
+        .toList();
+    this.lastPage = result.item1;
+    if (this.privateSessions.isEmpty) {
+      loadingStatus = LoadingStatus.Empty;
+    } else {
+      loadingStatus = LoadingStatus.Completed;
+    }
+
+    notifyListeners();
+  }
+
+  Future<void> fetchPrivateSession(
+    int privateSessionId,
+  ) async {
     print(privateSessionId);
     print('currently here!');
     // print('welcome token! $tokenn');
-    PrivateSession _privateSession =
-        await webService.getPrivateSessionDetails(privateSessionId, tokenn);
+    PrivateSession _privateSession = await webService.getPrivateSessionDetails(
+      privateSessionId,
+    );
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
     this.privateSession = PrivateSessionViewModel(privateS: _privateSession);
@@ -116,9 +140,12 @@ class PrivateSessionListViewModel with ChangeNotifier {
   }
 
   Future<void> postPrivateSession(
-      PrivateSession privateSession, String tokenn) async {
+    PrivateSession privateSession,
+  ) async {
     // print('currently here!');
-    bool status = await webService.postPrivateSession(privateSession, tokenn);
+    bool status = await webService.postPrivateSession(
+      privateSession,
+    );
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
 
@@ -131,9 +158,12 @@ class PrivateSessionListViewModel with ChangeNotifier {
   }
 
   Future<void> editPrivateSession(
-      PrivateSessionViewModel privateSession, String tokenn) async {
+    PrivateSessionViewModel privateSession,
+  ) async {
     // print('currently here!');
-    bool status = await webService.editPrivateSession(privateSession, tokenn);
+    bool status = await webService.editPrivateSession(
+      privateSession,
+    );
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
 
@@ -145,9 +175,41 @@ class PrivateSessionListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> deletePrivateSession(int sessionId, String tokenn) async {
+  Future<void> deletePrivateSession(int sessionId) async {
     // print('currently here!');
-    bool status = await webService.deletePrivateSession(sessionId, tokenn);
+    bool status = await webService.deletePrivateSession(sessionId);
+    loadingStatus = LoadingStatus.Searching;
+    notifyListeners();
+
+    if (status == false) {
+      loadingStatus = LoadingStatus.Empty;
+    } else {
+      loadingStatus = LoadingStatus.Completed;
+    }
+    notifyListeners();
+  }
+
+  Future<void> requestPrivateSession(
+    int sessionId,
+  ) async {
+    // print('currently here!');
+    bool status = await webService.requestSession(sessionId);
+    loadingStatus = LoadingStatus.Searching;
+    notifyListeners();
+
+    if (status == false) {
+      loadingStatus = LoadingStatus.Empty;
+    } else {
+      loadingStatus = LoadingStatus.Completed;
+    }
+    notifyListeners();
+  }
+
+  Future<void> cancelPrivateSession(
+    int sessionId,
+  ) async {
+    // print('currently here!');
+    bool status = await webService.cancelSession(sessionId);
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
 

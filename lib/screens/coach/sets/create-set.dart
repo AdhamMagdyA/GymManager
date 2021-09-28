@@ -69,8 +69,7 @@ class MapScreenState extends State<CreateSetForm>
   bool saveSet() {
     setState(() {
       String token = Provider.of<User>(context, listen: false).token;
-      Provider.of<SetListViewModel>(context, listen: false)
-          .postSet(_set, token);
+      Provider.of<SetListViewModel>(context, listen: false).postSet(_set);
     });
     return true;
   }

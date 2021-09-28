@@ -1,5 +1,3 @@
-import 'package:gym_project/core/presentation/res/colors.dart';
-import 'package:gym_project/screens/nutritionist/fitness-summary.dart';
 import 'package:timelines/timelines.dart';
 import 'package:flutter/material.dart';
 

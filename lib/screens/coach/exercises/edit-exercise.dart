@@ -2,21 +2,20 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:gym_project/models/exercise.dart';
 import 'package:gym_project/screens/coach/equipment/equipments-list.dart';
+import 'package:gym_project/style/error-pop-up.dart';
+import 'package:gym_project/style/success-pop-up.dart';
 import 'package:gym_project/viewmodels/equipment-list-view-model.dart';
 import 'package:gym_project/viewmodels/equipment-view-model.dart';
 import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
 import 'package:gym_project/viewmodels/exercise-view-model.dart';
 import 'package:gym_project/widget/back-button.dart';
+import 'package:gym_project/widget/custom-back-button-2.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
-
-import '../coach-tabs-screen.dart';
-import 'exercises_screen.dart';
 
 EquipmentViewModel selectedEquipment;
 
@@ -67,7 +66,7 @@ class MapScreenState extends State<EditExerciseForm>
     var token = Provider.of<User>(context, listen: false).token;
     print(token);
     Provider.of<ExerciseListViewModel>(context, listen: false)
-        .fetchExercise(widget.id, token)
+        .fetchExercise(widget.id)
         .then((value) {
       exerciseVM = Provider.of<ExerciseListViewModel>(context, listen: false);
       exercise = exerciseVM.exercise;
@@ -95,12 +94,11 @@ class MapScreenState extends State<EditExerciseForm>
   bool saveExercise() {
     setState(() {
       Provider.of<ExerciseListViewModel>(context, listen: false)
-          .editExercise(
-              exercise, Provider.of<User>(context, listen: false).token)
-          .then((value) => {showSuccessMessage(context)})
+          .editExercise(exercise)
+          .then((value) => {showSuccessMessage(context, 'Edited successfully')})
           .catchError((err) {
         print('error occured $err');
-        showErrorMessage(context);
+        showErrorMessage(context, 'Failed to edit');
         return false;
       });
     });
@@ -228,16 +226,7 @@ class MapScreenState extends State<EditExerciseForm>
                             child: new Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                GestureDetector(
-                                  child: new Icon(
-                                    Icons.arrow_back_ios,
-                                    color: Color(0xFFFFCE2B),
-                                    size: 22.0,
-                                  ),
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
+                                CustomBackButton2(),
                                 Padding(
                                   padding: EdgeInsets.only(left: 25.0),
                                   //-->header
@@ -888,167 +877,6 @@ class MapScreenState extends State<EditExerciseForm>
         ),
       ),
     );
-  }
-
-  Future<dynamic> showSuccessMessage(BuildContext context) {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            backgroundColor: Colors.black,
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Icon(
-                        Icons.close,
-                        color: Colors.amber,
-                      ),
-                    )
-                  ],
-                ),
-                Center(
-                  child: Text(
-                    'Success!',
-                    style: TextStyle(
-                      color: Colors.amber,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 2,
-                ),
-                Center(
-                  child: Text(
-                    'Exercise edited successfully!',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 4,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.amber,
-                          onPrimary: Colors.black,
-                          fixedSize: Size.fromWidth(150),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          )),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MultiProvider(
-                                providers: [
-                                  ChangeNotifierProvider(
-                                    create: (_) => ExerciseListViewModel(),
-                                  ),
-                                ],
-                                child: ExercisesScreen(false),
-                              ),
-                            ));
-                      },
-                      child: Text('Go to exercises page'),
-                    ),
-                    SizedBox(
-                      width: 4,
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.amber,
-                          onPrimary: Colors.black,
-                          fixedSize: Size.fromWidth(150),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          )),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MultiProvider(
-                                providers: [
-                                  ChangeNotifierProvider(
-                                    create: (_) => ExerciseListViewModel(),
-                                  ),
-                                ],
-                                child: CoachTabsScreen(),
-                              ),
-                            ));
-                      },
-                      child: Text('Go to homepage'),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          );
-        });
-  }
-
-  Future<dynamic> showErrorMessage(BuildContext context) {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            backgroundColor: Colors.black,
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Icon(
-                        Icons.close,
-                        color: Colors.amber,
-                      ),
-                    )
-                  ],
-                ),
-                Text(
-                  'Failure',
-                  style: TextStyle(
-                    color: Colors.amber,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(
-                  height: 2,
-                ),
-                Center(
-                  child: Text(
-                    'Failed to create exercise!',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        });
   }
 
   @override

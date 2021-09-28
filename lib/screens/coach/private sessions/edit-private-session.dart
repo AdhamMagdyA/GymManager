@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:gym_project/models/privateSession.dart';
-import 'package:gym_project/screens/coach/private%20sessions/view-my-private-sessions.dart';
 import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
 import 'package:gym_project/viewmodels/private-session-list-view-model.dart';
 import 'package:gym_project/viewmodels/private-session-view-model.dart';
@@ -43,7 +41,7 @@ class MapScreenState extends State<EditPrivateSessionForm>
     var token = Provider.of<User>(context, listen: false).token;
     print(token);
     Provider.of<PrivateSessionListViewModel>(context, listen: false)
-        .fetchPrivateSession(widget.id, token)
+        .fetchPrivateSession(widget.id)
         .then((value) {
       pS = Provider.of<PrivateSessionListViewModel>(context, listen: false);
       _privateSession = pS.privateSession;
@@ -70,8 +68,7 @@ class MapScreenState extends State<EditPrivateSessionForm>
   bool savePrivateSession() {
     setState(() {
       Provider.of<PrivateSessionListViewModel>(context, listen: false)
-          .editPrivateSession(
-              _privateSession, Provider.of<User>(context, listen: false).token)
+          .editPrivateSession(_privateSession)
           .then((value) {
         showSuccessMessage(context);
       }).catchError((err) {

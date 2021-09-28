@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/screens/coach/exercises/edit-exercise.dart';
+import 'package:gym_project/style/duration.dart';
 import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
 import 'package:gym_project/viewmodels/exercise-view-model.dart';
 import 'package:gym_project/widget/back-button.dart';
@@ -30,7 +31,7 @@ class ExercisesScreenState extends State<ExercisesScreen> {
     super.initState();
     token = Provider.of<User>(context, listen: false).token;
     Provider.of<ExerciseListViewModel>(context, listen: false)
-        .fetchListExercises(token)
+        .fetchListExercises()
         .then((value) {
       setState(() {
         done = true;
@@ -299,7 +300,6 @@ class ExercisesScreenState extends State<ExercisesScreen> {
                                       selectedItemsNumber: selectedItemsNumber,
                                       isSelected: isSelected,
                                       selectionTime: widget.isSelectionTime,
-                                      token: token,
                                     )
                                 ],
                               ),
@@ -369,7 +369,6 @@ class MyChoosingGridViewCard extends StatefulWidget {
     @required this.selectedItemsNumber,
     @required this.isSelected,
     @required this.selectionTime,
-    @required this.token,
   }) : super(key: key);
 
   final ExerciseViewModel exercise;
@@ -380,50 +379,12 @@ class MyChoosingGridViewCard extends StatefulWidget {
   final Function selectedItemsNumber;
   final Function isSelected;
   final bool selectionTime;
-  final String token;
 
   @override
   _MyChoosingGridViewCardState createState() => _MyChoosingGridViewCardState();
 }
 
 class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
-  // String printDuration(Duration duration) {
-  //   String twoDigits(int n) => n.toString().padLeft(2, "0");
-  //   String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
-  //   String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
-  //   return "$twoDigitMinutes:$twoDigitSeconds";
-  // }
-  String formatDuration(String duration) {
-    String finalDuration = 'Duration: ';
-    String hours = duration.substring(0, 2);
-    if (hours != '00') {
-      if (hours[0] == '0') {
-        finalDuration += '${hours[1]}h';
-      } else {
-        finalDuration += '${hours}h';
-      }
-    }
-    String minutes = duration.substring(3, 5);
-    if (minutes != '00') {
-      if (minutes[0] == '0') {
-        finalDuration += ' ${minutes[1]}m';
-      } else {
-        finalDuration += ' ${minutes}m';
-      }
-    }
-    if (duration.length == 8) {
-      String seconds = duration.substring(6);
-      if (seconds != '00') {
-        if (seconds[0] == '0') {
-          finalDuration += ' ${seconds[1]}s';
-        } else {
-          finalDuration += ' ${seconds}s';
-        }
-      }
-    }
-    return finalDuration;
-  }
-
   @override
   Widget build(BuildContext context) {
     final double imageBorderRadius = widget.selectionMode ? 0 : 30;
@@ -649,8 +610,7 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
 
                                   Provider.of<ExerciseListViewModel>(context,
                                           listen: false)
-                                      .deleteExercise(
-                                          widget.exercise.id, widget.token)
+                                      .deleteExercise(widget.exercise.id)
                                       .then((value) {
                                     setState(() {
                                       exercises.remove(widget.exercise);

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:gym_project/screens/coach/private%20sessions/edit-private-session.dart';
 import 'package:gym_project/screens/common/view-private-session-details.dart';
+import 'package:gym_project/style/duration.dart';
 import 'package:gym_project/viewmodels/private-session-list-view-model.dart';
 import 'package:gym_project/viewmodels/private-session-view-model.dart';
 import 'package:gym_project/widget/providers/user.dart';
@@ -22,7 +23,7 @@ class _ViewBookedSessionsScreenState extends State<ViewBookedSessionsScreen> {
     super.initState();
     token = Provider.of<User>(context, listen: false).token;
     Provider.of<PrivateSessionListViewModel>(context, listen: false)
-        .fetchListBookedPrivateSessions(token)
+        .fetchListBookedPrivateSessions('coach')
         .then((value) {
       sessionListViewModel =
           Provider.of<PrivateSessionListViewModel>(context, listen: false);
@@ -42,60 +43,6 @@ class _ViewBookedSessionsScreenState extends State<ViewBookedSessionsScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-  }
-
-  String formatDuration(String duration) {
-    String finalDuration = 'Duration: ';
-    String hours = duration.substring(0, 2);
-    if (hours != '00') {
-      if (hours[0] == '0') {
-        finalDuration += '${hours[1]}h';
-      } else {
-        finalDuration += '${hours}h';
-      }
-    }
-    String minutes = duration.substring(3, 5);
-    if (minutes != '00') {
-      if (minutes[0] == '0') {
-        finalDuration += ' ${minutes[1]}m';
-      } else {
-        finalDuration += ' ${minutes}m';
-      }
-    }
-    if (duration.length == 8) {
-      String seconds = duration.substring(6);
-      if (seconds != '00') {
-        if (seconds[0] == '0') {
-          finalDuration += ' ${seconds[1]}s';
-        } else {
-          finalDuration += ' ${seconds}s';
-        }
-      }
-    }
-    return finalDuration;
-  }
-
-  String formatDateTime(String dateTime) {
-    //2021-09-13 14:13:51
-    List<String> months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec'
-    ];
-    String year = dateTime.substring(0, 4);
-    String month = dateTime.substring(5, 7);
-    String day = dateTime.substring(8, 10);
-    String time = dateTime.substring(12);
-    return '$day ${months[int.parse(month) - 1]} $year at $time';
   }
 
   @override
@@ -246,7 +193,7 @@ class _ViewBookedSessionsScreenState extends State<ViewBookedSessionsScreen> {
 
                   Provider.of<PrivateSessionListViewModel>(context,
                           listen: false)
-                      .deletePrivateSession(privateSession.id, token)
+                      .deletePrivateSession(privateSession.id)
                       .then((value) {
                     setState(() {
                       privateSessions.remove(privateSession);

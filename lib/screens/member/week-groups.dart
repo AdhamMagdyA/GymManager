@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gym_project/common/my_list_tile_without_counter.dart';
 import 'package:gym_project/screens/common/view-group-details-screen.dart';
 import 'package:gym_project/screens/member/training-mode/training_mode_overview_screen.dart';
-import 'package:gym_project/widget/drawer.dart';
 
 class WeekGroups extends StatelessWidget {
   WeekGroups({Key key}) : super(key: key);

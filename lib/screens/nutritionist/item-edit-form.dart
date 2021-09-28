@@ -8,14 +8,14 @@ import 'package:flutter/foundation.dart';
 
 Map selectedEquipment = {};
 
-class CreateItemForm extends StatefulWidget {
+class EditItemForm extends StatefulWidget {
   @override
   MapScreenState createState() => MapScreenState();
 }
 
 //you can change the form heading from line 51,93
 //you can change the form fields from lines (119 ,138 , etc ) -> each padding represent a field
-class MapScreenState extends State<CreateItemForm>
+class MapScreenState extends State<EditItemForm>
     with SingleTickerProviderStateMixin {
   bool _status = true;
   final FocusNode myFocusNode = FocusNode();
@@ -154,7 +154,7 @@ class MapScreenState extends State<CreateItemForm>
                                 Padding(
                                   padding: EdgeInsets.only(left: 25.0),
                                   //-->header
-                                  child: new Text('Create Item',
+                                  child: new Text('Edit Item',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20.0,

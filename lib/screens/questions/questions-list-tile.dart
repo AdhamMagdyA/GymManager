@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/screens/questions/add-question-screen.dart';
 import 'package:gym_project/screens/questions/single-question.dart';
+import 'package:gym_project/viewmodels/answer-list-view-model.dart';
+import 'package:gym_project/viewmodels/login-view-model.dart';
+import 'package:gym_project/viewmodels/question-list-view-model.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
 
 class QuestionsListTile extends StatefulWidget {
+  final String user_name;
   final String title;
   final String body;
   final String date;
   final int num_of_answers;
-  String role;
+  final String role;
   final int id;
 
   QuestionsListTile({
+    this.user_name,
     this.title,
     this.body,
     this.date,
     this.num_of_answers,
-    //this.role,
+    this.role,
     this.id,
   });
   @override
@@ -32,7 +37,7 @@ class _QuestionsListTileState extends State<QuestionsListTile> {
     // TODO: implement initState
     super.initState();
     is_visible = true;
-    widget.role = Provider.of<User>(context, listen: false).role;
+    //widget.role = Provider.of<LoginViewModel>(context, listen: false).role;
   }
 
   @override
@@ -47,12 +52,17 @@ class _QuestionsListTileState extends State<QuestionsListTile> {
         ),
         child: ListTile(
           isThreeLine: true,
-          onTap: () {
+          onTap: () async {
+            await Provider.of<QuestionListViewModel>(context, listen: false)
+                .getQuestionById(widget.id);
+            await Provider.of<AnswerListViewModel>(context, listen: false)
+                .getAnswers(widget.id);
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => SingleQuestionScreen(
                   question_id: widget.id,
+                  role: widget.role,
                 ),
               ),
             );
@@ -78,7 +88,7 @@ class _QuestionsListTileState extends State<QuestionsListTile> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.title,
+                          widget.user_name,
                           style: TextStyle(
                             color: Colors.white,
                             fontFamily: 'assets/fonts/Changa-Bold.ttf',
@@ -130,11 +140,21 @@ class _QuestionsListTileState extends State<QuestionsListTile> {
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
                                         MaterialButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              is_visible = false;
-                                            });
+                                          onPressed: () async {
+                                            await Provider.of<
+                                                        QuestionListViewModel>(
+                                                    context,
+                                                    listen: false)
+                                                .deletQuestion(widget.id);
+                                            await Provider.of<
+                                                        QuestionListViewModel>(
+                                                    context,
+                                                    listen: false)
+                                                .getQuestions();
                                             Navigator.of(context).pop();
+                                            /*setState(() {
+                                              is_visible = false;
+                                            });*/
                                           },
                                           child: Text("YES"),
                                           color: Color(0xFFFFCE2B),
@@ -178,8 +198,10 @@ class _QuestionsListTileState extends State<QuestionsListTile> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => AddQuestionScreen(
-                                    body: "This is body",
-                                    title: "This is title",
+                                    body: widget.body,
+                                    title: widget.title,
+                                    id: widget.id,
+                                    post_type: 'Edit',
                                   ),
                                 ),
                               );

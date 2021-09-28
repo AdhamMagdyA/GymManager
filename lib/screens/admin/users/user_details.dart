@@ -1,6 +1,8 @@
 //import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:gym_project/widget/providers/user.dart';
+import 'package:provider/provider.dart';
 
 class UserDetails extends StatefulWidget {
   const UserDetails({Key key}) : super(key: key);
@@ -26,6 +28,7 @@ class _UserDetailsState extends State<UserDetails> {
           color: Color(0xFF181818), //background color
           child: new ListView(
             children: <Widget>[
+              //Screen Header
               Container(
                 padding: EdgeInsets.only(left: 20, top: 10),
                 child: Row(
@@ -47,7 +50,7 @@ class _UserDetailsState extends State<UserDetails> {
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20.0,
-                              fontFamily: 'sans-serif-light',
+                              fontFamily: 'assets/fonts/Changa-Bold.ttf',
                               color: Colors.white)),
                     ),
                   ],
@@ -117,7 +120,9 @@ class _UserDetailsState extends State<UserDetails> {
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     mainAxisSize: MainAxisSize.min,
                                     children: <Widget>[
-                                      _status
+                                      Provider.of<User>(context, listen: false)
+                                                  .role ==
+                                              "admin"
                                           ? _getEditIcon()
                                           : new Container(),
                                     ],

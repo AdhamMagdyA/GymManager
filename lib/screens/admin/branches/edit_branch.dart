@@ -5,6 +5,8 @@ import 'package:gym_project/screens/admin/equipment/equipments-list.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
+import '../helping-widgets/edit-form-widgets.dart';
+
 class EditBranchForm extends StatefulWidget {
   const EditBranchForm({Key key}) : super(key: key);
 
@@ -42,6 +44,7 @@ class _EditBranchFormState extends State<EditBranchForm>
             children: <Widget>[
               Column(
                 children: <Widget>[
+                  //Heading
                   new Container(
                     height: 100.0,
                     color: Color(0xFF181818), //background color
@@ -69,7 +72,8 @@ class _EditBranchFormState extends State<EditBranchForm>
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20.0,
-                                          fontFamily: 'sans-serif-light',
+                                          fontFamily:
+                                              'assets/fonts/Changa-Bold.ttf',
                                           color: Colors.white)),
                                 )
                               ],
@@ -85,15 +89,14 @@ class _EditBranchFormState extends State<EditBranchForm>
                       color: Colors.white,
                     ),
 
-                    //color: Colors.white,
                     margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
                     child: Padding(
-                      //padding: EdgeInsets.only(bottom: 30.0),
                       padding: EdgeInsets.all(30),
                       child: new Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
+                          //form headding
                           Padding(
                             padding: EdgeInsets.only(
                                 left: 25.0, right: 25.0, top: 25.0),
@@ -124,6 +127,7 @@ class _EditBranchFormState extends State<EditBranchForm>
                               ],
                             ),
                           ),
+                          //image
                           Padding(
                             padding: EdgeInsets.only(
                                 left: 25.0, right: 25.0, top: 25.0),
@@ -140,114 +144,9 @@ class _EditBranchFormState extends State<EditBranchForm>
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 25.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                new Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    new Text(
-                                      'Location',
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                new Flexible(
-                                  child: new TextFormField(
-                                    initialValue: "Dummy Text",
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 25.0),
-                              child: new Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  new Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      new Text(
-                                        'Number',
-                                        style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              )),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 2.0),
-                              child: new Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  new Flexible(
-                                    child: new TextFormField(
-                                      initialValue: "Dummy Text",
-                                    ),
-                                  ),
-                                ],
-                              )),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 25.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                new Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    new Text(
-                                      'Information',
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 2.0),
-                              child: new Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  new Flexible(
-                                    child: new TextFormField(
-                                      initialValue: "Dummy Text",
-                                    ),
-                                  ),
-                                ],
-                              )),
+                          field('Location', ' Maadi ...'),
+                          field("Number", "01112241254"),
+                          field("Description", "Our gym is the best"),
                           Padding(
                             padding: EdgeInsets.only(
                                 left: 25.0, right: 25.0, top: 25.0),
@@ -274,6 +173,7 @@ class _EditBranchFormState extends State<EditBranchForm>
                           SizedBox(
                             height: 10,
                           ),
+                          //Equipment choosing Logic
                           Padding(
                             padding: EdgeInsets.only(
                                 left: 25.0, right: 25.0, top: 2.0),
@@ -322,6 +222,7 @@ class _EditBranchFormState extends State<EditBranchForm>
                           if (_selectedEquipment != [])
                             for (Map equipment in _selectedEquipment)
                               CustomEquipmentListTile(equipment, refresh),
+                          //Edit button
                           Padding(
                             padding: EdgeInsets.only(
                                 left: 95.0, bottom: 0, right: 95.0, top: 50.0),
@@ -459,56 +360,5 @@ class _EditBranchFormState extends State<EditBranchForm>
     // Clean up the controller when the Widget is disposed
     myFocusNode.dispose();
     super.dispose();
-  }
-}
-
-class CustomEquipmentListTile extends StatefulWidget {
-  final Map equipment;
-  final Function() notifyParent;
-
-  CustomEquipmentListTile(this.equipment, this.notifyParent);
-  @override
-  _CustomEquipmentListTileState createState() =>
-      _CustomEquipmentListTileState();
-}
-
-class _CustomEquipmentListTileState extends State<CustomEquipmentListTile> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsetsDirectional.only(bottom: 10),
-      decoration: BoxDecoration(
-        color: Color(0xff181818),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: ListTile(
-        minVerticalPadding: 10,
-        leading: CircleAvatar(
-          radius: 20,
-          child: FlutterLogo(),
-        ),
-        title: Text(
-          widget.equipment['name'],
-          style: TextStyle(color: Colors.white),
-        ),
-        trailing: Column(
-          children: [
-            Text(widget.equipment['value'].toString()),
-            SizedBox(height: 4),
-            GestureDetector(
-              child: Icon(
-                Icons.close,
-                color: Colors.white,
-              ),
-              onTap: () {
-                _selectedEquipment.remove(widget.equipment);
-                print(_selectedEquipment);
-                widget.notifyParent();
-              },
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

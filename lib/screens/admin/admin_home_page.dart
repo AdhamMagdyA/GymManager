@@ -323,20 +323,6 @@ class AdminHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     return Scaffold(
-        // bottomNavigationBar: BottomNavigationBar(
-        //   showSelectedLabels: false,
-        //   showUnselectedLabels: false,
-        //   selectedItemColor: Colors.purple,
-        //   unselectedItemColor: Colors.grey.shade300,
-        //   type: BottomNavigationBarType.fixed,
-        //   currentIndex: 0,
-        //   items: [
-        //     _bottomIcons(Icons.home),
-        //     _bottomIcons(Icons.star_border),
-        //     _bottomIcons(Icons.book),
-        //     _bottomIcons(Icons.person),
-        //   ],
-        // ),
         body: SingleChildScrollView(
             child: Container(
       child: Column(
@@ -359,6 +345,26 @@ class AdminHomePage extends StatelessWidget {
   }
 }
 
+
+        // Optional nav bar we can use
+        //
+        // bottomNavigationBar: BottomNavigationBar(
+        //   showSelectedLabels: false,
+        //   showUnselectedLabels: false,
+        //   selectedItemColor: Colors.purple,
+        //   unselectedItemColor: Colors.grey.shade300,
+        //   type: BottomNavigationBarType.fixed,
+        //   currentIndex: 0,
+        //   items: [
+        //     _bottomIcons(Icons.home),
+        //     _bottomIcons(Icons.star_border),
+        //     _bottomIcons(Icons.book),
+        //     _bottomIcons(Icons.person),
+        //   ],
+        // ),
+
+  //  Additionial decorations
+  //
   // Widget _decorationContainerC(Color primary, double top, double left) {
   //   return Stack(
   //     children: <Widget>[

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/common/my_list_tile_without_counter.dart';
+import 'package:gym_project/widget/providers/user.dart';
+import 'package:provider/provider.dart';
 
 class ClassesList extends StatefulWidget {
   final String title = 'Yoga';
@@ -18,17 +20,20 @@ class _ClassesListState extends State<ClassesList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Container(
-        child: FloatingActionButton.extended(
-          onPressed: () {
-            Navigator.pushNamed(context, '/create-class');
-          },
-          isExtended: false,
-          label: Icon(Icons.add),
-        ),
-        height: MediaQuery.of(context).size.height * 0.075,
-        width: MediaQuery.of(context).size.width * 0.1,
-      ),
+      floatingActionButton:
+          Provider.of<User>(context, listen: false).role == "admin"
+              ? Container(
+                  child: FloatingActionButton.extended(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/create-class');
+                    },
+                    isExtended: false,
+                    label: Icon(Icons.add),
+                  ),
+                  height: MediaQuery.of(context).size.height * 0.075,
+                  width: MediaQuery.of(context).size.width * 0.1,
+                )
+              : Container(),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       body: SafeArea(
         child: Container(
@@ -36,33 +41,35 @@ class _ClassesListState extends State<ClassesList> {
           padding: EdgeInsetsDirectional.all(10),
           child: ListView(
             children: [
-              Container(
-                padding: EdgeInsets.all(20),
-                child: Row(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: new Icon(
-                        Icons.arrow_back_ios,
-                        color: Color(0xFFFFCE2B),
-                        size: 22.0,
+              Provider.of<User>(context, listen: false).role != "coach"
+                  ? Container(
+                      padding: EdgeInsets.all(20),
+                      child: Row(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: new Icon(
+                              Icons.arrow_back_ios,
+                              color: Color(0xFFFFCE2B),
+                              size: 22.0,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 25.0),
+                            //-->header
+                            child: new Text('Classes List',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20.0,
+                                    fontFamily: 'assets/fonts/Changa-Bold.ttf',
+                                    color: Colors.white)),
+                          ),
+                        ],
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 25.0),
-                      //-->header
-                      child: new Text('Classes List',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20.0,
-                              fontFamily: 'sans-serif-light',
-                              color: Colors.white)),
-                    ),
-                  ],
-                ),
-              ),
+                    )
+                  : Container(),
               Material(
                   elevation: 5.0,
                   borderRadius: BorderRadius.all(Radius.circular(30)),

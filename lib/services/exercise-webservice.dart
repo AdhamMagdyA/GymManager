@@ -1,17 +1,15 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
-import 'package:gym_project/models/equipment.dart';
+import 'package:gym_project/widget/global.dart';
 import 'package:gym_project/models/exercise.dart';
 import 'package:gym_project/viewmodels/exercise-view-model.dart';
-import 'package:gym_project/widget/providers/user.dart';
+
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 
 class ExerciseWebService {
-  // String token;
+  String token = Global.token;
   // ExerciseWebService({this.token});
-  Future<List<Exercise>> getExercises(String token) async {
+  Future<List<Exercise>> getExercises() async {
     // print('Am i here??');
     final response = await http
         .get(Uri.parse('http://localhost:8000/api/exercises'), headers: {
@@ -37,7 +35,9 @@ class ExerciseWebService {
     }
   }
 
-  Future<Exercise> getExerciseDetails(int exerciseId, String token) async {
+  Future<Exercise> getExerciseDetails(
+    int exerciseId,
+  ) async {
     print('Am i here??');
     final response = await http.get(
         Uri.parse('http://localhost:8000/api/exercises/$exerciseId/details'),
@@ -58,7 +58,9 @@ class ExerciseWebService {
     }
   }
 
-  Future<Exercise> postExercise(Exercise exercise, String token) async {
+  Future<Exercise> postExercise(
+    Exercise exercise,
+  ) async {
     // print('Am i here??');
     final response =
         await http.post(Uri.parse('http://localhost:8000/api/exercises'),
@@ -90,7 +92,8 @@ class ExerciseWebService {
   }
 
   Future<Exercise> editExercise(
-      ExerciseViewModel exercise, String token) async {
+    ExerciseViewModel exercise,
+  ) async {
     // print('Am i here??');
     final response = await http.put(
         Uri.parse('http://localhost:8000/api/exercises/${exercise.id}'),
@@ -121,7 +124,9 @@ class ExerciseWebService {
     }
   }
 
-  Future<bool> deleteExercise(int exerciseId, String token) async {
+  Future<bool> deleteExercise(
+    int exerciseId,
+  ) async {
     // print('Am i here??');
     final response = await http.delete(
       Uri.parse('http://localhost:8000/api/exercises/${exerciseId}'),
