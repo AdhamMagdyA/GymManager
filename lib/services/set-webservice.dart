@@ -41,6 +41,7 @@ class SetWebService {
     print('response obtained!');
     print(response.statusCode);
     final result = json.decode(response.body);
+    print(result);
     if (response.statusCode == 200) {
       final setJson = result['set'];
       return Set.detailsfromJson(setJson);

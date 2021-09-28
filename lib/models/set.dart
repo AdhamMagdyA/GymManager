@@ -9,16 +9,16 @@ class Set {
   String breakDuration;
   int coachId;
   String coachName;
-  List<Exercise> exercises;
+  List<Exercise> exercises = [];
 
-  Set(
-      {this.coachName,
-      this.id,
-      this.title,
-      this.description,
-      this.breakDuration,
-      this.coachId,
-      this.exercises,
+  Set({
+    this.coachName,
+    this.id,
+    this.title,
+    this.description,
+    this.breakDuration,
+    this.coachId,
+    this.exercises,
   });
 
   String toString() {
@@ -61,17 +61,17 @@ class Set {
     );
   }
   factory Set.detailsfromJson(Map<String, dynamic> json) {
-    // List<Exercise> _exercises = json['exercises']
-    //     .map<Exercise>((exercise) => Exercise.fromJson(exercise))
-    //     .toList();
-    // List<Exercise> newExercises = _exercises.cast<Exercise>().toList();
+    List<Exercise> _exercises = json['exercises']
+        .map<Exercise>((exercise) => Exercise.fromJson(exercise))
+        .toList();
+    List<Exercise> newExercises = _exercises.cast<Exercise>().toList();
     return Set(
       id: json['id'],
       title: json['title'],
       description: json['description'],
       coachId: json['coach_id'],
       coachName: json['name'],
-      // exercises: newExercises,
+      exercises: newExercises,
     );
   }
 }

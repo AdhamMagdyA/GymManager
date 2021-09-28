@@ -251,39 +251,33 @@ class _ViewMyPrivateSessionsScreenState
                     : () {},
                 child: Provider.of<User>(context).role == "admin" ||
                         Provider.of<User>(context).role == "coach"
-                    ? Text(
-                        'Edit',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
+                    ? Expanded(
+                        child: TextButton(
+                          onPressed: () {
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => EditPlanForm()));
+
+                            Provider.of<PrivateSessionListViewModel>(context,
+                                    listen: false)
+                                .deletePrivateSession(privateSession.id)
+                                .then((value) {
+                              setState(() {
+                                privateSessions.remove(privateSession);
+                              });
+                            }).catchError((err) =>
+                                    {print('Failed to delete session')});
+                          },
+                          child: Text('Delete',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red,
+                              )),
                         ),
                       )
                     : Text(''),
-              ),
-            ),
-            Expanded(
-              child: TextButton(
-                onPressed: () {
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => EditPlanForm()));
-
-                  Provider.of<PrivateSessionListViewModel>(context,
-                          listen: false)
-                      .deletePrivateSession(privateSession.id)
-                      .then((value) {
-                    setState(() {
-                      privateSessions.remove(privateSession);
-                    });
-                  }).catchError((err) => {print('Failed to delete session')});
-                },
-                child: Text('Delete',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.red,
-                    )),
               ),
             ),
           ],

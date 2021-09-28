@@ -89,18 +89,19 @@ class _SetDetailsScreenState extends State<SetDetailsScreen> {
                       SizedBox(
                         height: 30,
                       ),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 20.0, vertical: 10.0),
-                        child: Text(
-                          "Exercises",
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: 'assets/fonts/Changa-Bold.ttf',
+                      if (_set.exercises.isNotEmpty)
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 20.0, vertical: 10.0),
+                          child: Text(
+                            "Exercises",
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.w400,
+                              fontFamily: 'assets/fonts/Changa-Bold.ttf',
+                            ),
                           ),
                         ),
-                      ),
                       CustomScrollView(
                         shrinkWrap: true,
                         slivers: <Widget>[
