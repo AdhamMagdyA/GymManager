@@ -7,6 +7,30 @@ import 'package:gym_project/widget/grid_view_card.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
 
+Future viewErrorDialogBox(BuildContext context, String message) {
+  return showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      backgroundColor: Colors.black,
+      content: Text(
+        message,
+        style: TextStyle(color: Colors.white),
+      ),
+      actions: [
+        TextButton(
+          child: Text(
+            'Ok',
+            style: TextStyle(color: Theme.of(context).primaryColor),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        )
+      ],
+    ),
+  );
+}
+
 class SetDetailsScreen extends StatefulWidget {
   final int id;
 
@@ -20,7 +44,6 @@ class _SetDetailsScreenState extends State<SetDetailsScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Provider.of<SetListViewModel>(context, listen: false)
         .fetchSetDetails(widget.id)

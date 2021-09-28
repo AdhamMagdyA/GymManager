@@ -25,9 +25,17 @@ class _LoginState extends State<Login> {
       TextEditingController(text: 'secret');
   final _passwordNode = FocusNode();
 
+  // login as a coach automatically
+  void autoLogin() {
+    Provider.of<LoginViewModel>(context, listen: false)
+        .fetchLogin('alvis98@example.net', 'secret');
+  }
+
   @override
   void initState() {
     super.initState();
+
+    autoLogin();
 
     _emailNode.addListener(() {
       setState(() {});

@@ -4,7 +4,7 @@ import 'package:gym_project/models/set.dart';
 class SetViewModel {
   Set set = Set();
 
-  SetViewModel({Set s}) : set = s;
+  SetViewModel({Set set}) : this.set = set;
 
   String get title {
     return set.title;
