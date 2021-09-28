@@ -190,16 +190,16 @@ class MyApp extends StatelessWidget {
         '/coach/profile': (context) => CoachProfile(),
         // '/coach/schedule': (context) => CoachSchedule(),
         // exercises
-        ExercisesScreen.routeName: (context) => ExercisesScreen(false),
+        ExercisesScreen.viewingRouteName: (context) => ExercisesScreen(false),
+        ExercisesScreen.choosingRouteName: (context) => ExercisesScreen(true),
         //exercises routes
         '/exercises/view': (context) => ExercisesScreen(false),
-        '/exercises/select': (context) => ExercisesScreen(true),
         '/exercises/create': (context) => CreateExerciseForm(),
         // '/edit-exercise': (context) => EditExerciseForm(),
 
         //sets routes
-        '/sets/view': (context) => ViewSetsScreen(false),
-        '/sets/select': (context) => ViewSetsScreen(true),
+        ViewSetsScreen.viewingRouteName: (context) => ViewSetsScreen(false),
+        ViewSetsScreen.choosingRouteName: (context) => ViewSetsScreen(true),
         '/sets/create': (context) => CreateSetForm(),
         // '/edit-set': (context) => EditSetForm(set),
 

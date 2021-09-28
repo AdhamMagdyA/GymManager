@@ -56,6 +56,14 @@ class _ViewGroupsScreenState extends State<ViewGroupsScreen> {
     }
     String token = Provider.of<User>(context, listen: false).token;
     Provider.of<GroupListViewModel>(context, listen: false).fetchGroups(token);
+
+    Group group = Group.detailsFromJson(
+      json.decode(
+        '{ "id": 1, "description": "Veritatis qui deleniti tenetur aut. Sequi aliquam pariatur autem sed cupiditate reiciendis.", "title": "flutter group 1", "coach_id": 5, "created_at": "2021-09-25 14:56:43", "updated_at": "2021-09-25 14:56:43", "exercises": [ { "id": 18, "description": "Tenetur ut velit cum quibusdam. Voluptatem distinctio ea pariatur quibusdam. Officiis dignissimos repudiandae non perferendis iure. Similique qui tempora nihil explicabo.", "duration": "05:42", "gif": "http://www.daniel.com/cumque-velit-dolorem-eum-eius-omnis-ducimus", "cal_burnt": 0.12, "title": "nemo", "reps": 2, "image": "https://via.placeholder.com/640x480.png/001177?text=qui", "coach_id": 5, "created_at": "2021-09-25 14:56:42", "updated_at": "2021-09-25 14:56:42", "pivot": { "group_id": 1, "exercise_id": 18, "created_at": "2021-09-25 14:56:47", "updated_at": "2021-09-25 14:56:47", "break_duration": "01:00" } }, { "id": 20, "description": "Necessitatibus eius dolores voluptatem eos. Cumque velit voluptatem possimus aliquid. Deserunt delectus odit reiciendis eum modi iure. Omnis est sunt aut recusandae sequi nemo iure.", "duration": "12:59", "gif": "https://okon.org/quia-voluptatum-quasi-sit-enim.html", "cal_burnt": 39.7, "title": "aliquid", "reps": 8, "image": "https://via.placeholder.com/640x480.png/00aaaa?text=tempora", "coach_id": 5, "created_at": "2021-09-25 14:56:42", "updated_at": "2021-09-25 14:56:42", "pivot": { "group_id": 1, "exercise_id": 20, "created_at": "2021-09-25 14:56:47", "updated_at": "2021-09-25 14:56:47", "break_duration": "01:00" } } ], "sets": [ { "id": 13, "title": "ipsum", "description": "Odio eum sit recusandae et eos officiis et ipsa. Nemo et consequatur eligendi minima ut. Illo similique sapiente nesciunt ducimus minus.", "coach_id": 5, "created_at": "2021-09-25 14:56:42", "updated_at": "2021-09-25 14:56:42", "pivot": { "group_id": 1, "set_id": 13, "created_at": "2021-09-25 14:56:47", "updated_at": "2021-09-25 14:56:47", "break_duration": "1 hour" }, "exercises": [] } ] }',
+      ),
+    );
+    Provider.of<GroupListViewModel>(context, listen: false)
+        .postGroup(group, token);
   }
 
   List<Map<int, int>> _numberOfSelectedInstances = [];

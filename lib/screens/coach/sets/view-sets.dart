@@ -32,6 +32,8 @@ Future viewErrorDialogBox(BuildContext context, String message) {
 }
 
 class ViewSetsScreen extends StatefulWidget {
+  static String viewingRouteName = 'sets/index';
+  static String choosingRouteName = 'sets/choose';
   bool isSelectionTime = false;
   ViewSetsScreen(this.isSelectionTime);
   @override
@@ -41,6 +43,8 @@ class ViewSetsScreen extends StatefulWidget {
 class _ViewSetsScreenState extends State<ViewSetsScreen> {
   List<SetViewModel> _sets = [];
   bool _selectionMode = false;
+  Map<int, Map<String, Object>> oldSelectedSets = {};
+  bool _argumentsLoaded = false;
   @override
   void initState() {
     super.initState();
@@ -55,6 +59,27 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
     }
   }
 
+  void loadArguments() {
+    oldSelectedSets = ModalRoute.of(context).settings.arguments;
+    if (oldSelectedSets.isNotEmpty) {
+      setState(() {
+        oldSelectedSets.forEach((int setId, Map<String, Object> setData) {
+          _numberOfSelectedInstances.add({setId: setData['quantity'] as int});
+        });
+        _selectionMode = true;
+      });
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_argumentsLoaded) {
+      loadArguments();
+      _argumentsLoaded = true;
+    }
+  }
+
   List<Map<int, int>> _numberOfSelectedInstances = [];
   Map<int, Object> finalSelectedItems = {};
 
@@ -64,60 +89,60 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
     });
   }
 
-  void incrementItem(int index) {
+  void incrementItem(int setId) {
     setState(() {
       int i = _numberOfSelectedInstances
-          .indexWhere((map) => map.containsKey(index));
+          .indexWhere((map) => map.containsKey(setId));
       if (i != -1) {
-        _numberOfSelectedInstances[i][index] =
-            _numberOfSelectedInstances[i][index] + 1;
+        _numberOfSelectedInstances[i][setId] =
+            _numberOfSelectedInstances[i][setId] + 1;
       } else {
-        _numberOfSelectedInstances.add({index: 1});
+        _numberOfSelectedInstances.add({setId: 1});
       }
     });
+    print(_numberOfSelectedInstances);
   }
 
-  void decrementItem(int index) {
+  void decrementItem(int setId) {
     setState(() {
       int i = _numberOfSelectedInstances
-          .indexWhere((map) => map.containsKey(index));
+          .indexWhere((map) => map.containsKey(setId));
       if (i == -1) return;
-      if (_numberOfSelectedInstances[i][index] == 1) {
-        _numberOfSelectedInstances.removeWhere((map) => map.containsKey(index));
+      if (_numberOfSelectedInstances[i][setId] == 1) {
+        _numberOfSelectedInstances.removeWhere((map) => map.containsKey(setId));
       } else {
-        _numberOfSelectedInstances[i][index] =
-            _numberOfSelectedInstances[i][index] - 1;
+        _numberOfSelectedInstances[i][setId] =
+            _numberOfSelectedInstances[i][setId] - 1;
       }
     });
+    print(_numberOfSelectedInstances);
   }
 
-  int selectedItemsNumber(index) {
-    if (!_numberOfSelectedInstances.any((map) => map.containsKey(index))) {
+  int selectedItemsNumber(setId) {
+    if (!_numberOfSelectedInstances.any((map) => map.containsKey(setId))) {
       return 0;
     } else {
       return _numberOfSelectedInstances
-          .firstWhere((map) => map.containsKey(index))[index];
+          .firstWhere((map) => map.containsKey(setId))[setId];
     }
   }
 
-  bool isSelected(int index) {
-    return _numberOfSelectedInstances.any((map) => map.containsKey(index));
+  bool isSelected(int setId) {
+    return _numberOfSelectedInstances.any((map) => map.containsKey(setId));
   }
 
-  void getFinalSelectedItems() {
-    int index = 0;
+  
+  Map<int, Map<String, Object>> getFinalSelectedItems() {
+    Map<int, Map<String, Object>> finalSelectedItems = {};
     for (Map<int, int> selectedItem in _numberOfSelectedInstances) {
-      // print(selectedItem);
-      selectedItem.forEach((key, value) {
-        // print(sets[key]);
-        for (int i = 0; i < value; i++) {
-          finalSelectedItems[index] = _sets[key];
-          index++;
-        }
+      selectedItem.forEach((setId, quantity) {
+        finalSelectedItems[setId] = {
+          'set': _sets.firstWhere((SetViewModel set) => set.id == setId),
+          'quantity': quantity
+        };
       });
-      print(finalSelectedItems);
     }
-    // print(finalSelectedItems);
+    return finalSelectedItems;
   }
 
   int number = 0;
@@ -192,7 +217,6 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
                       itemBuilder: (ctx, index) {
                         return SetsListTile(
                             _sets[index],
-                            index,
                             _selectionMode,
                             setSelectionMode,
                             incrementItem,
@@ -218,8 +242,7 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
                           borderRadius: BorderRadius.circular(16),
                         )),
                     onPressed: () {
-                      getFinalSelectedItems();
-                      Navigator.pop(context, finalSelectedItems);
+                      Navigator.pop(context, getFinalSelectedItems());
                     }),
               ),
             Padding(
@@ -258,8 +281,7 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
 }
 
 class SetsListTile extends StatefulWidget {
-  final SetViewModel set;
-  final int index;
+  final SetViewModel setVM;
   final bool selectionMode;
   final Function setSelectionMode;
   final Function incrementItem;
@@ -270,8 +292,7 @@ class SetsListTile extends StatefulWidget {
   final bool selectionTime;
 
   SetsListTile(
-      this.set,
-      this.index,
+      this.setVM,
       this.selectionMode,
       this.setSelectionMode,
       this.incrementItem,
@@ -309,7 +330,7 @@ class _SetsListTileState extends State<SetsListTile> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          color: widget.isSelected(widget.index)
+          color: widget.isSelected(widget.setVM.id)
               ? Colors.white24
               : Colors.transparent,
         ),
@@ -325,7 +346,7 @@ class _SetsListTileState extends State<SetsListTile> {
                                 create: (_) => SetListViewModel(),
                               ),
                             ],
-                            child: SetDetailsScreen(widget.set.id),
+                            child: SetDetailsScreen(widget.setVM.id),
                           )));
             } else if (widget.selectionTime && !widget.selectionMode) {
               widget.setSelectionMode(true);
@@ -337,7 +358,7 @@ class _SetsListTileState extends State<SetsListTile> {
             child: FlutterLogo(),
           ),
           title: Text(
-            widget.set.title,
+            widget.setVM.title,
             style: TextStyle(color: Colors.white),
           ),
           subtitle: Column(
@@ -346,7 +367,7 @@ class _SetsListTileState extends State<SetsListTile> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                widget.set.description,
+                widget.setVM.description,
                 style: TextStyle(
                   color: Colors.white,
                 ),
@@ -371,7 +392,7 @@ class _SetsListTileState extends State<SetsListTile> {
                                       create: (_) => SetListViewModel(),
                                     ),
                                   ],
-                                  child: SetDetailsScreen(widget.set.id),
+                                  child: SetDetailsScreen(widget.setVM.id),
                                 )));
                   },
                 ),
@@ -387,7 +408,7 @@ class _SetsListTileState extends State<SetsListTile> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      EditSetForm(widget.set),
+                                      EditSetForm(widget.setVM),
                             ),
                           );
                         },
@@ -404,7 +425,7 @@ class _SetsListTileState extends State<SetsListTile> {
                     SizedBox(height: 6),
                     Expanded(
                       child: TextButton(
-                        onPressed: () => deleteSet(widget.set.set),
+                        onPressed: () => deleteSet(widget.setVM.set),
                         child: Text('Delete',
                             style: TextStyle(
                               fontSize: 15,
@@ -426,12 +447,12 @@ class _SetsListTileState extends State<SetsListTile> {
                               size: 15,
                               color: Colors.white,
                             ),
-                            onTap: () => widget.incrementItem(widget.index),
+                            onTap: () => widget.incrementItem(widget.setVM.id),
                           ),
                         ),
                         Expanded(
                           child: Text(
-                            "${widget.selectedItemsNumber(widget.index)}",
+                            "${widget.selectedItemsNumber(widget.setVM.id)}",
                             style: TextStyle(fontSize: 12, color: Colors.white),
                           ),
                         ),
@@ -442,8 +463,8 @@ class _SetsListTileState extends State<SetsListTile> {
                               size: 15,
                               color: Colors.white,
                             ),
-                            onTap: () => widget.isSelected(widget.index)
-                                ? widget.decrementItem(widget.index)
+                            onTap: () => widget.isSelected(widget.setVM.id)
+                                ? widget.decrementItem(widget.setVM.id)
                                 : null,
                           ),
                         ),

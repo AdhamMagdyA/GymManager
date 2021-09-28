@@ -217,7 +217,7 @@ class MapScreenState extends State<CreateSetForm>
               child: Text('Choose Exercises'),
               style: ElevatedButton.styleFrom(
                   onPrimary: Colors.black,
-                  primary: Colors.amber,
+                  primary: Theme.of(context).primaryColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   )),
@@ -232,7 +232,7 @@ class MapScreenState extends State<CreateSetForm>
   Future<void> chooseExercises() async {
     var result = await Navigator.pushNamed(
       context,
-      ExercisesScreen.routeName,
+      ExercisesScreen.choosingRouteName,
       arguments: selectedExercises,
     ) as Map<int, Map<String, Object>>;
     if (result != null && result.isNotEmpty) {

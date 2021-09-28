@@ -12,7 +12,8 @@ import '../../common/view-exercises-details-screen.dart';
 class ExercisesScreen extends StatefulWidget {
   bool isSelectionTime = false;
   ExercisesScreen(this.isSelectionTime);
-  static String routeName = '/exercises/select';
+  static String choosingRouteName = '/exercises/choose';
+  static String viewingRouteName = '/exercises/index';
 
   @override
   ExercisesScreenState createState() => ExercisesScreenState();
@@ -54,30 +55,29 @@ class ExercisesScreenState extends State<ExercisesScreen> {
   List<Map<int, int>> _numberOfSelectedInstances = [];
   bool _argumentsLoaded = false;
   Map<int, Map<String, Object>> oldSelectedExercise = {};
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
 
-    exerciseListViewModel = Provider.of<ExerciseListViewModel>(context);
-    // SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-    //   if (exerciseListViewModel != null) {
-
-    //   }
-    // });
-
-    if (_argumentsLoaded) {
-      oldSelectedExercise = ModalRoute.of(context).settings.arguments;
-      _selectionMode = true;
+  void loadArguments() {
+    oldSelectedExercise = ModalRoute.of(context).settings.arguments;
       if (oldSelectedExercise.isNotEmpty) {
         setState(() {
           oldSelectedExercise
               .forEach((int exerciseId, Map<String, Object> exerciseData) {
             _numberOfSelectedInstances
                 .add({exerciseId: exerciseData['quantity'] as int});
-            _selectionMode = true;
           });
+          _selectionMode = true;
         });
       }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    exerciseListViewModel = Provider.of<ExerciseListViewModel>(context);
+
+    if (!_argumentsLoaded) {
+      loadArguments();
       _argumentsLoaded = true;
     }
   }

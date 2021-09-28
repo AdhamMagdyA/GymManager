@@ -275,7 +275,7 @@ class MapScreenState extends State<EditSetForm>
   Future<void> chooseExercises() async {
     var result = await Navigator.pushNamed(
       context,
-      ExercisesScreen.routeName,
+      ExercisesScreen.choosingRouteName,
       arguments: selectedExercises,
     ) as Map<int, Map<String, Object>>;
     if (result != null && result.isNotEmpty) {

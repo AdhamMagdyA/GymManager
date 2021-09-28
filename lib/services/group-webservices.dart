@@ -33,4 +33,19 @@ class GroupWebService {
     Group group = Group.detailsFromJson(body);
     return group;
   }
+
+  Future<Group> postGroup(Group group, String token) async {
+    final response = await http.post(
+      Uri.parse('http://127.0.0.1:8000/api/groups'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token'
+      },
+      body: json.encode(group.toMapForCreation()),
+    );
+    var body = json.decode(response.body);
+    Group createdGroup = Group.fromJson(body['group']);
+    return createdGroup;
+  }
 }

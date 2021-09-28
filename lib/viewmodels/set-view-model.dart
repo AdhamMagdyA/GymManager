@@ -32,4 +32,8 @@ class SetViewModel {
   List<Exercise> get exercises {
     return set.exercises;
   }
+
+  String toString() {
+    return set.toString();
+  }
 }

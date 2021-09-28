@@ -33,7 +33,7 @@ class Set {
       'coachId': coachId,
       'break_duration': breakDuration,
       'exercises':
-          exercises.map((Exercise exercise) => exercise.toMap()).toList(),
+          exercises?.map((Exercise exercise) => exercise.toMap())?.toList(),
     };
   }
 
