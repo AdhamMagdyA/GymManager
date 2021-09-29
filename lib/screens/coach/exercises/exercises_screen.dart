@@ -32,16 +32,18 @@ class ExercisesScreenState extends State<ExercisesScreen> {
   @override
   void initState() {
     super.initState();
-    getExercisesList(1);
     if (widget.isSelectionTime == true) {
       _selectionMode = true;
+      getExercisesList(0, '');
+    } else {
+      getExercisesList(1, '');
     }
   }
 
   int lastPage;
-  getExercisesList(int page) {
+  getExercisesList(int page, String searchText) {
     Provider.of<ExerciseListViewModel>(context, listen: false)
-        .fetchListExercises(page)
+        .fetchListExercises(page, searchText)
         .then((value) {
       setState(() {
         done = true;
@@ -146,6 +148,8 @@ class ExercisesScreenState extends State<ExercisesScreen> {
     return finalSelectedItems;
   }
 
+  TextEditingController searchText = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     const decorator = DotsDecorator(
@@ -153,216 +157,301 @@ class ExercisesScreenState extends State<ExercisesScreen> {
     );
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CustomScrollView(
-                shrinkWrap: true,
-                slivers: <Widget>[
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.all(26.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Row(
-                            children: [
-                              CustomBackButton(),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  top: 10,
-                                  left: 10,
-                                ),
-                                child: Text(
-                                  "Exercises",
-                                  style: TextStyle(
-                                    fontSize: 40,
-                                    fontWeight: FontWeight.w800,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 40),
-                          SearchBar(),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Stack(
-                children: <Widget>[
-                  Container(
-                    height: 300,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(30),
-                          bottomRight: Radius.circular(30)),
-                      color: Colors.black,
-                    ),
-                    width: double.infinity,
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 230, bottom: 20),
-                    width: 220,
-                    height: 190,
-                    decoration: BoxDecoration(
-                        color: Color(0xFFFFCE2B),
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(190),
-                            bottomLeft: Radius.circular(290),
-                            bottomRight: Radius.circular(160),
-                            topRight: Radius.circular(0))),
-                  ),
-                  Column(
-                    children: [
-                      SizedBox(
-                        width: double.infinity,
-                        height: 500,
-                        child: PageView.builder(
-                            controller: PageController(),
-                            onPageChanged: (index) {
-                              setState(() {
-                                exercises = [];
-                                done = false;
-                                error = false;
-                                _currentPosition = index.toDouble();
-                              });
-                              getExercisesList(index + 1);
-                            },
-                            scrollDirection: Axis.horizontal,
-                            itemCount: lastPage,
-                            itemBuilder: (ctx, index) {
-                              if (error) {
-                                return Center(
-                                    child: Text('An error occurred',
-                                        style: TextStyle(
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.bold,
-                                        )));
-                              } else if (done && exercises.isEmpty) {
-                                return Center(
-                                    child: Text('No exercises found',
-                                        style: TextStyle(
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.bold,
-                                        )));
-                              } else if (exercises.isEmpty) {
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    color: Colors.white,
-                                  ),
-                                );
-                              } else {
-                                return CustomScrollView(
-                                  shrinkWrap: true,
-                                  slivers: [
-                                    SliverPadding(
-                                      padding: const EdgeInsets.all(26.0),
-                                      sliver: SliverGrid.count(
-                                        crossAxisCount: 2,
-                                        mainAxisSpacing: 10,
-                                        crossAxisSpacing: 10,
-                                        childAspectRatio: 0.8,
-                                        children: [
-                                          for (int index = 0;
-                                              index < exercises.length;
-                                              index++)
-                                            MyChoosingGridViewCard(
-                                              exercise: exercises[index],
-                                              selectionMode: _selectionMode,
-                                              setSelectionMode:
-                                                  setSelectionMode,
-                                              incrementItem: incrementItem,
-                                              decrementItem: decrementItem,
-                                              selectedItemsNumber:
-                                                  selectedItemsNumber,
-                                              isSelected: isSelected,
-                                              selectionTime:
-                                                  widget.isSelectionTime,
-                                            ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              }
-                            }),
-                      ),
-                      if (done)
-                        DotsIndicator(
-                          dotsCount: lastPage,
-                          position: _currentPosition,
-                          axis: Axis.horizontal,
-                          decorator: decorator,
-                          onTap: (pos) {
-                            setState(() => _currentPosition = pos);
-                          },
-                        ),
-                    ],
-                  ),
-                  if (_selectionMode)
+        child: Stack(children: [
+          SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CustomScrollView(
+                  shrinkWrap: true,
+                  slivers: <Widget>[
                     SliverToBoxAdapter(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Expanded(
-                            child: Container(
-                              alignment: Alignment.center,
-                              child: Text(
-                                'Selected ${_numberOfSelectedInstances.length} of ${exercises.length}',
-                                style: TextStyle(color: Colors.white),
+                      child: Padding(
+                        padding: const EdgeInsets.all(26.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Row(
+                              children: [
+                                CustomBackButton(),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    top: 10,
+                                    left: 10,
+                                  ),
+                                  child: Text(
+                                    "Exercises",
+                                    style: TextStyle(
+                                      fontSize: 40,
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 40),
+                            Material(
+                              elevation: 5.0,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30)),
+                              child: TextFormField(
+                                controller: searchText,
+                                cursorColor: Theme.of(context).primaryColor,
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 18),
+                                decoration: InputDecoration(
+                                  hintText: 'Search..',
+                                  suffixIcon: Material(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(30)),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          int page =
+                                              widget.isSelectionTime ? 0 : 1;
+                                          exercises = [];
+                                          done = false;
+                                          error = false;
+                                          getExercisesList(
+                                              page, searchText.text);
+                                        });
+                                      },
+                                      child: Icon(Icons.search),
+                                    ),
+                                  ),
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 25,
+                                    vertical: 13,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _selectionMode = false;
-                                _numberOfSelectedInstances.clear();
-                              });
-                            },
-                            icon: CircleAvatar(
-                              radius: 30,
-                              backgroundColor: Colors.black.withOpacity(0.3),
-                              child: Icon(
-                                Icons.close,
-                                color: Colors.white,
-                              ),
-                            ),
-                          )
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  if (_selectionMode)
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: ElevatedButton(
-                          child: Text('Submit'),
-                          style: ElevatedButton.styleFrom(
-                              primary: Colors.amber,
-                              onPrimary: Colors.black,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
-                              )),
-                          onPressed: () {
-                            Navigator.pop(context, getFinalSelectedItems());
-                          }),
+                  ],
+                ),
+                Stack(
+                  children: <Widget>[
+                    Container(
+                      height: 300,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(30),
+                            bottomRight: Radius.circular(30)),
+                        color: Colors.black,
+                      ),
+                      width: double.infinity,
                     ),
-                ],
-              ),
+                    Container(
+                      margin: EdgeInsets.only(left: 230, bottom: 20),
+                      width: 220,
+                      height: 190,
+                      decoration: BoxDecoration(
+                          color: Color(0xFFFFCE2B),
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(190),
+                              bottomLeft: Radius.circular(290),
+                              bottomRight: Radius.circular(160),
+                              topRight: Radius.circular(0))),
+                    ),
+                    if (!widget.isSelectionTime)
+                      Column(
+                        children: [
+                          SizedBox(
+                            width: double.infinity,
+                            height: 500,
+                            child: PageView.builder(
+                                controller: PageController(),
+                                onPageChanged: (index) {
+                                  setState(() {
+                                    exercises = [];
+                                    done = false;
+                                    error = false;
+                                    _currentPosition = index.toDouble();
+                                  });
+                                  getExercisesList(index + 1, '');
+                                },
+                                scrollDirection: Axis.horizontal,
+                                itemCount: lastPage,
+                                itemBuilder: (ctx, index) {
+                                  if (error) {
+                                    return ErrorWidget();
+                                  } else if (done && exercises.isEmpty) {
+                                    return EmptyExercisesError();
+                                  } else if (exercises.isEmpty) {
+                                    return Progress();
+                                  } else {
+                                    return loadExercisesGrid();
+                                  }
+                                }),
+                          ),
+                          if (done)
+                            DotsIndicator(
+                              dotsCount: lastPage,
+                              position: _currentPosition,
+                              axis: Axis.horizontal,
+                              decorator: decorator,
+                              onTap: (pos) {
+                                setState(() => _currentPosition = pos);
+                              },
+                            ),
+                        ],
+                      ),
+                    if (_selectionMode)
+                      CustomScrollView(
+                        shrinkWrap: true,
+                        slivers: [
+                          SliverToBoxAdapter(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      'Selected ${_numberOfSelectedInstances.length} of ${exercises.length}',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _selectionMode = false;
+                                      _numberOfSelectedInstances.clear();
+                                    });
+                                  },
+                                  icon: CircleAvatar(
+                                    radius: 30,
+                                    backgroundColor:
+                                        Colors.black.withOpacity(0.3),
+                                    child: Icon(
+                                      Icons.close,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    if (widget.isSelectionTime)
+                      error
+                          ? ErrorWidget()
+                          : (done && exercises.isEmpty)
+                              ? EmptyExercisesError()
+                              : exercises.isEmpty
+                                  ? Progress()
+                                  : loadExercisesGrid(),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          if (_selectionMode)
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: ElevatedButton(
+                  child: Text('Submit'),
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.amber,
+                      onPrimary: Colors.black,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      )),
+                  onPressed: () {
+                    Navigator.pop(context, getFinalSelectedItems());
+                  }),
+            ),
+        ]),
+      ),
+    );
+  }
+
+  CustomScrollView loadExercisesGrid() {
+    return CustomScrollView(
+      shrinkWrap: true,
+      slivers: [
+        SliverPadding(
+          padding: const EdgeInsets.all(26.0),
+          sliver: SliverGrid.count(
+            crossAxisCount: 2,
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10,
+            childAspectRatio: 0.8,
+            children: [
+              for (int index = 0; index < exercises.length; index++)
+                MyChoosingGridViewCard(
+                  exercise: exercises[index],
+                  selectionMode: _selectionMode,
+                  setSelectionMode: setSelectionMode,
+                  incrementItem: incrementItem,
+                  decrementItem: decrementItem,
+                  selectedItemsNumber: selectedItemsNumber,
+                  isSelected: isSelected,
+                  selectionTime: widget.isSelectionTime,
+                ),
             ],
           ),
         ),
+      ],
+    );
+  }
+}
+
+class Progress extends StatelessWidget {
+  const Progress({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: CircularProgressIndicator(
+        color: Colors.white,
       ),
     );
+  }
+}
+
+class EmptyExercisesError extends StatelessWidget {
+  const EmptyExercisesError({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: Text('No exercises found',
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+            )));
+  }
+}
+
+class ErrorWidget extends StatelessWidget {
+  const ErrorWidget({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: Text('An error occurred',
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+            )));
   }
 }
 

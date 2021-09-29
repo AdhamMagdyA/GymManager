@@ -44,6 +44,7 @@ class Exercise {
   }
 
   factory Exercise.fromJson(Map<String, dynamic> json) {
+    print('decipher $json');
     return Exercise(
       id: json['id'],
       title: json['title'],

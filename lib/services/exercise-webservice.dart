@@ -11,25 +11,47 @@ import 'package:http/http.dart' as http;
 class ExerciseWebService {
   String token = Global.token;
   // ExerciseWebService({this.token});
-  Future<Tuple<int, List<Exercise>>> getExercises(int page) async {
+  Future<Tuple<int, List<Exercise>>> getExercises(
+      int page, String searchText) async {
     // print('Am i here??');
+    print(page);
+    print(searchText.isNotEmpty);
+    String url = 'http://localhost:8000/api/exercises';
+    if (page == 0) {
+      if (searchText.isNotEmpty) url += '?text=$searchText';
+    } else {
+      url += '?page=$page';
+      if (searchText.isNotEmpty) {
+        url += '&text=$searchText';
+      }
+    }
+    print(url);
+
     Tuple<int, List<Exercise>> res = Tuple();
-    final response = await http.get(
-        Uri.parse('http://localhost:8000/api/exercises?page=$page'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token'
-        });
+    final response = await http.get(Uri.parse(url), headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    });
     // print('response obtained!');
     // print(response.statusCode);
     final result = json.decode(response.body);
+    print(result);
     String userName = result['data']['name'];
     Global.setUserName(userName);
     if (response.statusCode == 200) {
-      res.item1 = result['data']['exercises']['last_page'];
-      // Iterable list = result['exercises']['data'];
-      Iterable list = result['data']['exercises']['data'];
+      Iterable list;
+      if (page != 0) {
+        print('now');
+        res.item1 = result['data']['exercises']['last_page'];
+        // Iterable list = result['exercises']['data'];
+        list = result['data']['exercises']['data'];
+      } else {
+        print('then');
+        res.item1 = 1;
+        // Iterable list = result['exercises']['data'];
+        list = result['data']['exercises'];
+      }
       // print(list);
       List<Exercise> exercises = list
           .map<Exercise>((exercise) => Exercise.fromJson(exercise))

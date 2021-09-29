@@ -22,10 +22,11 @@ class ExerciseListViewModel with ChangeNotifier {
   List<ExerciseViewModel> exercises = List<ExerciseViewModel>();
   ExerciseViewModel exercise = ExerciseViewModel();
   int lastPage;
-  Future<void> fetchListExercises(int page) async {
+  Future<void> fetchListExercises(int page, String searchText) async {
     // print('welcome token! $');
     // print('currently here!');
-    Tuple<int, List<Exercise>> result = await webService.getExercises(page);
+    Tuple<int, List<Exercise>> result =
+        await webService.getExercises(page, searchText);
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
     this.exercises =
