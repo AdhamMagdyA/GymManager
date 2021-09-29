@@ -377,11 +377,11 @@ class _GroupsListTileState extends State<GroupsListTile> {
                     Expanded(
                       child: TextButton(
                         onPressed: () {
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) =>
-                          //             EditGroupForm(widget.groupVM)));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      EditGroupForm(widget.groupVM)));
                         },
                         child: Text(
                           'Edit',

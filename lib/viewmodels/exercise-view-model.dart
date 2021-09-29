@@ -1,5 +1,6 @@
 import 'package:gym_project/models/equipment.dart';
 import 'package:gym_project/models/exercise.dart';
+import 'package:gym_project/screens/coach/exercises/exercises_screen.dart';
 
 class ExerciseViewModel {
   Exercise exercise = Exercise();
@@ -7,10 +8,11 @@ class ExerciseViewModel {
   ExerciseViewModel({Exercise e}) : exercise = e;
 
   Map<String, Object> toMap() {
-    return {
-      'id': id,
-      'title': title,
-    };
+    return exercise.toMap();
+  }
+
+  String toString() {
+    return exercise.toString();
   }
 
   String get title {
@@ -99,5 +101,13 @@ class ExerciseViewModel {
 
   set coachName(coachName) {
     exercise.coachName = coachName;
+  }
+
+  int get order {
+    return exercise.order;
+  }
+
+  set order(order) {
+    exercise.order = order;
   }
 }

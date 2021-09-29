@@ -2,34 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:gym_project/models/set.dart';
 import 'package:gym_project/screens/coach/sets/edit-set.dart';
 import 'package:gym_project/screens/common/view-set-details-screen.dart';
+import 'package:gym_project/screens/common/widget-builders.dart';
 import 'package:gym_project/viewmodels/set-list-view-model.dart';
 import 'package:gym_project/viewmodels/set-view-model.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
-
-Future viewErrorDialogBox(BuildContext context, String message) {
-  return showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      backgroundColor: Colors.black,
-      content: Text(
-        message,
-        style: TextStyle(color: Colors.white),
-      ),
-      actions: [
-        TextButton(
-          child: Text(
-            'Ok',
-            style: TextStyle(color: Theme.of(context).primaryColor),
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        )
-      ],
-    ),
-  );
-}
 
 class ViewSetsScreen extends StatefulWidget {
   static String viewingRouteName = 'sets/index';

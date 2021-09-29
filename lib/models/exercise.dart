@@ -50,7 +50,7 @@ class Exercise {
     return toMap().toString();
   }
 
-  factory Exercise.fromJson(Map<String, dynamic> json) {
+  factory Exercise.fromJson(Map<String, dynamic> json, {int order}) {
     return Exercise(
       id: json['id'],
       title: json['title'],
@@ -62,6 +62,7 @@ class Exercise {
       image: json['image'],
       coachId: json['coach_id'],
       coachName: json['name'] ?? '',
+      order: order,
     );
   }
   factory Exercise.detailsfromJson(Map<String, dynamic> json) {

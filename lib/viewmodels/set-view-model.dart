@@ -33,6 +33,10 @@ class SetViewModel {
     return set.exercises;
   }
 
+  int get order {
+    return set.order;
+  }
+
   String toString() {
     return set.toString();
   }

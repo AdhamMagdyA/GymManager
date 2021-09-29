@@ -53,4 +53,23 @@ class GroupWebService {
     Group createdGroup = Group.fromJson(body['group']);
     return createdGroup;
   }
+
+  Future<Group> putGroup(
+    Group group,
+    List<dynamic> orderedObjects,
+    String token,
+  ) async {
+    final response = await http.put(
+      Uri.parse('http://127.0.0.1:8000/api/groups/${group.id}'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token'
+      },
+      body: json.encode(group.toMapForCreation(orderedObjects)),
+    );
+    var body = json.decode(response.body);
+    Group createdGroup = Group.fromJson(body['group']);
+    return createdGroup;
+  }
 }

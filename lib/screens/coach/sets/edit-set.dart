@@ -6,6 +6,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:gym_project/models/exercise.dart';
 import 'package:gym_project/models/set.dart';
 import 'package:gym_project/screens/coach/exercises/exercises_screen.dart';
+import 'package:gym_project/screens/common/widget-builders.dart';
 import 'package:gym_project/services/set-webservice.dart';
 import 'package:gym_project/viewmodels/exercise-view-model.dart';
 import 'package:gym_project/viewmodels/set-list-view-model.dart';
@@ -25,6 +26,7 @@ int getExerciseQuantity(ExerciseViewModel exercise) {
 void setSelectedExercises({
   @required List<ExerciseViewModel> orderedExercises,
 }) {
+  selectedExercises.clear();
   List<int> uniqueIds =
       orderedExercises.map((exercise) => exercise.id).toSet().toList();
   uniqueIds.forEach((id) {
@@ -53,29 +55,6 @@ void setOrderedExercises({
   });
 }
 
-Future viewErrorDialogBox(BuildContext context, String message) {
-  return showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      backgroundColor: Colors.black,
-      content: Text(
-        message,
-        style: TextStyle(color: Colors.white),
-      ),
-      actions: [
-        TextButton(
-          child: Text(
-            'Ok',
-            style: TextStyle(color: Theme.of(context).primaryColor),
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        )
-      ],
-    ),
-  );
-}
 
 class EditSetForm extends StatefulWidget {
   final SetViewModel setVM;

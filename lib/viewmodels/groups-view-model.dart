@@ -14,6 +14,7 @@ class GroupViewModel {
   String get title => group.title;
   String get description => group.description;
   int get coachId => group.coachId;
+  String get breakDuration => group.breakDuration;
   List<Exercise> get exercises => group.exercises;
   List<Set> get sets => group.sets;
 
@@ -25,12 +26,14 @@ class GroupViewModel {
     return group.sets.map((s) => SetViewModel(set: s)).toList();
   }
 
-  set id(int id) => this.id = id;
-  set title(String title) => this.title = title;
-  set description(String description) => this.description = description;
+  set id(int id) => this.group.id = id;
+  set title(String title) => this.group.title = title;
+  set description(String description) => this.group.description = description;
   set coachId(int coachId) => this.coachId = coachId;
-  set exercises(List<Exercise> exercises) => this.exercises = exercises;
-  set sets(List<Set> sets) => this.sets = sets;
+  set breakDuration(String breakDuration) =>
+      this.group.breakDuration = breakDuration;
+  set exercises(List<Exercise> exercises) => this.group.exercises = exercises;
+  set sets(List<Set> sets) => this.group.sets = sets;
 
   Map<String, Object> toMap() {
     return group.toMap();

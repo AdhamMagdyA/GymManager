@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:gym_project/screens/coach/exercises/exercises_screen.dart';
+
 import 'exercise.dart';
 
 class Set {
@@ -64,9 +66,10 @@ class Set {
       coachName: json['name'] ?? 'unknown',
     );
   }
-  factory Set.detailsfromJson(Map<String, dynamic> json) {
+  factory Set.detailsfromJson(Map<String, dynamic> json, {int order}) {
     List<Exercise> exercises = json['exercises']
-        .map<Exercise>((exercise) => Exercise.fromJson(exercise))
+        .map<Exercise>((exercise) =>
+            Exercise.fromJson(exercise, order: _getOrderFromObject(exercise)))
         .toList();
     // List<Exercise> newExercises = _exercises.cast<Exercise>().toList();
     return Set(
@@ -76,6 +79,7 @@ class Set {
       breakDuration: Set._getBreakDurationFromJsonSet(json),
       coachId: json['coach_id'],
       coachName: json['name'],
+      order: order,
       exercises: exercises,
     );
   }
@@ -89,5 +93,12 @@ class Set {
     } else {
       return '00:00';
     }
+  }
+
+  // get order of exercise or set
+  static int _getOrderFromObject(Map objectJson) {
+    Map pivot = objectJson['pivot'];
+    int order = pivot['order'];
+    return order;
   }
 }

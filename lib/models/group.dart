@@ -76,9 +76,13 @@ class Group {
   factory Group.detailsFromJson(Map<String, Object> json) {
     List<dynamic> jsonExercises = json['exercises'];
     List<Exercise> exercises =
-        jsonExercises.map((e) => Exercise.fromJson(e)).toList();
+        jsonExercises
+        .map((e) => Exercise.fromJson(e, order: _getOrderFromObject(e)))
+        .toList();
     List<dynamic> jsonSets = json['sets'];
-    List<Set> sets = jsonSets.map((s) => Set.detailsfromJson(s)).toList();
+    List<Set> sets = jsonSets
+        .map((s) => Set.detailsfromJson(s, order: _getOrderFromObject(s)))
+        .toList();
 
     return Group(
       id: json['id'],
@@ -105,5 +109,12 @@ class Group {
     } else {
       return '00:00';
     }
+  }
+
+  // get order of exercise or set
+  static int _getOrderFromObject(Map objectJson) {
+    Map pivot = objectJson['pivot'];
+    int order = pivot['order'];
+    return order;
   }
 }

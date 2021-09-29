@@ -22,7 +22,9 @@ class _LoginState extends State<Login> {
   // login as a coach automatically
   void autoLogin() {
     Provider.of<LoginViewModel>(context, listen: false)
-        .fetchLogin('sklein@example.org', 'secret');
+        .fetchLogin('sklein@example.org', 'secret'); //coach
+    // .fetchLogin('brekke.vallie@example.org', 'secret'); //admin
+    // .fetchLogin('tanya33@example.net', 'secret'); //admin
   }
 
   @override

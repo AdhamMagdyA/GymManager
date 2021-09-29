@@ -36,4 +36,16 @@ class GroupListViewModel with ChangeNotifier {
     loadingStatus = LoadingStatus.Completed;
     notifyListeners();
   }
+
+  Future<void> putGroup(
+      Group group, List<dynamic> orderedObjects, String token) async {
+    loadingStatus = LoadingStatus.Searching;
+    Group groupModel =
+        await GroupWebService().putGroup(group, orderedObjects, token);
+    int updatedGroupIndex = groups.indexWhere((g) => g.id == group.id);
+    groups.removeAt(updatedGroupIndex);
+    groups.insert(updatedGroupIndex, GroupViewModel(group: group));
+    loadingStatus = LoadingStatus.Completed;
+    notifyListeners();
+  }
 }
