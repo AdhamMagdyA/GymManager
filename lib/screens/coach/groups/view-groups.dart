@@ -397,11 +397,11 @@ class _GroupsListTileState extends State<GroupsListTile> {
                     Expanded(
                       child: TextButton(
                         onPressed: () {
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) =>
-                          //             EditGroupForm(widget.groupVM)));
+                          String token =
+                              Provider.of<User>(context, listen: false).token;
+                          Provider.of<GroupListViewModel>(context,
+                                  listen: false)
+                              .deleteGroup(widget.groupVM.group, token);
                         },
                         child: Text('Delete',
                             style: TextStyle(

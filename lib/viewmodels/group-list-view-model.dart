@@ -48,4 +48,14 @@ class GroupListViewModel with ChangeNotifier {
     loadingStatus = LoadingStatus.Completed;
     notifyListeners();
   }
+
+  Future<void> deleteGroup(Group group, String token) async {
+    await GroupWebService().deleteGroup(group, token);
+    _removeGroupFromProvider(group);
+    notifyListeners();
+  }
+
+  void _removeGroupFromProvider(Group group) {
+    groups.removeWhere((g) => g.id == group.id);
+  }
 }

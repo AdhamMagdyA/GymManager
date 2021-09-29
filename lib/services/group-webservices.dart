@@ -72,4 +72,15 @@ class GroupWebService {
     Group createdGroup = Group.fromJson(body['group']);
     return createdGroup;
   }
+
+  Future<void> deleteGroup(Group group, String token) async {
+    await http.delete(
+      Uri.parse('http://127.0.0.1:8000/api/sets/${group.id}'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+  }
 }
