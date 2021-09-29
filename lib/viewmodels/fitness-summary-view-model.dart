@@ -25,6 +25,14 @@ class FitnessSummaryViewModel {
     fitnessSummary.id = id;
   }
 
+  int get memberId {
+    return fitnessSummary.memberId;
+  }
+
+  set memberId(memberId) {
+    fitnessSummary.memberId = memberId;
+  }
+
   double get BMI {
     return fitnessSummary.BMI;
   }

@@ -58,6 +58,7 @@ import 'package:gym_project/screens/member/sessions-tab-bar.dart';
 import 'package:gym_project/screens/member/workout-summery/workout-summeries.dart';
 
 import 'package:gym_project/screens/nutritionist/fitness-summaries.dart';
+import 'package:gym_project/screens/nutritionist/fitness-summary-creation-form.dart';
 import 'package:gym_project/screens/nutritionist/item-creation-form.dart';
 import 'package:gym_project/screens/nutritionist/item-edit-form.dart';
 import 'package:gym_project/screens/nutritionist/items_screen.dart';
@@ -172,6 +173,7 @@ class MyApp extends StatelessWidget {
 
         //fitness summery
         '/fitness-summaries': (context) => FitnessSummariesScreen(),
+        '/create-fitness-summary': (context) => CreateFitnessSummaryForm(),
 
         //profiles
         '/coach-profile': (context) => CoachProfile(),

@@ -70,4 +70,18 @@ class FitnessSummaryListViewModel with ChangeNotifier {
 
     notifyListeners();
   }
+
+  Future<void> postFitnessSummary(FitnessSummary fitSum) async {
+    bool result = await FitnessSummaryWebService().postFitnessSummary(fitSum);
+    loadingStatus = LoadingStatus.Searching;
+    notifyListeners();
+
+    if (result == false) {
+      loadingStatus = LoadingStatus.Empty;
+    } else {
+      loadingStatus = LoadingStatus.Completed;
+    }
+
+    notifyListeners();
+  }
 }

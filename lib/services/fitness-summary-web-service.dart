@@ -67,4 +67,36 @@ class FitnessSummaryWebService {
       throw Exception('response failed');
     }
   }
+
+  Future<bool> postFitnessSummary(FitnessSummary fitSum) async {
+    final response = await http.post(
+        Uri.parse('http://localhost:8000/api/fitness_summaries/create'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({
+          'BMI': fitSum.BMI,
+          'weight': fitSum.weight,
+          'muscle_ratio': fitSum.muscleRatio,
+          'height': fitSum.height,
+          'fat_ratio': fitSum.fatRatio,
+          'fitness_ratio': fitSum.fitnessRatio,
+          'total_body_water': fitSum.totalBodyWater,
+          'dry_lean_bath': fitSum.dryLeanBath,
+          'body_fat_mass': fitSum.bodyFatMass,
+          'opacity_ratio': fitSum.opacityRatio,
+          'protein': fitSum.protein,
+          'SMM': fitSum.SMM,
+          'member_id': fitSum.memberId,
+        }));
+    print('response obtained!');
+    print(response.body);
+    if (response.statusCode == 201) {
+      return true;
+    } else {
+      throw Exception('response failed');
+    }
+  }
 }

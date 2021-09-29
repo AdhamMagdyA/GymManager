@@ -1,6 +1,4 @@
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:gym_project/core/presentation/res/colors.dart';
-import 'package:gym_project/models/fitness-summary.dart';
 import 'package:gym_project/screens/nutritionist/fitness-summary.dart';
 import 'package:gym_project/style/datetime.dart';
 import 'package:gym_project/style/error-pop-up.dart';
@@ -149,6 +147,9 @@ class _FitnessSummariesScreenState extends State<FitnessSummariesScreen> {
               if (role == 'nutritionist')
                 Text(
                   'Member: ${fitSum.memberName}',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
               if (role == 'nutritionist')
                 SizedBox(
@@ -278,20 +279,34 @@ class _FitnessSummariesScreenState extends State<FitnessSummariesScreen> {
     const decorator = DotsDecorator(
       activeColor: Colors.amber,
     );
+    double topPadding = role != 'nutritionist' ? 80 : 20;
     return Theme(
       data: ThemeData(
           textTheme: Theme.of(context).textTheme.apply(
                 bodyColor: Colors.black,
               )),
       child: Scaffold(
+        floatingActionButton: Container(
+          child: FloatingActionButton.extended(
+            onPressed: () {
+              Navigator.pushNamed(context, '/create-fitness-summary');
+            },
+            isExtended: false,
+            label: Icon(Icons.add),
+            backgroundColor: Colors.amber,
+          ),
+          height: MediaQuery.of(context).size.height * 0.075,
+          width: MediaQuery.of(context).size.width * 0.1,
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
         backgroundColor: Colors.black,
         body: SafeArea(
           child: Center(
             child: Stack(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(
-                      bottom: 20, left: 20, right: 20, top: 80),
+                  padding: EdgeInsets.only(
+                      bottom: 20, left: 20, right: 20, top: topPadding),
                   child: Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
@@ -349,56 +364,61 @@ class _FitnessSummariesScreenState extends State<FitnessSummariesScreen> {
                                         ),
                                       );
                                     } else {
-                                      return FixedTimeline.tileBuilder(
-                                        theme: TimelineThemeData(
-                                          nodePosition: 0,
-                                          color: Colors.white24,
-                                          indicatorTheme: IndicatorThemeData(
-                                            position: 0,
-                                            size: 8.0,
-                                          ),
-                                          connectorTheme: ConnectorThemeData(
-                                            thickness: 2.5,
-                                          ),
-                                        ),
-                                        builder: TimelineTileBuilder.connected(
-                                          connectionDirection:
-                                              ConnectionDirection.before,
-                                          itemCount: fitSummaries.length,
-                                          contentsBuilder: (_, index) {
-                                            return Padding(
-                                              padding:
-                                                  EdgeInsets.only(left: 8.0),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Text(
-                                                    formatDate(
-                                                        fitSummaries[index]
-                                                            .updatedAt),
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                  fitnessSummaryWidget(context,
-                                                      fitSummaries[index]),
-                                                ],
-                                              ),
-                                            );
-                                          },
-                                          indicatorBuilder: (_, index) {
-                                            return OutlinedDotIndicator(
-                                              color: Colors.white24,
-                                              borderWidth: 2.5,
-                                            );
-                                          },
-                                          connectorBuilder: (_, index, ___) =>
-                                              SolidLineConnector(
+                                      return SingleChildScrollView(
+                                        child: FixedTimeline.tileBuilder(
+                                          theme: TimelineThemeData(
+                                            nodePosition: 0,
                                             color: Colors.white24,
+                                            indicatorTheme: IndicatorThemeData(
+                                              position: 0,
+                                              size: 8.0,
+                                            ),
+                                            connectorTheme: ConnectorThemeData(
+                                              thickness: 2.5,
+                                            ),
+                                          ),
+                                          builder:
+                                              TimelineTileBuilder.connected(
+                                            connectionDirection:
+                                                ConnectionDirection.before,
+                                            itemCount: fitSummaries.length,
+                                            contentsBuilder: (_, index) {
+                                              return Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 8.0),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Text(
+                                                      formatDate(
+                                                          fitSummaries[index]
+                                                              .updatedAt),
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    fitnessSummaryWidget(
+                                                        context,
+                                                        fitSummaries[index]),
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                            indicatorBuilder: (_, index) {
+                                              return OutlinedDotIndicator(
+                                                color: Colors.white24,
+                                                borderWidth: 2.5,
+                                              );
+                                            },
+                                            connectorBuilder: (_, index, ___) =>
+                                                SolidLineConnector(
+                                              color: Colors.white24,
+                                            ),
                                           ),
                                         ),
                                       );
@@ -421,36 +441,37 @@ class _FitnessSummariesScreenState extends State<FitnessSummariesScreen> {
                     ]),
                   ),
                 ),
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Container(
-                    padding: EdgeInsets.all(20),
-                    child: Row(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: new Icon(
-                            Icons.arrow_back_ios,
-                            color: Color(0xFFFFCE2B),
-                            size: 22.0,
+                if (role != 'nutritionist')
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Container(
+                      padding: EdgeInsets.all(20),
+                      child: Row(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: new Icon(
+                              Icons.arrow_back_ios,
+                              color: Color(0xFFFFCE2B),
+                              size: 22.0,
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 25.0),
-                          //-->header
-                          child: new Text('Fitness Summaries',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20.0,
-                                  fontFamily: 'sans-serif-light',
-                                  color: Colors.white)),
-                        ),
-                      ],
+                          Padding(
+                            padding: EdgeInsets.only(left: 25.0),
+                            //-->header
+                            child: new Text('Fitness Summaries',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20.0,
+                                    fontFamily: 'sans-serif-light',
+                                    color: Colors.white)),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                )
+                  )
               ],
             ),
           ),

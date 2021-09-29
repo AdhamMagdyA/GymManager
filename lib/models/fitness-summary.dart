@@ -16,6 +16,7 @@ class FitnessSummary {
   double SMM;
   String updatedAt;
   String memberName;
+  int memberId;
 
   FitnessSummary({
     this.id,
@@ -33,6 +34,7 @@ class FitnessSummary {
     this.weight,
     this.updatedAt,
     this.memberName,
+    this.memberId,
   });
 
   factory FitnessSummary.fromJson(Map<String, dynamic> json) {
@@ -52,6 +54,7 @@ class FitnessSummary {
       SMM: json['SMM'],
       updatedAt: json['updated_at'],
       memberName: json['name'] ?? '',
+      memberId: json['member_id'],
     );
   }
 }
