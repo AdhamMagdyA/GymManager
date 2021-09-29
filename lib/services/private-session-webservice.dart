@@ -10,21 +10,25 @@ import 'package:http/http.dart' as http;
 class PrivateSessionWebService {
   String token = Global.token;
   // PrivateSessionWebService({this.token});
-  Future<List<PrivateSession>> getMyPrivateSessions() async {
+  Future<Tuple<int, List<PrivateSession>>> getMyPrivateSessions(
+      int page) async {
     print('Am i here??');
-    final response = await http
-        .get(Uri.parse('http://localhost:8000/api/sessions/index'), headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token'
-    });
+    Tuple<int, List<PrivateSession>> res = Tuple();
+    final response = await http.get(
+        Uri.parse('http://localhost:8000/api/sessions/index?page=$page'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token'
+        });
     print('response obtained!');
     print(response.statusCode);
     final result = json.decode(response.body);
+    res.item1 = result['Private Sessions']['last_page'];
     print(result);
     if (response.statusCode == 200) {
       // Iterable list = result['private_sessions']['data'];
-      Iterable list = result['Private Sessions'];
+      Iterable list = result['Private Sessions']['data'];
       // print(list);
       List<PrivateSession> privateSessions = list
           .map<PrivateSession>(
@@ -32,44 +36,45 @@ class PrivateSessionWebService {
           .toList();
       List<PrivateSession> newPrivateSessions =
           privateSessions.cast<PrivateSession>().toList();
-      return newPrivateSessions;
+      res.item2 = newPrivateSessions;
+      return res;
     } else {
       // print(result.msg);
       throw Exception('response failed');
     }
   }
 
-  Future<List<PrivateSession>> getBookedPrivateSessions(String role) async {
+  Future<Tuple<int, List<PrivateSession>>> getBookedPrivateSessions(
+      String role, int page) async {
+    Tuple<int, List<PrivateSession>> res = Tuple();
     print('Am i here??');
-    final response = await http
-        .get(Uri.parse('http://localhost:8000/api/sessions/booked'), headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token'
-    });
+    final response = await http.get(
+        Uri.parse('http://localhost:8000/api/sessions/booked?page=$page'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token'
+        });
     print('response obtained!');
     print(response.statusCode);
     final result = json.decode(response.body);
     print(result);
     if (response.statusCode == 200) {
+      res.item1 = result['Private Sessions']['last_page'];
       // Iterable list = result['private_sessions']['data'];
-      Iterable list = result['Private Sessions'];
+      Iterable list = result['Private Sessions']['data'];
       List<PrivateSession> privateSessions = [];
       // print(list);
-      if (role == 'coach') {
-        privateSessions = list
-            .map<PrivateSession>(
-                (privateSession) => PrivateSession.fromJson(privateSession))
-            .toList();
-      } else if (role == 'member') {
-        privateSessions = list
-            .map<PrivateSession>((privateSession) =>
-                PrivateSession.fromJsonMember(privateSession))
-            .toList();
-      }
+
+      privateSessions = list
+          .map<PrivateSession>((privateSession) =>
+              PrivateSession.fromJsonwithDate(privateSession))
+          .toList();
+
       List<PrivateSession> newPrivateSessions =
           privateSessions.cast<PrivateSession>().toList();
-      return newPrivateSessions;
+      res.item2 = newPrivateSessions;
+      return res;
     } else {
       // print(result.msg);
       throw Exception('response failed');
@@ -90,8 +95,8 @@ class PrivateSessionWebService {
     print(response.statusCode);
     final result = json.decode(response.body);
     print(result);
-    res.item1 = result['Private Sessions']['last_page'];
     if (response.statusCode == 200) {
+      res.item1 = result['Private Sessions']['last_page'];
       // Iterable list = result['private_sessions']['data'];
       Iterable list = result['Private Sessions']['data'];
       // print(list);
@@ -124,8 +129,8 @@ class PrivateSessionWebService {
     print(response.statusCode);
     final result = json.decode(response.body);
     print(result);
-    res.item1 = result['Private Sessions']['last_page'];
     if (response.statusCode == 200) {
+      res.item1 = result['Private Sessions']['last_page'];
       // Iterable list = result['private_sessions']['data'];
       Iterable list = result['Private Sessions']['data'];
       // print(list);
@@ -275,6 +280,57 @@ class PrivateSessionWebService {
         'Authorization': 'Bearer $token',
       },
     );
+    print('response obtained!');
+    print(response.statusCode);
+    print(response.body);
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception('response failed');
+    }
+  }
+
+  Future<bool> acceptSession(
+    PrivateSessionViewModel privateSession,
+  ) async {
+    // print('Am i here??');
+    final response = await http.post(
+        Uri.parse(
+            'http://localhost:8000/api/sessions/${privateSession.id}/accept'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({
+          'member': privateSession.memberName,
+          'datetime': privateSession.dateTime,
+        }));
+    print('response obtained!');
+    print(response.statusCode);
+    print(response.body);
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception('response failed');
+    }
+  }
+
+  Future<bool> rejectSession(
+    PrivateSessionViewModel privateSession,
+  ) async {
+    // print('Am i here??');
+    final response = await http.post(
+        Uri.parse(
+            'http://localhost:8000/api/sessions/${privateSession.id}/reject'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({
+          'member': privateSession.memberName,
+        }));
     print('response obtained!');
     print(response.statusCode);
     print(response.body);

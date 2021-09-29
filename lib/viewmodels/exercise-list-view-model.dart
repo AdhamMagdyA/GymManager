@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/models/exercise.dart';
+import 'package:gym_project/models/tuple.dart';
 import 'package:gym_project/services/exercise-webservice.dart';
 
 import 'exercise-view-model.dart';
@@ -20,16 +21,16 @@ class ExerciseListViewModel with ChangeNotifier {
   // ignore: deprecated_member_use
   List<ExerciseViewModel> exercises = List<ExerciseViewModel>();
   ExerciseViewModel exercise = ExerciseViewModel();
-  // methods to fetch news
-  Future<void> fetchListExercises() async {
+  int lastPage;
+  Future<void> fetchListExercises(int page) async {
     // print('welcome token! $');
     // print('currently here!');
-    List<Exercise> _exercises = await webService.getExercises();
+    Tuple<int, List<Exercise>> result = await webService.getExercises(page);
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
     this.exercises =
-        _exercises.map((exercise) => ExerciseViewModel(e: exercise)).toList();
-
+        result.item2.map((exercise) => ExerciseViewModel(e: exercise)).toList();
+    this.lastPage = result.item1;
     if (this.exercises.isEmpty) {
       loadingStatus = LoadingStatus.Empty;
     } else {

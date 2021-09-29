@@ -61,6 +61,14 @@ class PrivateSessionViewModel {
     privateSession.memberName = memberName;
   }
 
+  String get name {
+    return privateSession.name;
+  }
+
+  set name(name) {
+    privateSession.name = name;
+  }
+
   String get link {
     return privateSession.link;
   }
@@ -83,5 +91,13 @@ class PrivateSessionViewModel {
 
   set price(price) {
     privateSession.price = price;
+  }
+
+  String get dateTime {
+    return privateSession.dateTime;
+  }
+
+  set dateTime(dateTime) {
+    privateSession.dateTime = dateTime;
   }
 }

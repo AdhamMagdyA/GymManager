@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:gym_project/screens/admin/classes/classes_list.dart';
-import 'package:gym_project/screens/admin/classes/edit_class.dart';
 import 'package:gym_project/screens/admin/users/users_list.dart';
-import 'package:gym_project/screens/coach/home-screen.dart';
 import 'package:gym_project/screens/coach/others-screen.dart';
-
-import 'package:gym_project/screens/coach/private%20sessions/create-private-session.dart';
 import 'package:gym_project/screens/coach/private%20sessions/sessions-screen.dart';
 import 'package:gym_project/screens/coach/sets/create-set.dart';
 import 'package:gym_project/screens/coach/sets/view-sets.dart';
-import 'package:gym_project/screens/member/training-mode/training_mode_overview_screen.dart';
 import 'package:gym_project/widget/coach-drawer.dart';
+
+import 'home-screen.dart';
 
 class CoachTabsScreen extends StatefulWidget {
   const CoachTabsScreen({Key key}) : super(key: key);
@@ -28,7 +24,7 @@ class _CoachTabsScreenState extends State<CoachTabsScreen>
     _tabController = new TabController(length: 2, vsync: this);
     _pages = [
       {
-        'page': ViewSetsScreen(false),
+        'page': CoachHomeScreen(),
         'title': 'Home',
       },
       {

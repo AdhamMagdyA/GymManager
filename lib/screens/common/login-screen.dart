@@ -18,7 +18,7 @@ class _LoginState extends State<Login> {
   /*final TextEditingController emailController =
       TextEditingController(text: 'parisian.dejon@example.net');*/
   final TextEditingController emailController =
-      TextEditingController(text: 'antone13@example.org');
+      TextEditingController(text: 'jsipes@example.net');
   /*final TextEditingController passwordController =
       TextEditingController(text: 'secret');*/
   final TextEditingController passwordController =
@@ -28,14 +28,14 @@ class _LoginState extends State<Login> {
   // login as a coach automatically
   void autoLogin() {
     Provider.of<LoginViewModel>(context, listen: false)
-        .fetchLogin('alvis98@example.net', 'secret');
+        .fetchLogin('jsipes@example.net', 'secret');
   }
 
   @override
   void initState() {
     super.initState();
 
-    autoLogin();
+    // autoLogin();
 
     _emailNode.addListener(() {
       setState(() {});

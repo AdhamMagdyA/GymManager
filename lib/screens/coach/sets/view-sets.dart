@@ -6,8 +6,10 @@ import 'package:gym_project/viewmodels/set-list-view-model.dart';
 import 'package:gym_project/viewmodels/set-view-model.dart';
 import 'package:gym_project/widget/back-button.dart';
 import 'package:gym_project/widget/custom-back-button-2.dart';
+import 'package:gym_project/widget/global.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 
 Future viewErrorDialogBox(BuildContext context, String message) {
   return showDialog(
@@ -43,28 +45,33 @@ class ViewSetsScreen extends StatefulWidget {
 class _ViewSetsScreenState extends State<ViewSetsScreen> {
   List<SetViewModel> _sets = [];
   bool _selectionMode = false;
+  int lastPage;
   @override
   void initState() {
     super.initState();
+    getSetsList(1);
+    if (widget.isSelectionTime == true) {
+      _selectionMode = true;
+    }
+  }
+
+  getSetsList(int page) {
     Provider.of<SetListViewModel>(context, listen: false)
-        .fetchListSets()
+        .fetchListSets(page)
         .then((value) {
       setState(() {
         var setListViewModel =
             Provider.of<SetListViewModel>(context, listen: false);
         _sets = setListViewModel.sets;
+        lastPage = setListViewModel.lastPage;
         done = true;
       });
     }).catchError((err) {
       setState(() {
         error = true;
-        viewErrorDialogBox(context, error.toString());
       });
       print('$err');
     });
-    if (widget.isSelectionTime == true) {
-      _selectionMode = true;
-    }
   }
 
   List<Map<int, int>> _numberOfSelectedInstances = [];
@@ -135,8 +142,12 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
   int number = 0;
   bool done = false;
   bool error = false;
+  double _currentPosition = 0;
   @override
   Widget build(BuildContext context) {
+    const decorator = DotsDecorator(
+      activeColor: Colors.amber,
+    );
     return SafeArea(
       child: Container(
         color: Colors.black,
@@ -145,10 +156,25 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
           children: [
             Material(
               color: Colors.black,
-              child: ListView(
+              child: Column(
                 children: [
+                  Row(
+                    children: [
+                      CustomBackButton(),
+                      Padding(
+                        padding: EdgeInsets.only(top: 10, left: 10),
+                        child: Text(
+                          'Sets',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      )
+                    ],
+                  ),
                   Container(
-                    margin: EdgeInsets.only(top: 60),
+                    margin: EdgeInsets.only(top: 20),
                     child: Material(
                         elevation: 5.0,
                         borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -196,42 +222,71 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
                         )
                       ],
                     ),
-                  error
-                      ? Center(
-                          child: Text('An error occurred',
-                              style: TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                              )))
-                      : (done && _sets.isEmpty)
-                          ? Center(
-                              child: Text('No exercises found',
-                                  style: TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
-                                  )))
-                          : _sets.isEmpty
-                              ? Center(
-                                  child: CircularProgressIndicator(
-                                    color: Colors.white,
-                                  ),
-                                )
-                              : ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: _sets.length,
-                                  itemBuilder: (ctx, index) {
-                                    return SetsListTile(
-                                        _sets[index],
-                                        index,
-                                        _selectionMode,
-                                        setSelectionMode,
-                                        incrementItem,
-                                        decrementItem,
-                                        selectedItemsNumber,
-                                        isSelected,
-                                        'https://images.app.goo.gl/oSJrrxJh1LGFiope9',
-                                        widget.isSelectionTime);
-                                  }),
+                  Expanded(
+                    child: PageView.builder(
+                        controller: PageController(),
+                        onPageChanged: (index) {
+                          setState(() {
+                            _sets = [];
+                            done = false;
+                            error = false;
+                            _currentPosition = index.toDouble();
+                          });
+                          getSetsList(index + 1);
+                        },
+                        scrollDirection: Axis.horizontal,
+                        itemCount: lastPage,
+                        itemBuilder: (ctx, index) {
+                          if (error) {
+                            return Center(
+                                child: Text('An error occurred',
+                                    style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                    )));
+                          } else if (done && _sets.isEmpty) {
+                            return Center(
+                                child: Text('No exercises found',
+                                    style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                    )));
+                          } else if (_sets.isEmpty) {
+                            return Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            );
+                          } else {
+                            return ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: _sets.length,
+                                itemBuilder: (ctx, index) {
+                                  return SetsListTile(
+                                      _sets[index],
+                                      index,
+                                      _selectionMode,
+                                      setSelectionMode,
+                                      incrementItem,
+                                      decrementItem,
+                                      selectedItemsNumber,
+                                      isSelected,
+                                      'https://images.app.goo.gl/oSJrrxJh1LGFiope9',
+                                      widget.isSelectionTime);
+                                });
+                          }
+                        }),
+                  ),
+                  if (done)
+                    DotsIndicator(
+                      dotsCount: lastPage,
+                      position: _currentPosition,
+                      axis: Axis.horizontal,
+                      decorator: decorator,
+                      onTap: (pos) {
+                        setState(() => _currentPosition = pos);
+                      },
+                    ),
                 ],
               ),
             ),
@@ -258,7 +313,6 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
                 left: 10,
               ),
             ),
-            CustomBackButton(),
           ],
         ),
       ),
@@ -295,7 +349,7 @@ class SetsListTile extends StatefulWidget {
 
 class _SetsListTileState extends State<SetsListTile> {
   int number = 0;
-
+  String username = Global.userName;
   Future<void> deleteSet(Set set) async {
     String token = Provider.of<User>(context, listen: false).token;
     try {
@@ -354,6 +408,12 @@ class _SetsListTileState extends State<SetsListTile> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
+                'Description',
+                style: TextStyle(
+                  color: Colors.amber,
+                ),
+              ),
+              Text(
                 widget.set.description,
                 style: TextStyle(
                   color: Colors.white,
@@ -385,7 +445,7 @@ class _SetsListTileState extends State<SetsListTile> {
                 ),
             ],
           ),
-          trailing: !widget.selectionTime
+          trailing: !widget.selectionTime && username == widget.set.coachName
               ? Column(
                   children: [
                     Expanded(

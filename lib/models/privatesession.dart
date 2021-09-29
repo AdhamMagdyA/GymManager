@@ -9,18 +9,23 @@ class PrivateSession {
   String coachName;
   String status;
   String memberName;
+  String dateTime;
+  String name;
 
-  PrivateSession(
-      {this.id,
-      this.title,
-      this.description,
-      this.duration,
-      this.link,
-      this.price,
-      this.coachId,
-      this.coachName,
-      this.status,
-      this.memberName});
+  PrivateSession({
+    this.id,
+    this.title,
+    this.description,
+    this.duration,
+    this.link,
+    this.price,
+    this.coachId,
+    this.coachName,
+    this.status,
+    this.memberName,
+    this.dateTime,
+    this.name,
+  });
 
   factory PrivateSession.fromJson(Map<String, dynamic> json) {
     return PrivateSession(
@@ -34,7 +39,7 @@ class PrivateSession {
       coachName: json['name'],
     );
   }
-  factory PrivateSession.fromJsonMember(Map<String, dynamic> json) {
+  factory PrivateSession.fromJsonwithDate(Map<String, dynamic> json) {
     return PrivateSession(
       id: json['id'],
       title: json['title'],
@@ -44,6 +49,8 @@ class PrivateSession {
       price: json['price'],
       coachId: json['coach_id'],
       status: json['status'],
+      dateTime: json['datetime'] ?? '',
+      name: json['name'],
     );
   }
   factory PrivateSession.fromJsonAdmin(Map<String, dynamic> json) {

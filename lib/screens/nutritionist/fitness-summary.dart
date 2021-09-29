@@ -1,8 +1,54 @@
 import 'package:flutter/material.dart';
-import 'package:gym_project/core/presentation/res/assets.dart';
+import 'package:gym_project/viewmodels/fitness-summary-list-view-model.dart';
+import 'package:gym_project/viewmodels/fitness-summary-view-model.dart';
+import 'package:gym_project/widget/custom-back-button-2.dart';
+import 'package:provider/provider.dart';
 
-class FitnessSummaryScreen extends StatelessWidget {
-  FitnessSummaryScreen({Key key}) : super(key: key);
+class FitnessSummaryScreen extends StatefulWidget {
+  final id;
+
+  FitnessSummaryScreen(this.id);
+
+  @override
+  _FitnessSummaryScreenState createState() => _FitnessSummaryScreenState();
+}
+
+class _FitnessSummaryScreenState extends State<FitnessSummaryScreen> {
+  FitnessSummaryViewModel fitnessSummary;
+  void initState() {
+    super.initState();
+    getFitnessSummary();
+  }
+
+  refresh() {
+    setState(() {});
+  }
+
+  String startDate;
+
+  String endDate;
+
+  bool done = false;
+
+  bool error = false;
+
+  var fitnessSummaryViewModel;
+
+  getFitnessSummary() {
+    Provider.of<FitnessSummaryListViewModel>(context, listen: false)
+        .fetchFitnessSummary(widget.id)
+        .then((value) {
+      fitnessSummaryViewModel =
+          Provider.of<FitnessSummaryListViewModel>(context, listen: false);
+      setState(() {
+        done = true;
+        fitnessSummary = fitnessSummaryViewModel.fitnessSummary;
+      });
+    }).catchError((err) {
+      error = true;
+      print('error occured $err');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +67,31 @@ class FitnessSummaryScreen extends StatelessWidget {
           iconTheme: IconThemeData(color: Color(0xFFFFCE2B)),
         ),
         backgroundColor: Colors.black,
-        body: SafeArea(
-          child: myGridView(context),
-        ),
+        body: error
+            ? SafeArea(
+                child: Center(
+                    child: Text('An error occurred',
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ))),
+              )
+            : fitnessSummary == null
+                ? SafeArea(
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
+                    ),
+                  )
+                : SafeArea(
+                    child: myGridView(context, fitnessSummary),
+                  ),
       ),
     );
   }
 
-  Widget myGridView(context) {
+  Widget myGridView(context, FitnessSummaryViewModel fitSum) {
     return Scaffold(
         body: SafeArea(
       child: Stack(children: <Widget>[
@@ -57,20 +120,20 @@ class FitnessSummaryScreen extends StatelessWidget {
                     mainAxisSpacing: 10.0,
                     shrinkWrap: true,
                     children: [
-                      GridViewCard(
-                          Icons.water, 'Weight', 'Range: 0 - 250', 'Value: 80'),
-                      GridViewCard(
-                          Icons.water, 'SMM', 'Range: 0 - 100', 'Value: 24'),
-                      GridViewCard(
-                          Icons.water, 'BMI', 'Range: 0 - 100', 'Value: 10'),
+                      GridViewCard(Icons.water, 'Weight', 'Range: 0 - 250',
+                          'Value: ${fitSum.weight}'),
+                      GridViewCard(Icons.water, 'SMM', 'Range: 0 - 100',
+                          'Value: ${fitSum.SMM}'),
+                      GridViewCard(Icons.water, 'BMI', 'Range: 0 - 100',
+                          'Value: ${fitSum.BMI}'),
                       GridViewCard(Icons.water, 'Muscle Ratio',
-                          'Range: 0 - 100', 'Value: 45'),
+                          'Range: 0 - 100', 'Value: ${fitSum.muscleRatio}'),
                       GridViewCard(Icons.water, 'Height', 'Range: 0 - 250',
-                          'Value: 176'),
+                          'Value: ${fitSum.height}'),
                       GridViewCard(Icons.water, 'Fat Ratio', 'Range: 0 - 100',
-                          'Value: 30'),
+                          'Value: ${fitSum.fatRatio}'),
                       GridViewCard(Icons.water, 'Protein', 'Range: 0 - 100',
-                          'Value: 68'),
+                          'Value: ${fitSum.protein}'),
                     ],
                   ),
                 ),

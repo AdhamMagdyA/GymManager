@@ -32,18 +32,18 @@ class PrivateSessionListViewModel with ChangeNotifier {
       List<PrivateSessionViewModel>();
   PrivateSessionViewModel privateSession = PrivateSessionViewModel();
   // methods to fetch news
-  Future<void> fetchListMyPrivateSessions() async {
+  Future<void> fetchListMyPrivateSessions(int page) async {
     // print('welcome token! $tokenn');
     // print('currently here!');
-    List<PrivateSession> _privateSessions =
-        await webService.getMyPrivateSessions();
+    Tuple<int, List<PrivateSession>> result =
+        await webService.getMyPrivateSessions(page);
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
-    this.privateSessions = _privateSessions
+    this.privateSessions = result.item2
         .map((privateSession) =>
             PrivateSessionViewModel(privateS: privateSession))
         .toList();
-
+    this.lastPage = result.item1;
     if (this.privateSessions.isEmpty) {
       loadingStatus = LoadingStatus.Empty;
     } else {
@@ -53,18 +53,18 @@ class PrivateSessionListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchListBookedPrivateSessions(String role) async {
+  Future<void> fetchListBookedPrivateSessions(String role, int page) async {
     // print('welcome token! $tokenn');
     // print('currently here!');
-    List<PrivateSession> _privateSessions =
-        await webService.getBookedPrivateSessions(role);
+    Tuple<int, List<PrivateSession>> result =
+        await webService.getBookedPrivateSessions(role, page);
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
-    this.privateSessions = _privateSessions
+    this.privateSessions = result.item2
         .map((privateSession) =>
             PrivateSessionViewModel(privateS: privateSession))
         .toList();
-
+    this.lastPage = result.item1;
     if (this.privateSessions.isEmpty) {
       loadingStatus = LoadingStatus.Empty;
     } else {
@@ -210,6 +210,38 @@ class PrivateSessionListViewModel with ChangeNotifier {
   ) async {
     // print('currently here!');
     bool status = await webService.cancelSession(sessionId);
+    loadingStatus = LoadingStatus.Searching;
+    notifyListeners();
+
+    if (status == false) {
+      loadingStatus = LoadingStatus.Empty;
+    } else {
+      loadingStatus = LoadingStatus.Completed;
+    }
+    notifyListeners();
+  }
+
+  Future<void> acceptPrivateSession(
+    PrivateSessionViewModel privateSession,
+  ) async {
+    // print('currently here!');
+    bool status = await webService.acceptSession(privateSession);
+    loadingStatus = LoadingStatus.Searching;
+    notifyListeners();
+
+    if (status == false) {
+      loadingStatus = LoadingStatus.Empty;
+    } else {
+      loadingStatus = LoadingStatus.Completed;
+    }
+    notifyListeners();
+  }
+
+  Future<void> rejectPrivateSession(
+    PrivateSessionViewModel privateSession,
+  ) async {
+    // print('currently here!');
+    bool status = await webService.rejectSession(privateSession);
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
 

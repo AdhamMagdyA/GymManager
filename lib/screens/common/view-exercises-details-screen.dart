@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/style/duration.dart';
 import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
 import 'package:gym_project/viewmodels/exercise-view-model.dart';
 import 'package:gym_project/widget/back-button.dart';
@@ -15,37 +16,6 @@ class ExerciseDetailsScreen extends StatefulWidget {
 }
 
 class _ExerciseDetailsScreenState extends State<ExerciseDetailsScreen> {
-  String formatDuration(String duration) {
-    String finalDuration = 'Duration: ';
-    String hours = duration.substring(0, 2);
-    if (hours != '00') {
-      if (hours[0] == '0') {
-        finalDuration += '${hours[1]}h';
-      } else {
-        finalDuration += '${hours}h';
-      }
-    }
-    String minutes = duration.substring(3, 5);
-    if (minutes != '00') {
-      if (minutes[0] == '0') {
-        finalDuration += ' ${minutes[1]}m';
-      } else {
-        finalDuration += ' ${minutes}m';
-      }
-    }
-    if (duration.length == 8) {
-      String seconds = duration.substring(6);
-      if (seconds != '00') {
-        if (seconds[0] == '0') {
-          finalDuration += ' ${seconds[1]}s';
-        } else {
-          finalDuration += ' ${seconds}s';
-        }
-      }
-    }
-    return finalDuration;
-  }
-
   bool error = false;
   bool done = false;
   ExerciseViewModel _exercise;
@@ -82,27 +52,31 @@ class _ExerciseDetailsScreenState extends State<ExerciseDetailsScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: error
-          ? Stack(
-              children: [
-                CustomBackButton(),
-                Center(
-                    child: Text('An error occurred',
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                        ))),
-              ],
+          ? SafeArea(
+              child: Stack(
+                children: [
+                  CustomBackButton(),
+                  Center(
+                      child: Text('An error occurred',
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                          ))),
+                ],
+              ),
             )
           : _exercise == null
-              ? Stack(
-                  children: [
-                    CustomBackButton(),
-                    Center(
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
+              ? SafeArea(
+                  child: Stack(
+                    children: [
+                      CustomBackButton(),
+                      Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 )
               : SafeArea(
                   child: Stack(

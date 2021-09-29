@@ -1,7 +1,11 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 import 'package:gym_project/screens/common/view-private-session-details.dart';
+import 'package:gym_project/style/datetime.dart';
+import 'package:gym_project/style/error-pop-up.dart';
+import 'package:gym_project/style/success-pop-up.dart';
 import 'package:gym_project/viewmodels/private-session-list-view-model.dart';
 import 'package:gym_project/viewmodels/private-session-view-model.dart';
 import 'package:gym_project/widget/providers/user.dart';
@@ -27,10 +31,16 @@ class _ViewPrivateSessionRequestsScreenState
     _currentPosition = 0;
   }
 
+  refresh() {
+    setState(() {});
+  }
+
   double _currentPosition;
   var sessionListViewModel;
   bool done = false;
   bool error = false;
+  DateTime dateTimeChosen;
+  bool dateTimeStatus = false;
 
   getPrivateSessionsList(int page) {
     Provider.of<PrivateSessionListViewModel>(context, listen: false)
@@ -191,7 +201,7 @@ class _ViewPrivateSessionRequestsScreenState
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              privateSession.memberName,
+              'Member: ${privateSession.memberName}',
               style: TextStyle(
                 color: Colors.white,
               ),
@@ -210,8 +220,115 @@ class _ViewPrivateSessionRequestsScreenState
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       )),
-                  onPressed: () {
-                    // Navigator.pop(context, selectedPrivateSession);
+                  onPressed: () async {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return StatefulBuilder(builder: (context, setState) {
+                            return AlertDialog(
+                              backgroundColor: Colors.black,
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Icon(
+                                          Icons.close,
+                                          color: Colors.amber,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  Center(
+                                    child: Text(
+                                      'Choose Date and Time',
+                                      style: TextStyle(
+                                        color: Colors.amber,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 2,
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () async {
+                                      await DatePicker.showDateTimePicker(
+                                        context,
+                                        showTitleActions: true,
+                                        minTime: DateTime(2020, 3, 5),
+                                        maxTime: DateTime(2022, 12, 30),
+                                      ).then((value) {
+                                        setState(() {
+                                          dateTimeChosen = value;
+                                          privateSession.dateTime =
+                                              dateTimeChosen;
+                                          dateTimeStatus = true;
+                                          refresh();
+                                        });
+                                      });
+                                    },
+                                    child: Text('Choose',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                        )),
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Colors.amber,
+                                      onPrimary: Colors.black,
+                                    ),
+                                  ),
+                                  if (dateTimeStatus)
+                                    Center(
+                                      child: new Text(
+                                        'You chose',
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 20),
+                                      ),
+                                    ),
+                                  if (dateTimeStatus)
+                                    Center(
+                                      child: new Text(
+                                        '${formatDateTime(dateTimeChosen.toString())}',
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 20),
+                                      ),
+                                    ),
+                                  if (dateTimeStatus)
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Provider.of<PrivateSessionListViewModel>(
+                                                context,
+                                                listen: false)
+                                            .acceptPrivateSession(
+                                                privateSession)
+                                            .then((value) {
+                                          Navigator.pop(context);
+                                          showSuccessMessage(context,
+                                              'Accepted successfully.');
+                                        }).catchError((err) {
+                                          print('$err');
+                                          showErrorMessage(
+                                              context, 'Failed to accept');
+                                        });
+                                      },
+                                      child: Text('Submit',
+                                          style: TextStyle(fontSize: 16)),
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors.amber,
+                                        onPrimary: Colors.black,
+                                      ),
+                                    )
+                                ],
+                              ),
+                            );
+                          });
+                        });
                   }),
             ),
             SizedBox(height: 6),
@@ -224,7 +341,15 @@ class _ViewPrivateSessionRequestsScreenState
                         borderRadius: BorderRadius.circular(16),
                       )),
                   onPressed: () {
-                    // Navigator.pop(context, selectedPrivateSession);
+                    Provider.of<PrivateSessionListViewModel>(context,
+                            listen: false)
+                        .rejectPrivateSession(privateSession)
+                        .then((value) {
+                      showSuccessMessage(context, 'Rejected successfully.');
+                    }).catchError((err) {
+                      print('$err');
+                      showErrorMessage(context, 'Failed to accept');
+                    });
                   }),
             ),
           ],

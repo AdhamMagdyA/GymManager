@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/models/set.dart';
+import 'package:gym_project/models/tuple.dart';
 import 'package:gym_project/services/set-webservice.dart';
 import 'package:gym_project/viewmodels/set-view-model.dart';
 
@@ -15,15 +16,16 @@ class SetListViewModel with ChangeNotifier {
   // ignore: deprecated_member_use
   List<SetViewModel> sets = List<SetViewModel>();
   SetViewModel set;
+  int lastPage;
 
   // methods to fetch news
-  Future<void> fetchListSets() async {
+  Future<void> fetchListSets(int page) async {
     print('currently here!');
-    List<Set> _sets = await SetWebService().getSets();
+    Tuple<int, List<Set>> result = await SetWebService().getSets(page);
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
-    this.sets = _sets.map((set) => SetViewModel(set: set)).toList();
-
+    this.sets = result.item2.map((set) => SetViewModel(set: set)).toList();
+    lastPage = result.item1;
     if (this.sets.isEmpty) {
       loadingStatus = LoadingStatus.Empty;
     } else {

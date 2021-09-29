@@ -80,6 +80,7 @@ import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
 import 'package:gym_project/screens/questions/single-question.dart';
 import 'package:gym_project/viewmodels/announcement-list-view-model.dart';
 import 'package:gym_project/viewmodels/answer-list-view-model.dart';
+import 'package:gym_project/viewmodels/fitness-summary-list-view-model.dart';
 import 'package:gym_project/viewmodels/login-view-model.dart';
 import 'package:gym_project/viewmodels/private-session-list-view-model.dart';
 import 'package:gym_project/viewmodels/set-list-view-model.dart';
@@ -109,6 +110,9 @@ void main() {
         ),
         ChangeNotifierProvider(
           create: (_) => PrivateSessionListViewModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => FitnessSummaryListViewModel(),
         ),
         ChangeNotifierProvider(create: (_) => AnnouncementListViewModel()),
         ChangeNotifierProvider(create: (_) => QuestionListViewModel()),

@@ -5,7 +5,6 @@ import 'package:gym_project/style/error-pop-up.dart';
 import 'package:gym_project/style/success-pop-up.dart';
 import 'package:gym_project/viewmodels/private-session-list-view-model.dart';
 import 'package:gym_project/viewmodels/private-session-view-model.dart';
-import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 
@@ -18,12 +17,10 @@ class ViewPrivateSessionsScreen extends StatefulWidget {
 List<PrivateSessionViewModel> privateSessions = [];
 
 class _ViewPrivateSessionsScreenState extends State<ViewPrivateSessionsScreen> {
-  String token;
   int lastPage;
   @override
   void initState() {
     super.initState();
-    token = Provider.of<User>(context, listen: false).token;
     getPrivateSessionsList(1);
     _currentPosition = 0;
   }
@@ -137,7 +134,6 @@ class _ViewPrivateSessionsScreenState extends State<ViewPrivateSessionsScreen> {
                                 return myListTile(
                                   privateSessions[index],
                                   index,
-                                  token,
                                 );
                               });
                         }
@@ -161,8 +157,7 @@ class _ViewPrivateSessionsScreenState extends State<ViewPrivateSessionsScreen> {
     );
   }
 
-  Widget myListTile(
-      PrivateSessionViewModel privateSession, int index, String token) {
+  Widget myListTile(PrivateSessionViewModel privateSession, int index) {
     return Container(
       margin: EdgeInsetsDirectional.only(bottom: 10),
       decoration: BoxDecoration(

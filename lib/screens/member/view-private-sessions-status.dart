@@ -1,5 +1,7 @@
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_project/screens/common/view-private-session-details.dart';
+import 'package:gym_project/style/datetime.dart';
 import 'package:gym_project/style/duration.dart';
 import 'package:gym_project/style/error-pop-up.dart';
 import 'package:gym_project/style/success-pop-up.dart';
@@ -18,18 +20,25 @@ List<PrivateSessionViewModel> privateSessions = [];
 
 class _ViewBookedSessionsScreenState extends State<ViewBookedSessionsScreen> {
   String token;
+  int lastPage;
+  double _currentPosition = 0;
   @override
   void initState() {
     super.initState();
     token = Provider.of<User>(context, listen: false).token;
+    getPrivateSessionsList(1);
+  }
+
+  getPrivateSessionsList(int page) {
     Provider.of<PrivateSessionListViewModel>(context, listen: false)
-        .fetchListBookedPrivateSessions('member')
+        .fetchListBookedPrivateSessions('member', page)
         .then((value) {
       sessionListViewModel =
           Provider.of<PrivateSessionListViewModel>(context, listen: false);
       setState(() {
         done = true;
         privateSessions = sessionListViewModel.privateSessions;
+        lastPage = sessionListViewModel.lastPage;
       });
     }).catchError((err) {
       error = true;
@@ -48,12 +57,15 @@ class _ViewBookedSessionsScreenState extends State<ViewBookedSessionsScreen> {
   @override
   Widget build(BuildContext context) {
     // double width = MediaQuery.of(context).size.width;
+    const decorator = DotsDecorator(
+      activeColor: Colors.amber,
+    );
     return SafeArea(
       child: Container(
         color: Colors.black,
         padding: EdgeInsetsDirectional.all(10),
         child: Stack(children: [
-          ListView(
+          Column(
             children: [
               Material(
                   elevation: 5.0,
@@ -73,18 +85,33 @@ class _ViewBookedSessionsScreenState extends State<ViewBookedSessionsScreen> {
                             EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
                   )),
               SizedBox(height: 20),
-              error
-                  ? Center(
-                      child: Text(
-                        'An error occurred',
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    )
-                  : (done && privateSessions.isEmpty)
-                      ? Center(
+              Expanded(
+                child: PageView.builder(
+                    controller: PageController(),
+                    onPageChanged: (index) {
+                      setState(() {
+                        privateSessions = [];
+                        done = false;
+                        error = false;
+                        _currentPosition = index.toDouble();
+                      });
+                      getPrivateSessionsList(index + 1);
+                    },
+                    scrollDirection: Axis.horizontal,
+                    itemCount: lastPage,
+                    itemBuilder: (ctx, index) {
+                      if (error) {
+                        return Center(
+                          child: Text(
+                            'An error occurred',
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        );
+                      } else if (done && privateSessions.isEmpty) {
+                        return Center(
                           child: Text(
                             'No private sessions found',
                             style: TextStyle(
@@ -92,21 +119,35 @@ class _ViewBookedSessionsScreenState extends State<ViewBookedSessionsScreen> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                        )
-                      : privateSessions.isEmpty
-                          ? Center(
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                              ),
-                            )
-                          : ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: privateSessions.length,
-                              itemBuilder: (ctx, index) {
-                                print(privateSessions[index].status);
-                                return myListTile(
-                                    privateSessions[index], index, token);
-                              }),
+                        );
+                      } else if (privateSessions.isEmpty) {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        );
+                      } else {
+                        return ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: privateSessions.length,
+                            itemBuilder: (ctx, index) {
+                              print(privateSessions[index].status);
+                              return myListTile(
+                                  privateSessions[index], index, token);
+                            });
+                      }
+                    }),
+              ),
+              if (done)
+                DotsIndicator(
+                  dotsCount: lastPage,
+                  position: _currentPosition,
+                  axis: Axis.horizontal,
+                  decorator: decorator,
+                  onTap: (pos) {
+                    setState(() => _currentPosition = pos);
+                  },
+                ),
             ],
           ),
         ]),
@@ -143,12 +184,13 @@ class _ViewBookedSessionsScreenState extends State<ViewBookedSessionsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Text(
-            //   privateSession.coachName,
-            //   style: TextStyle(
-            //     color: Colors.white,
-            //   ),
-            // ),
+            if (privateSession.status == 'booked')
+              Text(
+                'Date:${formatDateTime(privateSession.dateTime)}',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
             Text(
               formatDuration(privateSession.duration),
               style: TextStyle(

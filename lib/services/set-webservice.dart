@@ -1,4 +1,5 @@
 import 'package:gym_project/models/set.dart';
+import 'package:gym_project/models/tuple.dart';
 
 import 'package:gym_project/widget/global.dart';
 import 'dart:convert';
@@ -6,11 +7,12 @@ import 'package:http/http.dart' as http;
 
 class SetWebService {
   String token = Global.token;
-  Future<List<Set>> getSets() async {
+  Future<Tuple<int, List<Set>>> getSets(int page) async {
     print(token);
     print('Am i here??');
-    final response =
-        await http.get(Uri.parse('http://localhost:8000/api/sets'), headers: {
+    Tuple<int, List<Set>> res = Tuple();
+    final response = await http
+        .get(Uri.parse('http://localhost:8000/api/sets?page=$page'), headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'Bearer $token'
@@ -19,11 +21,16 @@ class SetWebService {
     print(response.statusCode);
     final result = json.decode(response.body);
     print(result);
+    String userName = result['data']['name'];
+    Global.setUserName(userName);
     if (response.statusCode == 200) {
-      Iterable list = result['sets'];
+      res.item1 = result['data']['sets']['last_page'];
+      Iterable list = result['data']['sets']['data'];
+      print(list);
       List<Set> sets = list.map<Set>((set) => Set.fromJson(set)).toList();
       List<Set> newSets = sets.cast<Set>().toList();
-      return newSets;
+      res.item2 = newSets;
+      return res;
     } else {
       throw Exception('response failed');
     }
