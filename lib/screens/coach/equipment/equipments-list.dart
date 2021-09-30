@@ -292,13 +292,6 @@ class MySingleChoosingGridViewCard extends StatefulWidget {
 
 class _MySingleChoosingGridViewCardState
     extends State<MySingleChoosingGridViewCard> {
-  String printDuration(Duration duration) {
-    String twoDigits(int n) => n.toString().padLeft(2, "0");
-    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
-    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
-    return "$twoDigitMinutes:$twoDigitSeconds";
-  }
-
   @override
   Widget build(BuildContext context) {
     final double imageBorderRadius = widget.selectionMode ? 0 : 30;
@@ -327,16 +320,13 @@ class _MySingleChoosingGridViewCardState
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Container(
-              width: double.infinity,
-              height: 120,
-              padding: EdgeInsets.all(0),
+            Expanded(
               child: ClipRRect(
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(imageBorderRadius),
                   topLeft: Radius.circular(imageBorderRadius),
                 ),
-                child: Image.asset(
+                child: Image.network(
                   widget.picture,
                   fit: BoxFit.cover,
                 ),

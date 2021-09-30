@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/common/my_list_tile_without_counter.dart';
+import 'package:gym_project/widget/providers/user.dart';
+import 'package:provider/provider.dart';
 
 class MembershipsList extends StatefulWidget {
   final String title = 'Gold Membership';
@@ -21,17 +23,20 @@ class _MembershipsListState extends State<MembershipsList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Container(
-        child: FloatingActionButton.extended(
-          onPressed: () {
-            Navigator.pushNamed(context, '/create-membership');
-          },
-          isExtended: false,
-          label: Icon(Icons.add),
-        ),
-        height: MediaQuery.of(context).size.height * 0.075,
-        width: MediaQuery.of(context).size.width * 0.1,
-      ),
+      floatingActionButton:
+          Provider.of<User>(context, listen: false).role == "admin"
+              ? Container(
+                  child: FloatingActionButton.extended(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/create-membership');
+                    },
+                    isExtended: false,
+                    label: Icon(Icons.add),
+                  ),
+                  height: MediaQuery.of(context).size.height * 0.075,
+                  width: MediaQuery.of(context).size.width * 0.1,
+                )
+              : Container(),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       body: SafeArea(
         child: Container(
@@ -60,7 +65,7 @@ class _MembershipsListState extends State<MembershipsList> {
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20.0,
-                              fontFamily: 'sans-serif-light',
+                              fontFamily: 'assets/fonts/Changa-Bold.ttf',
                               color: Colors.white)),
                     ),
                   ],

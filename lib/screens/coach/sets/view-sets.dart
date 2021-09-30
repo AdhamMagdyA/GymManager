@@ -3,10 +3,15 @@ import 'package:gym_project/models/set.dart';
 import 'package:gym_project/screens/coach/sets/edit-set.dart';
 import 'package:gym_project/screens/common/view-set-details-screen.dart';
 import 'package:gym_project/screens/common/widget-builders.dart';
+import 'package:gym_project/style/error-pop-up.dart';
 import 'package:gym_project/viewmodels/set-list-view-model.dart';
 import 'package:gym_project/viewmodels/set-view-model.dart';
+import 'package:gym_project/widget/back-button.dart';
+import 'package:gym_project/widget/global.dart';
+import 'package:gym_project/widget/loading-widgets.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 
 class ViewSetsScreen extends StatefulWidget {
   static String viewingRouteName = 'sets/index';
@@ -22,23 +27,21 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
   bool _selectionMode = false;
   Map<int, Map<String, Object>> oldSelectedSets = {};
   bool _argumentsLoaded = false;
+  int lastPage;
   @override
   void initState() {
     super.initState();
-    String token = Provider.of<User>(context, listen: false).token;
-    Provider.of<SetListViewModel>(context, listen: false)
-        .fetchListSets(token)
-        .catchError((error) {
-      viewErrorDialogBox(context, error.toString());
-    });
     if (widget.isSelectionTime == true) {
       _selectionMode = true;
+      getSetsList(0, '');
+    } else {
+      getSetsList(1, '');
     }
   }
 
   void loadArguments() {
     oldSelectedSets = ModalRoute.of(context).settings.arguments;
-    if (oldSelectedSets.isNotEmpty) {
+    if (oldSelectedSets != null && oldSelectedSets.isNotEmpty) {
       setState(() {
         oldSelectedSets.forEach((int setId, Map<String, Object> setData) {
           _numberOfSelectedInstances.add({setId: setData['quantity'] as int});
@@ -57,8 +60,29 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
     }
   }
 
+  getSetsList(int page, String searchText) {
+    Provider.of<SetListViewModel>(context, listen: false)
+        .fetchListSets(page, searchText)
+        .then((value) {
+      setState(() {
+        var setListViewModel =
+            Provider.of<SetListViewModel>(context, listen: false);
+        _sets = setListViewModel.sets;
+        lastPage = setListViewModel.lastPage;
+        done = true;
+      });
+    }).catchError((err) {
+      setState(() {
+        error = true;
+      });
+      print('$err');
+    });
+  }
+
   List<Map<int, int>> _numberOfSelectedInstances = [];
   Map<int, Object> finalSelectedItems = {};
+
+  TextEditingController searchText = TextEditingController();
 
   void setSelectionMode(bool value) {
     setState(() {
@@ -108,7 +132,6 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
     return _numberOfSelectedInstances.any((map) => map.containsKey(setId));
   }
 
-  
   Map<int, Map<String, Object>> getFinalSelectedItems() {
     Map<int, Map<String, Object>> finalSelectedItems = {};
     for (Map<int, int> selectedItem in _numberOfSelectedInstances) {
@@ -123,11 +146,14 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
   }
 
   int number = 0;
-
+  bool done = false;
+  bool error = false;
+  double _currentPosition = 0;
   @override
   Widget build(BuildContext context) {
-    var setListViewModel = Provider.of<SetListViewModel>(context);
-    _sets = setListViewModel.sets;
+    const decorator = DotsDecorator(
+      activeColor: Colors.amber,
+    );
     return SafeArea(
       child: Container(
         color: Colors.black,
@@ -136,28 +162,57 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
           children: [
             Material(
               color: Colors.black,
-              child: ListView(
+              child: Column(
                 children: [
+                  Row(
+                    children: [
+                      CustomBackButton(),
+                      Padding(
+                        padding: EdgeInsets.only(top: 10, left: 10),
+                        child: Text(
+                          'Sets',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      )
+                    ],
+                  ),
                   Container(
-                    margin: EdgeInsets.only(top: 60),
+                    margin: EdgeInsets.only(top: 20),
                     child: Material(
-                        elevation: 5.0,
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                        child: TextFormField(
-                          controller: TextEditingController(),
-                          cursorColor: Theme.of(context).primaryColor,
-                          style: TextStyle(color: Colors.black, fontSize: 18),
-                          decoration: InputDecoration(
-                              hintText: 'Search..',
-                              suffixIcon: Material(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30)),
-                                child: Icon(Icons.search),
-                              ),
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 25, vertical: 13)),
-                        )),
+                      elevation: 5.0,
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                      child: TextFormField(
+                        controller: searchText,
+                        cursorColor: Theme.of(context).primaryColor,
+                        style: TextStyle(color: Colors.black, fontSize: 18),
+                        decoration: InputDecoration(
+                          hintText: 'Search..',
+                          suffixIcon: Material(
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  int page = widget.isSelectionTime ? 0 : 1;
+                                  _sets = [];
+                                  done = false;
+                                  error = false;
+                                  getSetsList(page, searchText.text);
+                                });
+                              },
+                              child: Icon(Icons.search),
+                            ),
+                          ),
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: 25,
+                            vertical: 13,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                   SizedBox(height: 20),
                   if (_selectionMode)
@@ -187,22 +242,51 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
                         )
                       ],
                     ),
-                  ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: _sets.length,
-                      itemBuilder: (ctx, index) {
-                        return SetsListTile(
-                            _sets[index],
-                            _selectionMode,
-                            setSelectionMode,
-                            incrementItem,
-                            decrementItem,
-                            selectedItemsNumber,
-                            isSelected,
-                            'https://images.app.goo.gl/oSJrrxJh1LGFiope9',
-                            widget.isSelectionTime);
-                      }),
+                  if (widget.isSelectionTime)
+                    error
+                        ? CustomErrorWidget()
+                        : (done && _sets.isEmpty)
+                            ? EmptyListError('No sets found')
+                            : _sets.isEmpty
+                                ? Progress()
+                                : loadSetsList(),
+                  if (!widget.isSelectionTime)
+                    Expanded(
+                      child: PageView.builder(
+                          controller: PageController(),
+                          onPageChanged: (index) {
+                            setState(() {
+                              _sets = [];
+                              done = false;
+                              error = false;
+                              _currentPosition = index.toDouble();
+                            });
+                            getSetsList(index + 1, '');
+                          },
+                          scrollDirection: Axis.horizontal,
+                          itemCount: lastPage,
+                          itemBuilder: (ctx, index) {
+                            if (error) {
+                              return CustomErrorWidget();
+                            } else if (done && _sets.isEmpty) {
+                              return EmptyListError('No sets found');
+                            } else if (_sets.isEmpty) {
+                              return Progress();
+                            } else {
+                              return loadSetsList();
+                            }
+                          }),
+                    ),
+                  if (done && !widget.isSelectionTime)
+                    DotsIndicator(
+                      dotsCount: lastPage,
+                      position: _currentPosition,
+                      axis: Axis.horizontal,
+                      decorator: decorator,
+                      onTap: (pos) {
+                        setState(() => _currentPosition = pos);
+                      },
+                    ),
                 ],
               ),
             ),
@@ -227,38 +311,36 @@ class _ViewSetsScreenState extends State<ViewSetsScreen> {
                 top: 10,
                 left: 10,
               ),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Container(
-                    height: 42,
-                    width: 42,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
             ),
           ],
         ),
       ),
     );
   }
+
+  ListView loadSetsList() {
+    return ListView.builder(
+        shrinkWrap: true,
+        itemCount: _sets.length,
+        itemBuilder: (ctx, index) {
+          return SetsListTile(
+              _sets[index],
+              index,
+              _selectionMode,
+              setSelectionMode,
+              incrementItem,
+              decrementItem,
+              selectedItemsNumber,
+              isSelected,
+              'https://images.app.goo.gl/oSJrrxJh1LGFiope9',
+              widget.isSelectionTime);
+        });
+  }
 }
 
 class SetsListTile extends StatefulWidget {
   final SetViewModel setVM;
+  final int index;
   final bool selectionMode;
   final Function setSelectionMode;
   final Function incrementItem;
@@ -270,6 +352,7 @@ class SetsListTile extends StatefulWidget {
 
   SetsListTile(
       this.setVM,
+      this.index,
       this.selectionMode,
       this.setSelectionMode,
       this.incrementItem,
@@ -284,17 +367,16 @@ class SetsListTile extends StatefulWidget {
 
 class _SetsListTileState extends State<SetsListTile> {
   int number = 0;
-
+  String username = Global.userName;
   Future<void> deleteSet(Set set) async {
     String token = Provider.of<User>(context, listen: false).token;
     try {
       await Provider.of<SetListViewModel>(context, listen: false)
           .deleteSet(set, token);
     } catch (error) {
-      viewErrorDialogBox(context, error.toString());
+      showErrorMessage(context, 'Could not delete set');
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -344,6 +426,12 @@ class _SetsListTileState extends State<SetsListTile> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
+                'Description',
+                style: TextStyle(
+                  color: Colors.amber,
+                ),
+              ),
+              Text(
                 widget.setVM.description,
                 style: TextStyle(
                   color: Colors.white,
@@ -375,17 +463,16 @@ class _SetsListTileState extends State<SetsListTile> {
                 ),
             ],
           ),
-          trailing: !widget.selectionTime
+          trailing: !widget.selectionTime && username == widget.setVM.coachName
               ? Column(
                   children: [
                     Expanded(
                       child: TextButton(
                         onPressed: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      EditSetForm(widget.setVM),
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EditSetForm(widget.setVM),
                             ),
                           );
                         },

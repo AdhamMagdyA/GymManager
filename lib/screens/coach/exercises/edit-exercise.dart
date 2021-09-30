@@ -2,21 +2,21 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:gym_project/models/exercise.dart';
 import 'package:gym_project/screens/coach/equipment/equipments-list.dart';
+import 'package:gym_project/style/error-pop-up.dart';
+import 'package:gym_project/style/success-pop-up.dart';
 import 'package:gym_project/viewmodels/equipment-list-view-model.dart';
 import 'package:gym_project/viewmodels/equipment-view-model.dart';
 import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
 import 'package:gym_project/viewmodels/exercise-view-model.dart';
 import 'package:gym_project/widget/back-button.dart';
+import 'package:gym_project/widget/custom-back-button-2.dart';
+import 'package:gym_project/widget/form-widget.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
-
-import '../coach-tabs-screen.dart';
-import 'exercises_screen.dart';
 
 EquipmentViewModel selectedEquipment;
 
@@ -67,7 +67,7 @@ class MapScreenState extends State<EditExerciseForm>
     var token = Provider.of<User>(context, listen: false).token;
     print(token);
     Provider.of<ExerciseListViewModel>(context, listen: false)
-        .fetchExercise(widget.id, token)
+        .fetchExercise(widget.id)
         .then((value) {
       exerciseVM = Provider.of<ExerciseListViewModel>(context, listen: false);
       exercise = exerciseVM.exercise;
@@ -95,12 +95,11 @@ class MapScreenState extends State<EditExerciseForm>
   bool saveExercise() {
     setState(() {
       Provider.of<ExerciseListViewModel>(context, listen: false)
-          .editExercise(
-              exercise, Provider.of<User>(context, listen: false).token)
-          .then((value) => {showSuccessMessage(context)})
+          .editExercise(exercise)
+          .then((value) => {showSuccessMessage(context, 'Edited successfully')})
           .catchError((err) {
         print('error occured $err');
-        showErrorMessage(context);
+        showErrorMessage(context, 'Failed to edit');
         return false;
       });
     });
@@ -218,41 +217,7 @@ class MapScreenState extends State<EditExerciseForm>
             children: <Widget>[
               Column(
                 children: <Widget>[
-                  new Container(
-                    height: 100.0,
-                    color: Color(0xFF181818), //background color
-                    child: new Column(
-                      children: <Widget>[
-                        Padding(
-                            padding: EdgeInsets.only(left: 20.0, top: 20.0),
-                            child: new Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                GestureDetector(
-                                  child: new Icon(
-                                    Icons.arrow_back_ios,
-                                    color: Color(0xFFFFCE2B),
-                                    size: 22.0,
-                                  ),
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 25.0),
-                                  //-->header
-                                  child: new Text('Edit Exercise',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20.0,
-                                          fontFamily: 'sans-serif-light',
-                                          color: Colors.white)),
-                                )
-                              ],
-                            )),
-                      ],
-                    ),
-                  ),
+                  PageTitle('Edit Exercise'),
                   new Container(
                     //height: 1000.0,
                     constraints: new BoxConstraints(minHeight: 500),
@@ -296,15 +261,7 @@ class MapScreenState extends State<EditExerciseForm>
                                                 MainAxisAlignment.start,
                                             mainAxisSize: MainAxisSize.min,
                                             children: <Widget>[
-                                              new Text(
-                                                //---> topic
-                                                'Exercise Information',
-                                                style: TextStyle(
-                                                  fontSize: 18.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
+                                              FormTitle('Exercise Information'),
                                             ],
                                           ),
                                           new Column(
@@ -315,206 +272,16 @@ class MapScreenState extends State<EditExerciseForm>
                                           )
                                         ],
                                       )),
-                                  Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 25.0, right: 25.0, top: 25.0),
-                                      child: new Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: <Widget>[
-                                          new Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: <Widget>[
-                                              new Text(
-                                                'Description',
-                                                style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      )),
-                                  Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 25.0, right: 25.0, top: 2.0),
-                                      child: new Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: <Widget>[
-                                          new Flexible(
-                                            child: new TextFormField(
-                                              validator: (value) {
-                                                if (value.isEmpty ||
-                                                    value == null) {
-                                                  return 'Value cannot be empty!';
-                                                }
-                                                return null;
-                                              },
-                                              controller: descriptionController,
-                                              decoration: InputDecoration(
-                                                hintText:
-                                                    "Enter Your Description",
-                                                // errorText: descriptionValidate
-                                                //     ? 'Value cannot be empty!'
-                                                //     : null,
-                                                // errorBorder: new OutlineInputBorder(
-                                                //   borderSide: new BorderSide(
-                                                //     color: Colors.red,
-                                                //     width: 0,
-                                                //   ),
-                                                // ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      )),
-                                  Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 25.0, right: 25.0, top: 25.0),
-                                      child: new Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: <Widget>[
-                                          new Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: <Widget>[
-                                              new Text(
-                                                'Duration ',
-                                                style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      )),
-                                  Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 25.0, right: 25.0, top: 2.0),
-                                      child: new Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: <Widget>[
-                                          new Flexible(
-                                            child: new TextFormField(
-                                              validator: (value) {
-                                                if (value.isEmpty ||
-                                                    value == null) {
-                                                  return 'Value cannot be empty!';
-                                                }
-                                                return null;
-                                              },
-                                              controller: durationController,
-                                              decoration: const InputDecoration(
-                                                  hintText:
-                                                      "Enter duration h:m:s"),
-                                            ),
-                                          ),
-                                        ],
-                                      )),
-                                  Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 25.0, right: 25.0, top: 25.0),
-                                      child: new Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: <Widget>[
-                                          new Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: <Widget>[
-                                              new Text(
-                                                'Title',
-                                                style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      )),
-                                  Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 25.0, right: 25.0, top: 2.0),
-                                      child: new Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: <Widget>[
-                                          new Flexible(
-                                            child: new TextFormField(
-                                              validator: (value) {
-                                                if (value.isEmpty ||
-                                                    value == null) {
-                                                  return 'Value cannot be empty!';
-                                                }
-                                                if (value.length > 255) {
-                                                  return 'Length must not exceed 255 characters!';
-                                                }
-                                                return null;
-                                              },
-                                              controller: titleController,
-                                              decoration: const InputDecoration(
-                                                  hintText: "Enter Your Title"),
-                                            ),
-                                          ),
-                                        ],
-                                      )),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 25.0, right: 25.0, top: 25.0),
-                                    child: new Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        new Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            new Text(
-                                              'Gif',
-                                              style: TextStyle(
-                                                fontSize: 16.0,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  if (emptyGIF)
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 25.0, right: 25.0, top: 25.0),
-                                      child: new Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: <Widget>[
-                                          new Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: <Widget>[
-                                              Center(
-                                                child: new Text(
-                                                  'Insert GIF',
-                                                  style: TextStyle(
-                                                    fontSize: 16.0,
-                                                    color: Colors.red,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                  FieldTitle('Description'),
+                                  CustomTextFieldWidget(descriptionController,
+                                      "Enter your description"),
+                                  FieldTitle('Duration'),
+                                  CustomTextFieldWidget(durationController,
+                                      "Enter duration h:m:s"),
+                                  FieldTitle('Title'),
+                                  CustomTextFieldWidget(
+                                      titleController, "Enter your title"),
+                                  FieldTitle('GIF'),
                                   Padding(
                                     padding: EdgeInsets.only(
                                         left: 25.0, right: 25.0, top: 25.0),
@@ -534,135 +301,18 @@ class MapScreenState extends State<EditExerciseForm>
                                       ],
                                     ),
                                   ),
-                                  Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 25.0, right: 25.0, top: 25.0),
-                                      child: new Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: <Widget>[
-                                          new Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: <Widget>[
-                                              new Text(
-                                                'Repetitions',
-                                                style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      )),
-                                  Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 25.0, right: 25.0, top: 2.0),
-                                      child: new Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: <Widget>[
-                                          new Flexible(
-                                            child: new TextFormField(
-                                              maxLength: 3,
-                                              validator: (value) {
-                                                if (value.isEmpty ||
-                                                    value == null) {
-                                                  return 'Value cannot be empty!';
-                                                }
-                                                if (value.length > 3) {
-                                                  return 'length must not exceed 3!';
-                                                }
-                                                return null;
-                                              },
-                                              keyboardType:
-                                                  TextInputType.number,
-                                              controller: repetitionsController,
-                                              decoration: const InputDecoration(
-                                                  hintText:
-                                                      "Enter number of repetitions"),
-                                            ),
-                                          ),
-                                        ],
-                                      )),
-                                  Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 25.0, right: 25.0, top: 25.0),
-                                      child: new Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: <Widget>[
-                                          new Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: <Widget>[
-                                              new Text(
-                                                'Calories',
-                                                style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      )),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 25.0, right: 25.0, top: 2.0),
-                                    child: new Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        new Flexible(
-                                          child: new TextFormField(
-                                            validator: (value) {
-                                              print(value);
-                                              if (value.isEmpty ||
-                                                  value == null) {
-                                                return 'Value cannot be empty!';
-                                              }
-
-                                              return null;
-                                            },
-                                            keyboardType:
-                                                TextInputType.numberWithOptions(
-                                                    decimal: true),
-                                            controller: caloriesController,
-                                            decoration: const InputDecoration(
-                                                hintText: "Enter Calories"),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                  FieldTitle('Repetitions'),
+                                  CustomNumericalTextField(
+                                      controller: repetitionsController,
+                                      hintText: "Enter number of reps"),
+                                  FieldTitle('Calories'),
+                                  CustomNumericalTextField(
+                                      controller: caloriesController,
+                                      hintText: "Enter calories"),
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 25.0, right: 25.0, top: 25.0),
-                                      child: new Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: <Widget>[
-                                          new Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: <Widget>[
-                                              new Text(
-                                                'Image',
-                                                style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      )),
+                                  FieldTitle('Image'),
                                   if (emptyImage)
                                     Padding(
                                       padding: EdgeInsets.only(
@@ -801,81 +451,7 @@ class MapScreenState extends State<EditExerciseForm>
                                     CustomEquipmentListTile(
                                         selectedEquipment, refresh),
                                   SizedBox(height: 10),
-                                  Container(
-                                    width: double.infinity,
-                                    alignment: Alignment.center,
-                                    child: ElevatedButton(
-                                      child: FittedBox(
-                                        fit: BoxFit.scaleDown,
-                                        child: Text("Edit"),
-                                      ),
-                                      style: ElevatedButton.styleFrom(
-                                        shape: new RoundedRectangleBorder(
-                                          borderRadius:
-                                              new BorderRadius.circular(10.0),
-                                        ),
-                                        primary: Color(0xFFFFCE2B),
-                                        onPrimary: Colors.black,
-                                        textStyle: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        minimumSize: Size(100, 30),
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          _status = true;
-                                          FocusScope.of(context)
-                                              .requestFocus(new FocusNode());
-                                        });
-                                        // print('paths');
-                                        // print(_gifFile.path);
-                                        // print(_imageFile.path);
-                                        // print('Now exercise can be created!');
-
-                                        if (_formKey.currentState.validate()) {
-                                          exercise.title = titleController.text;
-                                          exercise.description =
-                                              descriptionController.text;
-                                          exercise.duration =
-                                              durationController.text;
-                                          exercise.reps = int.parse(
-                                              repetitionsController.text);
-                                          exercise.image = _imageFile != null
-                                              ? _imageFile.path.substring(5)
-                                              : exercise.image;
-                                          exercise.gif = _gifFile != null
-                                              ? _gifFile.path.substring(5)
-                                              : exercise.gif;
-                                          exercise.calBurnt = double.parse(
-                                              caloriesController.text);
-                                          exercise.equipment =
-                                              selectedEquipment.equipment;
-
-                                          status = saveExercise();
-
-                                          print("Back!");
-                                        }
-                                        // if (_gifFile == null) {
-                                        //   setState(() {
-                                        //     emptyGIF = true;
-                                        //   });
-                                        // }
-                                        // if (_imageFile == null) {
-                                        //   setState(() {
-                                        //     emptyImage = true;
-                                        //   });
-                                        // }
-                                        if (selectedEquipment == null) {
-                                          setState(() {
-                                            emptyEquipment = true;
-                                          });
-                                        }
-
-                                        // // if (exerciseListViewModel.exercise != null)
-                                      },
-                                    ),
-                                  ),
+                                  editButton(context),
                                 ],
                               ),
                             ),
@@ -890,165 +466,74 @@ class MapScreenState extends State<EditExerciseForm>
     );
   }
 
-  Future<dynamic> showSuccessMessage(BuildContext context) {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            backgroundColor: Colors.black,
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Icon(
-                        Icons.close,
-                        color: Colors.amber,
-                      ),
-                    )
-                  ],
-                ),
-                Center(
-                  child: Text(
-                    'Success!',
-                    style: TextStyle(
-                      color: Colors.amber,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 2,
-                ),
-                Center(
-                  child: Text(
-                    'Exercise edited successfully!',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 4,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.amber,
-                          onPrimary: Colors.black,
-                          fixedSize: Size.fromWidth(150),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          )),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MultiProvider(
-                                providers: [
-                                  ChangeNotifierProvider(
-                                    create: (_) => ExerciseListViewModel(),
-                                  ),
-                                ],
-                                child: ExercisesScreen(false),
-                              ),
-                            ));
-                      },
-                      child: Text('Go to exercises page'),
-                    ),
-                    SizedBox(
-                      width: 4,
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.amber,
-                          onPrimary: Colors.black,
-                          fixedSize: Size.fromWidth(150),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          )),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MultiProvider(
-                                providers: [
-                                  ChangeNotifierProvider(
-                                    create: (_) => ExerciseListViewModel(),
-                                  ),
-                                ],
-                                child: CoachTabsScreen(),
-                              ),
-                            ));
-                      },
-                      child: Text('Go to homepage'),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          );
-        });
-  }
+  Container editButton(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      alignment: Alignment.center,
+      child: ElevatedButton(
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text("Edit"),
+        ),
+        style: ElevatedButton.styleFrom(
+          shape: new RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(10.0),
+          ),
+          primary: Color(0xFFFFCE2B),
+          onPrimary: Colors.black,
+          textStyle: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+          ),
+          minimumSize: Size(100, 30),
+        ),
+        onPressed: () {
+          setState(() {
+            _status = true;
+            FocusScope.of(context).requestFocus(new FocusNode());
+          });
+          // print('paths');
+          // print(_gifFile.path);
+          // print(_imageFile.path);
+          // print('Now exercise can be created!');
 
-  Future<dynamic> showErrorMessage(BuildContext context) {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            backgroundColor: Colors.black,
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Icon(
-                        Icons.close,
-                        color: Colors.amber,
-                      ),
-                    )
-                  ],
-                ),
-                Text(
-                  'Failure',
-                  style: TextStyle(
-                    color: Colors.amber,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(
-                  height: 2,
-                ),
-                Center(
-                  child: Text(
-                    'Failed to create exercise!',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        });
+          if (_formKey.currentState.validate()) {
+            exercise.title = titleController.text;
+            exercise.description = descriptionController.text;
+            exercise.duration = durationController.text;
+            exercise.reps = int.parse(repetitionsController.text);
+            exercise.image = _imageFile != null
+                ? _imageFile.path.substring(5)
+                : exercise.image;
+            exercise.gif =
+                _gifFile != null ? _gifFile.path.substring(5) : exercise.gif;
+            exercise.calBurnt = double.parse(caloriesController.text);
+            exercise.equipment = selectedEquipment.equipment;
+
+            status = saveExercise();
+
+            print("Back!");
+          }
+          // if (_gifFile == null) {
+          //   setState(() {
+          //     emptyGIF = true;
+          //   });
+          // }
+          // if (_imageFile == null) {
+          //   setState(() {
+          //     emptyImage = true;
+          //   });
+          // }
+          if (selectedEquipment == null) {
+            setState(() {
+              emptyEquipment = true;
+            });
+          }
+
+          // // if (exerciseListViewModel.exercise != null)
+        },
+      ),
+    );
   }
 
   @override
@@ -1114,127 +599,3 @@ class _CustomEquipmentListTileState extends State<CustomEquipmentListTile> {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import 'dart:io';
-
-// import 'package:flutter/material.dart';
-// import 'package:flutter/cupertino.dart';
-// import 'package:flutter/services.dart';
-// import 'package:gym_project/models/exercise.dart';
-// import 'package:gym_project/screens/coach/coach-tabs-screen.dart';
-// import 'package:gym_project/screens/coach/equipment/equipments-list.dart';
-// import 'package:gym_project/screens/coach/exercises/exercises_screen.dart';
-// import 'package:gym_project/viewmodels/equipment-list-view-model.dart';
-// import 'package:gym_project/viewmodels/equipment-view-model.dart';
-// import 'package:gym_project/viewmodels/exercise-list-view-model.dart';
-// // import 'package:gym_project/viewmodels/exercise-view-model.dart';
-// import 'package:image_picker/image_picker.dart';
-// // import 'package:path_provider/path_provider.dart';
-// // import 'package:path/path.dart' as Path;
-
-// import 'package:flutter/foundation.dart';
-// import 'package:provider/provider.dart';
-// import 'dart:io';
-
-// EquipmentViewModel selectedEquipment;
-
-// class EditExerciseForm extends StatefulWidget {
-//   @override
-//   MapScreenState createState() => MapScreenState();
-// }
-
-// //you can change the form heading from line 51,93
-// //you can change the form fields from lines (119 ,138 , etc ) -> each padding represent a field
-// class MapScreenState extends State<EditExerciseForm>
-//     with SingleTickerProviderStateMixin {
-//   bool _status = true;
-//   final FocusNode myFocusNode = FocusNode();
-//   XFile _imageFile;
-//   XFile _gifFile;
-//   final ImagePicker _picker = ImagePicker();
-//   Exercise _exercise;
-
-//   TextEditingController titleController = TextEditingController();
-//   TextEditingController descriptionController = TextEditingController();
-//   TextEditingController durationController = TextEditingController();
-//   TextEditingController repetitionsController = TextEditingController();
-//   TextEditingController caloriesController = TextEditingController();
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     // Provider.of<ExerciseListViewModel>(context, listen: false)
-//     //     .postExercise(_exercise);
-//   }
-
-//   refresh() {
-//     setState(() {});
-//   }
-
-//   // Future<String> saveFile(XFile image) async {
-//   //   final Directory directory = await getApplicationDocumentsDirectory();
-//   //   final String path = directory.path;
-//   //   final fileName = Path.basename(image.path);
-//   //   image.saveTo('$path/$fileName');
-//   //   print('$path/$fileName');
-//   //   return '$path/$fileName';
-//   // }
-
-//   Widget imageProfile(String imageType) {
-//     ImageProvider backgroundImage;
-
-//     if (imageType == 'image') {
-//       if (_imageFile == null)
-//         backgroundImage = AssetImage("assets/images/as.png");
-//       else if (kIsWeb)
-//         backgroundImage = NetworkImage(_imageFile.path);
-//       else
-//         backgroundImage = FileImage(File(_imageFile.path));
-//     } else if (imageType == 'gif') {
-//       if (_gifFile == null)
-//         backgroundImage = AssetImage("assets/images/as.png");
-//       else if (kIsWeb)
-//         backgroundImage = NetworkImage(_gifFile.path);
-//       else
-//         backgroundImage = FileImage(File(_gifFile.path));
-//     }
-//     return Center(
-//       child: Stack(children: <Widget>[
-//         CircleAvatar(radius: 80.0, backgroundImage: backgroundImage),
-//         Positioned(
-//           bottom: 20.0,
-//           right: 20.0,
-//           child: InkWell(
-//             onTap: () {
-//               showModalBottomSheet(
-//                 context: context,
-//                 builder: ((builder) => bottomSheet(imageType)),
-//               );
-//             },
-//             child: CircleAvatar(
-//               backgroundColor: Colors.black.withOpacity(0.3),
-//               child: Icon(
-//                 Icons.camera_alt,
-//                 color: Colors.teal,
-//                 size: 28.0,
-//               ),
-//             ),
-//           ),
-//         ),
-//       ]),
-//  

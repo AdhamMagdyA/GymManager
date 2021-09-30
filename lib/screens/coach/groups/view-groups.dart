@@ -19,6 +19,7 @@ import 'edit-group.dart';
 
 class ViewGroupsScreen extends StatefulWidget {
   bool isSelectionTime = false;
+  static String routeName = 'groups/index';
 
   ViewGroupsScreen(this.isSelectionTime);
   @override

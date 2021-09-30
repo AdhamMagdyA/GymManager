@@ -80,7 +80,7 @@ class MapScreenState extends State<EditSetForm>
     String token = Provider.of<User>(context, listen: false).token;
     SetListViewModel setListVM =
         Provider.of<SetListViewModel>(context, listen: false);
-    setListVM.fetchSetDetails(widget.setVM.id, token).then((_) {
+    setListVM.fetchSetDetails(widget.setVM.id).then((_) {
       orderedExercises =
           setListVM.set.exercises.map((e) => ExerciseViewModel(e: e)).toList();
       setSelectedExercises(orderedExercises: orderedExercises);
@@ -108,19 +108,19 @@ class MapScreenState extends State<EditSetForm>
     // });
     try {
       if (formKey.currentState.validate()) {
-      await setListVM.putSet(
-        Set(
-          id: setVM.id,
-          title: titleController.text,
-          description: descriptionController.text,
-          breakDuration: breakDurationController.text,
-          coachId: setVM.coachId,
-          exercises: getOrderedExercisesModels(),
-        ),
-        Provider.of<User>(context, listen: false).token,
-      );
-      Navigator.of(context).pop();
-    }
+        await setListVM.putSet(
+          Set(
+            id: setVM.id,
+            title: titleController.text,
+            description: descriptionController.text,
+            breakDuration: breakDurationController.text,
+            coachId: setVM.coachId,
+            exercises: getOrderedExercisesModels(),
+          ),
+          Provider.of<User>(context, listen: false).token,
+        );
+        Navigator.of(context).pop();
+      }
     } catch (error) {
       viewErrorDialogBox(context, error.toString());
     }
@@ -310,13 +310,11 @@ class MapScreenState extends State<EditSetForm>
               return null;
             },
           ),
-          SizedBox(
-            height: 10),
+          SizedBox(height: 10),
           buildTextFormFieldLabel('Exercises'),
           SizedBox(height: 10),
           buildChooseExercisesButton(),
-          SizedBox(height: 10
-          ),
+          SizedBox(height: 10),
           if (orderedExercises.isNotEmpty) buildReorderableList(),
           SizedBox(height: 10),
           buildEditButton(onPressed: submitForm),
@@ -364,8 +362,6 @@ class MapScreenState extends State<EditSetForm>
     );
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     SetListViewModel setListVM = Provider.of<SetListViewModel>(context);
@@ -407,7 +403,6 @@ class MapScreenState extends State<EditSetForm>
                               submitForm: () => submitForm(setListVM, setVM),
                             ),
                           ),
-                          
                   )
                 ],
               ),

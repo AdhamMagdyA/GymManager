@@ -22,8 +22,7 @@ class Set {
       this.breakDuration,
       this.coachId,
       this.exercises,
-      this.order
-  });
+      this.order});
 
   String toString() {
     return toMap().toString();
@@ -71,7 +70,6 @@ class Set {
         .map<Exercise>((exercise) =>
             Exercise.fromJson(exercise, order: _getOrderFromObject(exercise)))
         .toList();
-    // List<Exercise> newExercises = _exercises.cast<Exercise>().toList();
     return Set(
       id: json['id'],
       title: json['title'],

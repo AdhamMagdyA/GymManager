@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gym_project/models/set.dart';
-import 'package:gym_project/services/exercise-webservice.dart';
+import 'package:gym_project/models/tuple.dart';
 import 'package:gym_project/services/set-webservice.dart';
 import 'package:gym_project/viewmodels/set-view-model.dart';
 
@@ -16,14 +16,16 @@ class SetListViewModel with ChangeNotifier {
   // ignore: deprecated_member_use
   List<SetViewModel> sets = List<SetViewModel>();
   SetViewModel set;
+  int lastPage;
 
-  // methods to fetch news
-  Future<void> fetchListSets(String token) async {
-    List<Set> _sets = await SetWebService().getSets(token);
+  Future<void> fetchListSets(int page, String searchText) async {
+    print('currently here!');
+    Tuple<int, List<Set>> result =
+        await SetWebService().getSets(page, searchText);
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
-    this.sets = _sets.map((set) => SetViewModel(set: set)).toList();
-
+    this.sets = result.item2.map((set) => SetViewModel(set: set)).toList();
+    lastPage = result.item1;
     if (this.sets.isEmpty) {
       loadingStatus = LoadingStatus.Empty;
     } else {
@@ -33,12 +35,16 @@ class SetListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchSetDetails(int setId, String token) async {
+  Future<void> fetchSetDetails(int setId) async {
+    print('id');
+    print(setId);
+    print('currently here!');
+    Set _set = await SetWebService().getSetDetails(setId);
     loadingStatus = LoadingStatus.Searching;
     // not notifying listeners as it causes an error
     // since fetchSetDetails is called in initState, so the value of loadingStatus is set before widgets depending on that value are built
     // notifyListeners();
-    Set setModel = await SetWebService().getSetDetails(setId, token);
+    Set setModel = await SetWebService().getSetDetails(setId);
     this.set = SetViewModel(set: setModel);
 
     loadingStatus = LoadingStatus.Completed;
@@ -71,7 +77,7 @@ class SetListViewModel with ChangeNotifier {
     int updatedSetIndex = sets.indexWhere((s) => s.id == set.id);
     sets.removeAt(updatedSetIndex);
     sets.insert(updatedSetIndex, SetViewModel(set: set));
-  } 
+  }
 
   Future<void> deleteSet(Set set, String token) async {
     await SetWebService().deleteSet(set, token);

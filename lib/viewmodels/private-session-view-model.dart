@@ -1,5 +1,4 @@
-import 'package:gym_project/models/equipment.dart';
-import 'package:gym_project/models/privateSession.dart';
+import 'package:gym_project/models/privatesession.dart';
 
 class PrivateSessionViewModel {
   PrivateSession privateSession = PrivateSession();
@@ -54,6 +53,22 @@ class PrivateSessionViewModel {
     privateSession.coachName = coachName;
   }
 
+  String get memberName {
+    return privateSession.memberName;
+  }
+
+  set memberName(memberName) {
+    privateSession.memberName = memberName;
+  }
+
+  String get name {
+    return privateSession.name;
+  }
+
+  set name(name) {
+    privateSession.name = name;
+  }
+
   String get link {
     return privateSession.link;
   }
@@ -62,11 +77,27 @@ class PrivateSessionViewModel {
     privateSession.link = link;
   }
 
+  String get status {
+    return privateSession.status;
+  }
+
+  set status(status) {
+    privateSession.status = status;
+  }
+
   double get price {
     return privateSession.price;
   }
 
   set price(price) {
     privateSession.price = price;
+  }
+
+  String get dateTime {
+    return privateSession.dateTime;
+  }
+
+  set dateTime(dateTime) {
+    privateSession.dateTime = dateTime;
   }
 }

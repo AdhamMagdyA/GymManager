@@ -1,6 +1,16 @@
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 import 'package:gym_project/screens/common/view-private-session-details.dart';
+import 'package:gym_project/style/datetime.dart';
+import 'package:gym_project/style/error-pop-up.dart';
+import 'package:gym_project/style/success-pop-up.dart';
+import 'package:gym_project/viewmodels/private-session-list-view-model.dart';
+import 'package:gym_project/viewmodels/private-session-view-model.dart';
+import 'package:gym_project/widget/loading-widgets.dart';
+import 'package:gym_project/widget/providers/user.dart';
+import 'package:provider/provider.dart';
 
 class ViewPrivateSessionRequestsScreen extends StatefulWidget {
   @override
@@ -8,232 +18,153 @@ class ViewPrivateSessionRequestsScreen extends StatefulWidget {
       _ViewPrivateSessionRequestsScreenState();
 }
 
+List<PrivateSessionViewModel> privateSessions = [];
+
 class _ViewPrivateSessionRequestsScreenState
     extends State<ViewPrivateSessionRequestsScreen> {
-  final List<dynamic> privateSessions = [
-    {
-      'title': 'Private Session 1',
-      "description": 'Good Private Session',
-      'duration': '10:45:22',
-      'datetime': '2021-09-13 14:13:51',
-      'price': '15.99',
-      'coach': {
-        'user': {'name': 'Coach name!'}
-      },
-      'members': [
-        {
-          'user': {
-            'name': 'Member name!',
-          }
-        }
-      ],
-    },
-    {
-      'title': 'Private Session 2',
-      "description": 'Good Private Session',
-      'duration': '06:45',
-      'datetime': '2021-09-13 14:13:51',
-      'price': '15.99',
-      'coach': {
-        'user': {'name': 'Coach name!'}
-      },
-      'members': [
-        {
-          'user': {
-            'name': 'Member name!',
-          }
-        }
-      ],
-    },
-    {
-      'title': 'Private Session 3',
-      "description": 'Good Private Session',
-      'duration': '05:45',
-      'datetime': '2021-09-13 14:13:51',
-      'price': '15.88',
-      'coach': {
-        'user': {'name': 'Coach name!'}
-      },
-      'members': [
-        {
-          'user': {
-            'name': 'Member name!',
-          }
-        }
-      ],
-    },
-    {
-      'title': 'Private Session 4',
-      "description": 'Good Private Session',
-      'duration': '02:34',
-      'datetime': '2021-09-13 14:13:51',
-      'price': '12.99',
-      'coach': {
-        'user': {'name': 'Coach name!'}
-      },
-      'members': [
-        {
-          'user': {
-            'name': 'Member name!',
-          }
-        }
-      ],
-    },
-    {
-      'title': 'Private Session 5',
-      "description": 'Good Private Session',
-      'duration': '02:34',
-      'datetime': '2021-09-13 14:13:51',
-      'price': '10.99',
-      'coach': {
-        'user': {'name': 'Coach name!'}
-      },
-      'members': [
-        {
-          'user': {
-            'name': 'Member name!',
-          }
-        }
-      ],
-    },
-    {
-      'title': 'Private Session 5',
-      "description": 'Good Private Session',
-      'duration': '02:34',
-      'datetime': '2021-09-13 14:13:51',
-      'price': '10.99',
-      'coach': {
-        'user': {'name': 'Coach name!'}
-      },
-      'members': [
-        {
-          'user': {
-            'name': 'Member name!',
-          }
-        }
-      ],
-    },
-    {
-      'title': 'Private Session 5',
-      "description": 'Good Private Session',
-      'duration': '02:34',
-      'datetime': '2021-09-13 14:13:51',
-      'price': '10.99',
-      'coach': {
-        'user': {'name': 'Coach name!'}
-      },
-      'members': [
-        {
-          'user': {
-            'name': 'Member name!',
-          }
-        }
-      ],
-    },
-    {
-      'title': 'Private Session 5',
-      "description": 'Good Private Session',
-      'duration': '02:34',
-      'datetime': '2021-09-13 14:13:51',
-      'price': '10.99',
-      'coach': {
-        'user': {'name': 'Coach name!'}
-      },
-      'members': [
-        {
-          'user': {
-            'name': 'Member name!',
-          }
-        }
-      ],
-    },
-    {
-      'title': 'Private Session 5',
-      "description": 'Good Private Session',
-      'duration': '02:34',
-      'datetime': '2021-09-13 14:13:51',
-      'price': '10.99',
-      'coach': {
-        'user': {'name': 'Coach name!'}
-      },
-      'members': [
-        {
-          'user': {
-            'name': 'Member name!',
-          }
-        }
-      ],
-    },
-  ];
+  String token;
+  int lastPage;
 
-  String formatDateTime(String dateTime) {
-    //2021-09-13 14:13:51
-    List<String> months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec'
-    ];
-    String year = dateTime.substring(0, 4);
-    String month = dateTime.substring(5, 7);
-    String day = dateTime.substring(8, 10);
-    String time = dateTime.substring(12);
-    return '$day ${months[int.parse(month) - 1]} $year at $time';
+  void initState() {
+    super.initState();
+    token = Provider.of<User>(context, listen: false).token;
+    getPrivateSessionsList(1, '');
+    _currentPosition = 0;
   }
+
+  refresh() {
+    setState(() {});
+  }
+
+  double _currentPosition;
+  var sessionListViewModel;
+  bool done = false;
+  bool error = false;
+  DateTime dateTimeChosen;
+  bool dateTimeStatus = false;
+
+  getPrivateSessionsList(int page, String searchText) {
+    Provider.of<PrivateSessionListViewModel>(context, listen: false)
+        .fetchListRequestedPrivateSessions(page, searchText)
+        .then((value) {
+      sessionListViewModel =
+          Provider.of<PrivateSessionListViewModel>(context, listen: false);
+      setState(() {
+        done = true;
+        privateSessions = sessionListViewModel.privateSessions;
+        lastPage = sessionListViewModel.lastPage;
+      });
+    }).catchError((err) {
+      error = true;
+      print('error occured $err');
+    });
+  }
+
+  TextEditingController searchText = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    // double width = MediaQuery.of(context).size.width;
-    return Container(
-      color: Colors.black,
-      padding: EdgeInsetsDirectional.all(10),
-      child: ListView(
-        children: [
-          Material(
-              elevation: 5.0,
-              borderRadius: BorderRadius.all(Radius.circular(30)),
-              child: TextField(
-                controller: TextEditingController(text: 'Search...'),
-                cursorColor: Theme.of(context).primaryColor,
-                style: TextStyle(color: Colors.black, fontSize: 18),
-                decoration: InputDecoration(
+    const decorator = DotsDecorator(
+      activeColor: Colors.amber,
+    );
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Sessions",
+          style: TextStyle(
+              color: Colors.white, fontFamily: "assets/fonts/Changa-Bold.ttf"),
+        ),
+        backgroundColor: Colors.black, //Color(0xff181818),
+        iconTheme: IconThemeData(color: Color(0xFFFFCE2B)),
+      ),
+      body: SafeArea(
+        child: Container(
+          color: Colors.black,
+          padding: EdgeInsetsDirectional.all(10),
+          child: Column(
+            children: [
+              Material(
+                elevation: 5.0,
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                child: TextFormField(
+                  controller: searchText,
+                  cursorColor: Theme.of(context).primaryColor,
+                  style: TextStyle(color: Colors.black, fontSize: 18),
+                  decoration: InputDecoration(
+                    hintText: 'Search..',
                     suffixIcon: Material(
                       borderRadius: BorderRadius.all(Radius.circular(30)),
-                      child: Icon(Icons.search),
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            privateSessions = [];
+                            done = false;
+                            error = false;
+                            getPrivateSessionsList(1, searchText.text);
+                          });
+                        },
+                        child: Icon(Icons.search),
+                      ),
                     ),
-                    border: InputBorder.none,
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
-              )),
-          SizedBox(height: 20),
-          ListView.builder(
-              shrinkWrap: true,
-              itemCount: privateSessions.length,
-              itemBuilder: (ctx, index) {
-                return myListTile(
-                  privateSessions[index]['title'],
-                  [
-                    privateSessions[index]['coach']['user']['name'],
-                    privateSessions[index]['members'][0]['user']['name'],
-                    formatDateTime(privateSessions[index]['datetime']),
-                  ],
-                  index,
-                );
-              }),
-        ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              Expanded(
+                child: PageView.builder(
+                    controller: PageController(),
+                    onPageChanged: (index) {
+                      setState(() {
+                        privateSessions = [];
+                        done = false;
+                        error = false;
+                        _currentPosition = index.toDouble();
+                      });
+                      getPrivateSessionsList(index + 1, '');
+                    },
+                    scrollDirection: Axis.horizontal,
+                    itemCount: lastPage,
+                    itemBuilder: (ctx, index) {
+                      print('index is $index');
+                      if (error) {
+                        return CustomErrorWidget();
+                      } else if (done && privateSessions.isEmpty) {
+                        return EmptyListError('No Private Sessions Found');
+                      } else if (privateSessions.isEmpty) {
+                        return Progress();
+                      } else {
+                        return ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: privateSessions.length,
+                            itemBuilder: (ctx, index) {
+                              return myListTile(
+                                privateSessions[index],
+                                index,
+                                token,
+                              );
+                            });
+                      }
+                    }),
+              ),
+              if (done)
+                DotsIndicator(
+                  dotsCount: lastPage,
+                  position: _currentPosition,
+                  axis: Axis.horizontal,
+                  decorator: decorator,
+                  onTap: (pos) {
+                    setState(() => _currentPosition = pos);
+                  },
+                ),
+            ],
+          ),
+        ),
       ),
     );
   }
 
-  Widget myListTile(String title, List<String> subtitles, int index) {
+  Widget myListTile(
+      PrivateSessionViewModel privateSession, int index, String token) {
     return Container(
       margin: EdgeInsetsDirectional.only(bottom: 10),
       decoration: BoxDecoration(
@@ -242,10 +173,12 @@ class _ViewPrivateSessionRequestsScreenState
       ),
       child: ListTile(
         onTap: () {
-          // Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //         builder: (context) => PrivateSessionDetailsScreen()));
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PrivateSessionDetailsScreen(privateSession),
+            ),
+          );
         },
         minVerticalPadding: 10,
         leading: CircleAvatar(
@@ -253,20 +186,19 @@ class _ViewPrivateSessionRequestsScreenState
           child: FlutterLogo(),
         ),
         title: Text(
-          title,
+          privateSession.title,
           style: TextStyle(color: Colors.white),
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            for (String subtitle in subtitles)
-              Text(
-                subtitle,
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              )
+            Text(
+              'Member: ${privateSession.memberName}',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            )
           ],
         ),
         trailing: Column(
@@ -281,8 +213,115 @@ class _ViewPrivateSessionRequestsScreenState
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       )),
-                  onPressed: () {
-                    // Navigator.pop(context, selectedPrivateSession);
+                  onPressed: () async {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return StatefulBuilder(builder: (context, setState) {
+                            return AlertDialog(
+                              backgroundColor: Colors.black,
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Icon(
+                                          Icons.close,
+                                          color: Colors.amber,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  Center(
+                                    child: Text(
+                                      'Choose Date and Time',
+                                      style: TextStyle(
+                                        color: Colors.amber,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 2,
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () async {
+                                      await DatePicker.showDateTimePicker(
+                                        context,
+                                        showTitleActions: true,
+                                        minTime: DateTime(2020, 3, 5),
+                                        maxTime: DateTime(2022, 12, 30),
+                                      ).then((value) {
+                                        setState(() {
+                                          dateTimeChosen = value;
+                                          privateSession.dateTime =
+                                              dateTimeChosen;
+                                          dateTimeStatus = true;
+                                          refresh();
+                                        });
+                                      });
+                                    },
+                                    child: Text('Choose',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                        )),
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Colors.amber,
+                                      onPrimary: Colors.black,
+                                    ),
+                                  ),
+                                  if (dateTimeStatus)
+                                    Center(
+                                      child: new Text(
+                                        'You chose',
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 20),
+                                      ),
+                                    ),
+                                  if (dateTimeStatus)
+                                    Center(
+                                      child: new Text(
+                                        '${formatDateTime(dateTimeChosen.toString())}',
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 20),
+                                      ),
+                                    ),
+                                  if (dateTimeStatus)
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Provider.of<PrivateSessionListViewModel>(
+                                                context,
+                                                listen: false)
+                                            .acceptPrivateSession(
+                                                privateSession)
+                                            .then((value) {
+                                          Navigator.pop(context);
+                                          showSuccessMessage(context,
+                                              'Accepted successfully.');
+                                        }).catchError((err) {
+                                          print('$err');
+                                          showErrorMessage(
+                                              context, 'Failed to accept');
+                                        });
+                                      },
+                                      child: Text('Submit',
+                                          style: TextStyle(fontSize: 16)),
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors.amber,
+                                        onPrimary: Colors.black,
+                                      ),
+                                    )
+                                ],
+                              ),
+                            );
+                          });
+                        });
                   }),
             ),
             SizedBox(height: 6),
@@ -295,7 +334,15 @@ class _ViewPrivateSessionRequestsScreenState
                         borderRadius: BorderRadius.circular(16),
                       )),
                   onPressed: () {
-                    // Navigator.pop(context, selectedPrivateSession);
+                    Provider.of<PrivateSessionListViewModel>(context,
+                            listen: false)
+                        .rejectPrivateSession(privateSession)
+                        .then((value) {
+                      showSuccessMessage(context, 'Rejected successfully.');
+                    }).catchError((err) {
+                      print('$err');
+                      showErrorMessage(context, 'Failed to accept');
+                    });
                   }),
             ),
           ],

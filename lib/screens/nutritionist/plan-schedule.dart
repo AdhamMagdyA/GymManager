@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gym_project/widget/providers/user.dart';
+import 'package:provider/provider.dart';
 
 class PlanSchedule extends StatelessWidget {
   final _plan = {
@@ -106,6 +108,39 @@ class PlanSchedule extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Provider.of<User>(context, listen: false).role ==
+                  "admin" ||
+              Provider.of<User>(context, listen: false).role == "nutritionist"
+          ? Container(
+              child: FloatingActionButton.extended(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/edit-plan');
+                },
+                isExtended: false,
+                label: Icon(Icons.edit),
+              ),
+              height: MediaQuery.of(context).size.height * 0.075,
+              width: MediaQuery.of(context).size.width * 0.1,
+            )
+          : Container(),
+      appBar: Provider.of<User>(context, listen: false).role == "admin" ||
+              Provider.of<User>(context, listen: false).role == "nutritionist"
+          ? AppBar(
+              title: Text(
+                'Diet Plan',
+                style: TextStyle(color: Colors.white),
+              ),
+              backgroundColor: Color(0xff181818),
+              iconTheme: IconThemeData(color: Color(0xFFFFCE2B)),
+            )
+          : AppBar(
+              backgroundColor: Colors.black,
+              automaticallyImplyLeading: false,
+              bottom: PreferredSize(
+                preferredSize: new Size(0, 0),
+                child: Container(),
+              ),
+            ),
       backgroundColor: Colors.black,
       body: Stack(
         fit: StackFit.expand,

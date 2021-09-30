@@ -411,7 +411,7 @@ class MemberOthers extends StatelessWidget {
           ),
           child: TextButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/sessions/select');
+              Navigator.pushNamed(context, '/sessions');
             },
             child: Center(
               child: Text(

@@ -28,7 +28,7 @@ class _OthersState extends State<Others> {
     "/equipment-list",
     "/nutritionist-session-list",
     "/memberships-list",
-    "/private-sessions",
+    "/sessions/requests",
     "/groups",
     "/plans",
     "/questions",

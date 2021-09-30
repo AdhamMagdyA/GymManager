@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:gym_project/screens/nutritionist/view-meals-details-screen.dart';
+import 'package:gym_project/widget/providers/user.dart';
+import 'package:provider/provider.dart';
 
 import 'meal-edit-form.dart';
 
@@ -130,156 +132,211 @@ class MealsViewScreenState extends State<MealsViewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButton: Provider.of<User>(context, listen: false).role ==
+                    "admin" ||
+                Provider.of<User>(context, listen: false).role == "nutritionist"
+            ? Container(
+                child: FloatingActionButton.extended(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/create-meal');
+                  },
+                  isExtended: false,
+                  label: Icon(Icons.add),
+                ),
+                height: MediaQuery.of(context).size.height * 0.075,
+                width: MediaQuery.of(context).size.width * 0.1,
+              )
+            : Container(),
         body: SafeArea(
-      child: Stack(
-        children: <Widget>[
-          Container(
-            height: 300,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30)),
-              color: Colors.black,
-            ),
-            width: double.infinity,
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 230, bottom: 20),
-            width: 220,
-            height: 190,
-            decoration: BoxDecoration(
-                color: Color(0xFFFFCE2B),
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(190),
-                    bottomLeft: Radius.circular(290),
-                    bottomRight: Radius.circular(160),
-                    topRight: Radius.circular(0))),
-          ),
-          CustomScrollView(
-            slivers: <Widget>[
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.all(26.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Meals",
-                        style: TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.w800,
-                          color: Colors.white,
-                        ),
-                      ),
-                      SizedBox(height: 40),
-                      Material(
-                        elevation: 5.0,
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                        child: TextFormField(
-                          controller: TextEditingController(),
-                          cursorColor: Theme.of(context).primaryColor,
-                          style: TextStyle(color: Colors.black, fontSize: 18),
-                          decoration: InputDecoration(
-                            hintText: 'Search..',
-                            suffixIcon: Material(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30)),
-                              child: Icon(Icons.search),
-                            ),
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.symmetric(
-                              horizontal: 25,
-                              vertical: 13,
+          child: Stack(
+            children: <Widget>[
+              Container(
+                height: 300,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(30),
+                      bottomRight: Radius.circular(30)),
+                  color: Colors.black,
+                ),
+                width: double.infinity,
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 230, bottom: 20),
+                width: 220,
+                height: 190,
+                decoration: BoxDecoration(
+                    color: Color(0xFFFFCE2B),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(190),
+                        bottomLeft: Radius.circular(290),
+                        bottomRight: Radius.circular(160),
+                        topRight: Radius.circular(0))),
+              ),
+              CustomScrollView(
+                slivers: <Widget>[
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.all(26.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: 10,
+                                  left: 10,
+                                ),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Container(
+                                      height: 42,
+                                      width: 42,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Center(
+                                        child: Icon(
+                                          Icons.arrow_back,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: 10,
+                                  left: 10,
+                                ),
+                                child: Text(
+                                  "Meals",
+                                  style: TextStyle(
+                                    fontSize: 40,
+                                    fontWeight: FontWeight.w800,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 40),
+                          Material(
+                            elevation: 5.0,
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            child: TextFormField(
+                              controller: TextEditingController(),
+                              cursorColor: Theme.of(context).primaryColor,
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 18),
+                              decoration: InputDecoration(
+                                hintText: 'Search..',
+                                suffixIcon: Material(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(30)),
+                                  child: Icon(Icons.search),
+                                ),
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 25,
+                                  vertical: 13,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
+                    ),
+                  ),
+                  if (_selectionMode)
+                    SliverToBoxAdapter(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Expanded(
+                            child: Container(
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Selected ${_numberOfSelectedInstances.length} of ${_meals.length}',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _selectionMode = false;
+                                _numberOfSelectedInstances.clear();
+                              });
+                            },
+                            icon: CircleAvatar(
+                              radius: 30,
+                              backgroundColor: Colors.black.withOpacity(0.3),
+                              child: Icon(
+                                Icons.close,
+                                color: Colors.white,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  SliverPadding(
+                    padding: const EdgeInsets.all(26.0),
+                    sliver: SliverGrid.count(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 10,
+                      childAspectRatio: widget.isSelectionTime ? 0.6 : 0.7,
+                      children: _meals
+                          .asMap()
+                          .entries
+                          .map((entry) => MyChoosingGridViewCard(
+                                image: entry.value['image'],
+                                title: entry.value['title'],
+                                calories: entry.value['calories'],
+                                items: entry.value['items'],
+                                level: entry.value['level'],
+                                creator: entry.value['creator'],
+                                index: entry.key,
+                                selectionMode: _selectionMode,
+                                setSelectionMode: setSelectionMode,
+                                incrementMeal: incrementMeal,
+                                decrementMeal: decrementMeal,
+                                selectedMealsNumber: selectedMealsNumber,
+                                isSelected: isSelected,
+                                selectionTime: widget.isSelectionTime,
+                              ))
+                          .toList(),
+                    ),
+                  ),
+                ],
+              ),
+              if (_numberOfSelectedInstances.length > 0)
+                Container(
+                  margin: EdgeInsets.only(bottom: 20),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: ElevatedButton(
+                      style:
+                          ElevatedButton.styleFrom(primary: Color(0xFFFFCE2B)),
+                      child: Text('Submit'),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
                   ),
                 ),
-              ),
-              if (_selectionMode)
-                SliverToBoxAdapter(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: Text(
-                            'Selected ${_numberOfSelectedInstances.length} of ${_meals.length}',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _selectionMode = false;
-                            _numberOfSelectedInstances.clear();
-                          });
-                        },
-                        icon: CircleAvatar(
-                          radius: 30,
-                          backgroundColor: Colors.black.withOpacity(0.3),
-                          child: Icon(
-                            Icons.close,
-                            color: Colors.white,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              SliverPadding(
-                padding: const EdgeInsets.all(26.0),
-                sliver: SliverGrid.count(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
-                  childAspectRatio: widget.isSelectionTime ? 0.6 : 0.7,
-                  children: _meals
-                      .asMap()
-                      .entries
-                      .map((entry) => MyChoosingGridViewCard(
-                            image: entry.value['image'],
-                            title: entry.value['title'],
-                            calories: entry.value['calories'],
-                            items: entry.value['items'],
-                            level: entry.value['level'],
-                            creator: entry.value['creator'],
-                            index: entry.key,
-                            selectionMode: _selectionMode,
-                            setSelectionMode: setSelectionMode,
-                            incrementMeal: incrementMeal,
-                            decrementMeal: decrementMeal,
-                            selectedMealsNumber: selectedMealsNumber,
-                            isSelected: isSelected,
-                            selectionTime: widget.isSelectionTime,
-                          ))
-                      .toList(),
-                ),
-              ),
             ],
           ),
-          if (_numberOfSelectedInstances.length > 0)
-            Container(
-              margin: EdgeInsets.only(bottom: 20),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(primary: Color(0xFFFFCE2B)),
-                  child: Text('Submit'),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-            ),
-        ],
-      ),
-    ));
+        ));
   }
 }
 
@@ -514,42 +571,49 @@ class _MyChoosingGridViewCardState extends State<MyChoosingGridViewCard> {
                         //   height: 5,
                         // ),
                         !widget.selectionTime && !widget.selectionMode
-                            ? SizedBox(
-                                height: 21,
-                                child: FittedBox(
-                                  fit: BoxFit.scaleDown,
-                                  child: Center(
+                            ? Provider.of<User>(context, listen: false).role ==
+                                        "admin" ||
+                                    Provider.of<User>(context, listen: false)
+                                            .role ==
+                                        "nutritionist"
+                                ? SizedBox(
+                                    height: 21,
                                     child: FittedBox(
-                                      fit: BoxFit.contain,
-                                      child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          shape: new RoundedRectangleBorder(
-                                            borderRadius:
-                                                new BorderRadius.circular(10.0),
+                                      fit: BoxFit.scaleDown,
+                                      child: Center(
+                                        child: FittedBox(
+                                          fit: BoxFit.contain,
+                                          child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              shape: new RoundedRectangleBorder(
+                                                borderRadius:
+                                                    new BorderRadius.circular(
+                                                        10.0),
+                                              ),
+                                              primary: Colors.amber,
+                                              onPrimary: Colors.black,
+                                            ),
+                                            child: Text(
+                                              'Edit',
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EditMealForm(),
+                                                  ));
+                                            },
                                           ),
-                                          primary: Colors.amber,
-                                          onPrimary: Colors.black,
                                         ),
-                                        child: Text(
-                                          'Edit',
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        onPressed: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    EditMealForm(),
-                                              ));
-                                        },
                                       ),
                                     ),
-                                  ),
-                                ),
-                              )
+                                  )
+                                : SizedBox()
                             : SizedBox(
                                 height: 21,
                                 child: FittedBox(
