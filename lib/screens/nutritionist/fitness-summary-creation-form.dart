@@ -7,6 +7,7 @@ import 'package:gym_project/style/error-pop-up.dart';
 import 'package:gym_project/style/success-pop-up.dart';
 import 'package:gym_project/viewmodels/fitness-summary-list-view-model.dart';
 import 'package:gym_project/widget/custom-back-button-2.dart';
+import 'package:gym_project/widget/form-widget.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
 
@@ -78,32 +79,7 @@ class MapScreenState extends State<CreateFitnessSummaryForm>
             children: <Widget>[
               Column(
                 children: <Widget>[
-                  new Container(
-                    height: 100.0,
-                    color: Color(0xFF181818), //background color
-                    child: new Column(
-                      children: <Widget>[
-                        Padding(
-                            padding: EdgeInsets.only(left: 20.0, top: 20.0),
-                            child: new Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                CustomBackButton2(),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 25.0),
-                                  //-->header
-                                  child: new Text('Create Fitness Summary',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20.0,
-                                          fontFamily: 'sans-serif-light',
-                                          color: Colors.white)),
-                                )
-                              ],
-                            )),
-                      ],
-                    ),
-                  ),
+                  PageTitle('Create Fitness Summary'),
                   new Container(
                     //height: 1000.0,
                     constraints: new BoxConstraints(minHeight: 500),
@@ -123,629 +99,55 @@ class MapScreenState extends State<CreateFitnessSummaryForm>
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    left: 25.0, right: 25.0, top: 25.0),
-                                child: new Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: <Widget>[
-                                    new Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        new Text(
-                                          //---> topic
-                                          'Fitness Info',
-                                          style: TextStyle(
-                                            fontSize: 18.0,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    new Column(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[],
-                                    )
-                                  ],
-                                )),
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    left: 25.0, right: 25.0, top: 25.0),
-                                child: new Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: <Widget>[
-                                    new Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        new Text(
-                                          'BMI',
-                                          style: TextStyle(
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                )),
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    left: 25.0, right: 25.0, top: 2.0),
-                                child: new Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: <Widget>[
-                                    new Flexible(
-                                      child: new TextFormField(
-                                        keyboardType:
-                                            TextInputType.numberWithOptions(
-                                          decimal: true,
-                                        ),
-                                        validator: (value) {
-                                          if (value.isEmpty || value == null) {
-                                            return 'Value cannot be empty!';
-                                          }
-
-                                          return null;
-                                        },
-                                        controller: BMIController,
-                                        decoration: const InputDecoration(
-                                            hintText: "Enter BMI"),
-                                      ),
-                                    ),
-                                  ],
-                                )),
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    left: 25.0, right: 25.0, top: 25.0),
-                                child: new Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: <Widget>[
-                                    new Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        new Text(
-                                          'Weight',
-                                          style: TextStyle(
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                )),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 2.0),
-                              child: new Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  new Flexible(
-                                    child: new TextFormField(
-                                      keyboardType:
-                                          TextInputType.numberWithOptions(
-                                        decimal: true,
-                                      ),
-                                      validator: (value) {
-                                        if (value.isEmpty || value == null) {
-                                          return 'Value cannot be empty!';
-                                        }
-                                        return null;
-                                      },
-                                      controller: weightController,
-                                      decoration: InputDecoration(
-                                        hintText: "Enter your weight",
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    left: 25.0, right: 25.0, top: 25.0),
-                                child: new Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: <Widget>[
-                                    new Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        new Text(
-                                          'Muscle Ratio',
-                                          style: TextStyle(
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                )),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 2.0),
-                              child: new Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  new Flexible(
-                                    child: new TextFormField(
-                                      keyboardType:
-                                          TextInputType.numberWithOptions(
-                                        decimal: true,
-                                      ),
-                                      validator: (value) {
-                                        if (value.isEmpty || value == null) {
-                                          return 'Value cannot be empty!';
-                                        }
-                                        return null;
-                                      },
-                                      controller: muscleRatioController,
-                                      decoration: const InputDecoration(
-                                          hintText: "Enter muscle ratio"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    left: 25.0, right: 25.0, top: 25.0),
-                                child: new Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: <Widget>[
-                                    new Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        new Text(
-                                          'Height',
-                                          style: TextStyle(
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                )),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 2.0),
-                              child: new Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  new Flexible(
-                                    child: new TextFormField(
-                                      keyboardType:
-                                          TextInputType.numberWithOptions(
-                                        decimal: true,
-                                      ),
-                                      validator: (value) {
-                                        if (value.isEmpty || value == null) {
-                                          return 'Value cannot be empty!';
-                                        }
-                                        if (value.length > 3) {
-                                          return 'length must not exceed 3!';
-                                        }
-                                        return null;
-                                      },
-                                      controller: heightController,
-                                      decoration: const InputDecoration(
-                                          hintText: "Enter height"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    left: 25.0, right: 25.0, top: 25.0),
-                                child: new Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: <Widget>[
-                                    new Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        new Text(
-                                          'Fat Ratio',
-                                          style: TextStyle(
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                )),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 2.0),
-                              child: new Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  new Flexible(
-                                    child: new TextFormField(
-                                      keyboardType:
-                                          TextInputType.numberWithOptions(
-                                        decimal: true,
-                                      ),
-                                      validator: (value) {
-                                        if (value.isEmpty || value == null) {
-                                          return 'Value cannot be empty!';
-                                        }
-                                        return null;
-                                      },
-                                      controller: fatRatioController,
-                                      decoration: const InputDecoration(
-                                          hintText: "Enter fat ratio"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    left: 25.0, right: 25.0, top: 25.0),
-                                child: new Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: <Widget>[
-                                    new Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        new Text(
-                                          'Fitness Ratio',
-                                          style: TextStyle(
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                )),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 2.0),
-                              child: new Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  new Flexible(
-                                    child: new TextFormField(
-                                      keyboardType:
-                                          TextInputType.numberWithOptions(
-                                        decimal: true,
-                                      ),
-                                      validator: (value) {
-                                        if (value.isEmpty || value == null) {
-                                          return 'Value cannot be empty!';
-                                        }
-                                        return null;
-                                      },
-                                      controller: fitnessRatioController,
-                                      decoration: const InputDecoration(
-                                          hintText: "Enter fitness ratio"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    left: 25.0, right: 25.0, top: 25.0),
-                                child: new Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: <Widget>[
-                                    new Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        new Text(
-                                          'Total Body Water',
-                                          style: TextStyle(
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                )),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 2.0),
-                              child: new Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  new Flexible(
-                                    child: new TextFormField(
-                                      keyboardType:
-                                          TextInputType.numberWithOptions(
-                                        decimal: true,
-                                      ),
-                                      validator: (value) {
-                                        if (value.isEmpty || value == null) {
-                                          return 'Value cannot be empty!';
-                                        }
-                                        return null;
-                                      },
-                                      controller: totalBodyWaterController,
-                                      decoration: const InputDecoration(
-                                          hintText: "Enter total body water"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    left: 25.0, right: 25.0, top: 25.0),
-                                child: new Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: <Widget>[
-                                    new Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        new Text(
-                                          'Dry lean bath',
-                                          style: TextStyle(
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                )),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 2.0),
-                              child: new Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  new Flexible(
-                                    child: new TextFormField(
-                                      keyboardType:
-                                          TextInputType.numberWithOptions(
-                                        decimal: true,
-                                      ),
-                                      validator: (value) {
-                                        if (value.isEmpty || value == null) {
-                                          return 'Value cannot be empty!';
-                                        }
-                                        return null;
-                                      },
-                                      controller: dryLeanBathController,
-                                      decoration: const InputDecoration(
-                                          hintText: "Enter dry lean bath"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    left: 25.0, right: 25.0, top: 25.0),
-                                child: new Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: <Widget>[
-                                    new Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        new Text(
-                                          'Body Fat Mass',
-                                          style: TextStyle(
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                )),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 2.0),
-                              child: new Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  new Flexible(
-                                    child: new TextFormField(
-                                      keyboardType:
-                                          TextInputType.numberWithOptions(
-                                        decimal: true,
-                                      ),
-                                      validator: (value) {
-                                        if (value.isEmpty || value == null) {
-                                          return 'Value cannot be empty!';
-                                        }
-                                        return null;
-                                      },
-                                      controller: bodyFatMassController,
-                                      decoration: const InputDecoration(
-                                          hintText: "Enter body fat mass"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    left: 25.0, right: 25.0, top: 25.0),
-                                child: new Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: <Widget>[
-                                    new Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        new Text(
-                                          'Opacity Ratio',
-                                          style: TextStyle(
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                )),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 2.0),
-                              child: new Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  new Flexible(
-                                    child: new TextFormField(
-                                      keyboardType:
-                                          TextInputType.numberWithOptions(
-                                        decimal: true,
-                                      ),
-                                      validator: (value) {
-                                        if (value.isEmpty || value == null) {
-                                          return 'Value cannot be empty!';
-                                        }
-                                        return null;
-                                      },
-                                      controller: opacityRatioController,
-                                      decoration: const InputDecoration(
-                                          hintText: "Enter opacity ratio"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    left: 25.0, right: 25.0, top: 25.0),
-                                child: new Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: <Widget>[
-                                    new Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        new Text(
-                                          'Protein',
-                                          style: TextStyle(
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                )),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 2.0),
-                              child: new Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  new Flexible(
-                                    child: new TextFormField(
-                                      keyboardType:
-                                          TextInputType.numberWithOptions(
-                                        decimal: true,
-                                      ),
-                                      validator: (value) {
-                                        if (value.isEmpty || value == null) {
-                                          return 'Value cannot be empty!';
-                                        }
-                                        return null;
-                                      },
-                                      controller: proteinController,
-                                      decoration: const InputDecoration(
-                                          hintText: "Enter protein"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    left: 25.0, right: 25.0, top: 25.0),
-                                child: new Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: <Widget>[
-                                    new Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        new Text(
-                                          'SMM',
-                                          style: TextStyle(
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                )),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 2.0),
-                              child: new Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  new Flexible(
-                                    child: new TextFormField(
-                                      keyboardType:
-                                          TextInputType.numberWithOptions(
-                                        decimal: true,
-                                      ),
-                                      validator: (value) {
-                                        if (value.isEmpty || value == null) {
-                                          return 'Value cannot be empty!';
-                                        }
-                                        return null;
-                                      },
-                                      controller: SMMController,
-                                      decoration: const InputDecoration(
-                                          hintText: "Enter SMM"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                            FormTitle('Fitness Info'),
+                            FieldTitle('BMI'),
+                            CustomNumericalTextField(
+                                controller: BMIController,
+                                hintText: "Enter BMI"),
+                            FieldTitle('Weight'),
+                            CustomNumericalTextField(
+                                controller: weightController,
+                                hintText: "Enter weight"),
+                            FieldTitle('Muscle Ratio'),
+                            CustomNumericalTextField(
+                                controller: muscleRatioController,
+                                hintText: "Enter muscle ratio"),
+                            FieldTitle('Height'),
+                            CustomNumericalTextField(
+                                controller: heightController,
+                                hintText: "Enter height"),
+                            FieldTitle('Fat Ratio'),
+                            CustomNumericalTextField(
+                                controller: fatRatioController,
+                                hintText: "Enter fat ratio"),
+                            FieldTitle('Fitness Ratio'),
+                            CustomNumericalTextField(
+                                controller: fitnessRatioController,
+                                hintText: "Enter fitness ratio"),
+                            FieldTitle('Total Body Water'),
+                            CustomNumericalTextField(
+                                controller: totalBodyWaterController,
+                                hintText: "Enter total body water"),
+                            FieldTitle('Dry Lean Bath'),
+                            CustomNumericalTextField(
+                                controller: dryLeanBathController,
+                                hintText: "Enter dry lean bath"),
+                            FieldTitle('Body Fat Mass'),
+                            CustomNumericalTextField(
+                                controller: bodyFatMassController,
+                                hintText: "Enter body fat mass"),
+                            FieldTitle('Opacity Ratio'),
+                            CustomNumericalTextField(
+                                controller: opacityRatioController,
+                                hintText: "Enter opacity ratio"),
+                            FieldTitle('Protein'),
+                            CustomNumericalTextField(
+                                controller: proteinController,
+                                hintText: "Enter protein"),
+                            FieldTitle('SMM'),
+                            CustomNumericalTextField(
+                                controller: SMMController,
+                                hintText: "Enter SMM"),
                             if (role == 'nutritionist')
                               Padding(
                                 padding: EdgeInsets.only(
@@ -835,72 +237,7 @@ class MapScreenState extends State<CreateFitnessSummaryForm>
                               height: 10,
                             ),
                             SizedBox(height: 10),
-                            Container(
-                              width: double.infinity,
-                              alignment: Alignment.center,
-                              child: ElevatedButton(
-                                child: FittedBox(
-                                  fit: BoxFit.scaleDown,
-                                  child: Text("Create"),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  shape: new RoundedRectangleBorder(
-                                    borderRadius:
-                                        new BorderRadius.circular(10.0),
-                                  ),
-                                  primary: Color(0xFFFFCE2B),
-                                  onPrimary: Colors.black,
-                                  textStyle: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  minimumSize: Size(100, 30),
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    _status = true;
-                                    FocusScope.of(context)
-                                        .requestFocus(new FocusNode());
-                                  });
-
-                                  if (_formKey.currentState.validate()) {
-                                    fitnessSummary = new FitnessSummary(
-                                      BMI: double.parse(BMIController.text),
-                                      SMM: double.parse(SMMController.text),
-                                      bodyFatMass: double.parse(
-                                          bodyFatMassController.text),
-                                      dryLeanBath: double.parse(
-                                          bodyFatMassController.text),
-                                      fatRatio:
-                                          double.parse(fatRatioController.text),
-                                      fitnessRatio: double.parse(
-                                          fitnessRatioController.text),
-                                      height:
-                                          double.parse(heightController.text),
-                                      muscleRatio: double.parse(
-                                          muscleRatioController.text),
-                                      opacityRatio: double.parse(
-                                          opacityRatioController.text),
-                                      protein:
-                                          double.parse(proteinController.text),
-                                      totalBodyWater: double.parse(
-                                          totalBodyWaterController.text),
-                                      weight:
-                                          double.parse(weightController.text),
-                                    );
-
-                                    if (role == 'nutritionist') {
-                                      fitnessSummary.memberId =
-                                          selectedMember['id'];
-                                    }
-
-                                    status = saveFitnessSummary();
-
-                                    print("Back!");
-                                  }
-                                },
-                              ),
-                            ),
+                            createButton(context),
                           ],
                         ),
                       ),
@@ -911,6 +248,62 @@ class MapScreenState extends State<CreateFitnessSummaryForm>
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Container createButton(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      alignment: Alignment.center,
+      child: ElevatedButton(
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text("Create"),
+        ),
+        style: ElevatedButton.styleFrom(
+          shape: new RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(10.0),
+          ),
+          primary: Color(0xFFFFCE2B),
+          onPrimary: Colors.black,
+          textStyle: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+          ),
+          minimumSize: Size(100, 30),
+        ),
+        onPressed: () {
+          setState(() {
+            _status = true;
+            FocusScope.of(context).requestFocus(new FocusNode());
+          });
+
+          if (_formKey.currentState.validate()) {
+            fitnessSummary = new FitnessSummary(
+              BMI: double.parse(BMIController.text),
+              SMM: double.parse(SMMController.text),
+              bodyFatMass: double.parse(bodyFatMassController.text),
+              dryLeanBath: double.parse(bodyFatMassController.text),
+              fatRatio: double.parse(fatRatioController.text),
+              fitnessRatio: double.parse(fitnessRatioController.text),
+              height: double.parse(heightController.text),
+              muscleRatio: double.parse(muscleRatioController.text),
+              opacityRatio: double.parse(opacityRatioController.text),
+              protein: double.parse(proteinController.text),
+              totalBodyWater: double.parse(totalBodyWaterController.text),
+              weight: double.parse(weightController.text),
+            );
+
+            if (role == 'nutritionist') {
+              fitnessSummary.memberId = selectedMember['id'];
+            }
+
+            status = saveFitnessSummary();
+
+            print("Back!");
+          }
+        },
       ),
     );
   }

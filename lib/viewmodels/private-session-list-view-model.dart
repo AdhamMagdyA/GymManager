@@ -17,14 +17,6 @@ class PrivateSessionListViewModel with ChangeNotifier {
 
   PrivateSessionWebService webService = PrivateSessionWebService();
   int lastPage;
-  String token =
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNjMyMzk1ODIwLCJleHAiOjE2MzI0ODIyMjAsIm5iZiI6MTYzMjM5NTgyMCwianRpIjoiNFk0VTJPTmtFV29vUFU1MCIsInN1YiI6MywicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.GVP5rxrQOcXilWAaISwj-dsPh0a9hWDsQIO_L1L50lI';
-  // PrivateSessionListViewModel({this.token});
-  // void update(token) {
-  //   token = token;
-  //   webService.token = token;
-  //   notifyListeners();
-  // }
 
   // ignore: deprecated_member_use
   List<PrivateSessionViewModel> privateSessions =
@@ -32,11 +24,11 @@ class PrivateSessionListViewModel with ChangeNotifier {
       List<PrivateSessionViewModel>();
   PrivateSessionViewModel privateSession = PrivateSessionViewModel();
   // methods to fetch news
-  Future<void> fetchListMyPrivateSessions(int page) async {
+  Future<void> fetchListMyPrivateSessions(int page, String searchText) async {
     // print('welcome token! $tokenn');
     // print('currently here!');
     Tuple<int, List<PrivateSession>> result =
-        await webService.getMyPrivateSessions(page);
+        await webService.getMyPrivateSessions(page, searchText);
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
     this.privateSessions = result.item2
@@ -53,11 +45,10 @@ class PrivateSessionListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchListBookedPrivateSessions(String role, int page) async {
-    // print('welcome token! $tokenn');
-    // print('currently here!');
+  Future<void> fetchListBookedPrivateSessions(
+      String role, int page, String searchText) async {
     Tuple<int, List<PrivateSession>> result =
-        await webService.getBookedPrivateSessions(role, page);
+        await webService.getBookedPrivateSessions(role, page, searchText);
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
     this.privateSessions = result.item2
@@ -74,11 +65,9 @@ class PrivateSessionListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchListPrivateSessions(int page) async {
-    // print('welcome token! $tokenn');
-    // print('currently here!');
+  Future<void> fetchListPrivateSessions(int page, String searchText) async {
     Tuple<int, List<PrivateSession>> result =
-        await webService.getPrivateSessions(page);
+        await webService.getPrivateSessions(page, searchText);
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
     this.privateSessions = result.item2
@@ -95,11 +84,10 @@ class PrivateSessionListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchListRequestedPrivateSessions(int page) async {
-    // print('welcome token! $tokenn');
-    // print('currently here!');
+  Future<void> fetchListRequestedPrivateSessions(
+      int page, String searchText) async {
     Tuple<int, List<PrivateSession>> result =
-        await webService.getRequestedPrivateSessions(page);
+        await webService.getRequestedPrivateSessions(page, searchText);
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
     this.privateSessions = result.item2

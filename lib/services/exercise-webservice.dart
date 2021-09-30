@@ -41,7 +41,7 @@ class ExerciseWebService {
     Global.setUserName(userName);
     if (response.statusCode == 200) {
       Iterable list;
-      if (page != 0) {
+      if (page != 0 && searchText.isEmpty) {
         print('now');
         res.item1 = result['data']['exercises']['last_page'];
         // Iterable list = result['exercises']['data'];

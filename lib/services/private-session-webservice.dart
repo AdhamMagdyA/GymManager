@@ -11,25 +11,38 @@ class PrivateSessionWebService {
   String token = Global.token;
   // PrivateSessionWebService({this.token});
   Future<Tuple<int, List<PrivateSession>>> getMyPrivateSessions(
-      int page) async {
+      int page, String searchText) async {
     print('Am i here??');
     Tuple<int, List<PrivateSession>> res = Tuple();
-    final response = await http.get(
-        Uri.parse('http://localhost:8000/api/sessions/index?page=$page'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token'
-        });
+    String url = 'http://localhost:8000/api/sessions/index';
+    if (page == 0) {
+      if (searchText.isNotEmpty) url += '?text=$searchText';
+    } else {
+      url += '?page=$page';
+      if (searchText.isNotEmpty) {
+        url += '&text=$searchText';
+      }
+    }
+    final response = await http.get(Uri.parse(url), headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    });
     print('response obtained!');
     print(response.statusCode);
     final result = json.decode(response.body);
-    res.item1 = result['Private Sessions']['last_page'];
     print(result);
     if (response.statusCode == 200) {
-      // Iterable list = result['private_sessions']['data'];
-      Iterable list = result['Private Sessions']['data'];
-      // print(list);
+      Iterable list;
+      if (page != 0 && searchText.isEmpty) {
+        print('now');
+        res.item1 = result['Private Sessions']['last_page'];
+        list = result['Private Sessions']['data'];
+      } else {
+        print('then');
+        res.item1 = 1;
+        list = result['Private Sessions'];
+      }
       List<PrivateSession> privateSessions = list
           .map<PrivateSession>(
               (privateSession) => PrivateSession.fromJson(privateSession))
@@ -45,24 +58,38 @@ class PrivateSessionWebService {
   }
 
   Future<Tuple<int, List<PrivateSession>>> getBookedPrivateSessions(
-      String role, int page) async {
+      String role, int page, String searchText) async {
     Tuple<int, List<PrivateSession>> res = Tuple();
     print('Am i here??');
-    final response = await http.get(
-        Uri.parse('http://localhost:8000/api/sessions/booked?page=$page'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token'
-        });
+    String url = 'http://localhost:8000/api/sessions/booked';
+    if (page == 0) {
+      if (searchText.isNotEmpty) url += '?text=$searchText';
+    } else {
+      url += '?page=$page';
+      if (searchText.isNotEmpty) {
+        url += '&text=$searchText';
+      }
+    }
+    final response = await http.get(Uri.parse(url), headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    });
     print('response obtained!');
     print(response.statusCode);
     final result = json.decode(response.body);
     print(result);
     if (response.statusCode == 200) {
-      res.item1 = result['Private Sessions']['last_page'];
-      // Iterable list = result['private_sessions']['data'];
-      Iterable list = result['Private Sessions']['data'];
+      Iterable list;
+      if (page != 0 && searchText.isEmpty) {
+        print('now');
+        res.item1 = result['Private Sessions']['last_page'];
+        list = result['Private Sessions']['data'];
+      } else {
+        print('then');
+        res.item1 = 1;
+        list = result['Private Sessions'];
+      }
       List<PrivateSession> privateSessions = [];
       // print(list);
 
@@ -81,25 +108,39 @@ class PrivateSessionWebService {
     }
   }
 
-  Future<Tuple<int, List<PrivateSession>>> getPrivateSessions(int page) async {
+  Future<Tuple<int, List<PrivateSession>>> getPrivateSessions(
+      int page, String searchText) async {
     print('Am i here??');
     Tuple<int, List<PrivateSession>> res = Tuple();
-    final response = await http.get(
-        Uri.parse('http://localhost:8000/api/sessions?page=$page'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token'
-        });
+    String url = 'http://localhost:8000/api/sessions';
+    if (page == 0) {
+      if (searchText.isNotEmpty) url += '?text=$searchText';
+    } else {
+      url += '?page=$page';
+      if (searchText.isNotEmpty) {
+        url += '&text=$searchText';
+      }
+    }
+    final response = await http.get(Uri.parse(url), headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    });
     print('response obtained!');
     print(response.statusCode);
     final result = json.decode(response.body);
     print(result);
     if (response.statusCode == 200) {
-      res.item1 = result['Private Sessions']['last_page'];
-      // Iterable list = result['private_sessions']['data'];
-      Iterable list = result['Private Sessions']['data'];
-      // print(list);
+      Iterable list;
+      if (page != 0 && searchText.isEmpty) {
+        print('now');
+        res.item1 = result['Private Sessions']['last_page'];
+        list = result['Private Sessions']['data'];
+      } else {
+        print('then');
+        res.item1 = 1;
+        list = result['Private Sessions'];
+      }
       List<PrivateSession> privateSessions = list
           .map<PrivateSession>(
               (privateSession) => PrivateSession.fromJson(privateSession))
@@ -115,25 +156,38 @@ class PrivateSessionWebService {
   }
 
   Future<Tuple<int, List<PrivateSession>>> getRequestedPrivateSessions(
-      int page) async {
+      int page, String searchText) async {
     print('Am i here??');
     Tuple<int, List<PrivateSession>> res = Tuple();
-    final response = await http.get(
-        Uri.parse('http://localhost:8000/api/sessions/requests?page=$page'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token'
-        });
+    String url = 'http://localhost:8000/api/sessions/requests';
+    if (page == 0) {
+      if (searchText.isNotEmpty) url += '?text=$searchText';
+    } else {
+      url += '?page=$page';
+      if (searchText.isNotEmpty) {
+        url += '&text=$searchText';
+      }
+    }
+    final response = await http.get(Uri.parse(url), headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    });
     print('response obtained!');
     print(response.statusCode);
     final result = json.decode(response.body);
     print(result);
     if (response.statusCode == 200) {
-      res.item1 = result['Private Sessions']['last_page'];
-      // Iterable list = result['private_sessions']['data'];
-      Iterable list = result['Private Sessions']['data'];
-      // print(list);
+      Iterable list;
+      if (page != 0 && searchText.isEmpty) {
+        print('now');
+        res.item1 = result['Private Sessions']['last_page'];
+        list = result['Private Sessions']['data'];
+      } else {
+        print('then');
+        res.item1 = 1;
+        list = result['Private Sessions'];
+      }
       List<PrivateSession> privateSessions = list
           .map<PrivateSession>(
               (privateSession) => PrivateSession.fromJsonAdmin(privateSession))

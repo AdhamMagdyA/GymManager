@@ -7,12 +7,21 @@ import 'package:http/http.dart' as http;
 
 class SetWebService {
   String token = Global.token;
-  Future<Tuple<int, List<Set>>> getSets(int page) async {
-    print(token);
-    print('Am i here??');
+  Future<Tuple<int, List<Set>>> getSets(
+    int page,
+    String searchText,
+  ) async {
+    String url = 'http://localhost:8000/api/sets';
+    if (page == 0) {
+      if (searchText.isNotEmpty) url += '?text=$searchText';
+    } else {
+      url += '?page=$page';
+      if (searchText.isNotEmpty) {
+        url += '&text=$searchText';
+      }
+    }
     Tuple<int, List<Set>> res = Tuple();
-    final response = await http
-        .get(Uri.parse('http://localhost:8000/api/sets?page=$page'), headers: {
+    final response = await http.get(Uri.parse(url), headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'Bearer $token'
@@ -23,9 +32,19 @@ class SetWebService {
     print(result);
     String userName = result['data']['name'];
     Global.setUserName(userName);
+    Iterable list;
     if (response.statusCode == 200) {
-      res.item1 = result['data']['sets']['last_page'];
-      Iterable list = result['data']['sets']['data'];
+      if (page != 0 && searchText.isEmpty) {
+        print('now');
+        res.item1 = result['data']['sets']['last_page'];
+        // Iterable list = result['sets']['data'];
+        list = result['data']['sets']['data'];
+      } else {
+        print('then');
+        res.item1 = 1;
+        // Iterable list = result['exercises']['data'];
+        list = result['data']['sets'];
+      }
       print(list);
       List<Set> sets = list.map<Set>((set) => Set.fromJson(set)).toList();
       List<Set> newSets = sets.cast<Set>().toList();

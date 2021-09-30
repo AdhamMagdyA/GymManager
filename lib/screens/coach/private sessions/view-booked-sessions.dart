@@ -6,6 +6,7 @@ import 'package:gym_project/screens/common/view-private-session-details.dart';
 import 'package:gym_project/style/duration.dart';
 import 'package:gym_project/viewmodels/private-session-list-view-model.dart';
 import 'package:gym_project/viewmodels/private-session-view-model.dart';
+import 'package:gym_project/widget/loading-widgets.dart';
 import 'package:provider/provider.dart';
 
 class ViewBookedSessionsScreen extends StatefulWidget {
@@ -23,12 +24,12 @@ class _ViewBookedSessionsScreenState extends State<ViewBookedSessionsScreen> {
   @override
   void initState() {
     super.initState();
-    getPrivateSessionsList(1);
+    getPrivateSessionsList(1, '');
   }
 
-  getPrivateSessionsList(int page) {
+  getPrivateSessionsList(int page, String searchText) {
     Provider.of<PrivateSessionListViewModel>(context, listen: false)
-        .fetchListBookedPrivateSessions('coach', page)
+        .fetchListBookedPrivateSessions('coach', page, searchText)
         .then((value) {
       sessionListViewModel =
           Provider.of<PrivateSessionListViewModel>(context, listen: false);
@@ -51,6 +52,8 @@ class _ViewBookedSessionsScreenState extends State<ViewBookedSessionsScreen> {
     super.didChangeDependencies();
   }
 
+  TextEditingController searchText = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     // double width = MediaQuery.of(context).size.width;
@@ -65,22 +68,31 @@ class _ViewBookedSessionsScreenState extends State<ViewBookedSessionsScreen> {
           Column(
             children: [
               Material(
-                  elevation: 5.0,
-                  borderRadius: BorderRadius.all(Radius.circular(30)),
-                  child: TextFormField(
-                    controller: TextEditingController(),
-                    cursorColor: Theme.of(context).primaryColor,
-                    style: TextStyle(color: Colors.black, fontSize: 18),
-                    decoration: InputDecoration(
-                        hintText: 'Search..',
-                        suffixIcon: Material(
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                          child: Icon(Icons.search),
-                        ),
-                        border: InputBorder.none,
-                        contentPadding:
-                            EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
-                  )),
+                elevation: 5.0,
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                child: TextFormField(
+                  controller: searchText,
+                  cursorColor: Theme.of(context).primaryColor,
+                  style: TextStyle(color: Colors.black, fontSize: 18),
+                  decoration: InputDecoration(
+                    hintText: 'Search..',
+                    suffixIcon: Material(
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            privateSessions = [];
+                            done = false;
+                            error = false;
+                            getPrivateSessionsList(1, searchText.text);
+                          });
+                        },
+                        child: Icon(Icons.search),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
               SizedBox(height: 20),
               Expanded(
                 child: PageView.builder(
@@ -92,37 +104,17 @@ class _ViewBookedSessionsScreenState extends State<ViewBookedSessionsScreen> {
                       error = false;
                       _currentPosition = index.toDouble();
                     });
-                    getPrivateSessionsList(index + 1);
+                    getPrivateSessionsList(index + 1, '');
                   },
                   scrollDirection: Axis.horizontal,
                   itemCount: lastPage,
                   itemBuilder: (ctx, index) {
                     if (error) {
-                      return Center(
-                        child: Text(
-                          'An error occurred',
-                          style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      );
+                      return CustomErrorWidget();
                     } else if (done && privateSessions.isEmpty) {
-                      return Center(
-                        child: Text(
-                          'No private sessions found',
-                          style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      );
+                      return EmptyListError('No Private Sessions Found');
                     } else if (privateSessions.isEmpty) {
-                      return Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                        ),
-                      );
+                      return Progress();
                     } else {
                       return ListView.builder(
                           shrinkWrap: true,
@@ -227,11 +219,6 @@ class _ViewBookedSessionsScreenState extends State<ViewBookedSessionsScreen> {
             Expanded(
               child: TextButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => EditPlanForm()));
-
                   Provider.of<PrivateSessionListViewModel>(context,
                           listen: false)
                       .deletePrivateSession(privateSession.id)

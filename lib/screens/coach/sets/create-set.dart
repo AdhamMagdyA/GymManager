@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:gym_project/screens/coach/sets/view-sets.dart';
+import 'package:gym_project/style/error-pop-up.dart';
+import 'package:gym_project/style/success-pop-up.dart';
 import 'package:gym_project/viewmodels/exercise-view-model.dart';
 import 'package:gym_project/viewmodels/set-list-view-model.dart';
-import 'package:gym_project/viewmodels/set-view-model.dart';
 import 'package:gym_project/widget/providers/user.dart';
 import 'package:provider/provider.dart';
 import 'package:gym_project/models/set.dart';
 
-import '../coach-tabs-screen.dart';
 import '../exercises/exercises_screen.dart';
 
 Map<int, Map<String, Object>> selectedExercises = {};
@@ -65,9 +65,9 @@ class MapScreenState extends State<CreateSetForm>
     if (status == true) {
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         if (setListViewModel.set != null)
-          showSuccessMessage(context);
+          showSuccessMessage(context, 'Created set successfully');
         else
-          showErrorMessage(context);
+          showErrorMessage(context, 'Failed to create set');
       });
     }
   }
@@ -150,32 +150,8 @@ class MapScreenState extends State<CreateSetForm>
         ),
       );
     } catch (error) {
-      viewErrorDialogBox(error.toString());
+      showErrorMessage(context, 'Failed to create set');
     }
-  }
-
-  Future viewErrorDialogBox(String message) {
-    return showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: Colors.black,
-        content: Text(
-          message,
-          style: TextStyle(color: Colors.white),
-        ),
-        actions: [
-          TextButton(
-            child: Text(
-              'Ok',
-              style: TextStyle(color: Theme.of(context).primaryColor),
-            ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          )
-        ],
-      ),
-    );
   }
 
   Widget buildReorderableList() {
@@ -451,164 +427,6 @@ class MapScreenState extends State<CreateSetForm>
         ),
       ),
     );
-  }
-
-  Future<dynamic> showSuccessMessage(BuildContext context) {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            backgroundColor: Colors.black,
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Icon(
-                        Icons.close,
-                        color: Colors.amber,
-                      ),
-                    )
-                  ],
-                ),
-                Center(
-                  child: Text(
-                    'Success!',
-                    style: TextStyle(
-                      color: Colors.amber,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 2,
-                ),
-                Center(
-                  child: Text(
-                    'Exercise created successfully!',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 4,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.amber,
-                          onPrimary: Colors.black,
-                          fixedSize: Size.fromWidth(150),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          )),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MultiProvider(
-                                providers: [
-                                  ChangeNotifierProvider(
-                                    create: (_) => SetListViewModel(),
-                                  ),
-                                ],
-                                child: ViewSetsScreen(false),
-                              ),
-                            ));
-                      },
-                      child: Text('Go to sets page'),
-                    ),
-                    SizedBox(
-                      width: 4,
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.amber,
-                          onPrimary: Colors.black,
-                          fixedSize: Size.fromWidth(150),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          )),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MultiProvider(
-                                providers: [
-                                  ChangeNotifierProvider(
-                                    create: (_) => SetListViewModel(),
-                                  ),
-                                ],
-                                child: CoachTabsScreen(),
-                              ),
-                            ));
-                      },
-                      child: Text('Go to homepage'),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          );
-        });
-  }
-
-  Future<dynamic> showErrorMessage(BuildContext context) {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            backgroundColor: Colors.black,
-            content: Column(mainAxisSize: MainAxisSize.min, children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Icon(
-                      Icons.close,
-                      color: Colors.amber,
-                    ),
-                  )
-                ],
-              ),
-              Text(
-                'Failure',
-                style: TextStyle(
-                  color: Colors.amber,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(
-                height: 2,
-              ),
-              Center(
-                child: Text(
-                  'Failed to create exercise!',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ]),
-          );
-        });
   }
 
   @override

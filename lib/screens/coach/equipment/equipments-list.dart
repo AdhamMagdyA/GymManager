@@ -320,10 +320,7 @@ class _MySingleChoosingGridViewCardState
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Container(
-              width: double.infinity,
-              height: 120,
-              padding: EdgeInsets.all(0),
+            Expanded(
               child: ClipRRect(
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(imageBorderRadius),

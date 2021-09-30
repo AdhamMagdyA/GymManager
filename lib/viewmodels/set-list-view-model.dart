@@ -18,10 +18,10 @@ class SetListViewModel with ChangeNotifier {
   SetViewModel set;
   int lastPage;
 
-  // methods to fetch news
-  Future<void> fetchListSets(int page) async {
+  Future<void> fetchListSets(int page, String searchText) async {
     print('currently here!');
-    Tuple<int, List<Set>> result = await SetWebService().getSets(page);
+    Tuple<int, List<Set>> result =
+        await SetWebService().getSets(page, searchText);
     loadingStatus = LoadingStatus.Searching;
     notifyListeners();
     this.sets = result.item2.map((set) => SetViewModel(set: set)).toList();

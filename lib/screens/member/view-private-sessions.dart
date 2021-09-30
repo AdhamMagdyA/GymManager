@@ -5,6 +5,7 @@ import 'package:gym_project/style/error-pop-up.dart';
 import 'package:gym_project/style/success-pop-up.dart';
 import 'package:gym_project/viewmodels/private-session-list-view-model.dart';
 import 'package:gym_project/viewmodels/private-session-view-model.dart';
+import 'package:gym_project/widget/loading-widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 
@@ -21,7 +22,7 @@ class _ViewPrivateSessionsScreenState extends State<ViewPrivateSessionsScreen> {
   @override
   void initState() {
     super.initState();
-    getPrivateSessionsList(1);
+    getPrivateSessionsList(1, '');
     _currentPosition = 0;
   }
 
@@ -29,9 +30,9 @@ class _ViewPrivateSessionsScreenState extends State<ViewPrivateSessionsScreen> {
   bool done = false;
   bool error = false;
 
-  getPrivateSessionsList(int page) {
+  getPrivateSessionsList(int page, String searchText) {
     Provider.of<PrivateSessionListViewModel>(context, listen: false)
-        .fetchListPrivateSessions(page)
+        .fetchListPrivateSessions(page, searchText)
         .then((value) {
       sessionListViewModel =
           Provider.of<PrivateSessionListViewModel>(context, listen: false);
@@ -67,7 +68,7 @@ class _ViewPrivateSessionsScreenState extends State<ViewPrivateSessionsScreen> {
   }
 
   double _currentPosition;
-
+  TextEditingController searchText = TextEditingController();
   @override
   Widget build(BuildContext context) {
     // double width = MediaQuery.of(context).size.width;
@@ -82,7 +83,32 @@ class _ViewPrivateSessionsScreenState extends State<ViewPrivateSessionsScreen> {
           child: Stack(children: [
             Column(
               children: [
-                SearchBar(),
+                Material(
+                  elevation: 5.0,
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                  child: TextFormField(
+                    controller: searchText,
+                    cursorColor: Theme.of(context).primaryColor,
+                    style: TextStyle(color: Colors.black, fontSize: 18),
+                    decoration: InputDecoration(
+                      hintText: 'Search..',
+                      suffixIcon: Material(
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              privateSessions = [];
+                              done = false;
+                              error = false;
+                              getPrivateSessionsList(1, searchText.text);
+                            });
+                          },
+                          child: Icon(Icons.search),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
                 SizedBox(height: 20),
                 Expanded(
                   child: PageView.builder(
@@ -94,38 +120,18 @@ class _ViewPrivateSessionsScreenState extends State<ViewPrivateSessionsScreen> {
                           error = false;
                           _currentPosition = index.toDouble();
                         });
-                        getPrivateSessionsList(index + 1);
+                        getPrivateSessionsList(index + 1, '');
                       },
                       scrollDirection: Axis.horizontal,
                       itemCount: lastPage,
                       itemBuilder: (ctx, index) {
                         print('index is $index');
                         if (error) {
-                          return Center(
-                            child: Text(
-                              'An error occurred',
-                              style: TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          );
+                          return CustomErrorWidget();
                         } else if (done && privateSessions.isEmpty) {
-                          return Center(
-                            child: Text(
-                              'No private sessions found',
-                              style: TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          );
+                          return EmptyListError('No Private Sessions Found');
                         } else if (privateSessions.isEmpty) {
-                          return Center(
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
-                            ),
-                          );
+                          return Progress();
                         } else {
                           return ListView.builder(
                               shrinkWrap: true,
@@ -226,32 +232,5 @@ class _ViewPrivateSessionsScreenState extends State<ViewPrivateSessionsScreen> {
         ),
       ),
     );
-  }
-}
-
-class SearchBar extends StatelessWidget {
-  const SearchBar({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-        elevation: 5.0,
-        borderRadius: BorderRadius.all(Radius.circular(30)),
-        child: TextFormField(
-          controller: TextEditingController(),
-          cursorColor: Theme.of(context).primaryColor,
-          style: TextStyle(color: Colors.black, fontSize: 18),
-          decoration: InputDecoration(
-              hintText: 'Search..',
-              suffixIcon: Material(
-                borderRadius: BorderRadius.all(Radius.circular(30)),
-                child: Icon(Icons.search),
-              ),
-              border: InputBorder.none,
-              contentPadding:
-                  EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
-        ));
   }
 }
