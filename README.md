@@ -10,7 +10,7 @@ NajahNow internship making a gym template application backend with laravel &amp;
 
 ## Description
 
-A web-based information systems that automates an existing gym system. Through the app the admin can manage the different types of users (member, trainer and nutritionist). Each role in the system can participate thier normal responsibilities. the gym member can see all the details about the gym in real time. A trainer can arrange a session with one member or more. the nutritionist can put different diet plans for memebrs to follow.
+A web-based information system that automates an existing gym system. Through the app the admin can manage the different types of users (member, trainer and nutritionist). Each role in the system can participate thier normal responsibilities. the gym member can see all the details about the gym in real time. A trainer can arrange a session with one member or more. the nutritionist can put different diet plans for memebrs to follow.
 
 ## Technologies
 
