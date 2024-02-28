@@ -14,16 +14,16 @@ A web-based information system that automates an existing gym system. Through th
 
 ## Technologies
 
-<img src="https://github.com/AdhamMagdyA/GymProject/blob/main/screenshots/icons/flutter.png" width="70px"> <img src="https://github.com/AdhamMagdyA/GymProject/blob/main/screenshots/icons/dart.png" width="70px"> <img src="https://github.com/AdhamMagdyA/GymProject/blob/main/screenshots/icons/laravel.png" width="70px"> <img src="https://github.com/AdhamMagdyA/GymProject/blob/main/screenshots/icons/php.png" width="70px"> <img src="https://github.com/AdhamMagdyA/GymProject/blob/main/screenshots/icons/postman.png" width="70px">
+<img src="screenshots/icons/flutter.png" width="70px"> <img src="screenshots/icons/dart.png" width="70px"> <img src="screenshots/icons/laravel.png" width="70px"> <img src="screenshots/icons/php.png" width="70px"> <img src="screenshots/icons/postman.png" width="70px">
 
 
 ## Screenshots
 
-<img src="https://github.com/AdhamMagdyA/GymProject/blob/main/screenshots/1.PNG" width="200px">  <img src="https://github.com/AdhamMagdyA/GymProject/blob/main/screenshots/2.PNG" width="200px">  <img src="https://github.com/AdhamMagdyA/GymProject/blob/main/screenshots/3.PNG" width="200px">
+<img src="screenshots/1.PNG" width="200px">  <img src="screenshots/2.PNG" width="200px">  <img src="screenshots/3.PNG" width="200px">
 
-<img src="https://github.com/AdhamMagdyA/GymProject/blob/main/screenshots/4.PNG" width="200px">  <img src="https://github.com/AdhamMagdyA/GymProject/blob/main/screenshots/6.PNG" width="200px">  <img src="https://github.com/AdhamMagdyA/GymProject/blob/main/screenshots/5.PNG" width="200px"> 
+<img src="screenshots/4.PNG" width="200px">  <img src="screenshots/6.PNG" width="200px">  <img src="screenshots/5.PNG" width="200px"> 
 
-<img src="https://github.com/AdhamMagdyA/GymProject/blob/main/screenshots/7.PNG" width="200px">  <img src="https://github.com/AdhamMagdyA/GymProject/blob/main/screenshots/8.PNG" width="200px">  <img src="https://github.com/AdhamMagdyA/GymProject/blob/main/screenshots/9.PNG" width="200px">
+<img src="screenshots/7.PNG" width="200px">  <img src="screenshots/8.PNG" width="200px">  <img src="screenshots/9.PNG" width="200px">
 
 
 
